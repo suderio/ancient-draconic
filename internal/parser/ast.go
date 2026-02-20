@@ -9,7 +9,11 @@ type Command struct {
 	Roll       *RollCmd       `parser:"( @@"`
 	Encounter  *EncounterCmd  `parser:"| @@"`
 	Add        *AddCmd        `parser:"| @@"`
-	Initiative *InitiativeCmd `parser:"| @@ )"`
+	Initiative *InitiativeCmd `parser:"| @@"`
+	Attack     *AttackCmd     `parser:"| @@"`
+	Damage     *DamageCmd     `parser:"| @@"`
+	Turn       *TurnCmd       `parser:"| @@"`
+	Hint       *HintCmd       `parser:"| @@ )"`
 }
 
 // RollCmd calculates a set of dice expressions
@@ -58,6 +62,34 @@ type AddCmd struct {
 // InitiativeCmd logs or rolls initiative for a character/monster
 type InitiativeCmd struct {
 	Keyword string     `parser:"@(\"initiative\"|\"Initiative\"|\"INITIATIVE\")"`
-	Actor   *ActorExpr `parser:"@@"`    // Target character taking the roll
+	Actor   *ActorExpr `parser:"@@?"`   // Target character taking the roll
 	Value   *int       `parser:"@Int?"` // Optional manual override, e.g. "initiative :by Paulo 18"
+}
+
+// AttackCmd attempts to strike target(s) with a weapon
+type AttackCmd struct {
+	Keyword string     `parser:"@(\"attack\"|\"Attack\"|\"ATTACK\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+	Weapon  string     `parser:"\":\" \"with\" @Ident"`
+	Targets []string   `parser:"\":\" \"to\" @Ident ( \":\" \"and\" @Ident )*"`
+	Dice    *DiceExpr  `parser:"( \":\" \"dice\" @@ )?"`
+}
+
+// DamageCmd resolves HP reduction after a successful strike
+type DamageCmd struct {
+	Keyword string     `parser:"@(\"damage\"|\"Damage\"|\"DAMAGE\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+	Weapon  string     `parser:"( \":\" \"with\" @Ident )?"`
+	Dice    *DiceExpr  `parser:"( \":\" \"dice\" @@ )?"`
+}
+
+// TurnCmd advances the initiative rotation
+type TurnCmd struct {
+	Keyword string     `parser:"@(\"turn\"|\"Turn\"|\"TURN\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+}
+
+// HintCmd queries the game state to explain blockers or current turn
+type HintCmd struct {
+	Keyword string `parser:"@(\"hint\"|\"Hint\"|\"HINT\")"`
 }

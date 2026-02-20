@@ -84,6 +84,10 @@ func (s *Store) Load() ([]engine.Event, error) {
 			evt = &engine.EncounterEndedEvent{}
 		case engine.EventInitiativeRolled:
 			evt = &engine.InitiativeRolledEvent{}
+		case engine.EventAttackResolved:
+			evt = &engine.AttackResolvedEvent{}
+		case engine.EventTurnEnded:
+			evt = &engine.TurnEndedEvent{}
 		default:
 			return nil, fmt.Errorf("unknown event type in log: %s", wrapper.Type)
 		}

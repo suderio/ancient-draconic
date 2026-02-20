@@ -1,9 +1,14 @@
 package engine
 
 import (
+	"errors"
 	"fmt"
+	"sort"
 	"strings"
 )
+
+// ErrSilentIgnore alerts the runner that the request broke turn order rules and should drop seamlessly.
+var ErrSilentIgnore = errors.New("silently ignored by combat rules")
 
 type EventType string
 
@@ -15,6 +20,9 @@ const (
 	EventHPChanged        EventType = "HPChanged"
 	EventDiceRolled       EventType = "DiceRolled"
 	EventInitiativeRolled EventType = "InitiativeRolled"
+	EventAttackResolved   EventType = "AttackResolved"
+	EventTurnEnded        EventType = "TurnEnded"
+	EventHint             EventType = "Hint"
 )
 
 // Event is the building block of the Event Sourced engine.
@@ -47,6 +55,65 @@ func (e *EncounterEndedEvent) Apply(state *GameState) error {
 	return nil
 }
 func (e *EncounterEndedEvent) Message() string { return "Encounter Ended." }
+
+// AttackResolvedEvent logs successful and failed strikes across multiple targets
+type AttackResolvedEvent struct {
+	Attacker  string
+	Weapon    string
+	Targets   []string
+	HitStatus map[string]bool
+}
+
+func (e *AttackResolvedEvent) Type() EventType { return EventAttackResolved }
+func (e *AttackResolvedEvent) Apply(state *GameState) error {
+	state.PendingDamage = &PendingDamageState{
+		Attacker:  e.Attacker,
+		Targets:   e.Targets,
+		Weapon:    e.Weapon,
+		HitStatus: e.HitStatus,
+	}
+	return nil
+}
+func (e *AttackResolvedEvent) Message() string {
+	var sb strings.Builder
+	sb.WriteString(fmt.Sprintf("%s attacks with %s:\n", e.Attacker, e.Weapon))
+	for _, t := range e.Targets {
+		status := "Miss!"
+		if e.HitStatus[t] {
+			status = "Hit!"
+		}
+		sb.WriteString(fmt.Sprintf("├─ %s: %s\n", t, status))
+	}
+	return strings.TrimSpace(sb.String())
+}
+
+// TurnEndedEvent advances the current turn sequence
+type TurnEndedEvent struct {
+	ActorID string
+}
+
+func (e *TurnEndedEvent) Type() EventType { return EventTurnEnded }
+func (e *TurnEndedEvent) Apply(state *GameState) error {
+	if len(state.TurnOrder) == 0 {
+		return nil
+	}
+
+	// Ensure we move exactly from the ending actor's perspective, or just advance 1
+	state.CurrentTurn = (state.CurrentTurn + 1) % len(state.TurnOrder)
+	return nil
+}
+func (e *TurnEndedEvent) Message() string {
+	return fmt.Sprintf("%s ended its turn.", e.ActorID)
+}
+
+// HintEvent is purely for querying the current state, and typically won't be saved to the store
+type HintEvent struct {
+	MessageStr string
+}
+
+func (e *HintEvent) Type() EventType              { return EventHint }
+func (e *HintEvent) Apply(state *GameState) error { return nil }
+func (e *HintEvent) Message() string              { return e.MessageStr }
 
 // ActorAddedEvent brings a new entity into the encounter tracker.
 type ActorAddedEvent struct {
@@ -112,6 +179,7 @@ func (e *HPChangedEvent) Apply(state *GameState) error {
 	if ent.HP > ent.MaxHP {
 		ent.HP = ent.MaxHP
 	}
+	state.PendingDamage = nil // clear pending damage after resolution
 	return nil
 }
 func (e *HPChangedEvent) Message() string {
@@ -170,7 +238,37 @@ type InitiativeRolledEvent struct {
 func (e *InitiativeRolledEvent) Type() EventType { return EventInitiativeRolled }
 func (e *InitiativeRolledEvent) Apply(state *GameState) error {
 	state.Initiatives[e.ActorName] = e.Score
-	// In the future: Re-sort state.TurnOrder slice here based on state.Initiatives descending
+
+	// Create fresh sorted TurnOrder whenever new initiative arrives
+	var names []string
+	for name := range state.Initiatives {
+		// Only sort entities currently active in encounter
+		if _, ok := state.Entities[name]; ok {
+			names = append(names, name)
+		}
+	}
+	sort.SliceStable(names, func(i, j int) bool {
+		return state.Initiatives[names[i]] > state.Initiatives[names[j]]
+	})
+
+	// Safely preserve CurrentTurn actor across resort if possible
+	var currentActor string
+	if len(state.TurnOrder) > 0 && state.CurrentTurn < len(state.TurnOrder) {
+		currentActor = state.TurnOrder[state.CurrentTurn]
+	}
+
+	state.TurnOrder = names
+
+	// Realign index
+	state.CurrentTurn = 0
+	if currentActor != "" {
+		for i, name := range state.TurnOrder {
+			if name == currentActor {
+				state.CurrentTurn = i
+				break
+			}
+		}
+	}
 	return nil
 }
 func (e *InitiativeRolledEvent) Message() string {

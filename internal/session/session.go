@@ -62,7 +62,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 
 	// Let's intercept legacy fake commands temporarily here before we properly build ASTs for them
 	parts := strings.Split(input, " ")
-	if parts[0] == "damage" || parts[0] == "heal" {
+	if parts[0] == "heal" {
 		return s.executeLegacyPseudoCommand(parts)
 	}
 
@@ -114,6 +114,9 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 	if astCmd.Initiative != nil {
 		events, err := command.ExecuteInitiative(astCmd.Initiative, s.state, s.loader)
 		if err != nil {
+			if err == engine.ErrSilentIgnore {
+				return nil, nil
+			}
 			return nil, err
 		}
 		for _, e := range events {
@@ -121,6 +124,55 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 				return nil, err
 			}
 		}
+		return events[0], nil
+	} else if astCmd.Attack != nil {
+		events, err := command.ExecuteAttack(astCmd.Attack, s.state, s.loader)
+		if err != nil {
+			if err == engine.ErrSilentIgnore {
+				return nil, nil
+			}
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Damage != nil {
+		events, err := command.ExecuteDamage(astCmd.Damage, s.state, s.loader)
+		if err != nil {
+			if err == engine.ErrSilentIgnore {
+				return nil, nil
+			}
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Turn != nil {
+		events, err := command.ExecuteTurn(astCmd.Turn, s.state)
+		if err != nil {
+			if err == engine.ErrSilentIgnore {
+				return nil, nil
+			}
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Hint != nil {
+		events, err := command.ExecuteHint(astCmd.Hint, s.state)
+		if err != nil {
+			return nil, err
+		}
+		// Hints are stateless queries; we do not append them to the log
 		return events[0], nil
 	}
 
@@ -148,16 +200,6 @@ func (s *Session) executeLegacyPseudoCommand(parts []string) (engine.Event, erro
 	var evt engine.Event
 
 	switch parts[0] {
-	case "damage":
-		if len(parts) == 3 {
-			amt, _ := strconv.Atoi(parts[2])
-			evt = &engine.HPChangedEvent{
-				ActorID: parts[1],
-				Amount:  -amt,
-			}
-		} else {
-			return nil, fmt.Errorf("Usage: damage <id> <amount>")
-		}
 	case "heal":
 		if len(parts) == 3 {
 			amt, _ := strconv.Atoi(parts[2])

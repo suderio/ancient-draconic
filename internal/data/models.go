@@ -49,16 +49,18 @@ type Monster struct {
 
 // Character represents a player character from the data loaded via YAML.
 type Character struct {
-	Index        string `yaml:"index"`
-	Name         string `yaml:"name"`
-	HitPoints    int    `yaml:"hit_points"`
-	HitDice      string `yaml:"hit_dice"`
-	Strength     int    `yaml:"strength"`
-	Dexterity    int    `yaml:"dexterity"`
-	Constitution int    `yaml:"constitution"`
-	Intelligence int    `yaml:"intelligence"`
-	Wisdom       int    `yaml:"wisdom"`
-	Charisma     int    `yaml:"charisma"`
+	Index        string       `yaml:"index"`
+	Name         string       `yaml:"name"`
+	HitPoints    int          `yaml:"hit_points"`
+	HitDice      string       `yaml:"hit_dice"`
+	ArmorClass   []ArmorClass `yaml:"armor_class"`
+	Strength     int          `yaml:"strength"`
+	Dexterity    int          `yaml:"dexterity"`
+	Constitution int          `yaml:"constitution"`
+	Intelligence int          `yaml:"intelligence"`
+	Wisdom       int          `yaml:"wisdom"`
+	Charisma     int          `yaml:"charisma"`
+	Actions      []Action     `yaml:"actions"`
 }
 
 // CalculateModifier returns the standard D&D 5e ability modifier for a given score.

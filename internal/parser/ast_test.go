@@ -109,3 +109,87 @@ func TestParseInitiativeCommand(t *testing.T) {
 		}
 	})
 }
+
+func TestParseAttackCommand(t *testing.T) {
+	p := parser.Build()
+
+	cmd, err := p.ParseString("", "attack :by Goblin :with Scimitar :to Elara :and Paulo :dice 1d20+10")
+	if err != nil {
+		t.Fatalf("Failed to parse: %v", err)
+	}
+
+	if cmd.Attack == nil {
+		t.Fatalf("Expected AttackCmd, got nil")
+	}
+
+	if cmd.Attack.Actor == nil || cmd.Attack.Actor.Name != "Goblin" {
+		t.Errorf("Expected Actor Goblin")
+	}
+
+	if cmd.Attack.Weapon != "Scimitar" {
+		t.Errorf("Expected Weapon Scimitar, got %s", cmd.Attack.Weapon)
+	}
+
+	if len(cmd.Attack.Targets) != 2 || cmd.Attack.Targets[0] != "Elara" || cmd.Attack.Targets[1] != "Paulo" {
+		t.Errorf("Unexpected Targets: %v", cmd.Attack.Targets)
+	}
+
+	if cmd.Attack.Dice == nil || cmd.Attack.Dice.Raw != "1d20+10" {
+		t.Errorf("Expected Dice macro 1d20+10")
+	}
+}
+
+func TestParseDamageCommand(t *testing.T) {
+	p := parser.Build()
+
+	cmd, err := p.ParseString("", "damage :by Goblin :with Scimitar :dice 2d6+2")
+	if err != nil {
+		t.Fatalf("Failed to parse: %v", err)
+	}
+
+	if cmd.Damage == nil {
+		t.Fatalf("Expected DamageCmd, got nil")
+	}
+
+	if cmd.Damage.Actor == nil || cmd.Damage.Actor.Name != "Goblin" {
+		t.Errorf("Expected Actor Goblin")
+	}
+
+	if cmd.Damage.Weapon != "Scimitar" {
+		t.Errorf("Expected Weapon Scimitar, got %s", cmd.Damage.Weapon)
+	}
+
+	if cmd.Damage.Dice == nil || cmd.Damage.Dice.Raw != "2d6+2" {
+		t.Errorf("Expected Dice macro 2d6+2")
+	}
+}
+
+func TestParseTurnCommand(t *testing.T) {
+	p := parser.Build()
+
+	cmd, err := p.ParseString("", "turn :by Goblin")
+	if err != nil {
+		t.Fatalf("Failed to parse: %v", err)
+	}
+
+	if cmd.Turn == nil {
+		t.Fatalf("Expected TurnCmd, got nil")
+	}
+
+	if cmd.Turn.Actor == nil || cmd.Turn.Actor.Name != "Goblin" {
+		t.Errorf("Expected Actor Goblin")
+	}
+}
+
+func TestParseHintCommand(t *testing.T) {
+	p := parser.Build()
+
+	cmd, err := p.ParseString("", "hint")
+	if err != nil {
+		t.Fatalf("Failed to parse: %v", err)
+	}
+
+	if cmd.Hint == nil {
+		t.Fatalf("Expected HintCmd, got nil")
+	}
+}
