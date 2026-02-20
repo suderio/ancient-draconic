@@ -193,3 +193,57 @@ func TestParseHintCommand(t *testing.T) {
 		t.Fatalf("Expected HintCmd, got nil")
 	}
 }
+
+func TestParseAskCommand(t *testing.T) {
+	p := parser.Build()
+
+	cmd, err := p.ParseString("", "ask :by GM :check dex save :of goblin :and paulo :dc 15 :fails prone :succeeds damage 2d6")
+	if err != nil {
+		t.Fatalf("Failed to parse: %v", err)
+	}
+
+	if cmd.Ask == nil {
+		t.Fatalf("Expected AskCmd, got nil")
+	}
+
+	if cmd.Ask.DC != 15 {
+		t.Errorf("Expected DC 15, got %d", cmd.Ask.DC)
+	}
+
+	if len(cmd.Ask.Check) != 2 || cmd.Ask.Check[0] != "dex" || cmd.Ask.Check[1] != "save" {
+		t.Errorf("Expected Check to be ['dex', 'save'], got %v", cmd.Ask.Check)
+	}
+
+	if len(cmd.Ask.Targets) != 2 || cmd.Ask.Targets[0] != "goblin" || cmd.Ask.Targets[1] != "paulo" {
+		t.Errorf("Expected Targets ['goblin', 'paulo'], got %v", cmd.Ask.Targets)
+	}
+
+	if cmd.Ask.Fails == nil || cmd.Ask.Fails.Condition != "prone" {
+		t.Errorf("Expected Fails Condition 'prone', got %v", cmd.Ask.Fails)
+	}
+
+	if cmd.Ask.Succeeds == nil || cmd.Ask.Succeeds.DamageDice == nil || cmd.Ask.Succeeds.DamageDice.Raw != "2d6" {
+		t.Errorf("Expected Succeeds Damage 2d6, got %v", cmd.Ask.Succeeds)
+	}
+}
+
+func TestParseCheckCommand(t *testing.T) {
+	p := parser.Build()
+
+	cmd, err := p.ParseString("", "check :by goblin dex save")
+	if err != nil {
+		t.Fatalf("Failed to parse: %v", err)
+	}
+
+	if cmd.Check == nil {
+		t.Fatalf("Expected CheckCmd, got nil")
+	}
+
+	if cmd.Check.Actor == nil || cmd.Check.Actor.Name != "goblin" {
+		t.Errorf("Expected Actor 'goblin'")
+	}
+
+	if len(cmd.Check.Check) != 2 || cmd.Check.Check[0] != "dex" || cmd.Check.Check[1] != "save" {
+		t.Errorf("Expected Check ['dex', 'save'], got %v", cmd.Check.Check)
+	}
+}

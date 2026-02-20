@@ -13,7 +13,9 @@ type Command struct {
 	Attack     *AttackCmd     `parser:"| @@"`
 	Damage     *DamageCmd     `parser:"| @@"`
 	Turn       *TurnCmd       `parser:"| @@"`
-	Hint       *HintCmd       `parser:"| @@ )"`
+	Hint       *HintCmd       `parser:"| @@"`
+	Ask        *AskCmd        `parser:"| @@"`
+	Check      *CheckCmd      `parser:"| @@ )"`
 }
 
 // RollCmd calculates a set of dice expressions
@@ -47,7 +49,7 @@ func (d *DiceExpr) IsDisadvantage() bool {
 // EncounterCmd manages start and ending of initiative tracking
 type EncounterCmd struct {
 	Keyword string     `parser:"@(\"encounter\"|\"Encounter\"|\"ENCOUNTER\")"`
-	Actor   *ActorExpr `parser:"@@"` // MUST be GM under execution rules, but parsing we catch anyone
+	Actor   *ActorExpr `parser:"@@?"` // MUST be GM under execution rules, but parsing we catch anyone
 	Action  string     `parser:"@(\"start\"|\"end\")"`
 	Targets []string   `parser:"( \":\" \"with\" @Ident ( \":\" \"and\" @Ident )* )?"`
 }
@@ -55,7 +57,7 @@ type EncounterCmd struct {
 // AddCmd brings a new actor into an active encounter
 type AddCmd struct {
 	Keyword string     `parser:"@(\"add\"|\"Add\"|\"ADD\")"`
-	Actor   *ActorExpr `parser:"@@"` // MUST be GM under execution rules
+	Actor   *ActorExpr `parser:"@@?"` // MUST be GM under execution rules
 	Targets []string   `parser:"@Ident ( \":\" \"and\" @Ident )*"`
 }
 
@@ -92,4 +94,30 @@ type TurnCmd struct {
 // HintCmd queries the game state to explain blockers or current turn
 type HintCmd struct {
 	Keyword string `parser:"@(\"hint\"|\"Hint\"|\"HINT\")"`
+}
+
+// AskCmd requests an environmental or conditional check from an entity
+type AskCmd struct {
+	Keyword  string          `parser:"@(\"ask\"|\"Ask\"|\"ASK\")"`
+	Actor    *ActorExpr      `parser:"@@?"`
+	Check    []string        `parser:"\":\" \"check\" @Ident (@Ident)*"`
+	Targets  []string        `parser:"\":\" \"of\" @Ident ( \":\" \"and\" @Ident )*"`
+	DC       int             `parser:"\":\" \"dc\" @Int"`
+	Fails    *AskConsequence `parser:"( \":\" \"fails\" @@ )?"`
+	Succeeds *AskConsequence `parser:"( \":\" \"succeeds\" @@ )?"`
+}
+
+// AskConsequence defines the mechanical impact of standard rolls
+type AskConsequence struct {
+	IsDamage   string    `parser:"( @(\"damage\"|\"Damage\"|\"DAMAGE\")"`
+	DamageDice *DiceExpr `parser:"  @@ )"`
+	HalfDamage bool      `parser:"| @(\"half\"|\"Half\"|\"HALF\")"`
+	Condition  string    `parser:"| @Ident"`
+}
+
+// CheckCmd executes an asked check or a standalone check
+type CheckCmd struct {
+	Keyword string     `parser:"@(\"check\"|\"Check\"|\"CHECK\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+	Check   []string   `parser:"@Ident (@Ident)*"`
 }

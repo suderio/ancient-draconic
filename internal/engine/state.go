@@ -2,12 +2,29 @@ package engine
 
 // GameState is the actively calculated projection of the game session.
 type GameState struct {
-	IsEncounterActive bool                `json:"is_encounter_active"`
-	Initiatives       map[string]int      `json:"initiatives"`
-	Entities          map[string]*Entity  `json:"entities"`
-	TurnOrder         []string            `json:"turn_order"`
-	CurrentTurn       int                 `json:"current_turn"`
-	PendingDamage     *PendingDamageState `json:"pending_damage"`
+	IsEncounterActive bool                          `json:"is_encounter_active"`
+	Initiatives       map[string]int                `json:"initiatives"`
+	Entities          map[string]*Entity            `json:"entities"`
+	TurnOrder         []string                      `json:"turn_order"`
+	CurrentTurn       int                           `json:"current_turn"`
+	PendingDamage     *PendingDamageState           `json:"pending_damage"`
+	PendingChecks     map[string]*PendingCheckState `json:"pending_checks"`
+}
+
+// RollConsequence tracks the automated impacts of parsing an Ask string
+type RollConsequence struct {
+	IsDamage   bool   `json:"is_damage"`
+	DamageDice string `json:"damage_dice"`
+	HalfDamage bool   `json:"half_damage"`
+	Condition  string `json:"condition"`
+}
+
+// PendingCheckState tracks a required roll requested by the GM
+type PendingCheckState struct {
+	Check    []string         `json:"check"`
+	DC       int              `json:"dc"`
+	Fails    *RollConsequence `json:"fails"`
+	Succeeds *RollConsequence `json:"succeeds"`
 }
 
 // PendingDamageState tracks weapon hits for the next sequential damage command
@@ -31,14 +48,18 @@ type Entity struct {
 // NewGameState creates an empty clean slate
 func NewGameState() *GameState {
 	return &GameState{
-		Entities:    make(map[string]*Entity),
-		TurnOrder:   make([]string, 0),
-		Initiatives: make(map[string]int),
+		Entities:      make(map[string]*Entity),
+		TurnOrder:     make([]string, 0),
+		Initiatives:   make(map[string]int),
+		PendingChecks: make(map[string]*PendingCheckState),
 	}
 }
 
-// IsFrozen checks if the active encounter is blocked by missing initiative rolls
+// IsFrozen checks if the active encounter is blocked by missing initiative rolls or GM-requested checks
 func (s *GameState) IsFrozen() bool {
+	if len(s.PendingChecks) > 0 {
+		return true
+	}
 	if !s.IsEncounterActive {
 		return false
 	}

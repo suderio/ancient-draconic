@@ -114,14 +114,22 @@ func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.
 			})
 			total = res.Total
 		} else {
-			// Auto calculte
+			// Auto calculate
+			hasAdv, hasDis := GetConditionMatrixForAttack(actorName, cleanTarget, state)
+			baseDice := "1d20"
+			if hasAdv && !hasDis {
+				baseDice = "2d20kh1"
+			} else if hasDis && !hasAdv {
+				baseDice = "2d20kl1"
+			}
+
 			modSuffix := ""
 			if attackBonus >= 0 {
 				modSuffix = fmt.Sprintf("+%d", attackBonus)
 			} else {
 				modSuffix = fmt.Sprintf("%d", attackBonus)
 			}
-			diceStr := fmt.Sprintf("1d20%s", modSuffix)
+			diceStr := fmt.Sprintf("%s%s", baseDice, modSuffix)
 			res, err := engine.Roll(&parser.DiceExpr{Raw: diceStr})
 			if err != nil {
 				return nil, err

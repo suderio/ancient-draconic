@@ -10,6 +10,10 @@ import (
 
 // ExecuteEncounter handles the `encounter :by <Actor> start|end` syntax
 func ExecuteEncounter(cmd *parser.EncounterCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+	if cmd.Actor == nil {
+		cmd.Actor = &parser.ActorExpr{Name: "GM"}
+	}
+
 	if err := ValidateGM(cmd.Actor); err != nil {
 		return nil, err
 	}

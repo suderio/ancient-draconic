@@ -68,8 +68,12 @@ Usage:
 
 		campaignData := filepath.Join(manager.GetCampaignPath("", campaignDir), "data")
 		worldData := filepath.Join(worldDir, "data")
-		rootDir, _ := os.Getwd()
-		rootData := filepath.Join(rootDir, "data")
+
+		rootData := viper.GetString("data_dir")
+		if rootData == "" {
+			rootDir, _ := os.Getwd()
+			rootData = filepath.Join(rootDir, "data")
+		}
 
 		dataDirs := []string{campaignData, worldData, rootData}
 

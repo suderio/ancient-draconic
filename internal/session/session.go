@@ -174,6 +174,34 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		// Hints are stateless queries; we do not append them to the log
 		return events[0], nil
+	} else if astCmd.Ask != nil {
+		events, err := command.ExecuteAsk(astCmd.Ask, s.state)
+		if err != nil {
+			if err == engine.ErrSilentIgnore {
+				return nil, nil
+			}
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Check != nil {
+		events, err := command.ExecuteCheck(astCmd.Check, s.state, s.loader)
+		if err != nil {
+			if err == engine.ErrSilentIgnore {
+				return nil, nil
+			}
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
 	}
 
 	return nil, fmt.Errorf("unsupported command pattern")

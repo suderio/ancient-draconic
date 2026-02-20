@@ -10,6 +10,10 @@ import (
 
 // ExecuteAdd handles the `add :by GM <Name> :and <Name>` syntax
 func ExecuteAdd(cmd *parser.AddCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+	if cmd.Actor == nil {
+		cmd.Actor = &parser.ActorExpr{Name: "GM"}
+	}
+
 	if err := ValidateGM(cmd.Actor); err != nil {
 		return nil, err
 	}

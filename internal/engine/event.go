@@ -23,6 +23,9 @@ const (
 	EventAttackResolved   EventType = "AttackResolved"
 	EventTurnEnded        EventType = "TurnEnded"
 	EventHint             EventType = "Hint"
+	EventAskIssued        EventType = "AskIssued"
+	EventCheckResolved    EventType = "CheckResolved"
+	EventConditionApplied EventType = "ConditionApplied"
 )
 
 // Event is the building block of the Event Sourced engine.
@@ -294,4 +297,75 @@ func (e *InitiativeRolledEvent) Message() string {
 		sb.WriteString(fmt.Sprintf("\n├─ Modifier: %s%d", modPrefix, e.Modifier))
 	}
 	return sb.String()
+}
+
+// AskIssuedEvent freezes target actors to roll a specific check
+type AskIssuedEvent struct {
+	Targets  []string         `json:"targets"`
+	Check    []string         `json:"check"`
+	DC       int              `json:"dc"`
+	Fails    *RollConsequence `json:"fails"`
+	Succeeds *RollConsequence `json:"succeeds"`
+}
+
+func (e *AskIssuedEvent) Type() EventType { return EventAskIssued }
+func (e *AskIssuedEvent) Apply(state *GameState) error {
+	for _, t := range e.Targets {
+		state.PendingChecks[t] = &PendingCheckState{
+			Check:    e.Check,
+			DC:       e.DC,
+			Fails:    e.Fails,
+			Succeeds: e.Succeeds,
+		}
+	}
+	return nil
+}
+func (e *AskIssuedEvent) Message() string {
+	return fmt.Sprintf("GM asked for %v check (DC %d).", e.Check, e.DC)
+}
+
+// CheckResolvedEvent marks the fulfillment of a required check
+type CheckResolvedEvent struct {
+	ActorID string `json:"actor_id"`
+	Result  int    `json:"result"`
+	Success bool   `json:"success"`
+}
+
+func (e *CheckResolvedEvent) Type() EventType { return EventCheckResolved }
+func (e *CheckResolvedEvent) Apply(state *GameState) error {
+	delete(state.PendingChecks, e.ActorID)
+	return nil
+}
+func (e *CheckResolvedEvent) Message() string {
+	resolution := "failed"
+	if e.Success {
+		resolution = "succeeded"
+	}
+	return fmt.Sprintf("%s rolled %d and %s the check.", e.ActorID, e.Result, resolution)
+}
+
+// ConditionAppliedEvent adds a condition to an actor
+type ConditionAppliedEvent struct {
+	ActorID   string `json:"actor_id"`
+	Condition string `json:"condition"`
+}
+
+func (e *ConditionAppliedEvent) Type() EventType { return EventConditionApplied }
+func (e *ConditionAppliedEvent) Apply(state *GameState) error {
+	if ent, ok := state.Entities[e.ActorID]; ok {
+		hasIt := false
+		for _, c := range ent.Conditions {
+			if c == e.Condition {
+				hasIt = true
+				break
+			}
+		}
+		if !hasIt {
+			ent.Conditions = append(ent.Conditions, e.Condition)
+		}
+	}
+	return nil
+}
+func (e *ConditionAppliedEvent) Message() string {
+	return fmt.Sprintf("%s is now %s.", e.ActorID, e.Condition)
 }

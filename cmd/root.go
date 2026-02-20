@@ -45,6 +45,8 @@ func init() {
 	// will be global for your application.
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.dndsl.yaml)")
+	rootCmd.PersistentFlags().StringP("data_dir", "d", "", "Location of the baseline data directory (defaults to ./data)")
+	viper.BindPFlag("data_dir", rootCmd.PersistentFlags().Lookup("data_dir"))
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.

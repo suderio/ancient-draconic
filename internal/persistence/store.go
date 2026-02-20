@@ -88,6 +88,12 @@ func (s *Store) Load() ([]engine.Event, error) {
 			evt = &engine.AttackResolvedEvent{}
 		case engine.EventTurnEnded:
 			evt = &engine.TurnEndedEvent{}
+		case engine.EventAskIssued:
+			evt = &engine.AskIssuedEvent{}
+		case engine.EventCheckResolved:
+			evt = &engine.CheckResolvedEvent{}
+		case engine.EventConditionApplied:
+			evt = &engine.ConditionAppliedEvent{}
 		default:
 			return nil, fmt.Errorf("unknown event type in log: %s", wrapper.Type)
 		}
