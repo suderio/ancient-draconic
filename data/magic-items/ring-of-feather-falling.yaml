@@ -1,0 +1,15 @@
+desc:
+  - Ring, rare (requires attunement)
+  - When you fall while wearing this ring, you descend 60 feet per round and take no damage from falling.
+equipment_category:
+  index: ring
+  name: Ring
+  ref: equipment-categories/ring.yaml
+index: ring-of-feather-falling
+name: Ring of Feather Falling
+rarity:
+  name: Rare
+ref: magic-items/ring-of-feather-falling.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants: []

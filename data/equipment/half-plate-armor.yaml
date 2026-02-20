@@ -1,0 +1,23 @@
+armor_category: Medium
+armor_class:
+  base: 15
+  dex_bonus: true
+  max_bonus: 2
+contents: []
+cost:
+  quantity: 750
+  unit: gp
+desc: []
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: half-plate-armor
+name: Half Plate Armor
+properties: []
+ref: equipment/half-plate-armor.yaml
+special: []
+stealth_disadvantage: true
+str_minimum: 0
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 40

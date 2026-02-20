@@ -1,0 +1,185 @@
+actions:
+  - action_options:
+      choose: 1
+      from:
+        option_set_type: options_array
+        options:
+          - action_name: Scimitar
+            count: 2
+            option_type: action
+            type: melee
+          - action_name: Hurl Flame
+            count: 2
+            option_type: action
+            type: ranged
+      type: action
+    actions: []
+    damage: []
+    desc: The efreeti makes two scimitar attacks or uses its Hurl Flame twice.
+    multiattack_type: action_options
+    name: Multiattack
+  - actions: []
+    attack_bonus: 10
+    damage:
+      - damage_dice: 2d6+6
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+      - damage_dice: 2d6
+        damage_type:
+          index: fire
+          name: Fire
+          ref: damage-types/fire.yaml
+    desc: 'Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) slashing damage plus 7 (2d6) fire damage.'
+    name: Scimitar
+  - actions: []
+    attack_bonus: 7
+    damage:
+      - damage_dice: 5d6
+        damage_type:
+          index: fire
+          name: Fire
+          ref: damage-types/fire.yaml
+    desc: 'Ranged Spell Attack: +7 to hit, range 120 ft., one target. Hit: 17 (5d6) fire damage.'
+    name: Hurl Flame
+alignment: lawful evil
+armor_class:
+  - type: natural
+    value: 17
+challenge_rating: 11
+charisma: 16
+condition_immunities: []
+constitution: 24
+damage_immunities:
+  - fire
+damage_resistances: []
+damage_vulnerabilities: []
+dexterity: 12
+forms: []
+hit_dice: 16d10
+hit_points: 200
+hit_points_roll: 16d10+112
+image: images/monsters/efreeti.png
+index: efreeti
+intelligence: 16
+languages: Ignan
+legendary_actions: []
+name: Efreeti
+proficiencies:
+  - proficiency:
+      index: saving-throw-int
+      name: 'Saving Throw: INT'
+      ref: proficiencies/saving-throw-int.yaml
+    value: 7
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 6
+  - proficiency:
+      index: saving-throw-cha
+      name: 'Saving Throw: CHA'
+      ref: proficiencies/saving-throw-cha.yaml
+    value: 7
+proficiency_bonus: 4
+reactions: []
+ref: monsters/efreeti.yaml
+senses:
+  darkvision: 120 ft.
+  passive_perception: 12
+size: Large
+special_abilities:
+  - damage: []
+    desc: If the efreeti dies, its body disintegrates in a flash of fire and puff of smoke, leaving behind only equipment the djinni was wearing or carrying.
+    name: Elemental Demise
+  - damage: []
+    desc: |-
+      The efreeti's innate spell casting ability is Charisma (spell save DC 15, +7 to hit with spell attacks). It can innately cast the following spells, requiring no material components:
+
+      At will: detect magic
+      3/day: enlarge/reduce, tongues
+      1/day each: conjure elemental (fire elemental only), gaseous form, invisibility, major image, plane shift, wall of fire
+    name: Innate Spellcasting
+    spellcasting:
+      ability:
+        index: cha
+        name: CHA
+        ref: ability-scores/cha.yaml
+      components_required:
+        - V
+        - S
+      dc: 15
+      modifier: 7
+      spells:
+        - level: 1
+          name: Detect Magic
+          ref: spells/detect-magic.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 2
+          name: Enlarge/Reduce
+          ref: spells/enlarge-reduce.yaml
+          usage:
+            rest_types: []
+            times: 3
+            type: per day
+        - level: 3
+          name: Tongues
+          ref: spells/tongues.yaml
+          usage:
+            rest_types: []
+            times: 3
+            type: per day
+        - level: 5
+          name: Conjure Elemental
+          notes: Fire Elemental only
+          ref: spells/conjure-elemental.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 3
+          name: Gaseous Form
+          ref: spells/gaseous-form.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 2
+          name: Invisibility
+          ref: spells/invisibility.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 3
+          name: Major Image
+          ref: spells/major-image.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 7
+          name: Plane Shift
+          ref: spells/plane-shift.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 4
+          name: Wall of Fire
+          ref: spells/wall-of-fire.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+speed:
+  fly: 60 ft.
+  walk: 40 ft.
+strength: 22
+type: elemental
+updated_at: "2025-10-24T20:42:13.741Z"
+wisdom: 15
+xp: 7200

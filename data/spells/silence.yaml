@@ -1,0 +1,41 @@
+area_of_effect:
+  size: 20
+  type: sphere
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+components:
+  - V
+  - S
+concentration: true
+desc:
+  - For the duration, no sound can be created within or pass through a 20-foot-radius sphere centered on a point you choose within range. Any creature or object entirely inside the sphere is immune to thunder damage, and creatures are deafened while entirely inside it.
+  - Casting a spell that includes a verbal component is impossible there.
+duration: Up to 10 minutes
+higher_level: []
+index: silence
+level: 2
+name: Silence
+range: 120 feet
+ref: spells/silence.yaml
+ritual: true
+school:
+  index: illusion
+  name: Illusion
+  ref: magic-schools/illusion.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

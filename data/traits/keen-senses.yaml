@@ -1,0 +1,15 @@
+desc:
+  - You have proficiency in the Perception skill.
+index: keen-senses
+name: Keen Senses
+proficiencies:
+  - index: skill-perception
+    name: 'Skill: Perception'
+    ref: proficiencies/skill-perception.yaml
+races:
+  - index: elf
+    name: Elf
+    ref: races/elf.yaml
+ref: traits/keen-senses.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

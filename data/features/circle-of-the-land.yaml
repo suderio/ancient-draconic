@@ -1,0 +1,59 @@
+class:
+  index: druid
+  name: Druid
+  ref: classes/druid.yaml
+desc:
+  - The Circle of the Land is made up of mystics and sages who safeguard ancient knowledge and rites through a vast oral tradition. These druids meet within sacred circles of trees or standing stones to whisper primal secrets in Druidic. The circle's wisest members preside as the chief priests of communities that hold to the Old Faith and serve as advisors to the rulers of those folk. As a member of this circle, your magic is influenced by the land where you were initiated into the circle's mysterious rites.
+feature_specific:
+  invocations: []
+  subfeature_options:
+    choose: 1
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: circle-of-the-land-arctic
+            name: 'Circle of the Land: Arctic'
+            ref: features/circle-of-the-land-arctic.yaml
+          option_type: reference
+        - item:
+            index: circle-of-the-land-coast
+            name: 'Circle of the Land: Coast'
+            ref: features/circle-of-the-land-coast.yaml
+          option_type: reference
+        - item:
+            index: circle-of-the-land-desert
+            name: 'Circle of the Land: Desert'
+            ref: features/circle-of-the-land-desert.yaml
+          option_type: reference
+        - item:
+            index: circle-of-the-land-forest
+            name: 'Circle of the Land: Forest'
+            ref: features/circle-of-the-land-forest.yaml
+          option_type: reference
+        - item:
+            index: circle-of-the-land-grassland
+            name: 'Circle of the Land: Grassland'
+            ref: features/circle-of-the-land-grassland.yaml
+          option_type: reference
+        - item:
+            index: circle-of-the-land-mountain
+            name: 'Circle of the Land: Mountain'
+            ref: features/circle-of-the-land-mountain.yaml
+          option_type: reference
+        - item:
+            index: circle-of-the-land-swamp
+            name: 'Circle of the Land: Swamp'
+            ref: features/circle-of-the-land-swamp.yaml
+          option_type: reference
+    type: feature
+index: circle-of-the-land
+level: 2
+name: Circle of the Land
+prerequisites: []
+ref: features/circle-of-the-land.yaml
+subclass:
+  index: land
+  name: Land
+  ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

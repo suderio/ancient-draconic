@@ -1,0 +1,12 @@
+class:
+  index: barbarian
+  name: Barbarian
+  ref: classes/barbarian.yaml
+desc:
+  - Beginning at 15th level, your rage is so fierce that it ends early only if you fall unconscious or if you choose to end it.
+index: persistent-rage
+level: 15
+name: Persistent Rage
+prerequisites: []
+ref: features/persistent-rage.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

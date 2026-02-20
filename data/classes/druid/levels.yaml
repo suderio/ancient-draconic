@@ -1,0 +1,571 @@
+- ability_score_bonuses: 0
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 0
+    wild_shape_swim: false
+  features:
+    - index: spellcasting-druid
+      name: 'Spellcasting: Druid'
+      ref: features/spellcasting-druid.yaml
+    - index: druidic
+      name: Druidic
+      ref: features/druidic.yaml
+  index: druid-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/druid/levels/1.yaml
+  spellcasting:
+    cantrips_known: 2
+    spell_slots_level_1: 2
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 0.25
+    wild_shape_swim: false
+  features:
+    - index: wild-shape-cr-1-4-or-below-no-flying-or-swim-speed
+      name: Wild Shape (CR 1/4 or below, no flying or swim speed)
+      ref: features/wild-shape-cr-1-4-or-below-no-flying-or-swim-speed.yaml
+    - index: druid-circle
+      name: Druid Circle
+      ref: features/druid-circle.yaml
+  index: druid-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/druid/levels/2.yaml
+  spellcasting:
+    cantrips_known: 2
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 0.25
+    wild_shape_swim: false
+  features: []
+  index: druid-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/druid/levels/3.yaml
+  spellcasting:
+    cantrips_known: 2
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 0.5
+    wild_shape_swim: true
+  features:
+    - index: wild-shape-cr-1-2-or-below-no-flying-speed
+      name: Wild Shape (CR 1/2 or below, no flying speed)
+      ref: features/wild-shape-cr-1-2-or-below-no-flying-speed.yaml
+    - index: druid-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/druid-ability-score-improvement-1.yaml
+  index: druid-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/druid/levels/4.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 0.5
+    wild_shape_swim: true
+  features: []
+  index: druid-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/druid/levels/5.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 0.5
+    wild_shape_swim: true
+  features:
+    - index: druid-circle-improvement-1
+      name: Druid Circle feature
+      ref: features/druid-circle-improvement-1.yaml
+  index: druid-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/druid/levels/6.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: false
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features: []
+  index: druid-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/druid/levels/7.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: wild-shape-cr-1-or-below
+      name: Wild Shape (CR 1 or below)
+      ref: features/wild-shape-cr-1-or-below.yaml
+    - index: druid-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/druid-ability-score-improvement-2.yaml
+  index: druid-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/druid/levels/8.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features: []
+  index: druid-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/druid/levels/9.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: druid-circle-improvement-2
+      name: Druid Circle feature
+      ref: features/druid-circle-improvement-2.yaml
+  index: druid-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/druid/levels/10.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features: []
+  index: druid-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/druid/levels/11.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: druid-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/druid-ability-score-improvement-3.yaml
+  index: druid-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/druid/levels/12.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features: []
+  index: druid-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/druid/levels/13.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: druid-circle-improvement-3
+      name: Druid Circle feature
+      ref: features/druid-circle-improvement-3.yaml
+  index: druid-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/druid/levels/14.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features: []
+  index: druid-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/druid/levels/15.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: druid-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/druid-ability-score-improvement-4.yaml
+  index: druid-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/druid/levels/16.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features: []
+  index: druid-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/druid/levels/17.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: druid-timeless-body
+      name: Timeless Body
+      ref: features/druid-timeless-body.yaml
+    - index: beast-spells
+      name: Beast Spells
+      ref: features/beast-spells.yaml
+  index: druid-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/druid/levels/18.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: druid-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/druid-ability-score-improvement-5.yaml
+  index: druid-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/druid/levels/19.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  class_specific:
+    wild_shape_fly: true
+    wild_shape_max_cr: 1
+    wild_shape_swim: true
+  features:
+    - index: archdruid
+      name: Archdruid
+      ref: features/archdruid.yaml
+  index: druid-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/druid/levels/20.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 2
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"

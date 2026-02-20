@@ -1,0 +1,8 @@
+index: celestial
+name: Celestial
+ref: languages/celestial.yaml
+script: Celestial
+type: Exotic
+typical_speakers:
+  - Celestials
+updated_at: "2025-10-24T20:42:13.303Z"

@@ -1,0 +1,11 @@
+classes: []
+index: skill-nature
+name: 'Skill: Nature'
+races: []
+ref: proficiencies/skill-nature.yaml
+reference:
+  index: nature
+  name: Nature
+  ref: skills/nature.yaml
+type: Skills
+updated_at: "2025-10-24T20:42:14.116Z"

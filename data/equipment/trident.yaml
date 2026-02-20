@@ -1,0 +1,42 @@
+category_range: Martial Melee
+contents: []
+cost:
+  quantity: 5
+  unit: gp
+damage:
+  damage_dice: 1d6
+  damage_type:
+    index: piercing
+    name: Piercing
+    ref: damage-types/piercing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: trident
+name: Trident
+properties:
+  - index: thrown
+    name: Thrown
+    ref: weapon-properties/thrown.yaml
+  - index: versatile
+    name: Versatile
+    ref: weapon-properties/versatile.yaml
+range:
+  normal: 5
+ref: equipment/trident.yaml
+special: []
+throw_range:
+  long: 60
+  normal: 20
+two_handed_damage:
+  damage_dice: 1d8
+  damage_type:
+    index: piercing
+    name: Piercing
+    ref: damage-types/piercing.yaml
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Martial
+weapon_range: Melee
+weight: 4

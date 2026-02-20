@@ -1,0 +1,22 @@
+armor_category: Heavy
+armor_class:
+  base: 18
+  dex_bonus: false
+contents: []
+cost:
+  quantity: 1500
+  unit: gp
+desc: []
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: plate-armor
+name: Plate Armor
+properties: []
+ref: equipment/plate-armor.yaml
+special: []
+stealth_disadvantage: true
+str_minimum: 15
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 65

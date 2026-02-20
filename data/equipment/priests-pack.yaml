@@ -1,0 +1,69 @@
+contents:
+  - item:
+      index: backpack
+      name: Backpack
+      ref: equipment/backpack.yaml
+    quantity: 1
+  - item:
+      index: blanket
+      name: Blanket
+      ref: equipment/blanket.yaml
+    quantity: 1
+  - item:
+      index: candle
+      name: Candle
+      ref: equipment/candle.yaml
+    quantity: 10
+  - item:
+      index: tinderbox
+      name: Tinderbox
+      ref: equipment/tinderbox.yaml
+    quantity: 1
+  - item:
+      index: rations-1-day
+      name: Rations (1 day)
+      ref: equipment/rations-1-day.yaml
+    quantity: 2
+  - item:
+      index: waterskin
+      name: Waterskin
+      ref: equipment/waterskin.yaml
+    quantity: 1
+  - item:
+      index: alms-box
+      name: Alms box
+      ref: equipment/alms-box.yaml
+    quantity: 1
+  - item:
+      index: block-of-incense
+      name: Block of incense
+      ref: equipment/block-of-incense.yaml
+    quantity: 2
+  - item:
+      index: censer
+      name: Censer
+      ref: equipment/censer.yaml
+    quantity: 1
+  - item:
+      index: vestments
+      name: Vestments
+      ref: equipment/vestments.yaml
+    quantity: 1
+cost:
+  quantity: 19
+  unit: gp
+desc: []
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: equipment-packs
+  name: Equipment Packs
+  ref: equipment-categories/equipment-packs.yaml
+index: priests-pack
+name: Priest's Pack
+properties: []
+ref: equipment/priests-pack.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"

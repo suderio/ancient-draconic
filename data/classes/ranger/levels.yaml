@@ -1,0 +1,492 @@
+- ability_score_bonuses: 0
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 1
+    favored_terrain: 1
+  features:
+    - index: favored-enemy-1-type
+      name: Favored Enemy (1 type)
+      ref: features/favored-enemy-1-type.yaml
+    - index: natural-explorer-1-terrain-type
+      name: Natural Explorer (1 terrain type)
+      ref: features/natural-explorer-1-terrain-type.yaml
+  index: ranger-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/ranger/levels/1.yaml
+  spellcasting:
+    spell_slots_level_1: 0
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 1
+    favored_terrain: 1
+  features:
+    - index: ranger-fighting-style
+      name: Fighting Style
+      ref: features/ranger-fighting-style.yaml
+    - index: spellcasting-ranger
+      name: 'Spellcasting: Ranger'
+      ref: features/spellcasting-ranger.yaml
+  index: ranger-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/ranger/levels/2.yaml
+  spellcasting:
+    spell_slots_level_1: 2
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 2
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 1
+    favored_terrain: 1
+  features:
+    - index: ranger-archetype
+      name: Ranger Archetype
+      ref: features/ranger-archetype.yaml
+    - index: primeval-awareness
+      name: Primeval Awareness
+      ref: features/primeval-awareness.yaml
+  index: ranger-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/ranger/levels/3.yaml
+  spellcasting:
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 3
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 1
+    favored_terrain: 1
+  features:
+    - index: ranger-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/ranger-ability-score-improvement-1.yaml
+  index: ranger-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/ranger/levels/4.yaml
+  spellcasting:
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 3
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 1
+    favored_terrain: 1
+  features:
+    - index: ranger-extra-attack
+      name: Extra Attack
+      ref: features/ranger-extra-attack.yaml
+  index: ranger-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/ranger/levels/5.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 4
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 2
+  features:
+    - index: favored-enemy-2-types
+      name: Favored Enemy (2 types)
+      ref: features/favored-enemy-2-types.yaml
+    - index: natural-explorer-2-terrain-types
+      name: Natural Explorer (2 terrain types)
+      ref: features/natural-explorer-2-terrain-types.yaml
+  index: ranger-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/ranger/levels/6.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 4
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 2
+  features:
+    - index: ranger-archetype-improvement-1
+      name: Ranger Archetype feature
+      ref: features/ranger-archetype-improvement-1.yaml
+  index: ranger-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/ranger/levels/7.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 5
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 2
+  features:
+    - index: ranger-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/ranger-ability-score-improvement-2.yaml
+    - index: ranger-lands-stride
+      name: Land's Stride
+      ref: features/ranger-lands-stride.yaml
+  index: ranger-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/ranger/levels/8.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 5
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 2
+  features: []
+  index: ranger-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/ranger/levels/9.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 6
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 3
+  features:
+    - index: natural-explorer-3-terrain-types
+      name: Natural Explorer (3 terrain types)
+      ref: features/natural-explorer-3-terrain-types.yaml
+    - index: hide-in-plain-sight
+      name: Hide in Plain Sight
+      ref: features/hide-in-plain-sight.yaml
+  index: ranger-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/ranger/levels/10.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 6
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 3
+  features:
+    - index: ranger-archetype-improvement-2
+      name: Ranger Archetype feature
+      ref: features/ranger-archetype-improvement-2.yaml
+  index: ranger-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/ranger/levels/11.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 7
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 3
+  features:
+    - index: ranger-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/ranger-ability-score-improvement-3.yaml
+  index: ranger-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/ranger/levels/12.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spells_known: 7
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 2
+    favored_terrain: 3
+  features: []
+  index: ranger-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/ranger/levels/13.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+    spells_known: 8
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features:
+    - index: favored-enemy-3-enemies
+      name: Favored Enemy (3 enemies)
+      ref: features/favored-enemy-3-enemies.yaml
+    - index: vanish
+      name: Vanish
+      ref: features/vanish.yaml
+  index: ranger-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/ranger/levels/14.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+    spells_known: 8
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features:
+    - index: ranger-archetype-improvement-3
+      name: Ranger Archetype feature
+      ref: features/ranger-archetype-improvement-3.yaml
+  index: ranger-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/ranger/levels/15.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+    spells_known: 9
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features:
+    - index: ranger-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/ranger-ability-score-improvement-4.yaml
+  index: ranger-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/ranger/levels/16.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+    spells_known: 9
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features: []
+  index: ranger-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/ranger/levels/17.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+    spells_known: 10
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features:
+    - index: feral-senses
+      name: Feral Senses
+      ref: features/feral-senses.yaml
+  index: ranger-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/ranger/levels/18.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+    spells_known: 10
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features:
+    - index: ranger-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/ranger-ability-score-improvement-5.yaml
+  index: ranger-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/ranger/levels/19.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spells_known: 11
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  class_specific:
+    favored_enemies: 3
+    favored_terrain: 3
+  features:
+    - index: foe-slayer
+      name: Foe Slayer
+      ref: features/foe-slayer.yaml
+  index: ranger-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/ranger/levels/20.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spells_known: 11
+  updated_at: "2025-10-24T20:42:13.397Z"

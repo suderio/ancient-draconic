@@ -1,0 +1,11 @@
+classes: []
+index: scale-mail
+name: Scale Mail
+races: []
+ref: proficiencies/scale-mail.yaml
+reference:
+  index: scale-mail
+  name: Scale Mail
+  ref: equipment/scale-mail.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,15 @@
+desc:
+  - Armor (chain shirt), rare
+  - You gain a +1 bonus to AC while you wear this armor. You are considered proficient with this armor even if you lack proficiency with medium armor.
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: elven-chain
+name: Elven Chain
+rarity:
+  name: Rare
+ref: magic-items/elven-chain.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants: []

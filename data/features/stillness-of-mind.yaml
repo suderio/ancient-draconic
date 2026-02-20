@@ -1,0 +1,12 @@
+class:
+  index: monk
+  name: Monk
+  ref: classes/monk.yaml
+desc:
+  - Starting at 7th level, you can use your action to end one effect on yourself that is causing you to be charmed or frightened.
+index: stillness-of-mind
+level: 7
+name: Stillness of Mind
+prerequisites: []
+ref: features/stillness-of-mind.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

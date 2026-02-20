@@ -1,0 +1,15 @@
+desc:
+  - Weapon (any), rare
+  - You have a +2 bonus to attack and damage rolls made with this magic weapon.
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: weapon-2
+name: Weapon, +2
+rarity:
+  name: Rare
+ref: magic-items/weapon-2.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

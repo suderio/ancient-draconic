@@ -1,0 +1,11 @@
+classes: []
+index: heavy-armor
+name: Heavy Armor
+races: []
+ref: proficiencies/heavy-armor.yaml
+reference:
+  index: heavy-armor
+  name: Heavy Armor
+  ref: equipment-categories/heavy-armor.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

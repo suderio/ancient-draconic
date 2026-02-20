@@ -1,0 +1,16 @@
+class:
+  index: paladin
+  name: Paladin
+  ref: classes/paladin.yaml
+desc:
+  - When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon.
+index: fighting-style-dueling
+level: 2
+name: 'Fighting Style: Dueling'
+parent:
+  index: paladin-fighting-style
+  name: Fighting Style
+  ref: features/paladin-fighting-style.yaml
+prerequisites: []
+ref: features/fighting-style-dueling.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

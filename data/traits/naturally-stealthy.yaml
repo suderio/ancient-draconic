@@ -1,0 +1,12 @@
+desc:
+  - You can attempt to hide even when you are obscured only by a creature that is at least one size larger than you.
+index: naturally-stealthy
+name: Naturally Stealthy
+proficiencies: []
+races: []
+ref: traits/naturally-stealthy.yaml
+subraces:
+  - index: lightfoot-halfling
+    name: Lightfoot Halfling
+    ref: subraces/lightfoot-halfling.yaml
+updated_at: "2025-10-24T20:42:14.945Z"

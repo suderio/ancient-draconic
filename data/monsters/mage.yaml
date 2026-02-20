@@ -1,0 +1,155 @@
+actions:
+  - actions: []
+    attack_bonus: 5
+    damage:
+      - damage_dice: 1d4+2
+        damage_type:
+          index: piercing
+          name: Piercing
+          ref: damage-types/piercing.yaml
+    desc: 'Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage.'
+    name: Dagger
+alignment: any alignment
+armor_class:
+  - type: dex
+    value: 12
+  - spell:
+      index: mage-armor
+      name: Mage Armor
+      ref: spells/mage-armor.yaml
+    type: spell
+    value: 15
+challenge_rating: 6
+charisma: 11
+condition_immunities: []
+constitution: 11
+damage_immunities: []
+damage_resistances: []
+damage_vulnerabilities: []
+desc: Mages spend their lives in the study and practice of magic. Good-aligned mages offer counsel to nobles and others in power, while evil mages dwell in isolated sites to perform unspeakable experiments without interference.
+dexterity: 14
+forms: []
+hit_dice: 9d8
+hit_points: 40
+hit_points_roll: 9d8
+image: images/monsters/mage.png
+index: mage
+intelligence: 17
+languages: any four languages
+legendary_actions: []
+name: Mage
+proficiencies:
+  - proficiency:
+      index: saving-throw-int
+      name: 'Saving Throw: INT'
+      ref: proficiencies/saving-throw-int.yaml
+    value: 6
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 4
+  - proficiency:
+      index: skill-arcana
+      name: 'Skill: Arcana'
+      ref: proficiencies/skill-arcana.yaml
+    value: 6
+  - proficiency:
+      index: skill-history
+      name: 'Skill: History'
+      ref: proficiencies/skill-history.yaml
+    value: 6
+proficiency_bonus: 3
+reactions: []
+ref: monsters/mage.yaml
+senses:
+  passive_perception: 11
+size: Medium
+special_abilities:
+  - damage: []
+    desc: |-
+      The mage is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The mage has the following wizard spells prepared:
+
+      - Cantrips (at will): fire bolt, light, mage hand, prestidigitation
+      - 1st level (4 slots): detect magic, mage armor, magic missile, shield
+      - 2nd level (3 slots): misty step, suggestion
+      - 3rd level (3 slots): counterspell, fireball, fly
+      - 4th level (3 slots): greater invisibility, ice storm
+      - 5th level (1 slot): cone of cold
+    name: Spellcasting
+    spellcasting:
+      ability:
+        index: int
+        name: INT
+        ref: ability-scores/int.yaml
+      components_required:
+        - V
+        - S
+        - M
+      dc: 14
+      level: 9
+      modifier: 6
+      school: wizard
+      slots:
+        "1": 4
+        "2": 3
+        "3": 3
+        "4": 3
+        "5": 1
+      spells:
+        - level: 0
+          name: Fire Bolt
+          ref: spells/fire-bolt.yaml
+        - level: 0
+          name: Light
+          ref: spells/light.yaml
+        - level: 0
+          name: Mage Hand
+          ref: spells/mage-hand.yaml
+        - level: 0
+          name: Prestidigitation
+          ref: spells/prestidigitation.yaml
+        - level: 1
+          name: Detect Magic
+          ref: spells/detect-magic.yaml
+        - level: 1
+          name: Mage Armor
+          ref: spells/mage-armor.yaml
+        - level: 1
+          name: Magic Missile
+          ref: spells/magic-missile.yaml
+        - level: 1
+          name: Shield
+          ref: spells/shield.yaml
+        - level: 2
+          name: Misty Step
+          ref: spells/misty-step.yaml
+        - level: 2
+          name: Suggestion
+          ref: spells/suggestion.yaml
+        - level: 3
+          name: Counterspell
+          ref: spells/counterspell.yaml
+        - level: 3
+          name: Fireball
+          ref: spells/fireball.yaml
+        - level: 3
+          name: Fly
+          ref: spells/fly.yaml
+        - level: 4
+          name: Greater Invisibility
+          ref: spells/greater-invisibility.yaml
+        - level: 4
+          name: Ice Storm
+          ref: spells/ice-storm.yaml
+        - level: 5
+          name: Cone of Cold
+          ref: spells/cone-of-cold.yaml
+speed:
+  walk: 30 ft.
+strength: 9
+subtype: any race
+type: humanoid
+updated_at: "2025-10-24T20:42:13.742Z"
+wisdom: 12
+xp: 2300

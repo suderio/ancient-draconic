@@ -1,0 +1,11 @@
+classes: []
+index: lyre
+name: Lyre
+races: []
+ref: proficiencies/lyre.yaml
+reference:
+  index: lyre
+  name: Lyre
+  ref: equipment/lyre.yaml
+type: Musical Instruments
+updated_at: "2025-10-24T20:42:14.116Z"

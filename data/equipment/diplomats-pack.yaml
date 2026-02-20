@@ -1,0 +1,74 @@
+contents:
+  - item:
+      index: chest
+      name: Chest
+      ref: equipment/chest.yaml
+    quantity: 1
+  - item:
+      index: case-map-or-scroll
+      name: Case, map or scroll
+      ref: equipment/case-map-or-scroll.yaml
+    quantity: 2
+  - item:
+      index: clothes-fine
+      name: Clothes, fine
+      ref: equipment/clothes-fine.yaml
+    quantity: 1
+  - item:
+      index: ink-1-ounce-bottle
+      name: Ink (1 ounce bottle)
+      ref: equipment/ink-1-ounce-bottle.yaml
+    quantity: 1
+  - item:
+      index: ink-pen
+      name: Ink pen
+      ref: equipment/ink-pen.yaml
+    quantity: 1
+  - item:
+      index: lamp
+      name: Lamp
+      ref: equipment/lamp.yaml
+    quantity: 1
+  - item:
+      index: oil-flask
+      name: Oil (flask)
+      ref: equipment/oil-flask.yaml
+    quantity: 2
+  - item:
+      index: paper-one-sheet
+      name: Paper (one sheet)
+      ref: equipment/paper-one-sheet.yaml
+    quantity: 5
+  - item:
+      index: perfume-vial
+      name: Perfume (vial)
+      ref: equipment/perfume-vial.yaml
+    quantity: 1
+  - item:
+      index: sealing-wax
+      name: Sealing wax
+      ref: equipment/sealing-wax.yaml
+    quantity: 1
+  - item:
+      index: soap
+      name: Soap
+      ref: equipment/soap.yaml
+    quantity: 1
+cost:
+  quantity: 39
+  unit: gp
+desc: []
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: equipment-packs
+  name: Equipment Packs
+  ref: equipment-categories/equipment-packs.yaml
+index: diplomats-pack
+name: Diplomat's Pack
+properties: []
+ref: equipment/diplomats-pack.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"

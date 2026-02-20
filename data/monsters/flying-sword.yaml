@@ -1,0 +1,85 @@
+actions:
+  - actions: []
+    attack_bonus: 3
+    damage:
+      - damage_dice: 1d8+1
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+    desc: 'Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage.'
+    name: Longsword
+alignment: unaligned
+armor_class:
+  - type: natural
+    value: 17
+challenge_rating: 0.25
+charisma: 1
+condition_immunities:
+  - index: blinded
+    name: Blinded
+    ref: conditions/blinded.yaml
+  - index: charmed
+    name: Charmed
+    ref: conditions/charmed.yaml
+  - index: blinded
+    name: Blinded
+    ref: conditions/blinded.yaml
+  - index: frightened
+    name: Frightened
+    ref: conditions/frightened.yaml
+  - index: paralyzed
+    name: Paralyzed
+    ref: conditions/paralyzed.yaml
+  - index: petrified
+    name: Petrified
+    ref: conditions/petrified.yaml
+  - index: poisoned
+    name: Poisoned
+    ref: conditions/poisoned.yaml
+constitution: 11
+damage_immunities:
+  - poison
+  - psychic
+damage_resistances: []
+damage_vulnerabilities: []
+dexterity: 15
+forms: []
+hit_dice: 5d6
+hit_points: 17
+hit_points_roll: 5d6
+image: images/monsters/flying-sword.png
+index: flying-sword
+intelligence: 1
+languages: ""
+legendary_actions: []
+name: Flying Sword
+proficiencies:
+  - proficiency:
+      index: saving-throw-dex
+      name: 'Saving Throw: DEX'
+      ref: proficiencies/saving-throw-dex.yaml
+    value: 4
+proficiency_bonus: 2
+reactions: []
+ref: monsters/flying-sword.yaml
+senses:
+  blindsight: 60 ft. (blind beyond this radius)
+  passive_perception: 7
+size: Small
+special_abilities:
+  - damage: []
+    desc: The sword is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the sword must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.
+    name: Antimagic Susceptibility
+  - damage: []
+    desc: While the sword remains motionless and isn't flying, it is indistinguishable from a normal sword.
+    name: False Appearance
+speed:
+  fly: 50 ft.
+  hover: true
+  walk: 0 ft.
+strength: 12
+type: construct
+updated_at: "2025-10-24T20:42:13.741Z"
+wisdom: 5
+xp: 50

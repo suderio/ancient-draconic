@@ -1,0 +1,20 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: rogue
+    name: Rogue
+    ref: classes/rogue.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+index: saving-throw-int
+name: 'Saving Throw: INT'
+races: []
+ref: proficiencies/saving-throw-int.yaml
+reference:
+  index: int
+  name: INT
+  ref: ability-scores/int.yaml
+type: Saving Throws
+updated_at: "2025-10-24T20:42:14.116Z"

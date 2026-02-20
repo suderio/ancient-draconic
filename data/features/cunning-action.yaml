@@ -1,0 +1,12 @@
+class:
+  index: rogue
+  name: Rogue
+  ref: classes/rogue.yaml
+desc:
+  - Starting at 2nd level, your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.
+index: cunning-action
+level: 2
+name: Cunning Action
+prerequisites: []
+ref: features/cunning-action.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

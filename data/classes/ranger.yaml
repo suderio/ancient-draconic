@@ -1,0 +1,253 @@
+class_levels: classes/ranger/levels.yaml
+hit_die: 10
+index: ranger
+multi_classing:
+  prerequisites:
+    - ability_score:
+        index: dex
+        name: DEX
+        ref: ability-scores/dex.yaml
+      minimum_score: 13
+    - ability_score:
+        index: wis
+        name: WIS
+        ref: ability-scores/wis.yaml
+      minimum_score: 13
+  proficiencies:
+    - index: light-armor
+      name: Light Armor
+      ref: proficiencies/light-armor.yaml
+    - index: medium-armor
+      name: Medium Armor
+      ref: proficiencies/medium-armor.yaml
+    - index: shields
+      name: Shields
+      ref: proficiencies/shields.yaml
+    - index: simple-weapons
+      name: Simple Weapons
+      ref: proficiencies/simple-weapons.yaml
+    - index: martial-weapons
+      name: Martial Weapons
+      ref: proficiencies/martial-weapons.yaml
+  proficiency_choices:
+    - choose: 1
+      from:
+        option_set_type: options_array
+        options:
+          - item:
+              index: skill-animal-handling
+              name: 'Skill: Animal Handling'
+              ref: proficiencies/skill-animal-handling.yaml
+            option_type: reference
+          - item:
+              index: skill-athletics
+              name: 'Skill: Athletics'
+              ref: proficiencies/skill-athletics.yaml
+            option_type: reference
+          - item:
+              index: skill-insight
+              name: 'Skill: Insight'
+              ref: proficiencies/skill-insight.yaml
+            option_type: reference
+          - item:
+              index: skill-investigation
+              name: 'Skill: Investigation'
+              ref: proficiencies/skill-investigation.yaml
+            option_type: reference
+          - item:
+              index: skill-nature
+              name: 'Skill: Nature'
+              ref: proficiencies/skill-nature.yaml
+            option_type: reference
+          - item:
+              index: skill-perception
+              name: 'Skill: Perception'
+              ref: proficiencies/skill-perception.yaml
+            option_type: reference
+          - item:
+              index: skill-stealth
+              name: 'Skill: Stealth'
+              ref: proficiencies/skill-stealth.yaml
+            option_type: reference
+          - item:
+              index: skill-survival
+              name: 'Skill: Survival'
+              ref: proficiencies/skill-survival.yaml
+            option_type: reference
+      type: proficiencies
+name: Ranger
+proficiencies:
+  - index: light-armor
+    name: Light Armor
+    ref: proficiencies/light-armor.yaml
+  - index: medium-armor
+    name: Medium Armor
+    ref: proficiencies/medium-armor.yaml
+  - index: shields
+    name: Shields
+    ref: proficiencies/shields.yaml
+  - index: simple-weapons
+    name: Simple Weapons
+    ref: proficiencies/simple-weapons.yaml
+  - index: martial-weapons
+    name: Martial Weapons
+    ref: proficiencies/martial-weapons.yaml
+  - index: saving-throw-dex
+    name: 'Saving Throw: DEX'
+    ref: proficiencies/saving-throw-dex.yaml
+  - index: saving-throw-str
+    name: 'Saving Throw: STR'
+    ref: proficiencies/saving-throw-str.yaml
+proficiency_choices:
+  - choose: 3
+    desc: Choose three from Animal Handling, Athletics, Insight, Investigation, Nature, Perception, Stealth, and Survival
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: skill-animal-handling
+            name: 'Skill: Animal Handling'
+            ref: proficiencies/skill-animal-handling.yaml
+          option_type: reference
+        - item:
+            index: skill-athletics
+            name: 'Skill: Athletics'
+            ref: proficiencies/skill-athletics.yaml
+          option_type: reference
+        - item:
+            index: skill-insight
+            name: 'Skill: Insight'
+            ref: proficiencies/skill-insight.yaml
+          option_type: reference
+        - item:
+            index: skill-investigation
+            name: 'Skill: Investigation'
+            ref: proficiencies/skill-investigation.yaml
+          option_type: reference
+        - item:
+            index: skill-nature
+            name: 'Skill: Nature'
+            ref: proficiencies/skill-nature.yaml
+          option_type: reference
+        - item:
+            index: skill-perception
+            name: 'Skill: Perception'
+            ref: proficiencies/skill-perception.yaml
+          option_type: reference
+        - item:
+            index: skill-stealth
+            name: 'Skill: Stealth'
+            ref: proficiencies/skill-stealth.yaml
+          option_type: reference
+        - item:
+            index: skill-survival
+            name: 'Skill: Survival'
+            ref: proficiencies/skill-survival.yaml
+          option_type: reference
+    type: proficiencies
+ref: classes/ranger.yaml
+saving_throws:
+  - index: str
+    name: STR
+    ref: ability-scores/str.yaml
+  - index: dex
+    name: DEX
+    ref: ability-scores/dex.yaml
+spellcasting:
+  info:
+    - desc:
+        - The Ranger table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.
+        - For example, if you know the 1st-level spell animal friendship and have a 1st-level and a 2nd-level spell slot available, you can cast animal friendship using either slot.
+      name: Spell Slots
+    - desc:
+        - You know two 1st-level spells of your choice from the ranger spell list.
+        - The Spells Known column of the Ranger table shows when you learn more ranger spells of your choice. Each of these spells must be of a level for which you have spell slots. For instance, when you reach 5th level in this class, you can learn one new spell of 1st or 2nd level.
+        - Additionally, when you gain a level in this class, you can choose one of the ranger spells you know and replace it with another spell from the ranger spell list, which also must be of a level for which you have spell slots.
+      name: Spells Known of 1st Level and Higher
+    - desc:
+        - Wisdom is your spellcasting ability for your ranger spells, since your magic draws on your attunement to nature. You use your Wisdom whenever a spell refers to your spellcasting ability. In addition, you use your Wisdom modifier when setting the saving throw DC for a ranger spell you cast and when making an attack roll with one.
+        - Spell save DC = 8 + your proficiency bonus + your Wisdom modifier.
+        - Spell attack modifier = your proficiency bonus + your Wisdom modifier.
+      name: Spellcasting Ability
+  level: 2
+  spellcasting_ability:
+    index: wis
+    name: WIS
+    ref: ability-scores/wis.yaml
+spells: /api/2014/classes/ranger/spells
+starting_equipment:
+  - equipment:
+      index: longbow
+      name: Longbow
+      ref: equipment/longbow.yaml
+    quantity: 1
+  - equipment:
+      index: arrow
+      name: Arrow
+      ref: equipment/arrow.yaml
+    quantity: 20
+starting_equipment_options:
+  - choose: 1
+    desc: (a) scale mail or (b) leather armor
+    from:
+      option_set_type: options_array
+      options:
+        - count: 1
+          of:
+            index: scale-mail
+            name: Scale Mail
+            ref: equipment/scale-mail.yaml
+          option_type: counted_reference
+        - count: 1
+          of:
+            index: leather-armor
+            name: Leather Armor
+            ref: equipment/leather-armor.yaml
+          option_type: counted_reference
+    type: equipment
+  - choose: 1
+    desc: (a) two shortswords or (b) two simple melee weapons
+    from:
+      option_set_type: options_array
+      options:
+        - count: 2
+          of:
+            index: shortsword
+            name: Shortsword
+            ref: equipment/shortsword.yaml
+          option_type: counted_reference
+        - choice:
+            choose: 2
+            desc: two simple melee weapons
+            from:
+              equipment_category:
+                index: simple-melee-weapons
+                name: Simple Melee Weapons
+                ref: equipment-categories/simple-melee-weapons.yaml
+              option_set_type: equipment_category
+            type: equipment
+          option_type: choice
+    type: equipment
+  - choose: 1
+    desc: (a) a dungeoneer’s pack or (b) an explorer’s pack
+    from:
+      option_set_type: options_array
+      options:
+        - count: 1
+          of:
+            index: dungeoneers-pack
+            name: Dungeoneer's Pack
+            ref: equipment/dungeoneers-pack.yaml
+          option_type: counted_reference
+        - count: 1
+          of:
+            index: explorers-pack
+            name: Explorer's Pack
+            ref: equipment/explorers-pack.yaml
+          option_type: counted_reference
+    type: equipment
+subclasses:
+  - index: hunter
+    name: Hunter
+    ref: subclasses/hunter.yaml
+updated_at: "2025-10-24T20:42:12.459Z"

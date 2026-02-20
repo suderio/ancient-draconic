@@ -1,0 +1,519 @@
+- ability_score_bonuses: 0
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 1
+  features:
+    - index: spellcasting-wizard
+      name: 'Spellcasting: Wizard'
+      ref: features/spellcasting-wizard.yaml
+    - index: arcane-recovery
+      name: Arcane Recovery
+      ref: features/arcane-recovery.yaml
+  index: wizard-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/wizard/levels/1.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 2
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 1
+  features:
+    - index: arcane-tradition
+      name: Arcane Tradition
+      ref: features/arcane-tradition.yaml
+  index: wizard-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/wizard/levels/2.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 2
+  features: []
+  index: wizard-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/wizard/levels/3.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 2
+  features:
+    - index: wizard-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/wizard-ability-score-improvement-1.yaml
+  index: wizard-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/wizard/levels/4.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 3
+  features: []
+  index: wizard-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/wizard/levels/5.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 3
+  features:
+    - index: arcane-tradition-improvement-1
+      name: Arcane Tradition feature
+      ref: features/arcane-tradition-improvement-1.yaml
+  index: wizard-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/wizard/levels/6.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 4
+  features: []
+  index: wizard-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/wizard/levels/7.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 4
+  features:
+    - index: wizard-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/wizard-ability-score-improvement-2.yaml
+  index: wizard-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/wizard/levels/8.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 5
+  features: []
+  index: wizard-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/wizard/levels/9.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 5
+  features:
+    - index: arcane-tradition-improvement-2
+      name: Arcane Tradition feature
+      ref: features/arcane-tradition-improvement-2.yaml
+  index: wizard-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/wizard/levels/10.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 6
+  features: []
+  index: wizard-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/wizard/levels/11.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 6
+  features:
+    - index: wizard-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/wizard-ability-score-improvement-3.yaml
+  index: wizard-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/wizard/levels/12.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 7
+  features: []
+  index: wizard-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/wizard/levels/13.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 7
+  features:
+    - index: arcane-tradition-improvement-3
+      name: Arcane Tradition feature
+      ref: features/arcane-tradition-improvement-3.yaml
+  index: wizard-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/wizard/levels/14.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 8
+  features: []
+  index: wizard-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/wizard/levels/15.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 8
+  features:
+    - index: wizard-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/wizard-ability-score-improvement-4.yaml
+  index: wizard-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/wizard/levels/16.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 9
+  features: []
+  index: wizard-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/wizard/levels/17.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 9
+  features:
+    - index: spell-mastery
+      name: Spell Mastery
+      ref: features/spell-mastery.yaml
+  index: wizard-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/wizard/levels/18.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 10
+  features:
+    - index: wizard-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/wizard-ability-score-improvement-5.yaml
+  index: wizard-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/wizard/levels/19.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+  class_specific:
+    arcane_recovery_levels: 10
+  features:
+    - index: signature-spell
+      name: Signature Spell
+      ref: features/signature-spell.yaml
+  index: wizard-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/wizard/levels/20.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 2
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"

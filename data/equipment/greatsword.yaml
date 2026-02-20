@@ -1,0 +1,33 @@
+category_range: Martial Melee
+contents: []
+cost:
+  quantity: 50
+  unit: gp
+damage:
+  damage_dice: 2d6
+  damage_type:
+    index: slashing
+    name: Slashing
+    ref: damage-types/slashing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: greatsword
+name: Greatsword
+properties:
+  - index: heavy
+    name: Heavy
+    ref: weapon-properties/heavy.yaml
+  - index: two-handed
+    name: Two-Handed
+    ref: weapon-properties/two-handed.yaml
+range:
+  normal: 5
+ref: equipment/greatsword.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Martial
+weapon_range: Melee
+weight: 6

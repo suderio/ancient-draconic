@@ -1,0 +1,129 @@
+actions:
+  - actions:
+      - action_name: Bite
+        count: "1"
+        type: melee
+      - action_name: Claw
+        count: "2"
+        type: melee
+    damage: []
+    desc: 'The dragon makes three attacks: one with its bite and two with its claws.'
+    multiattack_type: actions
+    name: Multiattack
+  - actions: []
+    attack_bonus: 10
+    damage:
+      - damage_dice: 2d10+6
+        damage_type:
+          index: piercing
+          name: Piercing
+          ref: damage-types/piercing.yaml
+      - damage_dice: 1d6
+        damage_type:
+          index: fire
+          name: Fire
+          ref: damage-types/fire.yaml
+    desc: 'Melee Weapon Attack: +10 to hit, reach 10 ft., one target. Hit: 17 (2d10 + 6) piercing damage plus 3 (1d6) fire damage.'
+    name: Bite
+  - actions: []
+    attack_bonus: 10
+    damage:
+      - damage_dice: 2d6+6
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+    desc: 'Melee Weapon Attack: +10 to hit, reach 5 ft., one target. Hit: 13 (2d6 + 6) slashing damage.'
+    name: Claw
+  - actions: []
+    damage:
+      - damage_dice: 16d6
+        damage_type:
+          index: fire
+          name: Fire
+          ref: damage-types/fire.yaml
+    dc:
+      dc_type:
+        index: dex
+        name: DEX
+        ref: ability-scores/dex.yaml
+      dc_value: 17
+      success_type: half
+    desc: The dragon exhales fire in a 30-foot cone. Each creature in that area must make a DC 17 Dexterity saving throw, taking 56 (16d6) fire damage on a failed save, or half as much damage on a successful one.
+    name: Fire Breath
+    usage:
+      dice: 1d6
+      min_value: 5
+      type: recharge on roll
+alignment: chaotic evil
+armor_class:
+  - type: natural
+    value: 18
+challenge_rating: 10
+charisma: 19
+condition_immunities: []
+constitution: 21
+damage_immunities:
+  - fire
+damage_resistances: []
+damage_vulnerabilities: []
+dexterity: 10
+forms: []
+hit_dice: 17d10
+hit_points: 178
+hit_points_roll: 17d10+85
+image: images/monsters/young-red-dragon.png
+index: young-red-dragon
+intelligence: 14
+languages: Common, Draconic
+legendary_actions: []
+name: Young Red Dragon
+proficiencies:
+  - proficiency:
+      index: saving-throw-dex
+      name: 'Saving Throw: DEX'
+      ref: proficiencies/saving-throw-dex.yaml
+    value: 4
+  - proficiency:
+      index: saving-throw-con
+      name: 'Saving Throw: CON'
+      ref: proficiencies/saving-throw-con.yaml
+    value: 9
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 4
+  - proficiency:
+      index: saving-throw-cha
+      name: 'Saving Throw: CHA'
+      ref: proficiencies/saving-throw-cha.yaml
+    value: 8
+  - proficiency:
+      index: skill-perception
+      name: 'Skill: Perception'
+      ref: proficiencies/skill-perception.yaml
+    value: 8
+  - proficiency:
+      index: skill-stealth
+      name: 'Skill: Stealth'
+      ref: proficiencies/skill-stealth.yaml
+    value: 4
+proficiency_bonus: 4
+reactions: []
+ref: monsters/young-red-dragon.yaml
+senses:
+  blindsight: 30 ft.
+  darkvision: 120 ft.
+  passive_perception: 18
+size: Large
+special_abilities: []
+speed:
+  climb: 40 ft.
+  fly: 80 ft.
+  walk: 40 ft.
+strength: 23
+type: dragon
+updated_at: "2025-10-24T20:42:13.742Z"
+wisdom: 11
+xp: 5900

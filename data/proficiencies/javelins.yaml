@@ -1,0 +1,14 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+index: javelins
+name: Javelins
+races: []
+ref: proficiencies/javelins.yaml
+reference:
+  index: javelin
+  name: Javelin
+  ref: equipment/javelin.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

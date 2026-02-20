@@ -1,0 +1,11 @@
+classes: []
+index: viol
+name: Viol
+races: []
+ref: proficiencies/viol.yaml
+reference:
+  index: viol
+  name: Viol
+  ref: equipment/viol.yaml
+type: Musical Instruments
+updated_at: "2025-10-24T20:42:14.116Z"

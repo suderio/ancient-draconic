@@ -1,0 +1,20 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+index: quarterstaffs
+name: Quarterstaffs
+races: []
+ref: proficiencies/quarterstaffs.yaml
+reference:
+  index: quarterstaff
+  name: Quarterstaff
+  ref: equipment/quarterstaff.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

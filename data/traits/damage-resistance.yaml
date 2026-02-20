@@ -1,0 +1,12 @@
+desc:
+  - You have resistance to the damage type associated with your draconic ancestry.
+index: damage-resistance
+name: Damage Resistance
+proficiencies: []
+races:
+  - index: dragonborn
+    name: Dragonborn
+    ref: races/dragonborn.yaml
+ref: traits/damage-resistance.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

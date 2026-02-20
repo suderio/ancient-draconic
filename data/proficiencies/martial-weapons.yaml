@@ -1,0 +1,23 @@
+classes:
+  - index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  - index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+index: martial-weapons
+name: Martial Weapons
+races: []
+ref: proficiencies/martial-weapons.yaml
+reference:
+  index: martial-weapons
+  name: Martial Weapons
+  ref: equipment-categories/martial-weapons.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

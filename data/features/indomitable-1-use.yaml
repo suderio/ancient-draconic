@@ -1,0 +1,12 @@
+class:
+  index: fighter
+  name: Fighter
+  ref: classes/fighter.yaml
+desc:
+  - Beginning at 9th level, you can reroll a saving throw that you fail. If you do so, you must use the new roll, and you can't use this feature again until you finish a long rest. You can use this feature twice between long rests starting at 13th level and three times between long rests starting at 17th level.
+index: indomitable-1-use
+level: 9
+name: Indomitable (1 use)
+prerequisites: []
+ref: features/indomitable-1-use.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

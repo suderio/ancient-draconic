@@ -1,0 +1,20 @@
+equipment:
+  - index: hide-armor
+    name: Hide Armor
+    ref: equipment/hide-armor.yaml
+  - index: chain-shirt
+    name: Chain Shirt
+    ref: equipment/chain-shirt.yaml
+  - index: scale-mail
+    name: Scale Mail
+    ref: equipment/scale-mail.yaml
+  - index: breastplate
+    name: Breastplate
+    ref: equipment/breastplate.yaml
+  - index: half-plate-armor
+    name: Half Plate Armor
+    ref: equipment/half-plate-armor.yaml
+index: medium-armor
+name: Medium Armor
+ref: equipment-categories/medium-armor.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

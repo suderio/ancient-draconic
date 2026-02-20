@@ -1,0 +1,16 @@
+class:
+  index: warlock
+  name: Warlock
+  ref: classes/warlock.yaml
+desc:
+  - You can cast detect magic at will, without expending a spell slot.
+index: eldritch-invocation-eldritch-sight
+level: 2
+name: 'Eldritch Invocation: Eldritch Sight'
+parent:
+  index: eldritch-invocations
+  name: Eldritch Invocations
+  ref: features/eldritch-invocations.yaml
+prerequisites: []
+ref: features/eldritch-invocation-eldritch-sight.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

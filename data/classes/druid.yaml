@@ -1,0 +1,225 @@
+class_levels: classes/druid/levels.yaml
+hit_die: 8
+index: druid
+multi_classing:
+  prerequisites:
+    - ability_score:
+        index: wis
+        name: WIS
+        ref: ability-scores/wis.yaml
+      minimum_score: 13
+  proficiencies:
+    - index: light-armor
+      name: Light Armor
+      ref: proficiencies/light-armor.yaml
+    - index: medium-armor
+      name: Medium Armor
+      ref: proficiencies/medium-armor.yaml
+    - index: shields
+      name: Shields
+      ref: proficiencies/shields.yaml
+name: Druid
+proficiencies:
+  - index: light-armor
+    name: Light Armor
+    ref: proficiencies/light-armor.yaml
+  - index: medium-armor
+    name: Medium Armor
+    ref: proficiencies/medium-armor.yaml
+  - index: shields
+    name: Shields
+    ref: proficiencies/shields.yaml
+  - index: clubs
+    name: Clubs
+    ref: proficiencies/clubs.yaml
+  - index: daggers
+    name: Daggers
+    ref: proficiencies/daggers.yaml
+  - index: javelins
+    name: Javelins
+    ref: proficiencies/javelins.yaml
+  - index: maces
+    name: Maces
+    ref: proficiencies/maces.yaml
+  - index: quarterstaffs
+    name: Quarterstaffs
+    ref: proficiencies/quarterstaffs.yaml
+  - index: sickles
+    name: Sickles
+    ref: proficiencies/sickles.yaml
+  - index: spears
+    name: Spears
+    ref: proficiencies/spears.yaml
+  - index: darts
+    name: Darts
+    ref: proficiencies/darts.yaml
+  - index: slings
+    name: Slings
+    ref: proficiencies/slings.yaml
+  - index: scimitars
+    name: Scimitars
+    ref: proficiencies/scimitars.yaml
+  - index: herbalism-kit
+    name: Herbalism Kit
+    ref: proficiencies/herbalism-kit.yaml
+  - index: saving-throw-int
+    name: 'Saving Throw: INT'
+    ref: proficiencies/saving-throw-int.yaml
+  - index: saving-throw-wis
+    name: 'Saving Throw: WIS'
+    ref: proficiencies/saving-throw-wis.yaml
+proficiency_choices:
+  - choose: 2
+    desc: Choose two from Arcana, Animal Handling, Insight, Medicine, Nature, Perception, Religion, and Survival
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: skill-arcana
+            name: 'Skill: Arcana'
+            ref: proficiencies/skill-arcana.yaml
+          option_type: reference
+        - item:
+            index: skill-animal-handling
+            name: 'Skill: Animal Handling'
+            ref: proficiencies/skill-animal-handling.yaml
+          option_type: reference
+        - item:
+            index: skill-insight
+            name: 'Skill: Insight'
+            ref: proficiencies/skill-insight.yaml
+          option_type: reference
+        - item:
+            index: skill-medicine
+            name: 'Skill: Medicine'
+            ref: proficiencies/skill-medicine.yaml
+          option_type: reference
+        - item:
+            index: skill-nature
+            name: 'Skill: Nature'
+            ref: proficiencies/skill-nature.yaml
+          option_type: reference
+        - item:
+            index: skill-perception
+            name: 'Skill: Perception'
+            ref: proficiencies/skill-perception.yaml
+          option_type: reference
+        - item:
+            index: skill-religion
+            name: 'Skill: Religion'
+            ref: proficiencies/skill-religion.yaml
+          option_type: reference
+        - item:
+            index: skill-survival
+            name: 'Skill: Survival'
+            ref: proficiencies/skill-survival.yaml
+          option_type: reference
+    type: proficiencies
+ref: classes/druid.yaml
+saving_throws:
+  - index: int
+    name: INT
+    ref: ability-scores/int.yaml
+  - index: wis
+    name: WIS
+    ref: ability-scores/wis.yaml
+spellcasting:
+  info:
+    - desc:
+        - At 1st level, you know two cantrips of your choice from the druid spell list. You learn additional druid cantrips of your choice at higher levels, as shown in the Cantrips Known column of the Druid table.
+      name: Cantrips
+    - desc:
+        - The Druid table shows how many spell slots you have to cast your spells of 1st level and higher. To cast one of these druid spells, you must expend a slot of the spell's level or higher. You regain all expended spell slots when you finish a long rest.
+        - You prepare the list of druid spells that are available for you to cast, choosing from the druid spell list. When you do so, choose a number of druid spells equal to your Wisdom modifier + your druid level (minimum of one spell). The spells must be of a level for which you have spell slots.
+        - For example, if you are a 3rd-level druid, you have four 1st-level and two 2nd-level spell slots. With a Wisdom of 16, your list of prepared spells can include six spells of 1st or 2nd level, in any combination. If you prepare the 1st-level spell cure wounds, you can cast it using a 1st-level or 2nd-level slot. Casting the spell doesn't remove it from your list of prepared spells.
+        - 'You can also change your list of prepared spells when you finish a long rest. Preparing a new list of druid spells requires time spent in prayer and meditation: at least 1 minute per spell level for each spell on your list.'
+      name: Preparing and Casting Spells
+    - desc:
+        - Wisdom is your spellcasting ability for your druid spells, since your magic draws upon your devotion and attunement to nature. You use your Wisdom whenever a spell refers to your spellcasting ability. In addition, you use your Wisdom modifier when setting the saving throw DC for a druid spell you cast and when making an attack roll with one.
+        - Spell save DC = 8 + your proficiency bonus + your Wisdom modifier.
+        - Spell attack modifier = your proficiency bonus + your Wisdom modifier.
+      name: Spellcasting Ability
+    - desc:
+        - You can cast a druid spell as a ritual if that spell has the ritual tag and you have the spell prepared.
+      name: Ritual Casting
+    - desc:
+        - You can use a druidic focus (see chapter 5, "Equipment") as a spellcasting focus for your druid spells.
+      name: Spellcasting Focus
+  level: 1
+  spellcasting_ability:
+    index: wis
+    name: WIS
+    ref: ability-scores/wis.yaml
+spells: /api/2014/classes/druid/spells
+starting_equipment:
+  - equipment:
+      index: leather-armor
+      name: Leather Armor
+      ref: equipment/leather-armor.yaml
+    quantity: 1
+  - equipment:
+      index: explorers-pack
+      name: Explorer's Pack
+      ref: equipment/explorers-pack.yaml
+    quantity: 1
+starting_equipment_options:
+  - choose: 1
+    desc: (a) a wooden shield or (b) any simple weapon
+    from:
+      option_set_type: options_array
+      options:
+        - count: 1
+          of:
+            index: shield
+            name: Shield
+            ref: equipment/shield.yaml
+          option_type: counted_reference
+        - choice:
+            choose: 1
+            desc: any simple weapon
+            from:
+              equipment_category:
+                index: simple-weapons
+                name: Simple Weapons
+                ref: equipment-categories/simple-weapons.yaml
+              option_set_type: equipment_category
+            type: equipment
+          option_type: choice
+    type: equipment
+  - choose: 1
+    desc: (a) a scimitar or (b) any simple melee weapon
+    from:
+      option_set_type: options_array
+      options:
+        - count: 1
+          of:
+            index: scimitar
+            name: Scimitar
+            ref: equipment/scimitar.yaml
+          option_type: counted_reference
+        - choice:
+            choose: 1
+            desc: any simple melee weapon
+            from:
+              equipment_category:
+                index: simple-melee-weapons
+                name: Simple Melee Weapons
+                ref: equipment-categories/simple-melee-weapons.yaml
+              option_set_type: equipment_category
+            type: equipment
+          option_type: choice
+    type: equipment
+  - choose: 1
+    desc: druidic focus
+    from:
+      equipment_category:
+        index: druidic-foci
+        name: Druidic Foci
+        ref: equipment-categories/druidic-foci.yaml
+      option_set_type: equipment_category
+    type: equipment
+subclasses:
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:12.459Z"

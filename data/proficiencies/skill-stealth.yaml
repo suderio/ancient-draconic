@@ -1,0 +1,11 @@
+classes: []
+index: skill-stealth
+name: 'Skill: Stealth'
+races: []
+ref: proficiencies/skill-stealth.yaml
+reference:
+  index: stealth
+  name: Stealth
+  ref: skills/stealth.yaml
+type: Skills
+updated_at: "2025-10-24T20:42:14.116Z"

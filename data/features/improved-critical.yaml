@@ -1,0 +1,16 @@
+class:
+  index: fighter
+  name: Fighter
+  ref: classes/fighter.yaml
+desc:
+  - Beginning when you choose this archetype at 3rd level, your weapon attacks score a critical hit on a roll of 19 or 20.
+index: improved-critical
+level: 3
+name: Improved Critical
+prerequisites: []
+ref: features/improved-critical.yaml
+subclass:
+  index: champion
+  name: Champion
+  ref: subclasses/champion.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

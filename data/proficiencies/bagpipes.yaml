@@ -1,0 +1,11 @@
+classes: []
+index: bagpipes
+name: Bagpipes
+races: []
+ref: proficiencies/bagpipes.yaml
+reference:
+  index: bagpipes
+  name: Bagpipes
+  ref: equipment/bagpipes.yaml
+type: Musical Instruments
+updated_at: "2025-10-24T20:42:14.116Z"

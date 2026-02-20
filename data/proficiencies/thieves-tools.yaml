@@ -1,0 +1,14 @@
+classes:
+  - index: rogue
+    name: Rogue
+    ref: classes/rogue.yaml
+index: thieves-tools
+name: Thieves' Tools
+races: []
+ref: proficiencies/thieves-tools.yaml
+reference:
+  index: thieves-tools
+  name: Thieves' Tools
+  ref: equipment/thieves-tools.yaml
+type: Other
+updated_at: "2025-10-24T20:42:14.116Z"

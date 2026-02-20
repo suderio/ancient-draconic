@@ -1,0 +1,11 @@
+classes: []
+index: brewers-supplies
+name: Brewer's Supplies
+races: []
+ref: proficiencies/brewers-supplies.yaml
+reference:
+  index: brewers-supplies
+  name: Brewer's Supplies
+  ref: equipment/brewers-supplies.yaml
+type: Artisan's Tools
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,22 @@
+armor_category: Heavy
+armor_class:
+  base: 16
+  dex_bonus: false
+contents: []
+cost:
+  quantity: 75
+  unit: gp
+desc: []
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: chain-mail
+name: Chain Mail
+properties: []
+ref: equipment/chain-mail.yaml
+special: []
+stealth_disadvantage: true
+str_minimum: 13
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 55

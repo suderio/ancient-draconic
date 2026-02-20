@@ -1,0 +1,12 @@
+class:
+  index: fighter
+  name: Fighter
+  ref: classes/fighter.yaml
+desc:
+  - When you reach 4th level, and again at 6th, 8th, 12th, 14th, 16th, and 19th level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.
+index: fighter-ability-score-improvement-7
+level: 19
+name: Ability Score Improvement
+prerequisites: []
+ref: features/fighter-ability-score-improvement-7.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

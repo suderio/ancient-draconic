@@ -1,0 +1,20 @@
+contents: []
+cost:
+  quantity: 2
+  unit: cp
+desc: []
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: standard-gear
+  name: Standard Gear
+  ref: equipment-categories/standard-gear.yaml
+index: jug-or-pitcher
+name: Jug or pitcher
+properties: []
+ref: equipment/jug-or-pitcher.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 4

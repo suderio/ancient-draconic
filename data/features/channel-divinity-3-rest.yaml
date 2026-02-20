@@ -1,0 +1,12 @@
+class:
+  index: cleric
+  name: Cleric
+  ref: classes/cleric.yaml
+desc:
+  - Beginning at 6th level, you can use your Channel Divinity twice between rests, and beginning at 18th level, you can use it three times between rests. When you finish a short or long rest, you regain your expended uses.
+index: channel-divinity-3-rest
+level: 18
+name: Channel Divinity (3/rest)
+prerequisites: []
+ref: features/channel-divinity-3-rest.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

@@ -1,0 +1,16 @@
+class:
+  index: barbarian
+  name: Barbarian
+  ref: classes/barbarian.yaml
+desc:
+  - Starting at 14th level, when you take damage from a creature that is within 5 feet of you, you can use your reaction to make a melee weapon Attack against that creature.
+index: retaliation
+level: 14
+name: Retaliation
+prerequisites: []
+ref: features/retaliation.yaml
+subclass:
+  index: berserker
+  name: Berserker
+  ref: subclasses/berserker.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

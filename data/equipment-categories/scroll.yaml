@@ -1,0 +1,38 @@
+equipment:
+  - index: spell-scroll
+    name: Spell Scroll
+    ref: magic-items/spell-scroll.yaml
+  - index: spell-scroll-cantrip
+    name: Spell Scroll (Cantrip)
+    ref: magic-items/spell-scroll-cantrip.yaml
+  - index: spell-scroll-1st
+    name: Spell Scroll (1st)
+    ref: magic-items/spell-scroll-1st.yaml
+  - index: spell-scroll-2nd
+    name: Spell Scroll (2nd)
+    ref: magic-items/spell-scroll-2nd.yaml
+  - index: spell-scroll-3rd
+    name: Spell Scroll (3rd)
+    ref: magic-items/spell-scroll-3rd.yaml
+  - index: spell-scroll-4th
+    name: Spell Scroll (4th)
+    ref: magic-items/spell-scroll-4th.yaml
+  - index: spell-scroll-5th
+    name: Spell Scroll (5th)
+    ref: magic-items/spell-scroll-5th.yaml
+  - index: spell-scroll-6th
+    name: Spell Scroll (6th)
+    ref: magic-items/spell-scroll-6th.yaml
+  - index: spell-scroll-7th
+    name: Spell Scroll (7th)
+    ref: magic-items/spell-scroll-7th.yaml
+  - index: spell-scroll-8th
+    name: Spell Scroll (8th)
+    ref: magic-items/spell-scroll-8th.yaml
+  - index: spell-scroll-9th
+    name: Spell Scroll (9th)
+    ref: magic-items/spell-scroll-9th.yaml
+index: scroll
+name: Scroll
+ref: equipment-categories/scroll.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

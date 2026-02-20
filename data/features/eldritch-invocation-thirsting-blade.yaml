@@ -1,0 +1,20 @@
+class:
+  index: warlock
+  name: Warlock
+  ref: classes/warlock.yaml
+desc:
+  - You can attack with your pact weapon twice, instead of once, whenever you take the Attack action on your turn.
+index: eldritch-invocation-thirsting-blade
+level: 5
+name: 'Eldritch Invocation: Thirsting Blade'
+parent:
+  index: eldritch-invocations
+  name: Eldritch Invocations
+  ref: features/eldritch-invocations.yaml
+prerequisites:
+  - level: 5
+    type: level
+  - feature: features/pact-of-the-blade.yaml
+    type: feature
+ref: features/eldritch-invocation-thirsting-blade.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

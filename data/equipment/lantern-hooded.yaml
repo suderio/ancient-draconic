@@ -1,0 +1,21 @@
+contents: []
+cost:
+  quantity: 5
+  unit: gp
+desc:
+  - A hooded lantern casts bright light in a 30-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius.
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: standard-gear
+  name: Standard Gear
+  ref: equipment-categories/standard-gear.yaml
+index: lantern-hooded
+name: Lantern, hooded
+properties: []
+ref: equipment/lantern-hooded.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 2

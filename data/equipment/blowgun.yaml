@@ -1,0 +1,34 @@
+category_range: Martial Ranged
+contents: []
+cost:
+  quantity: 10
+  unit: gp
+damage:
+  damage_dice: "1"
+  damage_type:
+    index: piercing
+    name: Piercing
+    ref: damage-types/piercing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: blowgun
+name: Blowgun
+properties:
+  - index: ammunition
+    name: Ammunition
+    ref: weapon-properties/ammunition.yaml
+  - index: loading
+    name: Loading
+    ref: weapon-properties/loading.yaml
+range:
+  long: 100
+  normal: 25
+ref: equipment/blowgun.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Martial
+weapon_range: Ranged
+weight: 1

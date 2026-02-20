@@ -1,0 +1,11 @@
+classes: []
+index: skill-investigation
+name: 'Skill: Investigation'
+races: []
+ref: proficiencies/skill-investigation.yaml
+reference:
+  index: investigation
+  name: Investigation
+  ref: skills/investigation.yaml
+type: Skills
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,15 @@
+desc:
+  - Potion, rare
+  - When you drink this potion, you gain the effect of the detect thoughts spell (save DC 13). The potion's dense, purple liquid has an ovoid cloud of pink floating in it.
+equipment_category:
+  index: potion
+  name: Potion
+  ref: equipment-categories/potion.yaml
+index: potion-of-mind-reading
+name: Potion of Mind Reading
+rarity:
+  name: Rare
+ref: magic-items/potion-of-mind-reading.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants: []

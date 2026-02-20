@@ -1,0 +1,11 @@
+classes: []
+index: dulcimer
+name: Dulcimer
+races: []
+ref: proficiencies/dulcimer.yaml
+reference:
+  index: dulcimer
+  name: Dulcimer
+  ref: equipment/dulcimer.yaml
+type: Musical Instruments
+updated_at: "2025-10-24T20:42:14.116Z"

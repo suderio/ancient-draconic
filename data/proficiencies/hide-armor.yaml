@@ -1,0 +1,11 @@
+classes: []
+index: hide-armor
+name: Hide Armor
+races: []
+ref: proficiencies/hide-armor.yaml
+reference:
+  index: hide-armor
+  name: Hide Armor
+  ref: equipment/hide-armor.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

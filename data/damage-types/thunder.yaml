@@ -1,0 +1,6 @@
+desc:
+  - A concussive burst of sound, such as the effect of the thunderwave spell, deals thunder damage.
+index: thunder
+name: Thunder
+ref: damage-types/thunder.yaml
+updated_at: "2025-10-24T20:42:12.729Z"

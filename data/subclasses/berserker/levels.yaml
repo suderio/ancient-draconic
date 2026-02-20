@@ -1,0 +1,64 @@
+- class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  features:
+    - index: frenzy
+      name: Frenzy
+      ref: features/frenzy.yaml
+  index: berserker-3
+  level: 3
+  ref: subclasses/berserker/levels/3.yaml
+  subclass:
+    index: berserker
+    name: Berserker
+    ref: subclasses/berserker.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  features:
+    - index: mindless-rage
+      name: Mindless Rage
+      ref: features/mindless-rage.yaml
+  index: berserker-6
+  level: 6
+  ref: subclasses/berserker/levels/6.yaml
+  subclass:
+    index: berserker
+    name: Berserker
+    ref: subclasses/berserker.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  features:
+    - index: intimidating-presence
+      name: Intimidating Presence
+      ref: features/intimidating-presence.yaml
+  index: berserker-10
+  level: 10
+  ref: subclasses/berserker/levels/10.yaml
+  subclass:
+    index: berserker
+    name: Berserker
+    ref: subclasses/berserker.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  features:
+    - index: retaliation
+      name: Retaliation
+      ref: features/retaliation.yaml
+  index: berserker-14
+  level: 14
+  ref: subclasses/berserker/levels/14.yaml
+  subclass:
+    index: berserker
+    name: Berserker
+    ref: subclasses/berserker.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"

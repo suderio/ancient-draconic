@@ -1,0 +1,39 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+dc:
+  dc_success: none
+  dc_type:
+    index: wis
+    name: WIS
+    ref: ability-scores/wis.yaml
+desc:
+  - This spell lets you convince a beast that you mean it no harm. Choose a beast that you can see within range. It must see and hear you. If the beast's Intelligence is 4 or higher, the spell fails. Otherwise, the beast must succeed on a wisdom saving throw or be charmed by you for the spell's duration. If you or one of your companions harms the target, the spells ends.
+duration: 24 hours
+higher_level: []
+index: animal-friendship
+level: 1
+material: A morsel of food.
+name: Animal Friendship
+range: 30 feet
+ref: spells/animal-friendship.yaml
+ritual: false
+school:
+  index: enchantment
+  name: Enchantment
+  ref: magic-schools/enchantment.yaml
+subclasses: []
+updated_at: "2025-10-24T20:42:14.619Z"

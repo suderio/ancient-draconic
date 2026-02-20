@@ -1,0 +1,18 @@
+class:
+  index: warlock
+  name: Warlock
+  ref: classes/warlock.yaml
+desc:
+  - When you cast eldritch blast, its range is 300 feet.
+index: eldritch-invocation-eldritch-spear
+level: 2
+name: 'Eldritch Invocation: Eldritch Spear'
+parent:
+  index: eldritch-invocations
+  name: Eldritch Invocations
+  ref: features/eldritch-invocations.yaml
+prerequisites:
+  - spell: spells/eldritch-blast.yaml
+    type: spell
+ref: features/eldritch-invocation-eldritch-spear.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

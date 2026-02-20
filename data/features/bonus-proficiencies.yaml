@@ -1,0 +1,16 @@
+class:
+  index: bard
+  name: Bard
+  ref: classes/bard.yaml
+desc:
+  - When you join the College of Lore at 3rd level, you gain proficiency with three skills of your choice.
+index: bonus-proficiencies
+level: 3
+name: Bonus Proficiencies
+prerequisites: []
+ref: features/bonus-proficiencies.yaml
+subclass:
+  index: lore
+  name: Lore
+  ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

@@ -1,0 +1,15 @@
+desc:
+  - Wondrous item, uncommon
+  - While wearing this helm, you can use an action to cast the comprehend languages spell from it at will.
+equipment_category:
+  index: wondrous-items
+  name: Wondrous Items
+  ref: equipment-categories/wondrous-items.yaml
+index: helm-of-comprehending-languages
+name: Helm of Comprehending Languages
+rarity:
+  name: Uncommon
+ref: magic-items/helm-of-comprehending-languages.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants: []

@@ -1,0 +1,21 @@
+contents: []
+cost:
+  quantity: 1
+  unit: gp
+desc: []
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: ammunition
+  name: Ammunition
+  ref: equipment-categories/ammunition.yaml
+index: arrow
+name: Arrow
+properties: []
+quantity: 20
+ref: equipment/arrow.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 1

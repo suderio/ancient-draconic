@@ -1,0 +1,22 @@
+armor_category: Light
+armor_class:
+  base: 12
+  dex_bonus: true
+contents: []
+cost:
+  quantity: 45
+  unit: gp
+desc: []
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: studded-leather-armor
+name: Studded Leather Armor
+properties: []
+ref: equipment/studded-leather-armor.yaml
+special: []
+stealth_disadvantage: false
+str_minimum: 0
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 13

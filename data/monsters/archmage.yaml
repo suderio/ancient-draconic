@@ -1,0 +1,211 @@
+actions:
+  - actions: []
+    attack_bonus: 6
+    damage:
+      - damage_dice: 1d4+2
+        damage_type:
+          index: piercing
+          name: Piercing
+          ref: damage-types/piercing.yaml
+    desc: 'Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage.'
+    name: Dagger
+alignment: any alignment
+armor_class:
+  - type: dex
+    value: 12
+  - spell:
+      index: mage-armor
+      name: Mage Armor
+      ref: spells/mage-armor.yaml
+    type: spell
+    value: 15
+challenge_rating: 12
+charisma: 16
+condition_immunities: []
+constitution: 12
+damage_immunities: []
+damage_resistances:
+  - damage from spells
+  - bludgeoning, piercing, and slashing from nonmagical attacks (from stoneskin)
+damage_vulnerabilities: []
+desc: "Archmages are powerful (and usually quite old) spellcasters dedicated to the study of the arcane arts. Benevolent ones counsel kings and queens, while evil ones rule as tyrants and pursue lichdom. Those who are neither good nor evil sequester themselves in remote towers to practice their magic without interruption. \n\nAn archmage typically has one or more apprentice mages, and an archmage’s abode has numerous magical wards and guardians to discourage interlopers."
+dexterity: 14
+forms: []
+hit_dice: 18d8
+hit_points: 99
+hit_points_roll: 18d8+18
+image: images/monsters/archmage.png
+index: archmage
+intelligence: 20
+languages: any six languages
+legendary_actions: []
+name: Archmage
+proficiencies:
+  - proficiency:
+      index: saving-throw-int
+      name: 'Saving Throw: INT'
+      ref: proficiencies/saving-throw-int.yaml
+    value: 9
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 6
+  - proficiency:
+      index: skill-arcana
+      name: 'Skill: Arcana'
+      ref: proficiencies/skill-arcana.yaml
+    value: 13
+  - proficiency:
+      index: skill-history
+      name: 'Skill: History'
+      ref: proficiencies/skill-history.yaml
+    value: 13
+proficiency_bonus: 4
+reactions: []
+ref: monsters/archmage.yaml
+senses:
+  passive_perception: 12
+size: Medium
+special_abilities:
+  - damage: []
+    desc: The archmage has advantage on saving throws against spells and other magical effects.
+    name: Magic Resistance
+  - damage: []
+    desc: |-
+      The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared:
+
+      - Cantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp
+      - 1st level (4 slots): detect magic, identify, mage armor*, magic missile
+      - 2nd level (3 slots): detect thoughts, mirror image, misty step
+      - 3rd level (3 slots): counterspell, fly, lightning bolt
+      - 4th level (3 slots): banishment, fire shield, stoneskin*
+      - 5th level (3 slots): cone of cold, scrying, wall of force
+      - 6th level (1 slot): globe of invulnerability
+      - 7th level (1 slot): teleport
+      - 8th level (1 slot): mind blank*
+      - 9th level (1 slot): time stop
+      * The archmage casts these spells on itself before combat.
+    name: Spellcasting
+    spellcasting:
+      ability:
+        index: int
+        name: INT
+        ref: ability-scores/int.yaml
+      components_required:
+        - V
+        - S
+        - M
+      dc: 17
+      level: 18
+      modifier: 9
+      school: wizard
+      slots:
+        "1": 4
+        "2": 3
+        "3": 3
+        "4": 3
+        "5": 3
+        "6": 1
+        "7": 1
+        "8": 1
+        "9": 1
+      spells:
+        - level: 1
+          name: Disguise Self
+          ref: spells/disguise-self.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 2
+          name: Invisibility
+          ref: spells/invisibility.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 0
+          name: Fire Bolt
+          ref: spells/fire-bolt.yaml
+        - level: 0
+          name: Light
+          ref: spells/light.yaml
+        - level: 0
+          name: Mage Hand
+          ref: spells/mage-hand.yaml
+        - level: 0
+          name: Prestidigitation
+          ref: spells/prestidigitation.yaml
+        - level: 0
+          name: Shocking Grasp
+          ref: spells/shocking-grasp.yaml
+        - level: 1
+          name: Detect Magic
+          ref: spells/detect-magic.yaml
+        - level: 1
+          name: Identify
+          ref: spells/identify.yaml
+        - level: 1
+          name: Mage Armor
+          notes: Cast on self before combat
+          ref: spells/mage-armor.yaml
+        - level: 1
+          name: Magic Missile
+          ref: spells/magic-missile.yaml
+        - level: 2
+          name: Detect Thoughts
+          ref: spells/detect-thoughts.yaml
+        - level: 2
+          name: Mirror Image
+          ref: spells/mirror-image.yaml
+        - level: 2
+          name: Misty Step
+          ref: spells/misty-step.yaml
+        - level: 3
+          name: Counterspell
+          ref: spells/counterspell.yaml
+        - level: 3
+          name: Fly
+          ref: spells/fly.yaml
+        - level: 3
+          name: Lightning Bolt
+          ref: spells/lightning-bolt.yaml
+        - level: 4
+          name: Banishment
+          ref: spells/banishment.yaml
+        - level: 4
+          name: Fire Shield
+          ref: spells/fire-shield.yaml
+        - level: 4
+          name: Stoneskin
+          notes: Cast on self before combat
+          ref: spells/stoneskin.yaml
+        - level: 5
+          name: Cone of Cold
+          ref: spells/cone-of-cold.yaml
+        - level: 5
+          name: Scrying
+          ref: spells/scrying.yaml
+        - level: 5
+          name: Wall of Force
+          ref: spells/wall-of-force.yaml
+        - level: 6
+          name: Globe of Invulnerability
+          ref: spells/globe-of-invulnerability.yaml
+        - level: 7
+          name: Teleport
+          ref: spells/teleport.yaml
+        - level: 8
+          name: Mind Blank
+          notes: Cast on self before combat
+          ref: spells/mind-blank.yaml
+        - level: 9
+          name: Time Stop
+          ref: spells/time-stop.yaml
+speed:
+  walk: 30 ft.
+strength: 10
+subtype: any race
+type: humanoid
+updated_at: "2025-10-24T20:42:13.741Z"
+wisdom: 15
+xp: 8400

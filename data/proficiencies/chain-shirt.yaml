@@ -1,0 +1,11 @@
+classes: []
+index: chain-shirt
+name: Chain Shirt
+races: []
+ref: proficiencies/chain-shirt.yaml
+reference:
+  index: chain-shirt
+  name: Chain Shirt
+  ref: equipment/chain-shirt.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

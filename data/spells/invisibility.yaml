@@ -1,0 +1,43 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: warlock
+    name: Warlock
+    ref: classes/warlock.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: true
+desc:
+  - A creature you touch becomes invisible until the spell ends. Anything the target is wearing or carrying is invisible as long as it is on the target's person. The spell ends for a target that attacks or casts a spell.
+duration: Up to 1 hour
+higher_level:
+  - When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.
+index: invisibility
+level: 2
+material: An eyelash encased in gum arabic.
+name: Invisibility
+range: Touch
+ref: spells/invisibility.yaml
+ritual: false
+school:
+  index: illusion
+  name: Illusion
+  ref: magic-schools/illusion.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

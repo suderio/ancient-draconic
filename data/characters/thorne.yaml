@@ -1,0 +1,52 @@
+name: Thorne Ironwill
+index: thorne-ironwill
+type: humanoid
+size: Medium
+alignment: Neutral Good
+hit_points: 12
+hit_dice: 1d10
+hit_points_roll: 1d10+2
+proficiency_bonus: 2
+armor_class:
+  - type: heavy
+    value: 16
+    ref: equipment/chain-mail.yaml
+strength: 16
+dexterity: 12
+constitution: 14
+intelligence: 10
+wisdom: 12
+charisma: 8
+proficiencies:
+  - proficiency:
+      index: saving-throw-str
+      name: 'Saving Throw: STR'
+      ref: proficiencies/saving-throw-str.yaml
+    value: 5
+  - proficiency:
+      index: saving-throw-con
+      name: 'Saving Throw: CON'
+      ref: proficiencies/saving-throw-con.yaml
+    value: 4
+  - proficiency:
+      index: skill-athletics
+      name: 'Skill: Athletics'
+      ref: proficiencies/skill-athletics.yaml
+    value: 5
+actions:
+  - name: Longsword
+    attack_bonus: 5
+    damage:
+      - damage_dice: 1d8+3
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+    desc: 'Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage.'
+special_abilities:
+  - name: Second Wind
+    desc: You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.
+    usage:
+      type: per rest
+      value: 1
+updated_at: "2026-02-20T11:57:15Z"

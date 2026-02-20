@@ -1,0 +1,23 @@
+equipment:
+  - index: galley
+    name: Galley
+    ref: equipment/galley.yaml
+  - index: keelboat
+    name: Keelboat
+    ref: equipment/keelboat.yaml
+  - index: longship
+    name: Longship
+    ref: equipment/longship.yaml
+  - index: rowboat
+    name: Rowboat
+    ref: equipment/rowboat.yaml
+  - index: sailing-ship
+    name: Sailing ship
+    ref: equipment/sailing-ship.yaml
+  - index: warship
+    name: Warship
+    ref: equipment/warship.yaml
+index: waterborne-vehicles
+name: Waterborne Vehicles
+ref: equipment-categories/waterborne-vehicles.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

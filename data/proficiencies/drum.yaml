@@ -1,0 +1,11 @@
+classes: []
+index: drum
+name: Drum
+races: []
+ref: proficiencies/drum.yaml
+reference:
+  index: drum
+  name: Drum
+  ref: equipment/drum.yaml
+type: Musical Instruments
+updated_at: "2025-10-24T20:42:14.116Z"

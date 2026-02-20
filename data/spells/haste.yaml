@@ -1,0 +1,37 @@
+casting_time: 1 action
+classes:
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: true
+desc:
+  - Choose a willing creature that you can see within range. Until the spell ends, the target's speed is doubled, it gains a +2 bonus to AC, it has advantage on dexterity saving throws, and it gains an additional action on each of its turns. That action can be used only to take the Attack (one weapon attack only), Dash, Disengage, Hide, or Use an Object action.
+  - When the spell ends, the target can't move or take actions until after its next turn, as a wave of lethargy sweeps over it.
+duration: Up to 1 minute
+higher_level: []
+index: haste
+level: 3
+material: A shaving of licorice root.
+name: Haste
+range: 30 feet
+ref: spells/haste.yaml
+ritual: false
+school:
+  index: transmutation
+  name: Transmutation
+  ref: magic-schools/transmutation.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

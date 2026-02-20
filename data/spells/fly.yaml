@@ -1,0 +1,37 @@
+casting_time: 1 action
+classes:
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: warlock
+    name: Warlock
+    ref: classes/warlock.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: true
+desc:
+  - You touch a willing creature. The target gains a flying speed of 60 feet for the duration. When the spell ends, the target falls if it is still aloft, unless it can stop the fall.
+duration: Up to 10 minutes
+higher_level:
+  - When you cast this spell using a spell slot of 4th level or higher, you can target one additional creature for each slot level above 3rd.
+index: fly
+level: 3
+material: A wing feather from any bird.
+name: Fly
+range: Touch
+ref: spells/fly.yaml
+ritual: false
+school:
+  index: transmutation
+  name: Transmutation
+  ref: magic-schools/transmutation.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

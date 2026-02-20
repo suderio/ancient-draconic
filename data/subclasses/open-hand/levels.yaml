@@ -1,0 +1,64 @@
+- class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  features:
+    - index: open-hand-technique
+      name: Open Hand Technique
+      ref: features/open-hand-technique.yaml
+  index: open-hand-3
+  level: 3
+  ref: subclasses/open-hand/levels/3.yaml
+  subclass:
+    index: open-hand
+    name: Open Hand
+    ref: subclasses/open-hand.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  features:
+    - index: wholeness-of-body
+      name: Wholeness of Body
+      ref: features/wholeness-of-body.yaml
+  index: open-hand-6
+  level: 6
+  ref: subclasses/open-hand/levels/6.yaml
+  subclass:
+    index: open-hand
+    name: Open Hand
+    ref: subclasses/open-hand.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  features:
+    - index: tranquility
+      name: Tranquility
+      ref: features/tranquility.yaml
+  index: open-hand-11
+  level: 11
+  ref: subclasses/open-hand/levels/11.yaml
+  subclass:
+    index: open-hand
+    name: Open Hand
+    ref: subclasses/open-hand.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  features:
+    - index: quivering-palm
+      name: Quivering Palm
+      ref: features/quivering-palm.yaml
+  index: open-hand-17
+  level: 17
+  ref: subclasses/open-hand/levels/17.yaml
+  subclass:
+    index: open-hand
+    name: Open Hand
+    ref: subclasses/open-hand.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"

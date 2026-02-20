@@ -1,0 +1,69 @@
+desc:
+  - You have draconic ancestry. Choose one type of dragon from the Draconic Ancestry table. Your breath weapon and damage resistance are determined by the dragon type, as shown in the table.
+index: draconic-ancestry
+name: Draconic Ancestry
+proficiencies: []
+races:
+  - index: dragonborn
+    name: Dragonborn
+    ref: races/dragonborn.yaml
+ref: traits/draconic-ancestry.yaml
+subraces: []
+trait_specific:
+  subtrait_options:
+    choose: 1
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: draconic-ancestry-black
+            name: Draconic Ancestry (Black)
+            ref: traits/draconic-ancestry-black.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-blue
+            name: Draconic Ancestry (Blue)
+            ref: traits/draconic-ancestry-blue.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-brass
+            name: Draconic Ancestry (Brass)
+            ref: traits/draconic-ancestry-brass.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-bronze
+            name: Draconic Ancestry (Bronze)
+            ref: traits/draconic-ancestry-bronze.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-copper
+            name: Draconic Ancestry (Copper)
+            ref: traits/draconic-ancestry-copper.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-gold
+            name: Draconic Ancestry (Gold)
+            ref: traits/draconic-ancestry-gold.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-green
+            name: Draconic Ancestry (Green)
+            ref: traits/draconic-ancestry-green.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-red
+            name: Draconic Ancestry (Red)
+            ref: traits/draconic-ancestry-red.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-silver
+            name: Draconic Ancestry (Silver)
+            ref: traits/draconic-ancestry-silver.yaml
+          option_type: reference
+        - item:
+            index: draconic-ancestry-white
+            name: Draconic Ancestry (White)
+            ref: traits/draconic-ancestry-white.yaml
+          option_type: reference
+    type: trait
+updated_at: "2025-10-24T20:42:14.945Z"

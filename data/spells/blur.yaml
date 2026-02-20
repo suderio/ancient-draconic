@@ -1,0 +1,33 @@
+casting_time: 1 action
+classes:
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+concentration: true
+desc:
+  - Your body becomes blurred, shifting and wavering to all who can see you. For the duration, any creature has disadvantage on attack rolls against you. An attacker is immune to this effect if it doesn't rely on sight, as with blindsight, or can see through illusions, as with truesight.
+duration: Up to 1 minute
+higher_level: []
+index: blur
+level: 2
+name: Blur
+range: Self
+ref: spells/blur.yaml
+ritual: false
+school:
+  index: illusion
+  name: Illusion
+  ref: magic-schools/illusion.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

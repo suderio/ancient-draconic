@@ -1,0 +1,36 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - For the duration of the spell, you see invisible creatures and objects as if they were visible, and you can see through Ethereal. The ethereal objects and creatures appear ghostly translucent.
+duration: 1 hour
+higher_level: []
+index: see-invisibility
+level: 2
+material: A dash of talc and a small amount of silver powder.
+name: See Invisibility
+range: Self
+ref: spells/see-invisibility.yaml
+ritual: false
+school:
+  index: divination
+  name: Divination
+  ref: magic-schools/divination.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

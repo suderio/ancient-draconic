@@ -1,0 +1,13 @@
+class:
+  index: sorcerer
+  name: Sorcerer
+  ref: classes/sorcerer.yaml
+desc:
+  - Choose a sorcerous origin, which describes the source of your innate magical power, such as Draconic Bloodline.
+  - Your choice grants you features when you choose it at 1st level and again at 6th, 14th, and 18th level.
+index: sorcerous-origin
+level: 1
+name: Sorcerous Origin
+prerequisites: []
+ref: features/sorcerous-origin.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

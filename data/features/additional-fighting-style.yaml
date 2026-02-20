@@ -1,0 +1,54 @@
+class:
+  index: fighter
+  name: Fighter
+  ref: classes/fighter.yaml
+desc:
+  - At 10th level, you can choose a second option from the Fighting Style class feature.
+feature_specific:
+  invocations: []
+  subfeature_options:
+    choose: 1
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: fighter-fighting-style-archery
+            name: 'Fighting Style: Archery'
+            ref: features/fighter-fighting-style-archery.yaml
+          option_type: reference
+        - item:
+            index: fighter-fighting-style-defense
+            name: 'Fighting Style: Defense'
+            ref: features/fighter-fighting-style-defense.yaml
+          option_type: reference
+        - item:
+            index: fighter-fighting-style-dueling
+            name: 'Fighting Style: Dueling'
+            ref: features/fighter-fighting-style-dueling.yaml
+          option_type: reference
+        - item:
+            index: fighter-fighting-style-great-weapon-fighting
+            name: 'Fighting Style: Great Weapon Fighting'
+            ref: features/fighter-fighting-style-great-weapon-fighting.yaml
+          option_type: reference
+        - item:
+            index: fighter-fighting-style-protection
+            name: 'Fighting Style: Protection'
+            ref: features/fighter-fighting-style-protection.yaml
+          option_type: reference
+        - item:
+            index: fighter-fighting-style-two-weapon-fighting
+            name: 'Fighting Style: Two-Weapon Fighting'
+            ref: features/fighter-fighting-style-two-weapon-fighting.yaml
+          option_type: reference
+    type: feature
+index: additional-fighting-style
+level: 10
+name: Additional Fighting Style
+prerequisites: []
+ref: features/additional-fighting-style.yaml
+subclass:
+  index: champion
+  name: Champion
+  ref: subclasses/champion.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

@@ -1,0 +1,43 @@
+casting_time: 1 action
+classes:
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  - index: warlock
+    name: Warlock
+    ref: classes/warlock.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: true
+desc:
+  - 'Until the spell ends, one willing creature you touch is protected against certain types of creatures: aberrations, celestials, elementals, fey, fiends, and undead.'
+  - The protection grants several benefits. Creatures of those types have disadvantage on attack rolls against the target. The target also can't be charmed, frightened, or possessed by them. If the target is already charmed, frightened, or possessed by such a creature, the target has advantage on any new saving throw against the relevant effect.
+duration: Up to 10 minutes
+higher_level: []
+index: protection-from-evil-and-good
+level: 1
+material: Holy water or powdered silver and iron, which the spell consumes.
+name: Protection from Evil and Good
+range: Touch
+ref: spells/protection-from-evil-and-good.yaml
+ritual: false
+school:
+  index: abjuration
+  name: Abjuration
+  ref: magic-schools/abjuration.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

@@ -1,0 +1,194 @@
+equipment:
+  - index: mule
+    name: Mule
+    ref: equipment/mule.yaml
+  - index: elephant
+    name: Elephant
+    ref: equipment/elephant.yaml
+  - index: horse-draft
+    name: Horse, draft
+    ref: equipment/horse-draft.yaml
+  - index: horse-riding
+    name: Horse, riding
+    ref: equipment/horse-riding.yaml
+  - index: mastiff
+    name: Mastiff
+    ref: equipment/mastiff.yaml
+  - index: pony
+    name: Pony
+    ref: equipment/pony.yaml
+  - index: warhorse
+    name: Warhorse
+    ref: equipment/warhorse.yaml
+  - index: barding-padded
+    name: 'Barding: Padded'
+    ref: equipment/barding-padded.yaml
+  - index: barding-leather
+    name: 'Barding: Leather'
+    ref: equipment/barding-leather.yaml
+  - index: barding-studded-leather
+    name: 'Barding: Studded Leather'
+    ref: equipment/barding-studded-leather.yaml
+  - index: barding-hide
+    name: 'Barding: Hide'
+    ref: equipment/barding-hide.yaml
+  - index: barding-chain-shirt
+    name: 'Barding: Chain shirt'
+    ref: equipment/barding-chain-shirt.yaml
+  - index: barding-scale-mail
+    name: 'Barding: Scale mail'
+    ref: equipment/barding-scale-mail.yaml
+  - index: barding-breastplate
+    name: 'Barding: Breastplate'
+    ref: equipment/barding-breastplate.yaml
+  - index: barding-half-plate
+    name: 'Barding: Half plate'
+    ref: equipment/barding-half-plate.yaml
+  - index: barding-ring-mail
+    name: 'Barding: Ring mail'
+    ref: equipment/barding-ring-mail.yaml
+  - index: barding-chain-mail
+    name: 'Barding: Chain mail'
+    ref: equipment/barding-chain-mail.yaml
+  - index: barding-splint
+    name: 'Barding: Splint'
+    ref: equipment/barding-splint.yaml
+  - index: barding-plate
+    name: 'Barding: Plate'
+    ref: equipment/barding-plate.yaml
+  - index: bit-and-bridle
+    name: Bit and bridle
+    ref: equipment/bit-and-bridle.yaml
+  - index: carriage
+    name: Carriage
+    ref: equipment/carriage.yaml
+  - index: cart
+    name: Cart
+    ref: equipment/cart.yaml
+  - index: chariot
+    name: Chariot
+    ref: equipment/chariot.yaml
+  - index: animal-feed-1-day
+    name: Animal Feed (1 day)
+    ref: equipment/animal-feed-1-day.yaml
+  - index: saddle-exotic
+    name: Saddle, Exotic
+    ref: equipment/saddle-exotic.yaml
+  - index: saddle-military
+    name: Saddle, Military
+    ref: equipment/saddle-military.yaml
+  - index: saddle-pack
+    name: Saddle, Pack
+    ref: equipment/saddle-pack.yaml
+  - index: saddle-riding
+    name: Saddle, Riding
+    ref: equipment/saddle-riding.yaml
+  - index: saddlebags
+    name: Saddlebags
+    ref: equipment/saddlebags.yaml
+  - index: sled
+    name: Sled
+    ref: equipment/sled.yaml
+  - index: stabling-1-day
+    name: Stabling (1 day)
+    ref: equipment/stabling-1-day.yaml
+  - index: wagon
+    name: Wagon
+    ref: equipment/wagon.yaml
+  - index: barding-padded
+    name: 'Barding: Padded'
+    ref: equipment/barding-padded.yaml
+  - index: barding-leather
+    name: 'Barding: Leather'
+    ref: equipment/barding-leather.yaml
+  - index: barding-studded-leather
+    name: 'Barding: Studded Leather'
+    ref: equipment/barding-studded-leather.yaml
+  - index: barding-hide
+    name: 'Barding: Hide'
+    ref: equipment/barding-hide.yaml
+  - index: barding-chain-shirt
+    name: 'Barding: Chain shirt'
+    ref: equipment/barding-chain-shirt.yaml
+  - index: barding-scale-mail
+    name: 'Barding: Scale mail'
+    ref: equipment/barding-scale-mail.yaml
+  - index: barding-breastplate
+    name: 'Barding: Breastplate'
+    ref: equipment/barding-breastplate.yaml
+  - index: barding-half-plate
+    name: 'Barding: Half plate'
+    ref: equipment/barding-half-plate.yaml
+  - index: barding-ring-mail
+    name: 'Barding: Ring mail'
+    ref: equipment/barding-ring-mail.yaml
+  - index: barding-chain-mail
+    name: 'Barding: Chain mail'
+    ref: equipment/barding-chain-mail.yaml
+  - index: barding-splint
+    name: 'Barding: Splint'
+    ref: equipment/barding-splint.yaml
+  - index: barding-plate
+    name: 'Barding: Plate'
+    ref: equipment/barding-plate.yaml
+  - index: bit-and-bridle
+    name: Bit and bridle
+    ref: equipment/bit-and-bridle.yaml
+  - index: carriage
+    name: Carriage
+    ref: equipment/carriage.yaml
+  - index: cart
+    name: Cart
+    ref: equipment/cart.yaml
+  - index: chariot
+    name: Chariot
+    ref: equipment/chariot.yaml
+  - index: animal-feed-1-day
+    name: Animal Feed (1 day)
+    ref: equipment/animal-feed-1-day.yaml
+  - index: saddle-exotic
+    name: Saddle, Exotic
+    ref: equipment/saddle-exotic.yaml
+  - index: saddle-military
+    name: Saddle, Military
+    ref: equipment/saddle-military.yaml
+  - index: saddle-pack
+    name: Saddle, Pack
+    ref: equipment/saddle-pack.yaml
+  - index: saddle-riding
+    name: Saddle, Riding
+    ref: equipment/saddle-riding.yaml
+  - index: saddlebags
+    name: Saddlebags
+    ref: equipment/saddlebags.yaml
+  - index: sled
+    name: Sled
+    ref: equipment/sled.yaml
+  - index: stabling-1-day
+    name: Stabling (1 day)
+    ref: equipment/stabling-1-day.yaml
+  - index: wagon
+    name: Wagon
+    ref: equipment/wagon.yaml
+  - index: galley
+    name: Galley
+    ref: equipment/galley.yaml
+  - index: keelboat
+    name: Keelboat
+    ref: equipment/keelboat.yaml
+  - index: longship
+    name: Longship
+    ref: equipment/longship.yaml
+  - index: rowboat
+    name: Rowboat
+    ref: equipment/rowboat.yaml
+  - index: sailing-ship
+    name: Sailing ship
+    ref: equipment/sailing-ship.yaml
+  - index: warship
+    name: Warship
+    ref: equipment/warship.yaml
+index: mounts-and-vehicles
+name: Mounts and Vehicles
+ref: equipment-categories/mounts-and-vehicles.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

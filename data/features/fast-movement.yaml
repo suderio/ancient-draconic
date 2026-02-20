@@ -1,0 +1,12 @@
+class:
+  index: barbarian
+  name: Barbarian
+  ref: classes/barbarian.yaml
+desc:
+  - Starting at 5th level, your speed increases by 10 feet while you aren't wearing heavy armor.
+index: fast-movement
+level: 5
+name: Fast Movement
+prerequisites: []
+ref: features/fast-movement.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

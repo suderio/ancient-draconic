@@ -1,0 +1,64 @@
+contents:
+  - item:
+      index: backpack
+      name: Backpack
+      ref: equipment/backpack.yaml
+    quantity: 1
+  - item:
+      index: crowbar
+      name: Crowbar
+      ref: equipment/crowbar.yaml
+    quantity: 1
+  - item:
+      index: hammer
+      name: Hammer
+      ref: equipment/hammer.yaml
+    quantity: 1
+  - item:
+      index: piton
+      name: Piton
+      ref: equipment/piton.yaml
+    quantity: 10
+  - item:
+      index: torch
+      name: Torch
+      ref: equipment/torch.yaml
+    quantity: 10
+  - item:
+      index: tinderbox
+      name: Tinderbox
+      ref: equipment/tinderbox.yaml
+    quantity: 1
+  - item:
+      index: rations-1-day
+      name: Rations (1 day)
+      ref: equipment/rations-1-day.yaml
+    quantity: 10
+  - item:
+      index: waterskin
+      name: Waterskin
+      ref: equipment/waterskin.yaml
+    quantity: 1
+  - item:
+      index: rope-hempen-50-feet
+      name: Rope, hempen (50 feet)
+      ref: equipment/rope-hempen-50-feet.yaml
+    quantity: 1
+cost:
+  quantity: 12
+  unit: gp
+desc: []
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: equipment-packs
+  name: Equipment Packs
+  ref: equipment-categories/equipment-packs.yaml
+index: dungeoneers-pack
+name: Dungeoneer's Pack
+properties: []
+ref: equipment/dungeoneers-pack.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"

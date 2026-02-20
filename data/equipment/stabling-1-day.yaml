@@ -1,0 +1,17 @@
+contents: []
+cost:
+  quantity: 5
+  unit: sp
+desc: []
+equipment_category:
+  index: mounts-and-vehicles
+  name: Mounts and Vehicles
+  ref: equipment-categories/mounts-and-vehicles.yaml
+index: stabling-1-day
+name: Stabling (1 day)
+properties: []
+ref: equipment/stabling-1-day.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+vehicle_category: Tack, Harness, and Drawn Vehicles
+weight: 0

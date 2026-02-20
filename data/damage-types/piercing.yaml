@@ -1,0 +1,6 @@
+desc:
+  - Puncturing and impaling attacks, including spears and monsters' bites, deal piercing damage.
+index: piercing
+name: Piercing
+ref: damage-types/piercing.yaml
+updated_at: "2025-10-24T20:42:12.729Z"

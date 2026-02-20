@@ -1,0 +1,43 @@
+attack_type: melee
+casting_time: 1 action
+classes:
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+concentration: false
+damage:
+  damage_at_character_level:
+    "1": 1d8
+    "5": 2d8
+    "11": 3d8
+    "17": 4d8
+  damage_type:
+    index: lightning
+    name: Lightning
+    ref: damage-types/lightning.yaml
+desc:
+  - Lightning springs from your hand to deliver a shock to a creature you try to touch. Make a melee spell attack against the target. You have advantage on the attack roll if the target is wearing armor made of metal. On a hit, the target takes 1d8 lightning damage, and it can't take reactions until the start of its next turn.
+  - The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).
+duration: Instantaneous
+higher_level: []
+index: shocking-grasp
+level: 0
+name: Shocking Grasp
+range: Touch
+ref: spells/shocking-grasp.yaml
+ritual: false
+school:
+  index: evocation
+  name: Evocation
+  ref: magic-schools/evocation.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

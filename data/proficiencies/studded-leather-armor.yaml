@@ -1,0 +1,11 @@
+classes: []
+index: studded-leather-armor
+name: Studded Leather Armor
+races: []
+ref: proficiencies/studded-leather-armor.yaml
+reference:
+  index: studded-leather-armor
+  name: Studded Leather Armor
+  ref: equipment/studded-leather-armor.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

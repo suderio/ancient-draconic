@@ -1,0 +1,14 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+index: herbalism-kit
+name: Herbalism Kit
+races: []
+ref: proficiencies/herbalism-kit.yaml
+reference:
+  index: herbalism-kit
+  name: Herbalism Kit
+  ref: equipment/herbalism-kit.yaml
+type: Other
+updated_at: "2025-10-24T20:42:14.116Z"

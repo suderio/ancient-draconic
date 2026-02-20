@@ -1,0 +1,14 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+index: maces
+name: Maces
+races: []
+ref: proficiencies/maces.yaml
+reference:
+  index: mace
+  name: Mace
+  ref: equipment/mace.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

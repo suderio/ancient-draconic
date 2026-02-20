@@ -1,0 +1,17 @@
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: rogue
+    name: Rogue
+    ref: classes/rogue.yaml
+index: rapiers
+name: Rapiers
+races: []
+ref: proficiencies/rapiers.yaml
+reference:
+  index: rapier
+  name: Rapier
+  ref: equipment/rapier.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

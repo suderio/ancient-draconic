@@ -1,0 +1,88 @@
+desc:
+  - You can speak, read, and write one extra language of your choice.
+index: extra-language
+language_options:
+  choose: 1
+  from:
+    option_set_type: options_array
+    options:
+      - item:
+          index: dwarvish
+          name: Dwarvish
+          ref: languages/dwarvish.yaml
+        option_type: reference
+      - item:
+          index: giant
+          name: Giant
+          ref: languages/giant.yaml
+        option_type: reference
+      - item:
+          index: gnomish
+          name: Gnomish
+          ref: languages/gnomish.yaml
+        option_type: reference
+      - item:
+          index: goblin
+          name: Goblin
+          ref: languages/goblin.yaml
+        option_type: reference
+      - item:
+          index: halfling
+          name: Halfling
+          ref: languages/halfling.yaml
+        option_type: reference
+      - item:
+          index: orc
+          name: Orc
+          ref: languages/orc.yaml
+        option_type: reference
+      - item:
+          index: abyssal
+          name: Abyssal
+          ref: languages/abyssal.yaml
+        option_type: reference
+      - item:
+          index: celestial
+          name: Celestial
+          ref: languages/celestial.yaml
+        option_type: reference
+      - item:
+          index: draconic
+          name: Draconic
+          ref: languages/draconic.yaml
+        option_type: reference
+      - item:
+          index: deep-speech
+          name: Deep Speech
+          ref: languages/deep-speech.yaml
+        option_type: reference
+      - item:
+          index: infernal
+          name: Infernal
+          ref: languages/infernal.yaml
+        option_type: reference
+      - item:
+          index: primordial
+          name: Primordial
+          ref: languages/primordial.yaml
+        option_type: reference
+      - item:
+          index: sylvan
+          name: Sylvan
+          ref: languages/sylvan.yaml
+        option_type: reference
+      - item:
+          index: undercommon
+          name: Undercommon
+          ref: languages/undercommon.yaml
+        option_type: reference
+  type: languages
+name: Extra Language
+proficiencies: []
+races: []
+ref: traits/extra-language.yaml
+subraces:
+  - index: high-elf
+    name: High Elf
+    ref: subraces/high-elf.yaml
+updated_at: "2025-10-24T20:42:14.945Z"

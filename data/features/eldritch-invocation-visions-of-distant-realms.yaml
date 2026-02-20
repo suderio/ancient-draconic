@@ -1,0 +1,18 @@
+class:
+  index: warlock
+  name: Warlock
+  ref: classes/warlock.yaml
+desc:
+  - You can cast arcane eye at will, without expending a spell slot.
+index: eldritch-invocation-visions-of-distant-realms
+level: 15
+name: 'Eldritch Invocation: Visions of Distant Realms'
+parent:
+  index: eldritch-invocations
+  name: Eldritch Invocations
+  ref: features/eldritch-invocations.yaml
+prerequisites:
+  - level: 15
+    type: level
+ref: features/eldritch-invocation-visions-of-distant-realms.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

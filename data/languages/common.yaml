@@ -1,0 +1,8 @@
+index: common
+name: Common
+ref: languages/common.yaml
+script: Common
+type: Standard
+typical_speakers:
+  - Humans
+updated_at: "2025-10-24T20:42:13.302Z"

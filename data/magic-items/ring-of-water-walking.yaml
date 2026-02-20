@@ -1,0 +1,15 @@
+desc:
+  - Ring, uncommon
+  - While wearing this ring, you can stand on and move across any liquid surface as if it were solid ground.
+equipment_category:
+  index: ring
+  name: Ring
+  ref: equipment-categories/ring.yaml
+index: ring-of-water-walking
+name: Ring of Water Walking
+rarity:
+  name: Uncommon
+ref: magic-items/ring-of-water-walking.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants: []

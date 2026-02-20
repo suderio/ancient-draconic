@@ -1,0 +1,59 @@
+equipment:
+  - index: battleaxe
+    name: Battleaxe
+    ref: equipment/battleaxe.yaml
+  - index: flail
+    name: Flail
+    ref: equipment/flail.yaml
+  - index: glaive
+    name: Glaive
+    ref: equipment/glaive.yaml
+  - index: greataxe
+    name: Greataxe
+    ref: equipment/greataxe.yaml
+  - index: greatsword
+    name: Greatsword
+    ref: equipment/greatsword.yaml
+  - index: halberd
+    name: Halberd
+    ref: equipment/halberd.yaml
+  - index: lance
+    name: Lance
+    ref: equipment/lance.yaml
+  - index: longsword
+    name: Longsword
+    ref: equipment/longsword.yaml
+  - index: maul
+    name: Maul
+    ref: equipment/maul.yaml
+  - index: morningstar
+    name: Morningstar
+    ref: equipment/morningstar.yaml
+  - index: pike
+    name: Pike
+    ref: equipment/pike.yaml
+  - index: rapier
+    name: Rapier
+    ref: equipment/rapier.yaml
+  - index: scimitar
+    name: Scimitar
+    ref: equipment/scimitar.yaml
+  - index: shortsword
+    name: Shortsword
+    ref: equipment/shortsword.yaml
+  - index: trident
+    name: Trident
+    ref: equipment/trident.yaml
+  - index: war-pick
+    name: War pick
+    ref: equipment/war-pick.yaml
+  - index: warhammer
+    name: Warhammer
+    ref: equipment/warhammer.yaml
+  - index: whip
+    name: Whip
+    ref: equipment/whip.yaml
+index: martial-melee-weapons
+name: Martial Melee Weapons
+ref: equipment-categories/martial-melee-weapons.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

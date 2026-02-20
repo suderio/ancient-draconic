@@ -1,0 +1,33 @@
+category_range: Simple Melee
+contents: []
+cost:
+  quantity: 1
+  unit: sp
+damage:
+  damage_dice: 1d4
+  damage_type:
+    index: bludgeoning
+    name: Bludgeoning
+    ref: damage-types/bludgeoning.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: club
+name: Club
+properties:
+  - index: light
+    name: Light
+    ref: weapon-properties/light.yaml
+  - index: monk
+    name: Monk
+    ref: weapon-properties/monk.yaml
+range:
+  normal: 5
+ref: equipment/club.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.925Z"
+weapon_category: Simple
+weapon_range: Melee
+weight: 2

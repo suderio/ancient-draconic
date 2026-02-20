@@ -1,0 +1,24 @@
+desc:
+  - Weapon (any), uncommon (+1), rare (+2), or very rare (+3)
+  - You have a bonus to attack and damage rolls made with this magic weapon. The bonus is determined by the weapon's rarity.
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: weapon
+name: Weapon, +1, +2, or +3
+rarity:
+  name: Varies
+ref: magic-items/weapon.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants:
+  - index: weapon-1
+    name: Weapon, +1
+    ref: magic-items/weapon-1.yaml
+  - index: weapon-2
+    name: Weapon, +2
+    ref: magic-items/weapon-2.yaml
+  - index: weapon-3
+    name: Weapon, +3
+    ref: magic-items/weapon-3.yaml

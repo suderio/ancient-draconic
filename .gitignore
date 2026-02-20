@@ -1,0 +1,14 @@
+# Binaries and build artifacts
+dndsl
+dndsl-bin
+dist/
+build/
+*.exe
+*.out
+
+# Local game sessions and logs
+worlds/
+
+# Go workspaces
+go.work
+go.work.sum

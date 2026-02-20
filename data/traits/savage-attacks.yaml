@@ -1,0 +1,12 @@
+desc:
+  - When you score a critical hit with a melee weapon attack, you can roll one of the weapon's damage dice one additional time and add it to the extra damage of the critical hit.
+index: savage-attacks
+name: Savage Attacks
+proficiencies: []
+races:
+  - index: half-orc
+    name: Half-Orc
+    ref: races/half-orc.yaml
+ref: traits/savage-attacks.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

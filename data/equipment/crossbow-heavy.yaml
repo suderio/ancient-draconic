@@ -1,0 +1,41 @@
+category_range: Martial Ranged
+contents: []
+cost:
+  quantity: 50
+  unit: gp
+damage:
+  damage_dice: 1d10
+  damage_type:
+    index: piercing
+    name: Piercing
+    ref: damage-types/piercing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+image: images/equipment/crossbow-heavy.png
+index: crossbow-heavy
+name: Crossbow, heavy
+properties:
+  - index: ammunition
+    name: Ammunition
+    ref: weapon-properties/ammunition.yaml
+  - index: heavy
+    name: Heavy
+    ref: weapon-properties/heavy.yaml
+  - index: loading
+    name: Loading
+    ref: weapon-properties/loading.yaml
+  - index: two-handed
+    name: Two-Handed
+    ref: weapon-properties/two-handed.yaml
+range:
+  long: 400
+  normal: 100
+ref: equipment/crossbow-heavy.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Martial
+weapon_range: Ranged
+weight: 18

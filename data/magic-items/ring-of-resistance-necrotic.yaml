@@ -1,0 +1,15 @@
+desc:
+  - Ring, rare (requires attunement)
+  - You have resistance to necrotic damage while wearing this jet ring.
+equipment_category:
+  index: ring
+  name: Ring
+  ref: equipment-categories/ring.yaml
+index: ring-of-resistance-necrotic
+name: Ring of Necrotic Resistance
+rarity:
+  name: Rare
+ref: magic-items/ring-of-resistance-necrotic.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

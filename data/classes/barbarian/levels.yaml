@@ -1,0 +1,369 @@
+- ability_score_bonuses: 0
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 2
+    rage_damage_bonus: 2
+  features:
+    - index: rage
+      name: Rage
+      ref: features/rage.yaml
+    - index: barbarian-unarmored-defense
+      name: Unarmored Defense
+      ref: features/barbarian-unarmored-defense.yaml
+  index: barbarian-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/barbarian/levels/1.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 2
+    rage_damage_bonus: 2
+  features:
+    - index: reckless-attack
+      name: Reckless Attack
+      ref: features/reckless-attack.yaml
+    - index: danger-sense
+      name: Danger Sense
+      ref: features/danger-sense.yaml
+  index: barbarian-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/barbarian/levels/2.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 3
+    rage_damage_bonus: 2
+  features:
+    - index: primal-path
+      name: Primal Path
+      ref: features/primal-path.yaml
+  index: barbarian-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/barbarian/levels/3.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 3
+    rage_damage_bonus: 2
+  features:
+    - index: barbarian-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/barbarian-ability-score-improvement-1.yaml
+  index: barbarian-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/barbarian/levels/4.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 3
+    rage_damage_bonus: 2
+  features:
+    - index: barbarian-extra-attack
+      name: Extra Attack
+      ref: features/barbarian-extra-attack.yaml
+    - index: fast-movement
+      name: Fast Movement
+      ref: features/fast-movement.yaml
+  index: barbarian-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/barbarian/levels/5.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 4
+    rage_damage_bonus: 2
+  features:
+    - index: primal-path-improvement-1
+      name: Path feature
+      ref: features/primal-path-improvement-1.yaml
+  index: barbarian-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/barbarian/levels/6.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 4
+    rage_damage_bonus: 2
+  features:
+    - index: feral-instinct
+      name: Feral Instinct
+      ref: features/feral-instinct.yaml
+  index: barbarian-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/barbarian/levels/7.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 0
+    rage_count: 4
+    rage_damage_bonus: 2
+  features:
+    - index: barbarian-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/barbarian-ability-score-improvement-2.yaml
+  index: barbarian-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/barbarian/levels/8.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 1
+    rage_count: 4
+    rage_damage_bonus: 3
+  features:
+    - index: brutal-critical-1-die
+      name: Brutal Critical (1 die)
+      ref: features/brutal-critical-1-die.yaml
+  index: barbarian-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/barbarian/levels/9.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 1
+    rage_count: 4
+    rage_damage_bonus: 3
+  features:
+    - index: primal-path-improvement-2
+      name: Path feature
+      ref: features/primal-path-improvement-2.yaml
+  index: barbarian-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/barbarian/levels/10.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 1
+    rage_count: 4
+    rage_damage_bonus: 3
+  features:
+    - index: relentless-rage
+      name: Relentless Rage
+      ref: features/relentless-rage.yaml
+  index: barbarian-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/barbarian/levels/11.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 1
+    rage_count: 5
+    rage_damage_bonus: 3
+  features:
+    - index: barbarian-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/barbarian-ability-score-improvement-3.yaml
+  index: barbarian-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/barbarian/levels/12.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 2
+    rage_count: 5
+    rage_damage_bonus: 3
+  features:
+    - index: brutal-critical-2-dice
+      name: Brutal Critical (2 dice)
+      ref: features/brutal-critical-2-dice.yaml
+  index: barbarian-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/barbarian/levels/13.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 2
+    rage_count: 5
+    rage_damage_bonus: 3
+  features:
+    - index: primal-path-improvement-3
+      name: Path feature
+      ref: features/primal-path-improvement-3.yaml
+  index: barbarian-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/barbarian/levels/14.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 2
+    rage_count: 5
+    rage_damage_bonus: 3
+  features:
+    - index: persistent-rage
+      name: Persistent Rage
+      ref: features/persistent-rage.yaml
+  index: barbarian-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/barbarian/levels/15.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 2
+    rage_count: 5
+    rage_damage_bonus: 4
+  features:
+    - index: barbarian-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/barbarian-ability-score-improvement-4.yaml
+  index: barbarian-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/barbarian/levels/16.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 3
+    rage_count: 6
+    rage_damage_bonus: 4
+  features:
+    - index: brutal-critical-3-dice
+      name: Brutal Critical (3 dice)
+      ref: features/brutal-critical-3-dice.yaml
+  index: barbarian-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/barbarian/levels/17.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 3
+    rage_count: 6
+    rage_damage_bonus: 4
+  features:
+    - index: indomitable-might
+      name: Indomitable Might
+      ref: features/indomitable-might.yaml
+  index: barbarian-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/barbarian/levels/18.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 3
+    rage_count: 6
+    rage_damage_bonus: 4
+  features:
+    - index: barbarian-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/barbarian-ability-score-improvement-5.yaml
+  index: barbarian-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/barbarian/levels/19.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  class_specific:
+    brutal_critical_dice: 3
+    rage_count: 9999
+    rage_damage_bonus: 4
+  features:
+    - index: primal-champion
+      name: Primal Champion
+      ref: features/primal-champion.yaml
+  index: barbarian-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/barbarian/levels/20.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"

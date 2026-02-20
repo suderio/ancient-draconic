@@ -1,0 +1,11 @@
+classes: []
+index: smiths-tools
+name: Smith's Tools
+races: []
+ref: proficiencies/smiths-tools.yaml
+reference:
+  index: smiths-tools
+  name: Smith's Tools
+  ref: equipment/smiths-tools.yaml
+type: Artisan's Tools
+updated_at: "2025-10-24T20:42:14.116Z"

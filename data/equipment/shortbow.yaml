@@ -1,0 +1,34 @@
+category_range: Simple Ranged
+contents: []
+cost:
+  quantity: 25
+  unit: gp
+damage:
+  damage_dice: 1d6
+  damage_type:
+    index: piercing
+    name: Piercing
+    ref: damage-types/piercing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: shortbow
+name: Shortbow
+properties:
+  - index: ammunition
+    name: Ammunition
+    ref: weapon-properties/ammunition.yaml
+  - index: two-handed
+    name: Two-Handed
+    ref: weapon-properties/two-handed.yaml
+range:
+  long: 320
+  normal: 80
+ref: equipment/shortbow.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Simple
+weapon_range: Ranged
+weight: 2

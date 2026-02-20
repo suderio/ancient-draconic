@@ -1,0 +1,27 @@
+category_range: Martial Melee
+contents: []
+cost:
+  quantity: 10
+  unit: gp
+damage:
+  damage_dice: 1d8
+  damage_type:
+    index: bludgeoning
+    name: Bludgeoning
+    ref: damage-types/bludgeoning.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: flail
+name: Flail
+properties: []
+range:
+  normal: 5
+ref: equipment/flail.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Martial
+weapon_range: Melee
+weight: 2

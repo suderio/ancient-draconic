@@ -1,0 +1,197 @@
+actions:
+  - action_options:
+      choose: 1
+      from:
+        option_set_type: options_array
+        options:
+          - action_name: Glaive
+            count: 2
+            option_type: action
+            type: melee
+          - action_name: Claw
+            count: 2
+            desc: If in Oni form
+            option_type: action
+            type: melee
+          - desc: If in Oni form
+            items:
+              - action_name: Glaive
+                count: 1
+                option_type: action
+                type: melee
+              - action_name: Claw
+                count: 1
+                option_type: action
+                type: melee
+            option_type: multiple
+      type: action
+    actions: []
+    damage: []
+    desc: The oni makes two attacks, either with its claws or its glaive.
+    multiattack_type: action_options
+    name: Multiattack
+  - actions: []
+    attack_bonus: 7
+    damage:
+      - damage_dice: 1d8+4
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+    desc: 'Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) slashing damage.'
+    name: Claw (Oni Form Only)
+  - actions: []
+    attack_bonus: 7
+    damage:
+      - damage_dice: 2d10+4
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+    desc: 'Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 15 (2d10 + 4) slashing damage, or 9 (1d10 + 4) slashing damage in Small or Medium form.'
+    name: Glaive
+  - actions: []
+    damage: []
+    desc: The oni magically polymorphs into a Small or Medium humanoid, into a Large giant, or back into its true form. Other than its size, its statistics are the same in each form. The only equipment that is transformed is its glaive, which shrinks so that it can be wielded in humanoid form. If the oni dies, it reverts to its true form, and its glaive reverts to its normal size.
+    name: Change Shape
+alignment: lawful evil
+armor_class:
+  - armor:
+      - index: chain-mail
+        name: Chain Mail
+        ref: equipment/chain-mail.yaml
+    type: armor
+    value: 16
+challenge_rating: 7
+charisma: 15
+condition_immunities: []
+constitution: 16
+damage_immunities: []
+damage_resistances: []
+damage_vulnerabilities: []
+dexterity: 11
+forms: []
+hit_dice: 13d10
+hit_points: 110
+hit_points_roll: 13d10+39
+image: images/monsters/oni.png
+index: oni
+intelligence: 14
+languages: Common, Giant
+legendary_actions: []
+name: Oni
+proficiencies:
+  - proficiency:
+      index: saving-throw-dex
+      name: 'Saving Throw: DEX'
+      ref: proficiencies/saving-throw-dex.yaml
+    value: 3
+  - proficiency:
+      index: saving-throw-con
+      name: 'Saving Throw: CON'
+      ref: proficiencies/saving-throw-con.yaml
+    value: 6
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 4
+  - proficiency:
+      index: saving-throw-cha
+      name: 'Saving Throw: CHA'
+      ref: proficiencies/saving-throw-cha.yaml
+    value: 5
+  - proficiency:
+      index: skill-arcana
+      name: 'Skill: Arcana'
+      ref: proficiencies/skill-arcana.yaml
+    value: 5
+  - proficiency:
+      index: skill-deception
+      name: 'Skill: Deception'
+      ref: proficiencies/skill-deception.yaml
+    value: 8
+  - proficiency:
+      index: skill-perception
+      name: 'Skill: Perception'
+      ref: proficiencies/skill-perception.yaml
+    value: 4
+proficiency_bonus: 3
+reactions: []
+ref: monsters/oni.yaml
+senses:
+  darkvision: 60 ft.
+  passive_perception: 14
+size: Large
+special_abilities:
+  - damage: []
+    desc: |-
+      The oni's innate spellcasting ability is Charisma (spell save DC 13). The oni can innately cast the following spells, requiring no material components:
+
+      At will: darkness, invisibility
+      1/day each: charm person, cone of cold, gaseous form, sleep
+    name: Innate Spellcasting
+    spellcasting:
+      ability:
+        index: cha
+        name: CHA
+        ref: ability-scores/cha.yaml
+      components_required:
+        - V
+        - S
+      dc: 13
+      spells:
+        - level: 2
+          name: Darkness
+          ref: spells/darkness.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 2
+          name: Invisibility
+          ref: spells/invisibility.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 1
+          name: Charm Person
+          ref: spells/charm-person.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 5
+          name: Cone of Cold
+          ref: spells/cone-of-cold.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 3
+          name: Gaseous Form
+          ref: spells/gaseous-form.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+        - level: 1
+          name: Sleep
+          ref: spells/sleep.yaml
+          usage:
+            rest_types: []
+            times: 1
+            type: per day
+  - damage: []
+    desc: The oni's weapon attacks are magical.
+    name: Magic Weapons
+  - damage: []
+    desc: The oni regains 10 hit points at the start of its turn if it has at least 1 hit point.
+    name: Regeneration
+speed:
+  fly: 30 ft.
+  walk: 30 ft.
+strength: 19
+type: giant
+updated_at: "2025-10-24T20:42:13.742Z"
+wisdom: 12
+xp: 2900

@@ -1,0 +1,11 @@
+classes: []
+index: tinkers-tools
+name: Tinker's Tools
+races: []
+ref: proficiencies/tinkers-tools.yaml
+reference:
+  index: tinkers-tools
+  name: Tinker's Tools
+  ref: equipment/tinkers-tools.yaml
+type: Artisan's Tools
+updated_at: "2025-10-24T20:42:14.116Z"

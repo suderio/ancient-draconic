@@ -1,0 +1,11 @@
+classes: []
+index: splint-armor
+name: Splint Armor
+races: []
+ref: proficiencies/splint-armor.yaml
+reference:
+  index: splint-armor
+  name: Splint Armor
+  ref: equipment/splint-armor.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

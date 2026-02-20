@@ -1,0 +1,53 @@
+name: Elara Shadowstep
+index: elara-shadowstep
+type: humanoid
+size: Medium
+alignment: Chaotic Neutral
+hit_points: 9
+hit_dice: 1d8
+hit_points_roll: 1d8+1
+proficiency_bonus: 2
+armor_class:
+  - type: dex
+    value: 14
+    ref: equipment/leather-armor.yaml
+strength: 8
+dexterity: 16
+constitution: 12
+intelligence: 14
+wisdom: 10
+charisma: 14
+proficiencies:
+  - proficiency:
+      index: saving-throw-dex
+      name: 'Saving Throw: DEX'
+      ref: proficiencies/saving-throw-dex.yaml
+    value: 5
+  - proficiency:
+      index: skill-stealth
+      name: 'Skill: Stealth'
+      ref: proficiencies/skill-stealth.yaml
+    value: 7
+  - proficiency:
+      index: skill-acrobatics
+      name: 'Skill: Acrobatics'
+      ref: proficiencies/skill-acrobatics.yaml
+    value: 5
+actions:
+  - name: Shortsword
+    attack_bonus: 5
+    damage:
+      - damage_dice: 1d6+3
+        damage_type:
+          index: piercing
+          name: Piercing
+          ref: damage-types/piercing.yaml
+    desc: 'Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage.'
+special_abilities:
+  - name: Sneak Attack
+    desc: Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack if you have advantage on the attack roll.
+    damage:
+      - damage_dice: 1d6
+  - name: Cunning Action
+    desc: Your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat to take the Dash, Disengage, or Hide action.
+updated_at: "2026-02-20T11:57:15Z"

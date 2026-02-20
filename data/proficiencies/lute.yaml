@@ -1,0 +1,11 @@
+classes: []
+index: lute
+name: Lute
+races: []
+ref: proficiencies/lute.yaml
+reference:
+  index: lute
+  name: Lute
+  ref: equipment/lute.yaml
+type: Musical Instruments
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,12 @@
+desc:
+  - You have resistance to fire damage.
+index: hellish-resistance
+name: Hellish Resistance
+proficiencies: []
+races:
+  - index: tiefling
+    name: Tiefling
+    ref: races/tiefling.yaml
+ref: traits/hellish-resistance.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

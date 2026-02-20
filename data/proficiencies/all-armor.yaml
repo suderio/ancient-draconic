@@ -1,0 +1,17 @@
+classes:
+  - index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+index: all-armor
+name: All armor
+races: []
+ref: proficiencies/all-armor.yaml
+reference:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

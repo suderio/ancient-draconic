@@ -1,0 +1,113 @@
+equipment:
+  - index: ring-of-animal-influence
+    name: Ring of Animal Influence
+    ref: magic-items/ring-of-animal-influence.yaml
+  - index: ring-of-djinni-summoning
+    name: Ring of Djinni Summoning
+    ref: magic-items/ring-of-djinni-summoning.yaml
+  - index: ring-of-elemental-command
+    name: Ring of Elemental Command
+    ref: magic-items/ring-of-elemental-command.yaml
+  - index: ring-of-evasion
+    name: Ring of Evasion
+    ref: magic-items/ring-of-evasion.yaml
+  - index: ring-of-feather-falling
+    name: Ring of Feather Falling
+    ref: magic-items/ring-of-feather-falling.yaml
+  - index: ring-of-free-action
+    name: Ring of Free Action
+    ref: magic-items/ring-of-free-action.yaml
+  - index: ring-of-invisibility
+    name: Ring of Invisibility
+    ref: magic-items/ring-of-invisibility.yaml
+  - index: ring-of-jumping
+    name: Ring of Jumping
+    ref: magic-items/ring-of-jumping.yaml
+  - index: ring-of-mind-shielding
+    name: Ring of Mind Shielding
+    ref: magic-items/ring-of-mind-shielding.yaml
+  - index: ring-of-protection
+    name: Ring of Protection
+    ref: magic-items/ring-of-protection.yaml
+  - index: ring-of-regeneration
+    name: Ring of Regeneration
+    ref: magic-items/ring-of-regeneration.yaml
+  - index: ring-of-resistance
+    name: Ring of Resistance
+    ref: magic-items/ring-of-resistance.yaml
+  - index: ring-of-shooting-stars
+    name: Ring of Shooting Stars
+    ref: magic-items/ring-of-shooting-stars.yaml
+  - index: ring-of-spell-storing
+    name: Ring of Spell Storing
+    ref: magic-items/ring-of-spell-storing.yaml
+  - index: ring-of-spell-turning
+    name: Ring of Spell Turning
+    ref: magic-items/ring-of-spell-turning.yaml
+  - index: ring-of-swimming
+    name: Ring of Swimming
+    ref: magic-items/ring-of-swimming.yaml
+  - index: ring-of-telekinesis
+    name: Ring of Telekinesis
+    ref: magic-items/ring-of-telekinesis.yaml
+  - index: ring-of-the-ram
+    name: Ring of the Ram
+    ref: magic-items/ring-of-the-ram.yaml
+  - index: ring-of-three-wishes
+    name: Ring of Three Wishes
+    ref: magic-items/ring-of-three-wishes.yaml
+  - index: ring-of-warmth
+    name: Ring of Warmth
+    ref: magic-items/ring-of-warmth.yaml
+  - index: ring-of-water-walking
+    name: Ring of Water Walking
+    ref: magic-items/ring-of-water-walking.yaml
+  - index: ring-of-x-ray-vision
+    name: Ring of X-ray Vision
+    ref: magic-items/ring-of-x-ray-vision.yaml
+  - index: ring-of-elemental-command-air
+    name: Ring of Air Elemental Command
+    ref: magic-items/ring-of-elemental-command-air.yaml
+  - index: ring-of-elemental-command-earth
+    name: Ring of Earth Elemental Command
+    ref: magic-items/ring-of-elemental-command-earth.yaml
+  - index: ring-of-elemental-command-fire
+    name: Ring of Fire Elemental Command
+    ref: magic-items/ring-of-elemental-command-fire.yaml
+  - index: ring-of-elemental-command-water
+    name: Ring of Water Elemental Command
+    ref: magic-items/ring-of-elemental-command-water.yaml
+  - index: ring-of-resistance-acid
+    name: Ring of Acid Resistance
+    ref: magic-items/ring-of-resistance-acid.yaml
+  - index: ring-of-resistance-cold
+    name: Ring of Cold Resistance
+    ref: magic-items/ring-of-resistance-cold.yaml
+  - index: ring-of-resistance-fire
+    name: Ring of Fire Resistance
+    ref: magic-items/ring-of-resistance-fire.yaml
+  - index: ring-of-resistance-force
+    name: Ring of Force Resistance
+    ref: magic-items/ring-of-resistance-force.yaml
+  - index: ring-of-resistance-lightning
+    name: Ring of Lightning Resistance
+    ref: magic-items/ring-of-resistance-lightning.yaml
+  - index: ring-of-resistance-necrotic
+    name: Ring of Necrotic Resistance
+    ref: magic-items/ring-of-resistance-necrotic.yaml
+  - index: ring-of-resistance-poison
+    name: Ring of Poison Resistance
+    ref: magic-items/ring-of-resistance-poison.yaml
+  - index: ring-of-resistance-psychic
+    name: Ring of Psychic Resistance
+    ref: magic-items/ring-of-resistance-psychic.yaml
+  - index: ring-of-resistance-radiant
+    name: Ring of Radiant Resistance
+    ref: magic-items/ring-of-resistance-radiant.yaml
+  - index: ring-of-resistance-thunder
+    name: Ring of Thunder Resistance
+    ref: magic-items/ring-of-resistance-thunder.yaml
+index: ring
+name: Ring
+ref: equipment-categories/ring.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

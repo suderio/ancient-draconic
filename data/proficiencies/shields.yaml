@@ -1,0 +1,29 @@
+classes:
+  - index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+index: shields
+name: Shields
+races: []
+ref: proficiencies/shields.yaml
+reference:
+  index: shield
+  name: Shield
+  ref: equipment/shield.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

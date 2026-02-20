@@ -1,0 +1,13 @@
+class:
+  index: paladin
+  name: Paladin
+  ref: classes/paladin.yaml
+desc:
+  - By 2nd level, you have learned to draw on divine magic through meditation and prayer to cast spells as a cleric does.
+index: spellcasting-paladin
+level: 2
+name: 'Spellcasting: Paladin'
+prerequisites: []
+ref: features/spellcasting-paladin.yaml
+reference: classes/paladin/spellcasting.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

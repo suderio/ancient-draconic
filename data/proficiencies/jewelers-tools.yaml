@@ -1,0 +1,11 @@
+classes: []
+index: jewelers-tools
+name: Jeweler's Tools
+races: []
+ref: proficiencies/jewelers-tools.yaml
+reference:
+  index: jewelers-tools
+  name: Jeweler's Tools
+  ref: equipment/jewelers-tools.yaml
+type: Artisan's Tools
+updated_at: "2025-10-24T20:42:14.116Z"

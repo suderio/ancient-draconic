@@ -1,0 +1,430 @@
+- ability_score_bonuses: 0
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 0
+    martial_arts:
+        dice_count: 1
+        dice_value: 4
+    unarmored_movement: 0
+  features:
+    - index: monk-unarmored-defense
+      name: Unarmored Defense
+      ref: features/monk-unarmored-defense.yaml
+    - index: martial-arts
+      name: Martial Arts
+      ref: features/martial-arts.yaml
+  index: monk-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/monk/levels/1.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 2
+    martial_arts:
+        dice_count: 1
+        dice_value: 4
+    unarmored_movement: 10
+  features:
+    - index: ki
+      name: Ki
+      ref: features/ki.yaml
+    - index: flurry-of-blows
+      name: Flurry of Blows
+      ref: features/flurry-of-blows.yaml
+    - index: patient-defense
+      name: Patient Defense
+      ref: features/patient-defense.yaml
+    - index: step-of-the-wind
+      name: Step of the Wind
+      ref: features/step-of-the-wind.yaml
+    - index: unarmored-movement-1
+      name: Unarmored Movement
+      ref: features/unarmored-movement-1.yaml
+  index: monk-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/monk/levels/2.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 3
+    martial_arts:
+        dice_count: 1
+        dice_value: 4
+    unarmored_movement: 10
+  features:
+    - index: monastic-tradition
+      name: Monastic Tradition
+      ref: features/monastic-tradition.yaml
+    - index: deflect-missiles
+      name: Deflect Missiles
+      ref: features/deflect-missiles.yaml
+  index: monk-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/monk/levels/3.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 4
+    martial_arts:
+        dice_count: 1
+        dice_value: 4
+    unarmored_movement: 10
+  features:
+    - index: monk-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/monk-ability-score-improvement-1.yaml
+    - index: slow-fall
+      name: Slow Fall
+      ref: features/slow-fall.yaml
+  index: monk-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/monk/levels/4.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 5
+    martial_arts:
+        dice_count: 1
+        dice_value: 6
+    unarmored_movement: 10
+  features:
+    - index: monk-extra-attack
+      name: Extra Attack
+      ref: features/monk-extra-attack.yaml
+    - index: stunning-strike
+      name: Stunning Strike
+      ref: features/stunning-strike.yaml
+  index: monk-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/monk/levels/5.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 6
+    martial_arts:
+        dice_count: 1
+        dice_value: 6
+    unarmored_movement: 15
+  features:
+    - index: ki-empowered-strikes
+      name: Ki Empowered Strikes
+      ref: features/ki-empowered-strikes.yaml
+    - index: monastic-tradition-improvement-1
+      name: Monastic Tradition feature
+      ref: features/monastic-tradition-improvement-1.yaml
+  index: monk-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/monk/levels/6.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 7
+    martial_arts:
+        dice_count: 1
+        dice_value: 6
+    unarmored_movement: 15
+  features:
+    - index: monk-evasion
+      name: Evasion
+      ref: features/monk-evasion.yaml
+    - index: stillness-of-mind
+      name: Stillness of Mind
+      ref: features/stillness-of-mind.yaml
+  index: monk-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/monk/levels/7.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 8
+    martial_arts:
+        dice_count: 1
+        dice_value: 6
+    unarmored_movement: 15
+  features:
+    - index: monk-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/monk-ability-score-improvement-2.yaml
+  index: monk-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/monk/levels/8.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 9
+    martial_arts:
+        dice_count: 1
+        dice_value: 6
+    unarmored_movement: 15
+  features:
+    - index: unarmored-movement-2
+      name: Unarmored Movement
+      ref: features/unarmored-movement-2.yaml
+  index: monk-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/monk/levels/9.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 10
+    martial_arts:
+        dice_count: 1
+        dice_value: 6
+    unarmored_movement: 20
+  features:
+    - index: purity-of-body
+      name: Purity of Body
+      ref: features/purity-of-body.yaml
+  index: monk-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/monk/levels/10.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 11
+    martial_arts:
+        dice_count: 1
+        dice_value: 8
+    unarmored_movement: 20
+  features:
+    - index: monastic-tradition-improvement-2
+      name: Monastic Tradition feature
+      ref: features/monastic-tradition-improvement-2.yaml
+  index: monk-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/monk/levels/11.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 12
+    martial_arts:
+        dice_count: 1
+        dice_value: 8
+    unarmored_movement: 20
+  features:
+    - index: monk-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/monk-ability-score-improvement-3.yaml
+  index: monk-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/monk/levels/12.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 13
+    martial_arts:
+        dice_count: 1
+        dice_value: 8
+    unarmored_movement: 20
+  features:
+    - index: tongue-of-the-sun-and-moon
+      name: Tongue of the Sun and Moon
+      ref: features/tongue-of-the-sun-and-moon.yaml
+  index: monk-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/monk/levels/13.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 14
+    martial_arts:
+        dice_count: 1
+        dice_value: 8
+    unarmored_movement: 25
+  features:
+    - index: diamond-soul
+      name: Diamond Soul
+      ref: features/diamond-soul.yaml
+  index: monk-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/monk/levels/14.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 15
+    martial_arts:
+        dice_count: 1
+        dice_value: 8
+    unarmored_movement: 25
+  features:
+    - index: monk-timeless-body
+      name: Timeless Body
+      ref: features/monk-timeless-body.yaml
+  index: monk-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/monk/levels/15.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 16
+    martial_arts:
+        dice_count: 1
+        dice_value: 8
+    unarmored_movement: 25
+  features:
+    - index: monk-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/monk-ability-score-improvement-4.yaml
+  index: monk-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/monk/levels/16.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 17
+    martial_arts:
+        dice_count: 1
+        dice_value: 10
+    unarmored_movement: 25
+  features:
+    - index: monastic-tradition-improvement-3
+      name: Monastic Tradition feature
+      ref: features/monastic-tradition-improvement-3.yaml
+  index: monk-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/monk/levels/17.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 18
+    martial_arts:
+        dice_count: 1
+        dice_value: 10
+    unarmored_movement: 30
+  features:
+    - index: empty-body
+      name: Empty Body
+      ref: features/empty-body.yaml
+  index: monk-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/monk/levels/18.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 19
+    martial_arts:
+        dice_count: 1
+        dice_value: 10
+    unarmored_movement: 30
+  features:
+    - index: monk-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/monk-ability-score-improvement-5.yaml
+  index: monk-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/monk/levels/19.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  class_specific:
+    ki_points: 20
+    martial_arts:
+        dice_count: 1
+        dice_value: 10
+    unarmored_movement: 30
+  features:
+    - index: perfect-self
+      name: Perfect Self
+      ref: features/perfect-self.yaml
+  index: monk-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/monk/levels/20.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
