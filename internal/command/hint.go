@@ -23,7 +23,7 @@ func ExecuteHint(cmd *parser.HintCmd, state *engine.GameState) ([]engine.Event, 
 
 	if len(missingInitiatives) > 0 {
 		names := strings.Join(missingInitiatives, ", ")
-		if len(state.TurnOrder) == 0 {
+		if state.CurrentTurn < 0 {
 			return []engine.Event{&engine.HintEvent{
 				MessageStr: fmt.Sprintf("Encounter started. Waiting for initiative of %s.", names),
 			}}, nil
@@ -51,7 +51,7 @@ func ExecuteHint(cmd *parser.HintCmd, state *engine.GameState) ([]engine.Event, 
 
 		names := strings.Join(waiting, ", ")
 
-		if len(state.TurnOrder) == 0 {
+		if state.CurrentTurn < 0 {
 			return []engine.Event{&engine.HintEvent{
 				MessageStr: fmt.Sprintf("Waiting for check of %s.", names),
 			}}, nil
@@ -65,8 +65,8 @@ func ExecuteHint(cmd *parser.HintCmd, state *engine.GameState) ([]engine.Event, 
 		}}, nil
 	}
 
-	if len(state.TurnOrder) == 0 {
-		return []engine.Event{&engine.HintEvent{MessageStr: "Encounter is active but has no participants."}}, nil
+	if state.CurrentTurn < 0 {
+		return []engine.Event{&engine.HintEvent{MessageStr: "Encounter is active. Use 'initiative' to begin combat."}}, nil
 	}
 
 	currentActorName := state.TurnOrder[state.CurrentTurn]

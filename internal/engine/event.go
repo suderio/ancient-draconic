@@ -44,7 +44,7 @@ func (e *EncounterStartedEvent) Apply(state *GameState) error {
 	state.Entities = make(map[string]*Entity)
 	state.TurnOrder = make([]string, 0)
 	state.Initiatives = make(map[string]int)
-	state.CurrentTurn = 0
+	state.CurrentTurn = -1
 	return nil
 }
 func (e *EncounterStartedEvent) Message() string { return "Encounter Started." }
@@ -244,32 +244,57 @@ func (e *InitiativeRolledEvent) Apply(state *GameState) error {
 
 	// Create fresh sorted TurnOrder whenever new initiative arrives
 	var names []string
-	for name := range state.Initiatives {
-		// Only sort entities currently active in encounter
-		if _, ok := state.Entities[name]; ok {
-			names = append(names, name)
-		}
+	for id := range state.Entities {
+		names = append(names, id)
 	}
 	sort.SliceStable(names, func(i, j int) bool {
-		return state.Initiatives[names[i]] > state.Initiatives[names[j]]
+		scoreI, okI := state.Initiatives[names[i]]
+		scoreJ, okJ := state.Initiatives[names[j]]
+		if okI && okJ {
+			return scoreI > scoreJ
+		}
+		if okI {
+			return true
+		}
+		if okJ {
+			return false
+		}
+		return names[i] < names[j] // tie-break by ID for stability
 	})
 
 	// Safely preserve CurrentTurn actor across resort if possible
 	var currentActor string
-	if len(state.TurnOrder) > 0 && state.CurrentTurn < len(state.TurnOrder) {
+	if state.CurrentTurn >= 0 && state.CurrentTurn < len(state.TurnOrder) {
 		currentActor = state.TurnOrder[state.CurrentTurn]
 	}
 
 	state.TurnOrder = names
 
 	// Realign index
-	state.CurrentTurn = 0
 	if currentActor != "" {
+		found := false
 		for i, name := range state.TurnOrder {
 			if name == currentActor {
 				state.CurrentTurn = i
+				found = true
 				break
 			}
+		}
+		if !found {
+			// If our actor disappeared, fallback to top
+			state.CurrentTurn = 0
+		}
+	} else {
+		// If we didn't have a turn yet, check if we've fulfilled initiative requirements
+		isNowFrozen := false
+		for id := range state.Entities {
+			if _, ok := state.Initiatives[id]; !ok {
+				isNowFrozen = true
+				break
+			}
+		}
+		if !isNowFrozen {
+			state.CurrentTurn = 0
 		}
 	}
 	return nil

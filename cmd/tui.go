@@ -296,9 +296,11 @@ func (m replModel) View() string {
 	}
 	stateView += "\n\n"
 
-	if len(state.TurnOrder) > 0 {
+	if len(state.TurnOrder) > 0 && state.CurrentTurn >= 0 {
 		currentActor := state.TurnOrder[state.CurrentTurn]
 		stateView += fmt.Sprintf("Turn: %s\n\n", currentActor)
+	} else if state.IsEncounterActive {
+		stateView += "Turn: Setup (Waiting for initiatives)\n\n"
 	}
 
 	if len(state.Entities) == 0 {

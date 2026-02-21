@@ -52,6 +52,7 @@ func NewGameState() *GameState {
 		TurnOrder:     make([]string, 0),
 		Initiatives:   make(map[string]int),
 		PendingChecks: make(map[string]*PendingCheckState),
+		CurrentTurn:   -1,
 	}
 }
 
