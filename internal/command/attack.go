@@ -24,6 +24,10 @@ func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.
 		return nil, fmt.Errorf("no active encounter to attack in")
 	}
 
+	if state.CurrentTurn < 0 {
+		return nil, fmt.Errorf("combat has not started (roll initiative first)")
+	}
+
 	currentActor := state.TurnOrder[state.CurrentTurn]
 	if !strings.EqualFold(actorName, "GM") && !strings.EqualFold(actorName, strings.ReplaceAll(currentActor, "-", "_")) && !strings.EqualFold(actorName, currentActor) {
 		return nil, engine.ErrSilentIgnore

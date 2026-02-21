@@ -137,7 +137,7 @@ func ExecuteHelp(cmd *parser.HelpCmd, state *engine.GameState) ([]engine.Event, 
 				sb.WriteString(" - encounter end: Stop combat\n")
 				sb.WriteString(" - add: Add more actors to combat\n")
 			}
-		} else {
+		} else if state.CurrentTurn >= 0 && state.CurrentTurn < len(state.TurnOrder) {
 			// Turn-based combat
 			currentActor := state.TurnOrder[state.CurrentTurn]
 			canAct := isGM || strings.EqualFold(actorName, currentActor) || strings.EqualFold(actorName, strings.ReplaceAll(currentActor, "-", "_"))
@@ -154,6 +154,14 @@ func ExecuteHelp(cmd *parser.HelpCmd, state *engine.GameState) ([]engine.Event, 
 
 			if isGM {
 				sb.WriteString(" - ask: Request checks from players\n")
+				sb.WriteString(" - encounter end: Stop combat\n")
+			}
+		} else {
+			// Encounter active but no turns yet
+			sb.WriteString("Encounter is active. Waiting for initiative to begin combat.\n")
+			if isGM {
+				sb.WriteString(" - initiative: Roll for combat order\n")
+				sb.WriteString(" - add: Add actors to combat\n")
 				sb.WriteString(" - encounter end: Stop combat\n")
 			}
 		}

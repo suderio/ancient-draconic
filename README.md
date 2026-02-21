@@ -6,16 +6,24 @@
 
 **The ultimate command-line engine for D&D 5e encounters.**
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/suderio/dndsl)](https://goreportcard.com/report/github.com/suderio/dndsl)
+<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/suderio/dndsl)](https://goreportcard.com/report/github.com/suderio/dndsl) -->
+
 [![GoDoc](https://godoc.org/github.com/suderio/dndsl?status.svg)](https://godoc.org/github.com/suderio/dndsl)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Stability: Stable](https://img.shields.io/badge/Stability-Stable-green.svg)](#)
+[![Stability: Stable](https://img.shields.io/badge/Stability-Stable-green.svg)](https://github.com/suderio/dndsl/releases)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/suderio/dndsl/go.yml)](https://github.com/suderio/dndsl/actions)
+[![GitHub Release](https://img.shields.io/github/v/release/suderio/dndsl)](https://github.com/suderio/dndsl/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/suderio/dndsl/total)](https://github.com/suderio/dndsl/releases)
 
 *Process combat, roll dice, and manage campaigns through a powerful, human-readable Domain Specific Language.*
 
-[Explore the Docs](docs/01_project_description.md) · [Report Bug](https://github.com/suderio/dndsl/issues) · [Request Feature](https://github.com/suderio/dndsl/issues)
+[Explore the Docs](docs/) · [Report Bug](https://github.com/suderio/dndsl/issues) · [Request Feature](https://github.com/suderio/dndsl/issues)
 
 </div>
+
+---
+
+*(Placeholder: Amazing GIF of the Bubble Tea TUI here)*
 
 ---
 
@@ -32,37 +40,11 @@
 
 ---
 
-## 🎨 Visuals
-
-### Architecture Overview
-
-The engine follows a strict Event Sourcing pattern to maintain high reliability and state predictability.
-
-```mermaid
-graph TD
-    A[CLI / TUI REPL] --> B[Session Manager]
-    T[Telegram Bot] --> B
-    B --> C[Parser / Lexer]
-    C --> D[Command Executor]
-    D --> E[Event Log]
-    E --> F[State Projector]
-    F --> G[GameState]
-    B --> G
-```
-
-### The TUI in Action
-
-*(Placeholder: Upload a GIF of the Bubble Tea TUI here)*
-> [!TIP]
-> Use the `tab` key in the REPL for intelligent, context-aware autocomplete of characters, weapons, and targets!
-
----
-
 ## 🛠 Installation
 
-### Prerequisites
+### Pre-built Binaries
 
-- Go 1.25 or higher.
+Download the latest release from the [Releases](https://github.com/suderio/dndsl/releases) page.
 
 ### From Source
 
@@ -71,6 +53,10 @@ git clone https://github.com/suderio/dndsl.git
 cd dndsl
 go build -o dndsl main.go
 ```
+
+#### Prerequisites
+
+- Go 1.25 or higher.
 
 ### Setup Your First Campaign
 
@@ -132,6 +118,7 @@ Play from anywhere! Configure a bot to let your players interact with the campai
 - [ ] Automatic Spell Slot Management
 - [ ] Local Web Dashboard (Vite + React)
 - [ ] Monster Recharge Logic
+- [ ] Discord Bot Integration
 
 ---
 
@@ -141,11 +128,21 @@ Contributions are what make the open-source community such an amazing place to l
 
 Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
----
+### Architecture Overview
 
-## 📊 Project Stats & Activity
+The engine follows a strict Event Sourcing pattern to maintain high reliability and state predictability.
 
-[![suderio's GitHub stats](https://github-readme-stats.vercel.app/api?username=suderio)](https://github.com/suderio/dndsl)
+```mermaid
+graph TD
+    A[CLI / TUI REPL] --> B[Session Manager]
+    T[Telegram Bot] --> B
+    B --> C[Parser / Lexer]
+    C --> D[Command Executor]
+    D --> E[Event Log]
+    E --> F[State Projector]
+    F --> G[GameState]
+    B --> G
+```
 
 ---
 
