@@ -1,0 +1,16 @@
+class:
+  index: bard
+  name: Bard
+  ref: classes/bard.yaml
+desc:
+  - Starting at 14th level, when you make an ability check, you can expend one use of Bardic Inspiration. Roll a Bardic Inspiration die and add the number rolled to your ability check. You can choose to do so after you roll the die for the ability check, but before the GM tells you whether you succeed or fail.
+index: peerless-skill
+level: 14
+name: Peerless Skill
+prerequisites: []
+ref: features/peerless-skill.yaml
+subclass:
+  index: lore
+  name: Lore
+  ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

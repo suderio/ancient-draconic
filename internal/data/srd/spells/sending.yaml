@@ -1,0 +1,37 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - You send a short message of twenty-five words or less to a creature with which you are familiar. The creature hears the message in its mind, recognizes you as the sender if it knows you, and can answer in a like manner immediately. The spell enables creatures with Intelligence scores of at least 1 to understand the meaning of your message.
+  - You can send the message across any distance and even to other planes of existence, but if the target is on a different plane than you, there is a 5 percent chance that the message doesn't arrive.
+duration: 1 round
+higher_level: []
+index: sending
+level: 3
+material: A short piece of fine copper wire.
+name: Sending
+range: Unlimited
+ref: spells/sending.yaml
+ritual: false
+school:
+  index: evocation
+  name: Evocation
+  ref: magic-schools/evocation.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

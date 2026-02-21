@@ -1,0 +1,11 @@
+classes: []
+index: skill-acrobatics
+name: 'Skill: Acrobatics'
+races: []
+ref: proficiencies/skill-acrobatics.yaml
+reference:
+  index: acrobatics
+  name: Acrobatics
+  ref: skills/acrobatics.yaml
+type: Skills
+updated_at: "2025-10-24T20:42:14.116Z"

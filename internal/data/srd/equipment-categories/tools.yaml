@@ -1,0 +1,98 @@
+equipment:
+  - index: alchemists-supplies
+    name: Alchemist's Supplies
+    ref: equipment/alchemists-supplies.yaml
+  - index: brewers-supplies
+    name: Brewer's Supplies
+    ref: equipment/brewers-supplies.yaml
+  - index: calligraphers-supplies
+    name: Calligrapher's Supplies
+    ref: equipment/calligraphers-supplies.yaml
+  - index: carpenters-tools
+    name: Carpenter's Tools
+    ref: equipment/carpenters-tools.yaml
+  - index: cartographers-tools
+    name: Cartographer's Tools
+    ref: equipment/cartographers-tools.yaml
+  - index: cobblers-tools
+    name: Cobbler's Tools
+    ref: equipment/cobblers-tools.yaml
+  - index: cooks-utensils
+    name: Cook's utensils
+    ref: equipment/cooks-utensils.yaml
+  - index: glassblowers-tools
+    name: Glassblower's Tools
+    ref: equipment/glassblowers-tools.yaml
+  - index: jewelers-tools
+    name: Jeweler's Tools
+    ref: equipment/jewelers-tools.yaml
+  - index: leatherworkers-tools
+    name: Leatherworker's Tools
+    ref: equipment/leatherworkers-tools.yaml
+  - index: masons-tools
+    name: Mason's Tools
+    ref: equipment/masons-tools.yaml
+  - index: painters-supplies
+    name: Painter's Supplies
+    ref: equipment/painters-supplies.yaml
+  - index: potters-tools
+    name: Potter's Tools
+    ref: equipment/potters-tools.yaml
+  - index: smiths-tools
+    name: Smith's Tools
+    ref: equipment/smiths-tools.yaml
+  - index: tinkers-tools
+    name: Tinker's Tools
+    ref: equipment/tinkers-tools.yaml
+  - index: weavers-tools
+    name: Weaver's Tools
+    ref: equipment/weavers-tools.yaml
+  - index: woodcarvers-tools
+    name: Woodcarver's Tools
+    ref: equipment/woodcarvers-tools.yaml
+  - index: dice-set
+    name: Dice Set
+    ref: equipment/dice-set.yaml
+  - index: playing-card-set
+    name: Playing Card Set
+    ref: equipment/playing-card-set.yaml
+  - index: bagpipes
+    name: Bagpipes
+    ref: equipment/bagpipes.yaml
+  - index: drum
+    name: Drum
+    ref: equipment/drum.yaml
+  - index: dulcimer
+    name: Dulcimer
+    ref: equipment/dulcimer.yaml
+  - index: flute
+    name: Flute
+    ref: equipment/flute.yaml
+  - index: lute
+    name: Lute
+    ref: equipment/lute.yaml
+  - index: lyre
+    name: Lyre
+    ref: equipment/lyre.yaml
+  - index: horn
+    name: Horn
+    ref: equipment/horn.yaml
+  - index: pan-flute
+    name: Pan flute
+    ref: equipment/pan-flute.yaml
+  - index: shawm
+    name: Shawm
+    ref: equipment/shawm.yaml
+  - index: viol
+    name: Viol
+    ref: equipment/viol.yaml
+  - index: navigators-tools
+    name: Navigator's Tools
+    ref: equipment/navigators-tools.yaml
+  - index: thieves-tools
+    name: Thieves' Tools
+    ref: equipment/thieves-tools.yaml
+index: tools
+name: Tools
+ref: equipment-categories/tools.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

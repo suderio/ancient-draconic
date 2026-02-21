@@ -1,0 +1,22 @@
+ability_bonuses:
+  - ability_score:
+      index: con
+      name: CON
+      ref: ability-scores/constitution.yaml
+    bonus: 1
+desc: As a rock gnome, you have a natural inventiveness and hardiness beyond that of other gnomes.
+index: rock-gnome
+name: Rock Gnome
+race:
+  index: gnome
+  name: Gnome
+  ref: races/gnome.yaml
+racial_traits:
+  - index: artificers-lore
+    name: Artificer's Lore
+    ref: traits/artificers-lore.yaml
+  - index: tinker
+    name: Tinker
+    ref: traits/tinker.yaml
+ref: subraces/rock-gnome.yaml
+updated_at: "2025-10-24T20:42:14.841Z"

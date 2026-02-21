@@ -1,0 +1,12 @@
+class:
+  index: paladin
+  name: Paladin
+  ref: classes/paladin.yaml
+desc:
+  - By 3rd level, the divine magic flowing through you makes you immune to disease.
+index: divine-health
+level: 3
+name: Divine Health
+prerequisites: []
+ref: features/divine-health.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

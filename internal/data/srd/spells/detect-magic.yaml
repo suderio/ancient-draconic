@@ -1,0 +1,50 @@
+area_of_effect:
+  size: 30
+  type: sphere
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+concentration: true
+desc:
+  - For the duration, you sense the presence of magic within 30 feet of you. If you sense magic in this way, you can use your action to see a faint aura around any visible creature or object in the area that bears magic, and you learn its school of magic, if any.
+  - The spell can penetrate most barriers, but it is blocked by 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt.
+duration: Up to 10 minutes
+higher_level: []
+index: detect-magic
+level: 1
+name: Detect Magic
+range: Self
+ref: spells/detect-magic.yaml
+ritual: true
+school:
+  index: divination
+  name: Divination
+  ref: magic-schools/divination.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

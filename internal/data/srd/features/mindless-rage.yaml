@@ -1,0 +1,16 @@
+class:
+  index: barbarian
+  name: Barbarian
+  ref: classes/barbarian.yaml
+desc:
+  - Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage.
+index: mindless-rage
+level: 6
+name: Mindless Rage
+prerequisites: []
+ref: features/mindless-rage.yaml
+subclass:
+  index: berserker
+  name: Berserker
+  ref: subclasses/berserker.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

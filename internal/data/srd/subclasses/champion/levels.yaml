@@ -1,0 +1,80 @@
+- class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  features:
+    - index: improved-critical
+      name: Improved Critical
+      ref: features/improved-critical.yaml
+  index: champion-3
+  level: 3
+  ref: subclasses/champion/levels/3.yaml
+  subclass:
+    index: champion
+    name: Champion
+    ref: subclasses/champion.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  features:
+    - index: remarkable-athlete
+      name: Remarkable Athlete
+      ref: features/remarkable-athlete.yaml
+  index: champion-7
+  level: 7
+  ref: subclasses/champion/levels/7.yaml
+  subclass:
+    index: champion
+    name: Champion
+    ref: subclasses/champion.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  features:
+    - index: additional-fighting-style
+      name: Additional Fighting Style
+      ref: features/additional-fighting-style.yaml
+  index: champion-10
+  level: 10
+  ref: subclasses/champion/levels/10.yaml
+  subclass:
+    index: champion
+    name: Champion
+    ref: subclasses/champion.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  features:
+    - index: superior-critical
+      name: Superior Critical
+      ref: features/superior-critical.yaml
+  index: champion-15
+  level: 15
+  ref: subclasses/champion/levels/15.yaml
+  subclass:
+    index: champion
+    name: Champion
+    ref: subclasses/champion.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  features:
+    - index: survivor
+      name: Survivor
+      ref: features/survivor.yaml
+  index: champion-18
+  level: 18
+  ref: subclasses/champion/levels/18.yaml
+  subclass:
+    index: champion
+    name: Champion
+    ref: subclasses/champion.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"

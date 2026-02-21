@@ -1,0 +1,23 @@
+classes:
+  - index: barbarian
+    name: Barbarian
+    ref: classes/barbarian.yaml
+  - index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  - index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+index: saving-throw-str
+name: 'Saving Throw: STR'
+races: []
+ref: proficiencies/saving-throw-str.yaml
+reference:
+  index: str
+  name: STR
+  ref: ability-scores/str.yaml
+type: Saving Throws
+updated_at: "2025-10-24T20:42:14.116Z"

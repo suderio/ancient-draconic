@@ -1,0 +1,658 @@
+- ability_score_bonuses: 0
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 6
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 0
+  features:
+    - index: spellcasting-bard
+      name: 'Spellcasting: Bard'
+      ref: features/spellcasting-bard.yaml
+    - index: bardic-inspiration-d6
+      name: Bardic Inspiration (d6)
+      ref: features/bardic-inspiration-d6.yaml
+  index: bard-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/bard/levels/1.yaml
+  spellcasting:
+    cantrips_known: 2
+    spell_slots_level_1: 2
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 4
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 6
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features:
+    - index: jack-of-all-trades
+      name: Jack of All Trades
+      ref: features/jack-of-all-trades.yaml
+    - index: song-of-rest-d6
+      name: Song of Rest (d6)
+      ref: features/song-of-rest-d6.yaml
+  index: bard-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/bard/levels/2.yaml
+  spellcasting:
+    cantrips_known: 2
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 5
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 6
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features:
+    - index: bard-expertise-1
+      name: Expertise
+      ref: features/bard-expertise-1.yaml
+    - index: bard-college
+      name: Bard College
+      ref: features/bard-college.yaml
+  index: bard-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/bard/levels/3.yaml
+  spellcasting:
+    cantrips_known: 2
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 6
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 6
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features:
+    - index: bard-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/bard-ability-score-improvement-1.yaml
+  index: bard-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/bard/levels/4.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 7
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 8
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features:
+    - index: bardic-inspiration-d8
+      name: Bardic Inspiration (d8)
+      ref: features/bardic-inspiration-d8.yaml
+    - index: font-of-inspiration
+      name: Font of Inspiration
+      ref: features/font-of-inspiration.yaml
+  index: bard-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/bard/levels/5.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 8
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 8
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features:
+    - index: countercharm
+      name: Countercharm
+      ref: features/countercharm.yaml
+    - index: bard-college-improvement-1
+      name: Bard College feature
+      ref: features/bard-college-improvement-1.yaml
+  index: bard-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/bard/levels/6.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 9
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 8
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features: []
+  index: bard-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/bard/levels/7.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 10
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 8
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 6
+  features:
+    - index: bard-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/bard-ability-score-improvement-2.yaml
+  index: bard-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/bard/levels/8.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 11
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 8
+    magical_secrets_max_5: 0
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 8
+  features:
+    - index: song-of-rest-d8
+      name: Song of Rest (d8)
+      ref: features/song-of-rest-d8.yaml
+  index: bard-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/bard/levels/9.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 12
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 10
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 8
+  features:
+    - index: bard-expertise-2
+      name: Expertise
+      ref: features/bard-expertise-2.yaml
+    - index: bardic-inspiration-d10
+      name: Bardic Inspiration (d10)
+      ref: features/bardic-inspiration-d10.yaml
+    - index: magical-secrets-1
+      name: Magical Secrets
+      ref: features/magical-secrets-1.yaml
+  index: bard-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/bard/levels/10.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 14
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 10
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 8
+  features: []
+  index: bard-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/bard/levels/11.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 15
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 10
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 8
+  features:
+    - index: bard-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/bard-ability-score-improvement-3.yaml
+  index: bard-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/bard/levels/12.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 15
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 10
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 0
+    magical_secrets_max_9: 0
+    song_of_rest_die: 10
+  features:
+    - index: song-of-rest-d10
+      name: Song of Rest (d10)
+      ref: features/song-of-rest-d10.yaml
+  index: bard-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/bard/levels/13.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 16
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 10
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 0
+    song_of_rest_die: 10
+  features:
+    - index: magical-secrets-2
+      name: Magical Secrets
+      ref: features/magical-secrets-2.yaml
+    - index: bard-college-improvement-2
+      name: Bard College feature
+      ref: features/bard-college-improvement-2.yaml
+  index: bard-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/bard/levels/14.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+    spells_known: 18
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 12
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 0
+    song_of_rest_die: 10
+  features:
+    - index: bardic-inspiration-d12
+      name: Bardic Inspiration (d12)
+      ref: features/bardic-inspiration-d12.yaml
+  index: bard-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/bard/levels/15.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+    spells_known: 19
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 12
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 0
+    song_of_rest_die: 10
+  features:
+    - index: bard-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/bard-ability-score-improvement-4.yaml
+  index: bard-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/bard/levels/16.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+    spells_known: 19
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 12
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 0
+    song_of_rest_die: 12
+  features:
+    - index: song-of-rest-d12
+      name: Song of Rest (d12)
+      ref: features/song-of-rest-d12.yaml
+  index: bard-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/bard/levels/17.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+    spells_known: 20
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 12
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 2
+    song_of_rest_die: 12
+  features:
+    - index: magical-secrets-3
+      name: Magical Secrets
+      ref: features/magical-secrets-3.yaml
+  index: bard-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/bard/levels/18.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+    spells_known: 22
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 12
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 2
+    song_of_rest_die: 12
+  features:
+    - index: bard-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/bard-ability-score-improvement-5.yaml
+  index: bard-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/bard/levels/19.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+    spells_known: 22
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  class_specific:
+    bardic_inspiration_die: 12
+    magical_secrets_max_5: 2
+    magical_secrets_max_7: 2
+    magical_secrets_max_9: 2
+    song_of_rest_die: 12
+  features:
+    - index: superior-inspiration
+      name: Superior Inspiration
+      ref: features/superior-inspiration.yaml
+  index: bard-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/bard/levels/20.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 2
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+    spells_known: 22
+  updated_at: "2025-10-24T20:42:13.397Z"

@@ -1,0 +1,11 @@
+classes: []
+index: navigators-tools
+name: Navigator's Tools
+races: []
+ref: proficiencies/navigators-tools.yaml
+reference:
+  index: navigators-tools
+  name: Navigator's Tools
+  ref: equipment/navigators-tools.yaml
+type: Other
+updated_at: "2025-10-24T20:42:14.116Z"

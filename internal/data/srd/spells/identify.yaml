@@ -1,0 +1,34 @@
+casting_time: 1 minute
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - You choose one object that you must touch throughout the casting of the spell. If it is a magic item or some other magic-imbued object, you learn its properties and how to use them, whether it requires attunement to use, and how many charges it has, if any. You learn whether any spells are affecting the item and what they are. If the item was created by a spell, you learn which spell created it.
+  - If you instead touch a creature throughout the casting, you learn what spells, if any, are currently affecting it.
+duration: Instantaneous
+higher_level: []
+index: identify
+level: 1
+material: A pearl worth at least 100gp and an owl feather.
+name: Identify
+range: Touch
+ref: spells/identify.yaml
+ritual: true
+school:
+  index: divination
+  name: Divination
+  ref: magic-schools/divination.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

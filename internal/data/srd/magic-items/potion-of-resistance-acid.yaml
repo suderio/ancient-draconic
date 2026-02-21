@@ -1,0 +1,15 @@
+desc:
+  - Potion, uncommon
+  - When you drink this potion, you gain resistance to acid damage for 1 hour.
+equipment_category:
+  index: potion
+  name: Potion
+  ref: equipment-categories/potion.yaml
+index: potion-of-resistance-acid
+name: Potion of Acid Resistance
+rarity:
+  name: Uncommon
+ref: magic-items/potion-of-resistance-acid.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

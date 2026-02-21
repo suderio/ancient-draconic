@@ -1,0 +1,128 @@
+ability_bonuses:
+  - ability_score:
+      index: str
+      name: STR
+      ref: ability-scores/str.yaml
+    bonus: 1
+  - ability_score:
+      index: dex
+      name: DEX
+      ref: ability-scores/dex.yaml
+    bonus: 1
+  - ability_score:
+      index: con
+      name: CON
+      ref: ability-scores/constitution.yaml
+    bonus: 1
+  - ability_score:
+      index: int
+      name: INT
+      ref: ability-scores/int.yaml
+    bonus: 1
+  - ability_score:
+      index: wis
+      name: WIS
+      ref: ability-scores/wis.yaml
+    bonus: 1
+  - ability_score:
+      index: cha
+      name: CHA
+      ref: ability-scores/cha.yaml
+    bonus: 1
+age: Humans reach adulthood in their late teens and live less than a century.
+alignment: Humans tend toward no particular alignment. The best and the worst are found among them.
+index: human
+language_desc: 'You can speak, read, and write Common and one extra language of your choice. Humans typically learn the languages of other peoples they deal with, including obscure dialects. They are fond of sprinkling their speech with words borrowed from other tongues: Orc curses, Elvish musical expressions, Dwarvish military phrases, and so on.'
+language_options:
+  choose: 1
+  from:
+    option_set_type: options_array
+    options:
+      - item:
+          index: dwarvish
+          name: Dwarvish
+          ref: languages/dwarvish.yaml
+        option_type: reference
+      - item:
+          index: elvish
+          name: Elvish
+          ref: languages/elvish.yaml
+        option_type: reference
+      - item:
+          index: giant
+          name: Giant
+          ref: languages/giant.yaml
+        option_type: reference
+      - item:
+          index: gnomish
+          name: Gnomish
+          ref: languages/gnomish.yaml
+        option_type: reference
+      - item:
+          index: goblin
+          name: Goblin
+          ref: languages/goblin.yaml
+        option_type: reference
+      - item:
+          index: halfling
+          name: Halfling
+          ref: languages/halfling.yaml
+        option_type: reference
+      - item:
+          index: orc
+          name: Orc
+          ref: languages/orc.yaml
+        option_type: reference
+      - item:
+          index: abyssal
+          name: Abyssal
+          ref: languages/abyssal.yaml
+        option_type: reference
+      - item:
+          index: celestial
+          name: Celestial
+          ref: languages/celestial.yaml
+        option_type: reference
+      - item:
+          index: draconic
+          name: Draconic
+          ref: languages/draconic.yaml
+        option_type: reference
+      - item:
+          index: deep-speech
+          name: Deep Speech
+          ref: languages/deep-speech.yaml
+        option_type: reference
+      - item:
+          index: infernal
+          name: Infernal
+          ref: languages/infernal.yaml
+        option_type: reference
+      - item:
+          index: primordial
+          name: Primordial
+          ref: languages/primordial.yaml
+        option_type: reference
+      - item:
+          index: sylvan
+          name: Sylvan
+          ref: languages/sylvan.yaml
+        option_type: reference
+      - item:
+          index: undercommon
+          name: Undercommon
+          ref: languages/undercommon.yaml
+        option_type: reference
+  type: languages
+languages:
+  - index: common
+    name: Common
+    ref: languages/common.yaml
+name: Human
+ref: races/human.yaml
+size: Medium
+size_description: Humans vary widely in height and build, from barely 5 feet to well over 6 feet tall. Regardless of your position in that range, your size is Medium.
+speed: 30
+subraces: []
+traits: []
+updated_at: "2025-10-24T20:42:14.212Z"

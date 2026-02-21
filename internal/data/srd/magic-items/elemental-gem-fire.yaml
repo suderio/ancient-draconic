@@ -1,0 +1,16 @@
+desc:
+  - Wondrous item, uncommon
+  - This red corundum contains a mote of elemental energy. When you use an action to break the gem, a fire elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost.
+equipment_category:
+  index: wondrous-items
+  name: Wondrous Items
+  ref: equipment-categories/wondrous-items.yaml
+image: /api/images/magic-items/elemental-gem-fire.png
+index: elemental-gem-fire
+name: Fire Elemental Gem
+rarity:
+  name: Uncommon
+ref: magic-items/elemental-gem-fire.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

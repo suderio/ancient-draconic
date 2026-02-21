@@ -1,0 +1,40 @@
+class:
+  index: ranger
+  name: Ranger
+  ref: classes/ranger.yaml
+desc:
+  - At 2nd level, you adopt a particular style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.
+feature_specific:
+  invocations: []
+  subfeature_options:
+    choose: 1
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: ranger-fighting-style-archery
+            name: 'Fighting Style: Archery'
+            ref: features/ranger-fighting-style-archery.yaml
+          option_type: reference
+        - item:
+            index: ranger-fighting-style-defense
+            name: 'Fighting Style: Defense'
+            ref: features/ranger-fighting-style-defense.yaml
+          option_type: reference
+        - item:
+            index: ranger-fighting-style-dueling
+            name: 'Fighting Style: Dueling'
+            ref: features/ranger-fighting-style-dueling.yaml
+          option_type: reference
+        - item:
+            index: ranger-fighting-style-two-weapon-fighting
+            name: 'Fighting Style: Two-Weapon Fighting'
+            ref: features/ranger-fighting-style-two-weapon-fighting.yaml
+          option_type: reference
+    type: feature
+index: ranger-fighting-style
+level: 2
+name: Fighting Style
+prerequisites: []
+ref: features/ranger-fighting-style.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

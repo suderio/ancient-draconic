@@ -1,0 +1,11 @@
+classes: []
+index: playing-card-set
+name: Playing Card Set
+races: []
+ref: proficiencies/playing-card-set.yaml
+reference:
+  index: playing-card-set
+  name: Playing Card Set
+  ref: equipment/playing-card-set.yaml
+type: Gaming Sets
+updated_at: "2025-10-24T20:42:14.116Z"

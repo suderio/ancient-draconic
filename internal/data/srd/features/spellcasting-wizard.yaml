@@ -1,0 +1,13 @@
+class:
+  index: wizard
+  name: Wizard
+  ref: classes/wizard.yaml
+desc:
+  - As a student of arcane magic, you have a spellbook containing spells that show the first glimmerings of your true power.
+index: spellcasting-wizard
+level: 1
+name: 'Spellcasting: Wizard'
+prerequisites: []
+ref: features/spellcasting-wizard.yaml
+reference: classes/wizard/spellcasting.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

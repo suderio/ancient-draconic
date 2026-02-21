@@ -1,0 +1,46 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+components:
+  - V
+  - S
+concentration: false
+desc:
+  - You touch a creature and can end either one disease or one condition afflicting it. The condition can be blinded, deafened, paralyzed, or poisoned.
+duration: Instantaneous
+higher_level: []
+index: lesser-restoration
+level: 2
+name: Lesser Restoration
+range: Touch
+ref: spells/lesser-restoration.yaml
+ritual: false
+school:
+  index: abjuration
+  name: Abjuration
+  ref: magic-schools/abjuration.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: life
+    name: Life
+    ref: subclasses/life.yaml
+  - index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

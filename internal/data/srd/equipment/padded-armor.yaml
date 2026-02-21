@@ -1,0 +1,22 @@
+armor_category: Light
+armor_class:
+  base: 11
+  dex_bonus: true
+contents: []
+cost:
+  quantity: 5
+  unit: gp
+desc: []
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: padded-armor
+name: Padded Armor
+properties: []
+ref: equipment/padded-armor.yaml
+special: []
+stealth_disadvantage: true
+str_minimum: 0
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 8

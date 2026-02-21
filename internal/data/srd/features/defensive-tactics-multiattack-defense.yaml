@@ -1,0 +1,20 @@
+class:
+  index: ranger
+  name: Ranger
+  ref: classes/ranger.yaml
+desc:
+  - When a creature hits you with an attack, you gain a +4 bonus to AC against all subsequent attacks made by that creature for the rest of the turn.
+index: defensive-tactics-multiattack-defense
+level: 7
+name: 'Defensive Tactics: Multiattack Defense'
+parent:
+  index: defensive-tactics
+  name: Defensive Tactics
+  ref: features/defensive-tactics.yaml
+prerequisites: []
+ref: features/defensive-tactics-multiattack-defense.yaml
+subclass:
+  index: hunter
+  name: Hunter
+  ref: subclasses/hunter.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

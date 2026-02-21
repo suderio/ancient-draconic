@@ -1,0 +1,39 @@
+casting_time: 1 action
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: true
+desc:
+  - This spell turns the flesh of a willing creature you touch as hard as stone. Until the spell ends, the target has resistance to nonmagical bludgeoning, piercing, and slashing damage.
+duration: Up to 1 hour
+higher_level: []
+index: stoneskin
+level: 4
+material: Diamond dust worth 100 gp, which the spell consumes.
+name: Stoneskin
+range: Touch
+ref: spells/stoneskin.yaml
+ritual: false
+school:
+  index: abjuration
+  name: Abjuration
+  ref: magic-schools/abjuration.yaml
+subclasses:
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

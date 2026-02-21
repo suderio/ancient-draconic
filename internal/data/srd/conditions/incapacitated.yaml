@@ -1,0 +1,6 @@
+desc:
+  - '- An incapacitated creature can''t take actions or reactions.'
+index: incapacitated
+name: Incapacitated
+ref: conditions/incapacitated.yaml
+updated_at: "2025-10-24T20:42:12.637Z"

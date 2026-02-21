@@ -1,0 +1,45 @@
+casting_time: 1 action
+classes:
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: warlock
+    name: Warlock
+    ref: classes/warlock.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+concentration: false
+damage:
+  damage_at_slot_level:
+    "7": 7d8 + 30
+  damage_type:
+    index: necrotic
+    name: Necrotic
+    ref: damage-types/necrotic.yaml
+dc:
+  dc_success: half
+  dc_type:
+    index: con
+    name: CON
+    ref: ability-scores/constitution.yaml
+desc:
+  - You send negative energy coursing through a creature that you can see within range, causing it searing pain. The target must make a constitution saving throw. It takes 7d8 + 30 necrotic damage on a failed save, or half as much damage on a successful one.
+  - A humanoid killed by this spell rises at the start of your next turn as a zombie that is permanently under your command, following your verbal orders to the best of its ability.
+duration: Instantaneous
+higher_level: []
+index: finger-of-death
+level: 7
+name: Finger of Death
+range: 60 feet
+ref: spells/finger-of-death.yaml
+ritual: false
+school:
+  index: necromancy
+  name: Necromancy
+  ref: magic-schools/necromancy.yaml
+subclasses: []
+updated_at: "2025-10-24T20:42:14.619Z"

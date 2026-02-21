@@ -1,0 +1,54 @@
+area_of_effect:
+  size: 40
+  type: cylinder
+casting_time: 1 action
+classes:
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+damage:
+  damage_at_slot_level:
+    "5": 4d6 + 4d6
+    "6": 4d6 + 5d6
+    "7": 4d6 + 6d6
+    "8": 4d6 + 7d6
+    "9": 4d6 + 8d6
+  damage_type:
+    index: fire
+    name: Fire
+    ref: damage-types/fire.yaml
+dc:
+  dc_success: half
+  dc_type:
+    index: dex
+    name: DEX
+    ref: ability-scores/dex.yaml
+desc:
+  - A vertical column of divine fire roars down from the heavens in a location you specify. Each creature in a 10-foot-radius, 40-foot-high cylinder centered on a point within range must make a dexterity saving throw. A creature takes 4d6 fire damage and 4d6 radiant damage on a failed save, or half as much damage on a successful one.
+duration: Instantaneous
+higher_level:
+  - When you cast this spell using a spell slot of 6th level or higher, the fire damage or the radiant damage (your choice) increases by 1d6 for each slot level above 5th.
+index: flame-strike
+level: 5
+material: Pinch of sulfur.
+name: Flame Strike
+range: 60 feet
+ref: spells/flame-strike.yaml
+ritual: false
+school:
+  index: evocation
+  name: Evocation
+  ref: magic-schools/evocation.yaml
+subclasses:
+  - index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+  - index: fiend
+    name: Fiend
+    ref: subclasses/fiend.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

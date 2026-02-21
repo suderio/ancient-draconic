@@ -1,0 +1,31 @@
+desc: |
+  # Combat
+index: combat
+name: Combat
+ref: rules/combat.yaml
+subsections:
+  - index: the-order-of-combat
+    name: The Order of Combat
+    ref: rule-sections/the-order-of-combat.yaml
+  - index: movement-and-position
+    name: Movement and Position
+    ref: rule-sections/movement-and-position.yaml
+  - index: actions-in-combat
+    name: Actions in Combat
+    ref: rule-sections/actions-in-combat.yaml
+  - index: making-an-attack
+    name: Making an Attack
+    ref: rule-sections/making-an-attack.yaml
+  - index: cover
+    name: Cover
+    ref: rule-sections/cover.yaml
+  - index: damage-and-healing
+    name: Damage and Healing
+    ref: rule-sections/damage-and-healing.yaml
+  - index: mounted-combat
+    name: Mounted Combat
+    ref: rule-sections/mounted-combat.yaml
+  - index: underwater-combat
+    name: Underwater Combat
+    ref: rule-sections/underwater-combat.yaml
+updated_at: "2025-10-24T20:42:14.409Z"

@@ -1,0 +1,15 @@
+desc:
+  - Potion, rare
+  - You regain 8d4 + 8 hit points when you drink this potion. The potion's red liquid glimmers when agitated.
+equipment_category:
+  index: potion
+  name: Potion
+  ref: equipment-categories/potion.yaml
+index: potion-of-healing-superior
+name: Potion of Superior Healing
+rarity:
+  name: Rare
+ref: magic-items/potion-of-healing-superior.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

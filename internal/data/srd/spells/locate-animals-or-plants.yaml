@@ -1,0 +1,36 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - Describe or name a specific kind of beast or plant. Concentrating on the voice of nature in your surroundings, you learn the direction and distance to the closest creature or plant of that kind within 5 miles, if any are present.
+duration: Instantaneous
+higher_level: []
+index: locate-animals-or-plants
+level: 2
+material: A bit of fur from a bloodhound.
+name: Locate Animals or Plants
+range: Self
+ref: spells/locate-animals-or-plants.yaml
+ritual: true
+school:
+  index: divination
+  name: Divination
+  ref: magic-schools/divination.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

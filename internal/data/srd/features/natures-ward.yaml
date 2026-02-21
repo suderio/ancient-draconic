@@ -1,0 +1,16 @@
+class:
+  index: druid
+  name: Druid
+  ref: classes/druid.yaml
+desc:
+  - When you reach 10th level, you can't be charmed or frightened by elementals or fey, and you are immune to poison and disease.
+index: natures-ward
+level: 10
+name: Nature's Ward
+prerequisites: []
+ref: features/natures-ward.yaml
+subclass:
+  index: land
+  name: Land
+  ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

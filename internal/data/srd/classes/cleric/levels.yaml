@@ -1,0 +1,581 @@
+- ability_score_bonuses: 0
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 0
+    destroy_undead_cr: 0
+  features:
+    - index: spellcasting-cleric
+      name: 'Spellcasting: Cleric'
+      ref: features/spellcasting-cleric.yaml
+    - index: divine-domain
+      name: Divine Domain
+      ref: features/divine-domain.yaml
+    - index: domain-spells-1
+      name: Domain Spells
+      ref: features/domain-spells-1.yaml
+  index: cleric-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/cleric/levels/1.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 2
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 1
+    destroy_undead_cr: 0
+  features:
+    - index: channel-divinity-1-rest
+      name: Channel Divinity (1/rest)
+      ref: features/channel-divinity-1-rest.yaml
+    - index: channel-divinity-turn-undead
+      name: 'Channel Divinity: Turn Undead'
+      ref: features/channel-divinity-turn-undead.yaml
+    - index: divine-domain-improvement-1
+      name: Divine Domain feature
+      ref: features/divine-domain-improvement-1.yaml
+  index: cleric-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/cleric/levels/2.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 1
+    destroy_undead_cr: 0
+  features:
+    - index: domain-spells-2
+      name: Domain Spells
+      ref: features/domain-spells-2.yaml
+  index: cleric-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/cleric/levels/3.yaml
+  spellcasting:
+    cantrips_known: 3
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 1
+    destroy_undead_cr: 0
+  features:
+    - index: cleric-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/cleric-ability-score-improvement-1.yaml
+  index: cleric-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/cleric/levels/4.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 1
+    destroy_undead_cr: 0.5
+  features:
+    - index: domain-spells-3
+      name: Domain Spells
+      ref: features/domain-spells-3.yaml
+    - index: destroy-undead-cr-1-2-or-below
+      name: Destroy Undead (CR 1/2 or below)
+      ref: features/destroy-undead-cr-1-2-or-below.yaml
+  index: cleric-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/cleric/levels/5.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 0.5
+  features:
+    - index: channel-divinity-2-rest
+      name: Channel Divinity (2/rest)
+      ref: features/channel-divinity-2-rest.yaml
+    - index: divine-domain-improvement-2
+      name: Divine Domain feature
+      ref: features/divine-domain-improvement-2.yaml
+  index: cleric-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/cleric/levels/6.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 0.5
+  features:
+    - index: domain-spells-4
+      name: Domain Spells
+      ref: features/domain-spells-4.yaml
+  index: cleric-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/cleric/levels/7.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 1
+  features:
+    - index: cleric-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/cleric-ability-score-improvement-2.yaml
+    - index: destroy-undead-cr-1-or-below
+      name: Destroy Undead (CR 1 or below)
+      ref: features/destroy-undead-cr-1-or-below.yaml
+    - index: divine-domain-improvement-3
+      name: Divine Domain feature
+      ref: features/divine-domain-improvement-3.yaml
+  index: cleric-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/cleric/levels/8.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 1
+  features:
+    - index: domain-spells-5
+      name: Domain Spells
+      ref: features/domain-spells-5.yaml
+  index: cleric-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/cleric/levels/9.yaml
+  spellcasting:
+    cantrips_known: 4
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 1
+  features:
+    - index: divine-intervention
+      name: Divine Intervention
+      ref: features/divine-intervention.yaml
+  index: cleric-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/cleric/levels/10.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 0
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 2
+  features:
+    - index: destroy-undead-cr-2-or-below
+      name: Destroy Undead (CR 2 or below)
+      ref: features/destroy-undead-cr-2-or-below.yaml
+  index: cleric-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/cleric/levels/11.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 2
+  features:
+    - index: cleric-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/cleric-ability-score-improvement-3.yaml
+  index: cleric-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/cleric/levels/12.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 0
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 2
+  features: []
+  index: cleric-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/cleric/levels/13.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 3
+  features:
+    - index: destroy-undead-cr-3-or-below
+      name: Destroy Undead (CR 3 or below)
+      ref: features/destroy-undead-cr-3-or-below.yaml
+  index: cleric-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/cleric/levels/14.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 0
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 3
+  features: []
+  index: cleric-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/cleric/levels/15.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 3
+  features:
+    - index: cleric-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/cleric-ability-score-improvement-4.yaml
+  index: cleric-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/cleric/levels/16.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 2
+    destroy_undead_cr: 4
+  features:
+    - index: destroy-undead-cr-4-or-below
+      name: Destroy Undead (CR 4 or below)
+      ref: features/destroy-undead-cr-4-or-below.yaml
+    - index: divine-domain-improvement-4
+      name: Divine Domain feature
+      ref: features/divine-domain-improvement-4.yaml
+  index: cleric-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/cleric/levels/17.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 3
+    destroy_undead_cr: 4
+  features:
+    - index: channel-divinity-3-rest
+      name: Channel Divinity (3/rest)
+      ref: features/channel-divinity-3-rest.yaml
+  index: cleric-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/cleric/levels/18.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 1
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 3
+    destroy_undead_cr: 4
+  features:
+    - index: cleric-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/cleric-ability-score-improvement-5.yaml
+  index: cleric-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/cleric/levels/19.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 1
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  class_specific:
+    channel_divinity_charges: 3
+    destroy_undead_cr: 4
+  features:
+    - index: divine-intervention-improvement
+      name: Divine Intervention Improvement
+      ref: features/divine-intervention-improvement.yaml
+  index: cleric-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/cleric/levels/20.yaml
+  spellcasting:
+    cantrips_known: 5
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 3
+    spell_slots_level_6: 2
+    spell_slots_level_7: 2
+    spell_slots_level_8: 1
+    spell_slots_level_9: 1
+  updated_at: "2025-10-24T20:42:13.397Z"

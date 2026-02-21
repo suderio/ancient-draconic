@@ -1,0 +1,206 @@
+equipment:
+  - index: club
+    name: Club
+    ref: equipment/club.yaml
+  - index: dagger
+    name: Dagger
+    ref: equipment/dagger.yaml
+  - index: greatclub
+    name: Greatclub
+    ref: equipment/greatclub.yaml
+  - index: handaxe
+    name: Handaxe
+    ref: equipment/handaxe.yaml
+  - index: javelin
+    name: Javelin
+    ref: equipment/javelin.yaml
+  - index: light-hammer
+    name: Light hammer
+    ref: equipment/light-hammer.yaml
+  - index: mace
+    name: Mace
+    ref: equipment/mace.yaml
+  - index: quarterstaff
+    name: Quarterstaff
+    ref: equipment/quarterstaff.yaml
+  - index: sickle
+    name: Sickle
+    ref: equipment/sickle.yaml
+  - index: spear
+    name: Spear
+    ref: equipment/spear.yaml
+  - index: crossbow-light
+    name: Crossbow, light
+    ref: equipment/crossbow-light.yaml
+  - index: dart
+    name: Dart
+    ref: equipment/dart.yaml
+  - index: shortbow
+    name: Shortbow
+    ref: equipment/shortbow.yaml
+  - index: sling
+    name: Sling
+    ref: equipment/sling.yaml
+  - index: battleaxe
+    name: Battleaxe
+    ref: equipment/battleaxe.yaml
+  - index: flail
+    name: Flail
+    ref: equipment/flail.yaml
+  - index: glaive
+    name: Glaive
+    ref: equipment/glaive.yaml
+  - index: greataxe
+    name: Greataxe
+    ref: equipment/greataxe.yaml
+  - index: greatsword
+    name: Greatsword
+    ref: equipment/greatsword.yaml
+  - index: halberd
+    name: Halberd
+    ref: equipment/halberd.yaml
+  - index: lance
+    name: Lance
+    ref: equipment/lance.yaml
+  - index: longsword
+    name: Longsword
+    ref: equipment/longsword.yaml
+  - index: maul
+    name: Maul
+    ref: equipment/maul.yaml
+  - index: morningstar
+    name: Morningstar
+    ref: equipment/morningstar.yaml
+  - index: pike
+    name: Pike
+    ref: equipment/pike.yaml
+  - index: rapier
+    name: Rapier
+    ref: equipment/rapier.yaml
+  - index: scimitar
+    name: Scimitar
+    ref: equipment/scimitar.yaml
+  - index: shortsword
+    name: Shortsword
+    ref: equipment/shortsword.yaml
+  - index: trident
+    name: Trident
+    ref: equipment/trident.yaml
+  - index: war-pick
+    name: War pick
+    ref: equipment/war-pick.yaml
+  - index: warhammer
+    name: Warhammer
+    ref: equipment/warhammer.yaml
+  - index: whip
+    name: Whip
+    ref: equipment/whip.yaml
+  - index: blowgun
+    name: Blowgun
+    ref: equipment/blowgun.yaml
+  - index: crossbow-hand
+    name: Crossbow, hand
+    ref: equipment/crossbow-hand.yaml
+  - index: crossbow-heavy
+    name: Crossbow, heavy
+    ref: equipment/crossbow-heavy.yaml
+  - index: longbow
+    name: Longbow
+    ref: equipment/longbow.yaml
+  - index: net
+    name: Net
+    ref: equipment/net.yaml
+  - index: berserker-axe
+    name: Berserker Axe
+    ref: magic-items/berserker-axe.yaml
+  - index: dagger-of-venom
+    name: Dagger of Venom
+    ref: magic-items/dagger-of-venom.yaml
+  - index: dancing-sword
+    name: Dancing Sword
+    ref: magic-items/dancing-sword.yaml
+  - index: defender
+    name: Defender
+    ref: magic-items/defender.yaml
+  - index: dragon-slayer
+    name: Dragon Slayer
+    ref: magic-items/dragon-slayer.yaml
+  - index: dwarven-thrower
+    name: Dwarven Thrower
+    ref: magic-items/dwarven-thrower.yaml
+  - index: flame-tongue
+    name: Flame Tongue
+    ref: magic-items/flame-tongue.yaml
+  - index: frost-brand
+    name: Frost Brand
+    ref: magic-items/frost-brand.yaml
+  - index: giant-slayer
+    name: Giant Slayer
+    ref: magic-items/giant-slayer.yaml
+  - index: hammer-of-thunderbolts
+    name: Hammer of Thunderbolts
+    ref: magic-items/hammer-of-thunderbolts.yaml
+  - index: holy-avenger
+    name: Holy Avenger
+    ref: magic-items/holy-avenger.yaml
+  - index: javelin-of-lightning
+    name: Javelin of Lightning
+    ref: magic-items/javelin-of-lightning.yaml
+  - index: luck-blade
+    name: Luck Blade
+    ref: magic-items/luck-blade.yaml
+  - index: mace-of-disruption
+    name: Mace of Disruption
+    ref: magic-items/mace-of-disruption.yaml
+  - index: mace-of-smiting
+    name: Mace of Smiting
+    ref: magic-items/mace-of-smiting.yaml
+  - index: mace-of-terror
+    name: Mace of Terror
+    ref: magic-items/mace-of-terror.yaml
+  - index: nine-lives-stealer
+    name: Nine Lives Stealer
+    ref: magic-items/nine-lives-stealer.yaml
+  - index: oathbow
+    name: Oathbow
+    ref: magic-items/oathbow.yaml
+  - index: scimitar-of-speed
+    name: Scimitar of Speed
+    ref: magic-items/scimitar-of-speed.yaml
+  - index: sun-blade
+    name: Sun Blade
+    ref: magic-items/sun-blade.yaml
+  - index: sword-of-life-stealing
+    name: Sword of Life Stealing
+    ref: magic-items/sword-of-life-stealing.yaml
+  - index: sword-of-sharpness
+    name: Sword of Sharpness
+    ref: magic-items/sword-of-sharpness.yaml
+  - index: sword-of-wounding
+    name: Sword of Wounding
+    ref: magic-items/sword-of-wounding.yaml
+  - index: trident-of-fish-command
+    name: Trident of Fish Command
+    ref: magic-items/trident-of-fish-command.yaml
+  - index: vicious-weapon
+    name: Vicious Weapon
+    ref: magic-items/vicious-weapon.yaml
+  - index: vorpal-sword
+    name: Vorpal Sword
+    ref: magic-items/vorpal-sword.yaml
+  - index: weapon
+    name: Weapon, +1, +2, or +3
+    ref: magic-items/weapon.yaml
+  - index: weapon-1
+    name: Weapon, +1
+    ref: magic-items/weapon-1.yaml
+  - index: weapon-2
+    name: Weapon, +2
+    ref: magic-items/weapon-2.yaml
+  - index: weapon-3
+    name: Weapon, +3
+    ref: magic-items/weapon-3.yaml
+index: weapon
+name: Weapon
+ref: equipment-categories/weapon.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

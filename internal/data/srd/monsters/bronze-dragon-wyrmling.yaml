@@ -1,0 +1,127 @@
+actions:
+  - actions: []
+    attack_bonus: 5
+    damage:
+      - damage_dice: 1d10+3
+        damage_type:
+          index: piercing
+          name: Piercing
+          ref: damage-types/piercing.yaml
+    desc: 'Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (1d10 + 3) piercing damage.'
+    name: Bite
+  - actions: []
+    damage: []
+    desc: |-
+      The dragon uses one of the following breath weapons.
+      Lightning Breath. The dragon exhales lightning in a 40-foot line that is 5 feet wide. Each creature in that line must make a DC 12 Dexterity saving throw, taking 16 (3d10) lightning damage on a failed save, or half as much damage on a successful one.
+      Repulsion Breath. The dragon exhales repulsion energy in a 30-foot cone. Each creature in that area must succeed on a DC 12 Strength saving throw. On a failed save, the creature is pushed 30 feet away from the dragon.
+    name: Breath Weapons
+    options:
+      choose: 1
+      from:
+        option_set_type: options_array
+        options:
+          - damage:
+              - damage_dice: 3d10
+                damage_type:
+                  index: lightning
+                  name: Lightning
+                  ref: damage-types/lightning.yaml
+            dc:
+              dc_type:
+                index: dex
+                name: DEX
+                ref: ability-scores/dex.yaml
+              dc_value: 12
+              success_type: half
+            name: Lightning Breath
+            option_type: breath
+          - dc:
+              dc_type:
+                index: str
+                name: STR
+                ref: ability-scores/str.yaml
+              dc_value: 12
+              success_type: none
+            name: Repulsion Breath
+            option_type: breath
+      type: attack
+    usage:
+      dice: 1d6
+      min_value: 5
+      type: recharge on roll
+alignment: lawful good
+armor_class:
+  - type: natural
+    value: 17
+challenge_rating: 2
+charisma: 15
+condition_immunities: []
+constitution: 15
+damage_immunities:
+  - lightning
+damage_resistances: []
+damage_vulnerabilities: []
+dexterity: 10
+forms: []
+hit_dice: 5d8
+hit_points: 32
+hit_points_roll: 5d8+10
+image: images/monsters/bronze-dragon-wyrmling.png
+index: bronze-dragon-wyrmling
+intelligence: 12
+languages: Draconic
+legendary_actions: []
+name: Bronze Dragon Wyrmling
+proficiencies:
+  - proficiency:
+      index: saving-throw-dex
+      name: 'Saving Throw: DEX'
+      ref: proficiencies/saving-throw-dex.yaml
+    value: 2
+  - proficiency:
+      index: saving-throw-con
+      name: 'Saving Throw: CON'
+      ref: proficiencies/saving-throw-con.yaml
+    value: 4
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 2
+  - proficiency:
+      index: saving-throw-cha
+      name: 'Saving Throw: CHA'
+      ref: proficiencies/saving-throw-cha.yaml
+    value: 4
+  - proficiency:
+      index: skill-perception
+      name: 'Skill: Perception'
+      ref: proficiencies/skill-perception.yaml
+    value: 4
+  - proficiency:
+      index: skill-stealth
+      name: 'Skill: Stealth'
+      ref: proficiencies/skill-stealth.yaml
+    value: 2
+proficiency_bonus: 2
+reactions: []
+ref: monsters/bronze-dragon-wyrmling.yaml
+senses:
+  blindsight: 10 ft.
+  darkvision: 60 ft.
+  passive_perception: 14
+size: Medium
+special_abilities:
+  - damage: []
+    desc: The dragon can breathe air and water.
+    name: Amphibious
+speed:
+  fly: 60 ft.
+  swim: 30 ft.
+  walk: 30 ft.
+strength: 17
+type: dragon
+updated_at: "2025-10-24T20:42:13.741Z"
+wisdom: 11
+xp: 450

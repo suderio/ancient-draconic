@@ -1,0 +1,17 @@
+equipment:
+  - index: ring-mail
+    name: Ring Mail
+    ref: equipment/ring-mail.yaml
+  - index: chain-mail
+    name: Chain Mail
+    ref: equipment/chain-mail.yaml
+  - index: splint-armor
+    name: Splint Armor
+    ref: equipment/splint-armor.yaml
+  - index: plate-armor
+    name: Plate Armor
+    ref: equipment/plate-armor.yaml
+index: heavy-armor
+name: Heavy Armor
+ref: equipment-categories/heavy-armor.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

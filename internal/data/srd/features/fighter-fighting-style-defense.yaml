@@ -1,0 +1,16 @@
+class:
+  index: fighter
+  name: Fighter
+  ref: classes/fighter.yaml
+desc:
+  - While you are wearing armor, you gain a +1 bonus to AC.
+index: fighter-fighting-style-defense
+level: 1
+name: 'Fighting Style: Defense'
+parent:
+  index: fighter-fighting-style
+  name: Fighting Style
+  ref: features/fighter-fighting-style.yaml
+prerequisites: []
+ref: features/fighter-fighting-style-defense.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

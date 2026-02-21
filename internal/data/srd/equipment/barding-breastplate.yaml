@@ -1,0 +1,18 @@
+contents: []
+cost:
+  quantity: 1600
+  unit: gp
+desc:
+  - Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much.
+equipment_category:
+  index: mounts-and-vehicles
+  name: Mounts and Vehicles
+  ref: equipment-categories/mounts-and-vehicles.yaml
+index: barding-breastplate
+name: 'Barding: Breastplate'
+properties: []
+ref: equipment/barding-breastplate.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+vehicle_category: Tack, Harness, and Drawn Vehicles
+weight: 40

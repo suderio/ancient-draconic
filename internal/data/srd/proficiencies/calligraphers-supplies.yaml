@@ -1,0 +1,11 @@
+classes: []
+index: calligraphers-supplies
+name: Calligrapher's Supplies
+races: []
+ref: proficiencies/calligraphers-supplies.yaml
+reference:
+  index: calligraphers-supplies
+  name: Calligrapher's Supplies
+  ref: equipment/calligraphers-supplies.yaml
+type: Artisan's Tools
+updated_at: "2025-10-24T20:42:14.116Z"

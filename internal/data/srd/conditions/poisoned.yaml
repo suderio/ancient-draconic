@@ -1,0 +1,6 @@
+desc:
+  - '- A poisoned creature has disadvantage on attack rolls and ability checks.'
+index: poisoned
+name: Poisoned
+ref: conditions/poisoned.yaml
+updated_at: "2025-10-24T20:42:12.637Z"

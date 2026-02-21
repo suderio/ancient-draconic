@@ -1,0 +1,38 @@
+casting_time: 1 action
+classes:
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+components:
+  - V
+  - S
+concentration: false
+desc:
+  - You touch a creature. If it is poisoned, you neutralize the poison. If more than one poison afflicts the target, you neutralize one poison that you know is present, or you neutralize one at random.
+  - For the duration, the target has advantage on saving throws against being poisoned, and it has resistance to poison damage.
+duration: 1 hour
+higher_level: []
+index: protection-from-poison
+level: 2
+name: Protection from Poison
+range: Touch
+ref: spells/protection-from-poison.yaml
+ritual: false
+school:
+  index: abjuration
+  name: Abjuration
+  ref: magic-schools/abjuration.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

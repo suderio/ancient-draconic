@@ -1,0 +1,34 @@
+desc:
+  - Wondrous item, uncommon
+  - This gem contains a mote of elemental energy. When you use an action to break the gem, an elemental is summoned as if you had cast the conjure elemental spell, and the gem's magic is lost. The type of gem determines the elemental summoned by the spell.
+  - '| Gem | Summoned Elemental |'
+  - '|---|---|'
+  - '| Blue sapphire | Air elemental |'
+  - '| Yellow diamond | Earth elemental |'
+  - '| Red corundum | Fire elemental |'
+  - '| Emerald | Water elemental |'
+equipment_category:
+  index: wondrous-items
+  name: Wondrous Items
+  ref: equipment-categories/wondrous-items.yaml
+image: images/magic-items/elemental-gem.png
+index: elemental-gem
+name: Elemental Gem
+rarity:
+  name: Uncommon
+ref: magic-items/elemental-gem.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants:
+  - index: elemental-gem-air
+    name: Air Elemental Gem
+    ref: magic-items/elemental-gem-air.yaml
+  - index: elemental-gem-earth
+    name: Earth Elemental Gem
+    ref: magic-items/elemental-gem-earth.yaml
+  - index: elemental-gem-fire
+    name: Fire Elemental Gem
+    ref: magic-items/elemental-gem-fire.yaml
+  - index: elemental-gem-water
+    name: Water Elemental Gem
+    ref: magic-items/elemental-gem-water.yaml

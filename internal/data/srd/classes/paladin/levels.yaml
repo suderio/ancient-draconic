@@ -1,0 +1,449 @@
+- ability_score_bonuses: 0
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 0
+  features:
+    - index: divine-sense
+      name: Divine Sense
+      ref: features/divine-sense.yaml
+    - index: lay-on-hands
+      name: Lay on Hands
+      ref: features/lay-on-hands.yaml
+  index: paladin-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/paladin/levels/1.yaml
+  spellcasting:
+    spell_slots_level_1: 0
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 0
+  features:
+    - index: paladin-fighting-style
+      name: Fighting Style
+      ref: features/paladin-fighting-style.yaml
+    - index: spellcasting-paladin
+      name: 'Spellcasting: Paladin'
+      ref: features/spellcasting-paladin.yaml
+    - index: divine-smite
+      name: Divine Smite
+      ref: features/divine-smite.yaml
+  index: paladin-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/paladin/levels/2.yaml
+  spellcasting:
+    spell_slots_level_1: 2
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 0
+  features:
+    - index: divine-health
+      name: Divine Health
+      ref: features/divine-health.yaml
+    - index: sacred-oath
+      name: Sacred Oath
+      ref: features/sacred-oath.yaml
+    - index: oath-spells
+      name: Oath Spells
+      ref: features/oath-spells.yaml
+    - index: channel-divinity
+      name: Channel Divinity
+      ref: features/channel-divinity.yaml
+  index: paladin-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/paladin/levels/3.yaml
+  spellcasting:
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 0
+  features:
+    - index: paladin-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/paladin-ability-score-improvement-1.yaml
+  index: paladin-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/paladin/levels/4.yaml
+  spellcasting:
+    spell_slots_level_1: 3
+    spell_slots_level_2: 0
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 0
+  features:
+    - index: paladin-extra-attack
+      name: Extra Attack
+      ref: features/paladin-extra-attack.yaml
+  index: paladin-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/paladin/levels/5.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: aura-of-protection
+      name: Aura of Protection
+      ref: features/aura-of-protection.yaml
+  index: paladin-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/paladin/levels/6.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 2
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: sacred-oath-improvement-1
+      name: Sacred Oath feature
+      ref: features/sacred-oath-improvement-1.yaml
+  index: paladin-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/paladin/levels/7.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: paladin-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/paladin-ability-score-improvement-2.yaml
+  index: paladin-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/paladin/levels/8.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 0
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features: []
+  index: paladin-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/paladin/levels/9.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: aura-of-courage
+      name: Aura of Courage
+      ref: features/aura-of-courage.yaml
+  index: paladin-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/paladin/levels/10.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 2
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: improved-divine-smite
+      name: Improved Divine Smite
+      ref: features/improved-divine-smite.yaml
+  index: paladin-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/paladin/levels/11.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: paladin-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/paladin-ability-score-improvement-3.yaml
+  index: paladin-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/paladin/levels/12.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 0
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features: []
+  index: paladin-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/paladin/levels/13.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: cleansing-touch
+      name: Cleansing Touch
+      ref: features/cleansing-touch.yaml
+  index: paladin-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/paladin/levels/14.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 1
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: sacred-oath-improvement-2
+      name: Sacred Oath feature
+      ref: features/sacred-oath-improvement-2.yaml
+  index: paladin-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/paladin/levels/15.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features:
+    - index: paladin-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/paladin-ability-score-improvement-4.yaml
+  index: paladin-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/paladin/levels/16.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 2
+    spell_slots_level_5: 0
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 10
+  features: []
+  index: paladin-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/paladin/levels/17.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 30
+  features:
+    - index: aura-improvements
+      name: Aura improvements
+      ref: features/aura-improvements.yaml
+  index: paladin-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/paladin/levels/18.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 1
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 30
+  features:
+    - index: paladin-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/paladin-ability-score-improvement-5.yaml
+  index: paladin-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/paladin/levels/19.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  class_specific:
+    aura_range: 30
+  features:
+    - index: sacred-oath-improvement-3
+      name: Sacred Oath feature
+      ref: features/sacred-oath-improvement-3.yaml
+  index: paladin-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/paladin/levels/20.yaml
+  spellcasting:
+    spell_slots_level_1: 4
+    spell_slots_level_2: 3
+    spell_slots_level_3: 3
+    spell_slots_level_4: 3
+    spell_slots_level_5: 2
+  updated_at: "2025-10-24T20:42:13.397Z"

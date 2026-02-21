@@ -1,6 +1,7 @@
 package data
 
 import (
+	"embed"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -8,6 +9,9 @@ import (
 
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed srd/**/*.yaml
+var srdFS embed.FS
 
 // Loader handles reading and instantiating records from the read-only data layer
 type Loader struct {
@@ -43,7 +47,11 @@ func (l *Loader) LoadMonster(name string) (*Monster, error) {
 }
 
 func (l *Loader) load(ref string, target interface{}) error {
+	// 1. Check external directories (Campaign/World/etc)
 	for _, dir := range l.dataDirs {
+		if dir == "" {
+			continue
+		}
 		path := filepath.Join(dir, ref)
 		f, err := os.Open(path)
 		if err == nil {
@@ -55,5 +63,25 @@ func (l *Loader) load(ref string, target interface{}) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("could not find or open reference %s in any available data directory", ref)
+
+	// 2. Check Embedded FS (Baseline SRD)
+	// We handle the con.yaml -> constitution.yaml mapping for Windows portability in the binary
+	internalRef := ref
+	if ref == filepath.Join("ability-scores", "con.yaml") || ref == "ability-scores/con.yaml" {
+		internalRef = filepath.Join("ability-scores", "constitution.yaml")
+	}
+
+	// embed.FS uses forward slashes regardless of OS
+	embeddedPath := "srd/" + filepath.ToSlash(internalRef)
+	f, err := srdFS.Open(embeddedPath)
+	if err == nil {
+		defer f.Close()
+		decoder := yaml.NewDecoder(f)
+		if err := decoder.Decode(target); err != nil {
+			return fmt.Errorf("failed to decode embedded yaml reference %s: %w", ref, err)
+		}
+		return nil
+	}
+
+	return fmt.Errorf("could not find or open reference %s in any available data directory or embedded storage", ref)
 }

@@ -1,0 +1,12 @@
+class:
+  index: fighter
+  name: Fighter
+  ref: classes/fighter.yaml
+desc:
+  - Beginning at 5th level, you can attack twice, instead of once, whenever you take the Attack action on your turn. The number of attacks increases to three when you reach 11th level in this class and to four when you reach 20th level in this class.
+index: extra-attack-1
+level: 5
+name: Extra Attack
+prerequisites: []
+ref: features/extra-attack-1.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

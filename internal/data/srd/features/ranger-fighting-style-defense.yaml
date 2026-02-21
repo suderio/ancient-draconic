@@ -1,0 +1,16 @@
+class:
+  index: ranger
+  name: Ranger
+  ref: classes/ranger.yaml
+desc:
+  - While you are wearing armor, you gain a +1 bonus to AC.
+index: ranger-fighting-style-defense
+level: 2
+name: 'Fighting Style: Defense'
+parent:
+  index: ranger-fighting-style
+  name: Fighting Style
+  ref: features/ranger-fighting-style.yaml
+prerequisites: []
+ref: features/ranger-fighting-style-defense.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

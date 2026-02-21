@@ -1,0 +1,147 @@
+actions:
+  - actions: []
+    attack_bonus: 7
+    damage:
+      - damage_dice: 1d6+4
+        damage_type:
+          index: piercing
+          name: Piercing
+          ref: damage-types/piercing.yaml
+    desc: 'Melee Weapon Attack: +7 to hit, reach 10 ft., one creature. Hit: 7 (1d6 + 4) piercing damage, and the target must make a DC 13 Constitution saving throw, taking 31 (7d8) poison damage on a failed save, or half as much damage on a successful one.'
+    name: Bite
+alignment: chaotic evil
+armor_class:
+  - type: natural
+    value: 15
+challenge_rating: 8
+charisma: 16
+condition_immunities:
+  - index: charmed
+    name: Charmed
+    ref: conditions/charmed.yaml
+  - index: poisoned
+    name: Poisoned
+    ref: conditions/poisoned.yaml
+constitution: 14
+damage_immunities:
+  - poison
+damage_resistances: []
+damage_vulnerabilities: []
+dexterity: 17
+forms: []
+hit_dice: 10d10
+hit_points: 75
+hit_points_roll: 10d10+20
+image: images/monsters/spirit-naga.png
+index: spirit-naga
+intelligence: 16
+languages: Abyssal, Common
+legendary_actions: []
+name: Spirit Naga
+proficiencies:
+  - proficiency:
+      index: saving-throw-dex
+      name: 'Saving Throw: DEX'
+      ref: proficiencies/saving-throw-dex.yaml
+    value: 6
+  - proficiency:
+      index: saving-throw-con
+      name: 'Saving Throw: CON'
+      ref: proficiencies/saving-throw-con.yaml
+    value: 5
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 5
+  - proficiency:
+      index: saving-throw-cha
+      name: 'Saving Throw: CHA'
+      ref: proficiencies/saving-throw-cha.yaml
+    value: 6
+proficiency_bonus: 3
+reactions: []
+ref: monsters/spirit-naga.yaml
+senses:
+  darkvision: 60 ft.
+  passive_perception: 12
+size: Large
+special_abilities:
+  - damage: []
+    desc: If it dies, the naga returns to life in 1d6 days and regains all its hit points. Only a wish spell can prevent this trait from functioning.
+    name: Rejuvenation
+  - damage: []
+    desc: |-
+      The naga is a 10th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks), and it needs only verbal components to cast its spells. It has the following wizard spells prepared:
+
+      - Cantrips (at will): mage hand, minor illusion, ray of frost
+      - 1st level (4 slots): charm person, detect magic, sleep
+      - 2nd level (3 slots): detect thoughts, hold person
+      - 3rd level (3 slots): lightning bolt, water breathing
+      - 4th level (3 slots): blight, dimension door
+      - 5th level (2 slots): dominate person
+    name: Spellcasting
+    spellcasting:
+      ability:
+        index: int
+        name: INT
+        ref: ability-scores/int.yaml
+      components_required:
+        - V
+      dc: 14
+      level: 10
+      modifier: 6
+      school: wizard
+      slots:
+        "1": 4
+        "2": 3
+        "3": 3
+        "4": 3
+        "5": 2
+      spells:
+        - level: 0
+          name: Mage Hand
+          ref: spells/mage-hand.yaml
+        - level: 0
+          name: Minor Illusion
+          ref: spells/minor-illusion.yaml
+        - level: 0
+          name: Ray of Frost
+          ref: spells/ray-of-frost.yaml
+        - level: 1
+          name: Charm Person
+          ref: spells/charm-person.yaml
+        - level: 1
+          name: Detect Magic
+          ref: spells/detect-magic.yaml
+        - level: 1
+          name: Sleep
+          ref: spells/sleep.yaml
+        - level: 2
+          name: Detect Thoughts
+          ref: spells/detect-thoughts.yaml
+        - level: 2
+          name: Hold Person
+          ref: spells/hold-person.yaml
+        - level: 3
+          name: Lightning Bolt
+          ref: spells/lightning-bolt.yaml
+        - level: 3
+          name: Water Breathing
+          ref: spells/water-breathing.yaml
+        - level: 4
+          name: Blight
+          ref: spells/blight.yaml
+        - level: 4
+          name: Dimension Door
+          ref: spells/dimension-door.yaml
+        - level: 5
+          name: Dominate Person
+          ref: spells/dominate-person.yaml
+speed:
+  walk: 40 ft.
+strength: 18
+type: monstrosity
+updated_at: "2025-10-24T20:42:13.742Z"
+wisdom: 15
+xp: 3900

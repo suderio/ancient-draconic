@@ -1,0 +1,26 @@
+equipment:
+  - index: mule
+    name: Mule
+    ref: equipment/mule.yaml
+  - index: elephant
+    name: Elephant
+    ref: equipment/elephant.yaml
+  - index: horse-draft
+    name: Horse, draft
+    ref: equipment/horse-draft.yaml
+  - index: horse-riding
+    name: Horse, riding
+    ref: equipment/horse-riding.yaml
+  - index: mastiff
+    name: Mastiff
+    ref: equipment/mastiff.yaml
+  - index: pony
+    name: Pony
+    ref: equipment/pony.yaml
+  - index: warhorse
+    name: Warhorse
+    ref: equipment/warhorse.yaml
+index: mounts-and-other-animals
+name: Mounts and Other Animals
+ref: equipment-categories/mounts-and-other-animals.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

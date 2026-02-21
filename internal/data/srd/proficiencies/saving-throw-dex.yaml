@@ -1,0 +1,23 @@
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  - index: rogue
+    name: Rogue
+    ref: classes/rogue.yaml
+index: saving-throw-dex
+name: 'Saving Throw: DEX'
+races: []
+ref: proficiencies/saving-throw-dex.yaml
+reference:
+  index: dex
+  name: DEX
+  ref: ability-scores/dex.yaml
+type: Saving Throws
+updated_at: "2025-10-24T20:42:14.116Z"

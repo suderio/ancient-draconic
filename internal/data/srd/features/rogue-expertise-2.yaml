@@ -1,0 +1,116 @@
+class:
+  index: rogue
+  name: Rogue
+  ref: classes/rogue.yaml
+desc:
+  - At 1st level, choose two of your skill proficiencies, or one of your skill proficiencies and your proficiency with thieves' tools. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.
+  - At 6th level, you can choose two more of your proficiencies (in skills or with thieves' tools) to gain this benefit
+feature_specific:
+  expertise_options:
+    choose: 2
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: skill-acrobatics
+            name: 'Skill: Acrobatics'
+            ref: proficiencies/skill-acrobatics.yaml
+          option_type: reference
+        - item:
+            index: skill-animal-handling
+            name: 'Skill: Animal Handling'
+            ref: proficiencies/skill-animal-handling.yaml
+          option_type: reference
+        - item:
+            index: skill-arcana
+            name: 'Skill: Arcana'
+            ref: proficiencies/skill-arcana.yaml
+          option_type: reference
+        - item:
+            index: skill-athletics
+            name: 'Skill: Athletics'
+            ref: proficiencies/skill-athletics.yaml
+          option_type: reference
+        - item:
+            index: skill-deception
+            name: 'Skill: Deception'
+            ref: proficiencies/skill-deception.yaml
+          option_type: reference
+        - item:
+            index: skill-history
+            name: 'Skill: History'
+            ref: proficiencies/skill-history.yaml
+          option_type: reference
+        - item:
+            index: skill-insight
+            name: 'Skill: Insight'
+            ref: proficiencies/skill-insight.yaml
+          option_type: reference
+        - item:
+            index: skill-intimidation
+            name: 'Skill: Intimidation'
+            ref: proficiencies/skill-intimidation.yaml
+          option_type: reference
+        - item:
+            index: skill-investigation
+            name: 'Skill: Investigation'
+            ref: proficiencies/skill-investigation.yaml
+          option_type: reference
+        - item:
+            index: skill-medicine
+            name: 'Skill: Medicine'
+            ref: proficiencies/skill-medicine.yaml
+          option_type: reference
+        - item:
+            index: skill-nature
+            name: 'Skill: Nature'
+            ref: proficiencies/skill-nature.yaml
+          option_type: reference
+        - item:
+            index: skill-perception
+            name: 'Skill: Perception'
+            ref: proficiencies/skill-perception.yaml
+          option_type: reference
+        - item:
+            index: skill-performance
+            name: 'Skill: Performance'
+            ref: proficiencies/skill-performance.yaml
+          option_type: reference
+        - item:
+            index: skill-persuasion
+            name: 'Skill: Persuasion'
+            ref: proficiencies/skill-persuasion.yaml
+          option_type: reference
+        - item:
+            index: skill-religion
+            name: 'Skill: Religion'
+            ref: proficiencies/skill-religion.yaml
+          option_type: reference
+        - item:
+            index: skill-sleight-of-hand
+            name: 'Skill: Sleight of Hand'
+            ref: proficiencies/skill-sleight-of-hand.yaml
+          option_type: reference
+        - item:
+            index: skill-stealth
+            name: 'Skill: Stealth'
+            ref: proficiencies/skill-stealth.yaml
+          option_type: reference
+        - item:
+            index: skill-survival
+            name: 'Skill: Survival'
+            ref: proficiencies/skill-survival.yaml
+          option_type: reference
+        - item:
+            index: thieves-tools
+            name: Thieves' Tools
+            ref: proficiencies/thieves-tools.yaml
+          option_type: reference
+    type: proficiency
+  invocations: []
+index: rogue-expertise-2
+level: 6
+name: Expertise
+prerequisites: []
+ref: features/rogue-expertise-2.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

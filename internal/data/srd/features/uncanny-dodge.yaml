@@ -1,0 +1,12 @@
+class:
+  index: rogue
+  name: Rogue
+  ref: classes/rogue.yaml
+desc:
+  - Starting at 5th level, when an attacker that you can see hits you with an attack, you can use your reaction to halve the attack's damage against you.
+index: uncanny-dodge
+level: 5
+name: Uncanny Dodge
+prerequisites: []
+ref: features/uncanny-dodge.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

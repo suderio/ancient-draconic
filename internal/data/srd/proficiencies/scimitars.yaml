@@ -1,0 +1,14 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+index: scimitars
+name: Scimitars
+races: []
+ref: proficiencies/scimitars.yaml
+reference:
+  index: scimitar
+  name: Scimitar
+  ref: equipment/scimitar.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

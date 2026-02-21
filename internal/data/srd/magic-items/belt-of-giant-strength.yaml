@@ -1,0 +1,42 @@
+desc:
+  - Wondrous item, rarity varies (requires attunement)
+  - While wearing this belt, your Strength score changes to a score granted by the belt. If your Strength is already equal to or greater than the belt's score, the item has no Effect on you.
+  - Six varieties of this belt exist, corresponding with and having rarity according to The Six kinds of true Giants. The belt of Stone Giant Strength and the belt of Frost Giant Strength look different, but they have the same Effect.
+  - '| Type | Strength | Rarity |'
+  - '|---|---|---|'
+  - '| Hill Giant | 21 | Rare |'
+  - '| Stone Giant / Frost Giant | 23 | Very Rare |'
+  - '| Fire Giant | 25 | Very Rare |'
+  - '| Cloud Giant | 27 | Legendary |'
+  - '| Storm Giant | 29 | Legendary |'
+equipment_category:
+  index: wondrous-items
+  name: Wondrous Items
+  ref: equipment-categories/wondrous-items.yaml
+image: images/magic-items/belt-of-giant-strength.png
+index: belt-of-giant-strength
+name: Belt of Giant Strength
+rarity:
+  name: Varies
+ref: magic-items/belt-of-giant-strength.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants:
+  - index: belt-of-giant-strength-hill
+    name: Belt of Hill Giant Strength
+    ref: magic-items/belt-of-giant-strength-hill.yaml
+  - index: belt-of-giant-strength-stone
+    name: Belt of Stone Giant Strength
+    ref: magic-items/belt-of-giant-strength-stone.yaml
+  - index: belt-of-giant-strength-frost
+    name: Belt of Frost Giant Strength
+    ref: magic-items/belt-of-giant-strength-frost.yaml
+  - index: belt-of-giant-strength-fire
+    name: Belt of Fire Giant Strength
+    ref: magic-items/belt-of-giant-strength-fire.yaml
+  - index: belt-of-giant-strength-cloud
+    name: Belt of Cloud Giant Strength
+    ref: magic-items/belt-of-giant-strength-cloud.yaml
+  - index: belt-of-giant-strength-storm
+    name: Belt of Storm Giant Strength
+    ref: magic-items/belt-of-giant-strength-storm.yaml

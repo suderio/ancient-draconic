@@ -1,0 +1,112 @@
+class:
+  index: warlock
+  name: Warlock
+  ref: classes/warlock.yaml
+desc:
+  - In your study of occult lore, you have unearthed eldritch invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability.
+  - At 2nd level, you gain two eldritch invocations of your choice. Your invocation options are detailed at the end of the class description. When you gain certain warlock levels, you gain additional invocations of your choice, as shown in the Invocations Known column of the Warlock table.
+  - Additionally, when you gain a level in this class, you can choose one of the invocations you know and replace it with another invocation that you could learn at that level.
+feature_specific:
+  invocations:
+    - index: eldritch-invocation-agonizing-blast
+      name: 'Eldritch Invocation: Agonizing Blast'
+      ref: features/eldritch-invocation-agonizing-blast.yaml
+    - index: eldritch-invocation-armor-of-shadows
+      name: 'Eldritch Invocation: Armor of Shadows'
+      ref: features/eldritch-invocation-armor-of-shadows.yaml
+    - index: eldritch-invocation-beast-speech
+      name: 'Eldritch Invocation: Beast Speech'
+      ref: features/eldritch-invocation-beast-speech.yaml
+    - index: eldritch-invocation-beguiling-influence
+      name: 'Eldritch Invocation: Beguiling Influence'
+      ref: features/eldritch-invocation-beguiling-influence.yaml
+    - index: eldritch-invocation-book-of-ancient-secrets
+      name: 'Eldritch Invocation: Book of Ancient Secrets'
+      ref: features/eldritch-invocation-book-of-ancient-secrets.yaml
+    - index: eldritch-invocation-devils-sight
+      name: 'Eldritch Invocation: Devil''s Sight'
+      ref: features/eldritch-invocation-devils-sight.yaml
+    - index: eldritch-invocation-eldritch-sight
+      name: 'Eldritch Invocation: Eldritch Sight'
+      ref: features/eldritch-invocation-eldritch-sight.yaml
+    - index: eldritch-invocation-eldritch-spear
+      name: 'Eldritch Invocation: Eldritch Spear'
+      ref: features/eldritch-invocation-eldritch-spear.yaml
+    - index: eldritch-invocation-eyes-of-the-rune-keeper
+      name: 'Eldritch Invocation: Eyes of the Rune Keeper'
+      ref: features/eldritch-invocation-eyes-of-the-rune-keeper.yaml
+    - index: eldritch-invocation-fiendish-vigor
+      name: 'Eldritch Invocation: Fiendish Vigor'
+      ref: features/eldritch-invocation-fiendish-vigor.yaml
+    - index: eldritch-invocation-gaze-of-two-minds
+      name: 'Eldritch Invocation: Gaze of Two Minds'
+      ref: features/eldritch-invocation-gaze-of-two-minds.yaml
+    - index: eldritch-invocation-mask-of-many-faces
+      name: 'Eldritch Invocation: Mask of Many Faces'
+      ref: features/eldritch-invocation-mask-of-many-faces.yaml
+    - index: eldritch-invocation-misty-visions
+      name: 'Eldritch Invocation: Misty Visions'
+      ref: features/eldritch-invocation-misty-visions.yaml
+    - index: eldritch-invocation-repelling-blast
+      name: 'Eldritch Invocation: Repelling Blast'
+      ref: features/eldritch-invocation-repelling-blast.yaml
+    - index: eldritch-invocation-thief-of-five-fates
+      name: 'Eldritch Invocation: Thief of Five Fates'
+      ref: features/eldritch-invocation-thief-of-five-fates.yaml
+    - index: eldritch-invocation-voice-of-the-chain-master
+      name: 'Eldritch Invocation: Voice of the Chain Master'
+      ref: features/eldritch-invocation-voice-of-the-chain-master.yaml
+    - index: eldritch-invocation-mire-the-mind
+      name: 'Eldritch Invocation: Mire the Mind'
+      ref: features/eldritch-invocation-mire-the-mind.yaml
+    - index: eldritch-invocation-one-with-shadows
+      name: 'Eldritch Invocation: One with Shadows'
+      ref: features/eldritch-invocation-one-with-shadows.yaml
+    - index: eldritch-invocation-sign-of-ill-omen
+      name: 'Eldritch Invocation: Sign of Ill Omen'
+      ref: features/eldritch-invocation-sign-of-ill-omen.yaml
+    - index: eldritch-invocation-thirsting-blade
+      name: 'Eldritch Invocation: Thirsting Blade'
+      ref: features/eldritch-invocation-thirsting-blade.yaml
+    - index: eldritch-invocation-bewitching-whispers
+      name: 'Eldritch Invocation: Bewitching Whispers'
+      ref: features/eldritch-invocation-bewitching-whispers.yaml
+    - index: eldritch-invocation-dreadful-word
+      name: 'Eldritch Invocation: Dreadful Word'
+      ref: features/eldritch-invocation-dreadful-word.yaml
+    - index: eldritch-invocation-sculptor-of-flesh
+      name: 'Eldritch Invocation: Sculptor of Flesh'
+      ref: features/eldritch-invocation-sculptor-of-flesh.yaml
+    - index: eldritch-invocation-ascendant-step
+      name: 'Eldritch Invocation: Ascendant Step'
+      ref: features/eldritch-invocation-ascendant-step.yaml
+    - index: eldritch-invocation-minions-of-chaos
+      name: 'Eldritch Invocation: Minions of Chaos'
+      ref: features/eldritch-invocation-minions-of-chaos.yaml
+    - index: eldritch-invocation-otherworldly-leap
+      name: 'Eldritch Invocation: Otherworldly Leap'
+      ref: features/eldritch-invocation-otherworldly-leap.yaml
+    - index: eldritch-invocation-whispers-of-the-grave
+      name: 'Eldritch Invocation: Whispers of the Grave'
+      ref: features/eldritch-invocation-whispers-of-the-grave.yaml
+    - index: eldritch-invocation-lifedrinker
+      name: 'Eldritch Invocation: Lifedrinker'
+      ref: features/eldritch-invocation-lifedrinker.yaml
+    - index: eldritch-invocation-chains-of-carceri
+      name: 'Eldritch Invocation: Chains of Carceri'
+      ref: features/eldritch-invocation-chains-of-carceri.yaml
+    - index: eldritch-invocation-master-of-myriad-forms
+      name: 'Eldritch Invocation: Master of Myriad Forms'
+      ref: features/eldritch-invocation-master-of-myriad-forms.yaml
+    - index: eldritch-invocation-visions-of-distant-realms
+      name: 'Eldritch Invocation: Visions of Distant Realms'
+      ref: features/eldritch-invocation-visions-of-distant-realms.yaml
+    - index: eldritch-invocation-witch-sight
+      name: 'Eldritch Invocation: Witch Sight'
+      ref: features/eldritch-invocation-witch-sight.yaml
+index: eldritch-invocations
+level: 2
+name: Eldritch Invocations
+prerequisites: []
+ref: features/eldritch-invocations.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

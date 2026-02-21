@@ -1,0 +1,151 @@
+class_levels: classes/barbarian/levels.yaml
+hit_die: 12
+index: barbarian
+multi_classing:
+  prerequisites:
+    - ability_score:
+        index: str
+        name: STR
+        ref: ability-scores/str.yaml
+      minimum_score: 13
+  proficiencies:
+    - index: shields
+      name: Shields
+      ref: proficiencies/shields.yaml
+    - index: simple-weapons
+      name: Simple Weapons
+      ref: proficiencies/simple-weapons.yaml
+    - index: martial-weapons
+      name: Martial Weapons
+      ref: proficiencies/martial-weapons.yaml
+name: Barbarian
+proficiencies:
+  - index: light-armor
+    name: Light Armor
+    ref: proficiencies/light-armor.yaml
+  - index: medium-armor
+    name: Medium Armor
+    ref: proficiencies/medium-armor.yaml
+  - index: shields
+    name: Shields
+    ref: proficiencies/shields.yaml
+  - index: simple-weapons
+    name: Simple Weapons
+    ref: proficiencies/simple-weapons.yaml
+  - index: martial-weapons
+    name: Martial Weapons
+    ref: proficiencies/martial-weapons.yaml
+  - index: saving-throw-str
+    name: 'Saving Throw: STR'
+    ref: proficiencies/saving-throw-str.yaml
+  - index: saving-throw-con
+    name: 'Saving Throw: CON'
+    ref: proficiencies/saving-throw-con.yaml
+proficiency_choices:
+  - choose: 2
+    desc: Choose two from Animal Handling, Athletics, Intimidation, Nature, Perception, and Survival
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: skill-animal-handling
+            name: 'Skill: Animal Handling'
+            ref: proficiencies/skill-animal-handling.yaml
+          option_type: reference
+        - item:
+            index: skill-athletics
+            name: 'Skill: Athletics'
+            ref: proficiencies/skill-athletics.yaml
+          option_type: reference
+        - item:
+            index: skill-intimidation
+            name: 'Skill: Intimidation'
+            ref: proficiencies/skill-intimidation.yaml
+          option_type: reference
+        - item:
+            index: skill-nature
+            name: 'Skill: Nature'
+            ref: proficiencies/skill-nature.yaml
+          option_type: reference
+        - item:
+            index: skill-perception
+            name: 'Skill: Perception'
+            ref: proficiencies/skill-perception.yaml
+          option_type: reference
+        - item:
+            index: skill-survival
+            name: 'Skill: Survival'
+            ref: proficiencies/skill-survival.yaml
+          option_type: reference
+    type: proficiencies
+ref: classes/barbarian.yaml
+saving_throws:
+  - index: str
+    name: STR
+    ref: ability-scores/str.yaml
+  - index: con
+    name: CON
+    ref: ability-scores/constitution.yaml
+starting_equipment:
+  - equipment:
+      index: explorers-pack
+      name: Explorer's Pack
+      ref: equipment/explorers-pack.yaml
+    quantity: 1
+  - equipment:
+      index: javelin
+      name: Javelin
+      ref: equipment/javelin.yaml
+    quantity: 4
+starting_equipment_options:
+  - choose: 1
+    desc: (a) a greataxe or (b) any martial melee weapon
+    from:
+      option_set_type: options_array
+      options:
+        - count: 1
+          of:
+            index: greataxe
+            name: Greataxe
+            ref: equipment/greataxe.yaml
+          option_type: counted_reference
+        - choice:
+            choose: 1
+            desc: any martial melee weapon
+            from:
+              equipment_category:
+                index: martial-melee-weapons
+                name: Martial Melee Weapons
+                ref: equipment-categories/martial-melee-weapons.yaml
+              option_set_type: equipment_category
+            type: equipment
+          option_type: choice
+    type: equipment
+  - choose: 1
+    desc: (a) two handaxes or (b) any simple weapon
+    from:
+      option_set_type: options_array
+      options:
+        - count: 2
+          of:
+            index: handaxe
+            name: Handaxe
+            ref: equipment/handaxe.yaml
+          option_type: counted_reference
+        - choice:
+            choose: 1
+            desc: any simple weapon
+            from:
+              equipment_category:
+                index: simple-weapons
+                name: Simple Weapons
+                ref: equipment-categories/simple-weapons.yaml
+              option_set_type: equipment_category
+            type: equipment
+          option_type: choice
+    type: equipment
+subclasses:
+  - index: berserker
+    name: Berserker
+    ref: subclasses/berserker.yaml
+updated_at: "2025-10-24T20:42:12.459Z"

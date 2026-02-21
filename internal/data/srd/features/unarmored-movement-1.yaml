@@ -1,0 +1,13 @@
+class:
+  index: monk
+  name: Monk
+  ref: classes/monk.yaml
+desc:
+  - 'Starting at 2nd level, your speed increases by 10 feet while you are not wearing armor or wielding a shield. This bonus increases when you reach certain monk levels, as shown in Table: The Monk.'
+  - At 9th level, you gain the ability to move along vertical surfaces and across liquids on your turn without falling during the move.
+index: unarmored-movement-1
+level: 2
+name: Unarmored Movement
+prerequisites: []
+ref: features/unarmored-movement-1.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

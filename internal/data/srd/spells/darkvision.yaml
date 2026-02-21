@@ -1,0 +1,39 @@
+casting_time: 1 action
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - You touch a willing creature to grant it the ability to see in the dark. For the duration, that creature has darkvision out to a range of 60 feet.
+duration: 8 hours
+higher_level: []
+index: darkvision
+level: 2
+material: Either a pinch of dried carrot or an agate.
+name: Darkvision
+range: Touch
+ref: spells/darkvision.yaml
+ritual: false
+school:
+  index: transmutation
+  name: Transmutation
+  ref: magic-schools/transmutation.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

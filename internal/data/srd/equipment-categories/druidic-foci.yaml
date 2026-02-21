@@ -1,0 +1,17 @@
+equipment:
+  - index: sprig-of-mistletoe
+    name: Sprig of mistletoe
+    ref: equipment/sprig-of-mistletoe.yaml
+  - index: totem
+    name: Totem
+    ref: equipment/totem.yaml
+  - index: wooden-staff
+    name: Wooden staff
+    ref: equipment/wooden-staff.yaml
+  - index: yew-wand
+    name: Yew wand
+    ref: equipment/yew-wand.yaml
+index: druidic-foci
+name: Druidic Foci
+ref: equipment-categories/druidic-foci.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

@@ -1,0 +1,12 @@
+desc:
+  - Your hit point maximum increases by 1, and it increases by 1 every time you gain a level.
+index: dwarven-toughness
+name: Dwarven Toughness
+proficiencies: []
+races: []
+ref: traits/dwarven-toughness.yaml
+subraces:
+  - index: hill-dwarf
+    name: Hill Dwarf
+    ref: subraces/hill-dwarf.yaml
+updated_at: "2025-10-24T20:42:14.945Z"

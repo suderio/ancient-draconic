@@ -1,0 +1,22 @@
+armor_category: Light
+armor_class:
+  base: 11
+  dex_bonus: true
+contents: []
+cost:
+  quantity: 10
+  unit: gp
+desc: []
+equipment_category:
+  index: armor
+  name: Armor
+  ref: equipment-categories/armor.yaml
+index: leather-armor
+name: Leather Armor
+properties: []
+ref: equipment/leather-armor.yaml
+special: []
+stealth_disadvantage: false
+str_minimum: 0
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 10

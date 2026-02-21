@@ -1,0 +1,88 @@
+- class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  features:
+    - index: channel-divinity-sacred-weapon
+      name: 'Channel Divinity: Sacred Weapon'
+      ref: features/channel-divinity-sacred-weapon.yaml
+    - index: channel-divinity-turn-the-unholy
+      name: 'Channel Divinity: Turn the Unholy'
+      ref: features/channel-divinity-turn-the-unholy.yaml
+  index: devotion-3
+  level: 3
+  ref: subclasses/devotion/levels/3.yaml
+  subclass:
+    index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  features:
+    - index: aura-of-devotion
+      name: Aura of Devotion
+      ref: features/aura-of-devotion.yaml
+  index: devotion-7
+  level: 7
+  ref: subclasses/devotion/levels/7.yaml
+  subclass:
+    index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+  subclass_specific:
+    aura_range: 10
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  features:
+    - index: purity-of-spirit
+      name: Purity of Spirit
+      ref: features/purity-of-spirit.yaml
+  index: devotion-15
+  level: 15
+  ref: subclasses/devotion/levels/15.yaml
+  subclass:
+    index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+  subclass_specific:
+    aura_range: 10
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  features: []
+  index: devotion-18
+  level: 18
+  ref: subclasses/devotion/levels/18.yaml
+  subclass:
+    index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+  subclass_specific:
+    aura_range: 30
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: paladin
+    name: Paladin
+    ref: classes/paladin.yaml
+  features:
+    - index: holy-nimbus
+      name: Holy Nimbus
+      ref: features/holy-nimbus.yaml
+  index: devotion-20
+  level: 20
+  ref: subclasses/devotion/levels/20.yaml
+  subclass:
+    index: devotion
+    name: Devotion
+    ref: subclasses/devotion.yaml
+  subclass_specific:
+    aura_range: 30
+  updated_at: "2025-10-24T20:42:13.397Z"

@@ -1,0 +1,27 @@
+desc:
+  - You have superior vision in dark and dim conditions. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You cannot discern color in darkness, only shades of gray.
+index: darkvision
+name: Darkvision
+proficiencies: []
+races:
+  - index: dwarf
+    name: Dwarf
+    ref: races/dwarf.yaml
+  - index: elf
+    name: Elf
+    ref: races/elf.yaml
+  - index: gnome
+    name: Gnome
+    ref: races/gnome.yaml
+  - index: half-elf
+    name: Half-Elf
+    ref: races/half-elf.yaml
+  - index: half-orc
+    name: Half-Orc
+    ref: races/half-orc.yaml
+  - index: tiefling
+    name: Tiefling
+    ref: races/tiefling.yaml
+ref: traits/darkvision.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

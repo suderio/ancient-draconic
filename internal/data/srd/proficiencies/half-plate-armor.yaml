@@ -1,0 +1,11 @@
+classes: []
+index: half-plate-armor
+name: Half Plate Armor
+races: []
+ref: proficiencies/half-plate-armor.yaml
+reference:
+  index: half-plate-armor
+  name: Half Plate Armor
+  ref: equipment/half-plate-armor.yaml
+type: Armor
+updated_at: "2025-10-24T20:42:14.116Z"

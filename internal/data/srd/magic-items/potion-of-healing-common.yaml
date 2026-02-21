@@ -1,0 +1,15 @@
+desc:
+  - Potion, common
+  - You regain 2d4 + 2 hit points when you drink this potion. The potion's red liquid glimmers when agitated.
+equipment_category:
+  index: potion
+  name: Potion
+  ref: equipment-categories/potion.yaml
+index: potion-of-healing-common
+name: Potion of Healing
+rarity:
+  name: Common
+ref: magic-items/potion-of-healing-common.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

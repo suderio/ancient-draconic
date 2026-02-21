@@ -1,0 +1,54 @@
+contents:
+  - item:
+      index: backpack
+      name: Backpack
+      ref: equipment/backpack.yaml
+    quantity: 1
+  - item:
+      index: book
+      name: Book
+      ref: equipment/book.yaml
+    quantity: 1
+  - item:
+      index: ink-1-ounce-bottle
+      name: Ink (1 ounce bottle)
+      ref: equipment/ink-1-ounce-bottle.yaml
+    quantity: 1
+  - item:
+      index: ink-pen
+      name: Ink pen
+      ref: equipment/ink-pen.yaml
+    quantity: 1
+  - item:
+      index: parchment-one-sheet
+      name: Parchment (one sheet)
+      ref: equipment/parchment-one-sheet.yaml
+    quantity: 10
+  - item:
+      index: little-bag-of-sand
+      name: Little bag of sand
+      ref: equipment/little-bag-of-sand.yaml
+    quantity: 1
+  - item:
+      index: small-knife
+      name: Small knife
+      ref: equipment/small-knife.yaml
+    quantity: 1
+cost:
+  quantity: 40
+  unit: gp
+desc: []
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: equipment-packs
+  name: Equipment Packs
+  ref: equipment-categories/equipment-packs.yaml
+index: scholars-pack
+name: Scholar's Pack
+properties: []
+ref: equipment/scholars-pack.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"

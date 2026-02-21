@@ -1,0 +1,33 @@
+category_range: Martial Melee
+contents: []
+cost:
+  quantity: 2
+  unit: gp
+damage:
+  damage_dice: 1d4
+  damage_type:
+    index: slashing
+    name: Slashing
+    ref: damage-types/slashing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: whip
+name: Whip
+properties:
+  - index: finesse
+    name: Finesse
+    ref: weapon-properties/finesse.yaml
+  - index: reach
+    name: Reach
+    ref: weapon-properties/reach.yaml
+range:
+  normal: 5
+ref: equipment/whip.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Martial
+weapon_range: Melee
+weight: 3

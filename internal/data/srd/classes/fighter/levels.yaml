@@ -1,0 +1,366 @@
+- ability_score_bonuses: 0
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 0
+    extra_attacks: 0
+    indomitable_uses: 0
+  features:
+    - index: fighter-fighting-style
+      name: Fighting Style
+      ref: features/fighter-fighting-style.yaml
+    - index: second-wind
+      name: Second Wind
+      ref: features/second-wind.yaml
+  index: fighter-1
+  level: 1
+  prof_bonus: 2
+  ref: classes/fighter/levels/1.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 0
+    indomitable_uses: 0
+  features:
+    - index: action-surge-1-use
+      name: Action Surge (1 use)
+      ref: features/action-surge-1-use.yaml
+  index: fighter-2
+  level: 2
+  prof_bonus: 2
+  ref: classes/fighter/levels/2.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 0
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 0
+    indomitable_uses: 0
+  features:
+    - index: martial-archetype
+      name: Martial Archetype
+      ref: features/martial-archetype.yaml
+  index: fighter-3
+  level: 3
+  prof_bonus: 2
+  ref: classes/fighter/levels/3.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 0
+    indomitable_uses: 0
+  features:
+    - index: fighter-ability-score-improvement-1
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-1.yaml
+  index: fighter-4
+  level: 4
+  prof_bonus: 2
+  ref: classes/fighter/levels/4.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 1
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 1
+    indomitable_uses: 0
+  features:
+    - index: extra-attack-1
+      name: Extra Attack
+      ref: features/extra-attack-1.yaml
+  index: fighter-5
+  level: 5
+  prof_bonus: 3
+  ref: classes/fighter/levels/5.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 1
+    indomitable_uses: 0
+  features:
+    - index: fighter-ability-score-improvement-2
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-2.yaml
+  index: fighter-6
+  level: 6
+  prof_bonus: 3
+  ref: classes/fighter/levels/6.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 2
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 1
+    indomitable_uses: 0
+  features:
+    - index: martial-archetype-improvement-1
+      name: Martial Archetype feature
+      ref: features/martial-archetype-improvement-1.yaml
+  index: fighter-7
+  level: 7
+  prof_bonus: 3
+  ref: classes/fighter/levels/7.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 1
+    indomitable_uses: 0
+  features:
+    - index: fighter-ability-score-improvement-3
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-3.yaml
+  index: fighter-8
+  level: 8
+  prof_bonus: 3
+  ref: classes/fighter/levels/8.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 1
+    indomitable_uses: 1
+  features:
+    - index: indomitable-1-use
+      name: Indomitable (1 use)
+      ref: features/indomitable-1-use.yaml
+  index: fighter-9
+  level: 9
+  prof_bonus: 4
+  ref: classes/fighter/levels/9.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 1
+    indomitable_uses: 1
+  features:
+    - index: martial-archetype-improvement-2
+      name: Martial Archetype feature
+      ref: features/martial-archetype-improvement-2.yaml
+  index: fighter-10
+  level: 10
+  prof_bonus: 4
+  ref: classes/fighter/levels/10.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 3
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 2
+    indomitable_uses: 1
+  features:
+    - index: extra-attack-2
+      name: Extra Attack (2)
+      ref: features/extra-attack-2.yaml
+  index: fighter-11
+  level: 11
+  prof_bonus: 4
+  ref: classes/fighter/levels/11.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 2
+    indomitable_uses: 1
+  features:
+    - index: fighter-ability-score-improvement-4
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-4.yaml
+  index: fighter-12
+  level: 12
+  prof_bonus: 4
+  ref: classes/fighter/levels/12.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 4
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 2
+    indomitable_uses: 2
+  features:
+    - index: indomitable-2-uses
+      name: Indomitable (2 uses)
+      ref: features/indomitable-2-uses.yaml
+  index: fighter-13
+  level: 13
+  prof_bonus: 5
+  ref: classes/fighter/levels/13.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 2
+    indomitable_uses: 2
+  features:
+    - index: fighter-ability-score-improvement-5
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-5.yaml
+  index: fighter-14
+  level: 14
+  prof_bonus: 5
+  ref: classes/fighter/levels/14.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 5
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 2
+    indomitable_uses: 2
+  features:
+    - index: martial-archetype-improvement-3
+      name: Martial Archetype feature
+      ref: features/martial-archetype-improvement-3.yaml
+  index: fighter-15
+  level: 15
+  prof_bonus: 5
+  ref: classes/fighter/levels/15.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 6
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 1
+    extra_attacks: 2
+    indomitable_uses: 2
+  features:
+    - index: fighter-ability-score-improvement-6
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-6.yaml
+  index: fighter-16
+  level: 16
+  prof_bonus: 5
+  ref: classes/fighter/levels/16.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 6
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 2
+    extra_attacks: 2
+    indomitable_uses: 3
+  features:
+    - index: action-surge-2-uses
+      name: Action Surge (2 uses)
+      ref: features/action-surge-2-uses.yaml
+    - index: indomitable-3-uses
+      name: Indomitable (3 uses)
+      ref: features/indomitable-3-uses.yaml
+  index: fighter-17
+  level: 17
+  prof_bonus: 6
+  ref: classes/fighter/levels/17.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 6
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 2
+    extra_attacks: 2
+    indomitable_uses: 3
+  features:
+    - index: martial-archetype-improvement-4
+      name: Martial Archetype feature
+      ref: features/martial-archetype-improvement-4.yaml
+  index: fighter-18
+  level: 18
+  prof_bonus: 6
+  ref: classes/fighter/levels/18.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 7
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 2
+    extra_attacks: 2
+    indomitable_uses: 3
+  features:
+    - index: fighter-ability-score-improvement-7
+      name: Ability Score Improvement
+      ref: features/fighter-ability-score-improvement-7.yaml
+  index: fighter-19
+  level: 19
+  prof_bonus: 6
+  ref: classes/fighter/levels/19.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- ability_score_bonuses: 7
+  class:
+    index: fighter
+    name: Fighter
+    ref: classes/fighter.yaml
+  class_specific:
+    action_surges: 2
+    extra_attacks: 3
+    indomitable_uses: 3
+  features:
+    - index: extra-attack-3
+      name: Extra Attack (3)
+      ref: features/extra-attack-3.yaml
+  index: fighter-20
+  level: 20
+  prof_bonus: 6
+  ref: classes/fighter/levels/20.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"

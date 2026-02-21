@@ -1,0 +1,36 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - For the duration, you hide a target that you touch from divination magic. The target can be a willing creature or a place or an object no larger than 10 feet in any dimension. The target can't be targeted by any divination magic or perceived through magical scrying sensors.
+duration: 8 hours
+higher_level: []
+index: nondetection
+level: 3
+material: A pinch of diamond dust worth 25 gp sprinkled over the target, which the spell consumes.
+name: Nondetection
+range: Touch
+ref: spells/nondetection.yaml
+ritual: false
+school:
+  index: abjuration
+  name: Abjuration
+  ref: magic-schools/abjuration.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

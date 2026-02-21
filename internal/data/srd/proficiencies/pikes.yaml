@@ -1,0 +1,11 @@
+classes: []
+index: pikes
+name: Pikes
+races: []
+ref: proficiencies/pikes.yaml
+reference:
+  index: pike
+  name: Pike
+  ref: equipment/pike.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

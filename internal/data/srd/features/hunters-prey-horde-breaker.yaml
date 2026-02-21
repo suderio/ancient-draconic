@@ -1,0 +1,20 @@
+class:
+  index: ranger
+  name: Ranger
+  ref: classes/ranger.yaml
+desc:
+  - Once on each of your turns when you make a weapon attack, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target and within range of your weapon.
+index: hunters-prey-horde-breaker
+level: 3
+name: 'Hunter''s Prey: Horde Breaker'
+parent:
+  index: hunters-prey
+  name: Hunter's Prey
+  ref: features/hunters-prey.yaml
+prerequisites: []
+ref: features/hunters-prey-horde-breaker.yaml
+subclass:
+  index: hunter
+  name: Hunter
+  ref: subclasses/hunter.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

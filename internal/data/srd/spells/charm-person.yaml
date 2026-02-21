@@ -1,0 +1,47 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: warlock
+    name: Warlock
+    ref: classes/warlock.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+concentration: false
+dc:
+  dc_success: none
+  dc_type:
+    index: wis
+    name: WIS
+    ref: ability-scores/wis.yaml
+desc:
+  - You attempt to charm a humanoid you can see within range. It must make a wisdom saving throw, and does so with advantage if you or your companions are fighting it. If it fails the saving throw, it is charmed by you until the spell ends or until you or your companions do anything harmful to it. The charmed creature regards you as a friendly acquaintance. When the spell ends, the creature knows it was charmed by you.
+duration: 1 hour
+higher_level:
+  - When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st. The creatures must be within 30 feet of each other when you target them.
+index: charm-person
+level: 1
+name: Charm Person
+range: 30 feet
+ref: spells/charm-person.yaml
+ritual: false
+school:
+  index: enchantment
+  name: Enchantment
+  ref: magic-schools/enchantment.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

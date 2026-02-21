@@ -1,0 +1,14 @@
+classes: []
+index: skill-perception
+name: 'Skill: Perception'
+races:
+  - index: elf
+    name: Elf
+    ref: races/elf.yaml
+ref: proficiencies/skill-perception.yaml
+reference:
+  index: perception
+  name: Perception
+  ref: skills/perception.yaml
+type: Skills
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,11 @@
+classes: []
+index: water-vehicles
+name: Water Vehicles
+races: []
+ref: proficiencies/water-vehicles.yaml
+reference:
+  index: waterborne-vehicles
+  name: Waterborne Vehicles
+  ref: equipment-categories/waterborne-vehicles.yaml
+type: Vehicles
+updated_at: "2025-10-24T20:42:14.116Z"

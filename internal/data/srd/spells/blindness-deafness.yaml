@@ -1,0 +1,46 @@
+casting_time: 1 action
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+concentration: false
+dc:
+  dc_success: none
+  dc_type:
+    index: con
+    name: CON
+    ref: ability-scores/constitution.yaml
+desc:
+  - You can blind or deafen a foe. Choose one creature that you can see within range to make a constitution saving throw. If it fails, the target is either blinded or deafened (your choice) for the duration. At the end of each of its turns, the target can make a constitution saving throw. On a success, the spell ends.
+duration: 1 minute
+higher_level:
+  - When you cast this spell using a spell slot of 3rd level or higher, you can target one additional creature for each slot level above 2nd.
+index: blindness-deafness
+level: 2
+name: Blindness/Deafness
+range: 30 feet
+ref: spells/blindness-deafness.yaml
+ritual: false
+school:
+  index: necromancy
+  name: Necromancy
+  ref: magic-schools/necromancy.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: fiend
+    name: Fiend
+    ref: subclasses/fiend.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

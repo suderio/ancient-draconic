@@ -1,0 +1,43 @@
+casting_time: 1 action
+classes:
+  - index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+  - index: sorcerer
+    name: Sorcerer
+    ref: classes/sorcerer.yaml
+  - index: wizard
+    name: Wizard
+    ref: classes/wizard.yaml
+components:
+  - V
+  - S
+concentration: true
+desc:
+  - 'For the duration, the willing creature you touch has resistance to one damage type of your choice: acid, cold, fire, lightning, or thunder.'
+duration: Up to 1 hour
+higher_level: []
+index: protection-from-energy
+level: 3
+name: Protection From Energy
+range: Touch
+ref: spells/protection-from-energy.yaml
+ritual: false
+school:
+  index: abjuration
+  name: Abjuration
+  ref: magic-schools/abjuration.yaml
+subclasses:
+  - index: lore
+    name: Lore
+    ref: subclasses/lore.yaml
+  - index: land
+    name: Land
+    ref: subclasses/land.yaml
+updated_at: "2025-10-24T20:42:14.619Z"

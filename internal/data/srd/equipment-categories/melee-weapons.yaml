@@ -1,0 +1,89 @@
+equipment:
+  - index: battleaxe
+    name: Battleaxe
+    ref: equipment/battleaxe.yaml
+  - index: club
+    name: Club
+    ref: equipment/club.yaml
+  - index: dagger
+    name: Dagger
+    ref: equipment/dagger.yaml
+  - index: flail
+    name: Flail
+    ref: equipment/flail.yaml
+  - index: glaive
+    name: Glaive
+    ref: equipment/glaive.yaml
+  - index: greataxe
+    name: Greataxe
+    ref: equipment/greataxe.yaml
+  - index: greatclub
+    name: Greatclub
+    ref: equipment/greatclub.yaml
+  - index: greatsword
+    name: Greatsword
+    ref: equipment/greatsword.yaml
+  - index: halberd
+    name: Halberd
+    ref: equipment/halberd.yaml
+  - index: handaxe
+    name: Handaxe
+    ref: equipment/handaxe.yaml
+  - index: javelin
+    name: Javelin
+    ref: equipment/javelin.yaml
+  - index: lance
+    name: Lance
+    ref: equipment/lance.yaml
+  - index: light-hammer
+    name: Light hammer
+    ref: equipment/light-hammer.yaml
+  - index: longsword
+    name: Longsword
+    ref: equipment/longsword.yaml
+  - index: mace
+    name: Mace
+    ref: equipment/mace.yaml
+  - index: maul
+    name: Maul
+    ref: equipment/maul.yaml
+  - index: morningstar
+    name: Morningstar
+    ref: equipment/morningstar.yaml
+  - index: pike
+    name: Pike
+    ref: equipment/pike.yaml
+  - index: quarterstaff
+    name: Quarterstaff
+    ref: equipment/quarterstaff.yaml
+  - index: rapier
+    name: Rapier
+    ref: equipment/rapier.yaml
+  - index: scimitar
+    name: Scimitar
+    ref: equipment/scimitar.yaml
+  - index: shortsword
+    name: Shortsword
+    ref: equipment/shortsword.yaml
+  - index: sickle
+    name: Sickle
+    ref: equipment/sickle.yaml
+  - index: spear
+    name: Spear
+    ref: equipment/spear.yaml
+  - index: trident
+    name: Trident
+    ref: equipment/trident.yaml
+  - index: war-pick
+    name: War pick
+    ref: equipment/war-pick.yaml
+  - index: warhammer
+    name: Warhammer
+    ref: equipment/warhammer.yaml
+  - index: whip
+    name: Whip
+    ref: equipment/whip.yaml
+index: melee-weapons
+name: Melee Weapons
+ref: equipment-categories/melee-weapons.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

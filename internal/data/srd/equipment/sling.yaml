@@ -1,0 +1,31 @@
+category_range: Simple Ranged
+contents: []
+cost:
+  quantity: 1
+  unit: sp
+damage:
+  damage_dice: 1d4
+  damage_type:
+    index: bludgeoning
+    name: Bludgeoning
+    ref: damage-types/bludgeoning.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: sling
+name: Sling
+properties:
+  - index: ammunition
+    name: Ammunition
+    ref: weapon-properties/ammunition.yaml
+range:
+  long: 120
+  normal: 30
+ref: equipment/sling.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Simple
+weapon_range: Ranged
+weight: 0

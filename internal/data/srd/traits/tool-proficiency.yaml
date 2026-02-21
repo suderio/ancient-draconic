@@ -1,0 +1,33 @@
+desc:
+  - 'You gain proficiency with the artisan''s tools of your choice: smith''s tools, brewer''s supplies, or mason''s tools.'
+index: tool-proficiency
+name: Tool Proficiency
+proficiencies: []
+proficiency_choices:
+  choose: 1
+  from:
+    option_set_type: options_array
+    options:
+      - item:
+          index: smiths-tools
+          name: Smith's Tools
+          ref: proficiencies/smiths-tools.yaml
+        option_type: reference
+      - item:
+          index: brewers-supplies
+          name: Brewer's Supplies
+          ref: proficiencies/brewers-supplies.yaml
+        option_type: reference
+      - item:
+          index: masons-tools
+          name: Mason's Tools
+          ref: proficiencies/masons-tools.yaml
+        option_type: reference
+  type: proficiencies
+races:
+  - index: dwarf
+    name: Dwarf
+    ref: races/dwarf.yaml
+ref: traits/tool-proficiency.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

@@ -1,0 +1,13 @@
+class:
+  index: cleric
+  name: Cleric
+  ref: classes/cleric.yaml
+desc:
+  - As a conduit for divine power, you can cast cleric spells.
+index: spellcasting-cleric
+level: 1
+name: 'Spellcasting: Cleric'
+prerequisites: []
+ref: features/spellcasting-cleric.yaml
+reference: classes/cleric/spellcasting.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

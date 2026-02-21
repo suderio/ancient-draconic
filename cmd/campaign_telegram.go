@@ -99,17 +99,10 @@ var telegramCmd = &cobra.Command{
 		if tgChatID != "" {
 			config.ChatID = tgChatID
 		}
-
 		if len(tgUserPairs) > 0 {
-			// Need to validate users, so we need a loader
 			campaignData := filepath.Join(campaignPath, "data")
 			worldData := filepath.Join(worldDir, "data")
-			rootData := viper.GetString("data_dir")
-			if rootData == "" {
-				rootDir, _ := os.Getwd()
-				rootData = filepath.Join(rootDir, "data")
-			}
-			loader := data.NewLoader([]string{campaignData, worldData, rootData})
+			loader := data.NewLoader([]string{campaignData, worldData})
 
 			for _, pair := range tgUserPairs {
 				parts := strings.Split(pair, ":")

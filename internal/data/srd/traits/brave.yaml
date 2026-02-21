@@ -1,0 +1,12 @@
+desc:
+  - You have advantage on saving throw against being frightened.
+index: brave
+name: Brave
+proficiencies: []
+races:
+  - index: halfling
+    name: Halfling
+    ref: races/halfling.yaml
+ref: traits/brave.yaml
+subraces: []
+updated_at: "2025-10-24T20:42:14.945Z"

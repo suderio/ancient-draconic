@@ -10,7 +10,6 @@ import (
 
 	"github.com/schollz/progressbar/v3"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var defaultEndpoints = []string{
@@ -23,11 +22,12 @@ var defaultEndpoints = []string{
 }
 
 var initCmd = &cobra.Command{
-	Use:   "init",
-	Short: "Initialize data by downloading SRD files from dnd5eapi",
-	Long:  `Bootstraps the local game data environment by fetching 5e SRD data, transforming it, and storing locally for offline use.`,
+	Use:    "init",
+	Short:  "Initialize data by downloading SRD files from dnd5eapi",
+	Long:   `Bootstraps the local game data environment by fetching 5e SRD data, transforming it, and storing locally for offline use.`,
+	Hidden: true,
 	Run: func(cmd *cobra.Command, args []string) {
-		dataDir := viper.GetString("data_dir")
+		dataDir, _ := cmd.Flags().GetString("data_dir_local")
 		if dataDir == "" {
 			rootDir, _ := os.Getwd()
 			dataDir = filepath.Join(rootDir, "data")
@@ -115,8 +115,10 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 
 	initCmd.Flags().Bool("force", false, "Force redownload of existing files")
+	initCmd.Flags().String("data_dir_local", "", "Local data directory to save files to (internal fallback is still used by the app)")
 
 	for _, ep := range defaultEndpoints {
 		initCmd.Flags().Bool(ep, false, fmt.Sprintf("Download %s", ep))
 	}
+
 }

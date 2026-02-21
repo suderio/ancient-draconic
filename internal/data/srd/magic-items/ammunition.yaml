@@ -1,0 +1,25 @@
+desc:
+  - Weapon (any ammunition), uncommon (+1), rare (+2), or very rare (+3)
+  - You have a bonus to attack and damage rolls made with this piece of magic ammunition. The bonus is determined by the rarity of the ammunition. Once it hits a target, the ammunition is no longer magical.
+equipment_category:
+  index: ammunition
+  name: Ammunition
+  ref: equipment-categories/ammunition.yaml
+image: images/magic-items/ammunition.png
+index: ammunition
+name: Ammunition, +1, +2, or +3
+rarity:
+  name: Varies
+ref: magic-items/ammunition.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: false
+variants:
+  - index: ammunition-1
+    name: Ammunition, +1
+    ref: magic-items/ammunition-1.yaml
+  - index: ammunition-2
+    name: Ammunition, +2
+    ref: magic-items/ammunition-2.yaml
+  - index: ammunition-3
+    name: Ammunition, +3
+    ref: magic-items/ammunition-3.yaml

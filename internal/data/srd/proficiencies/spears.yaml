@@ -1,0 +1,14 @@
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+index: spears
+name: Spears
+races: []
+ref: proficiencies/spears.yaml
+reference:
+  index: spear
+  name: Spear
+  ref: equipment/spear.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

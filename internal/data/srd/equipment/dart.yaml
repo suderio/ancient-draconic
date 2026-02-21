@@ -1,0 +1,37 @@
+category_range: Simple Ranged
+contents: []
+cost:
+  quantity: 5
+  unit: cp
+damage:
+  damage_dice: 1d4
+  damage_type:
+    index: piercing
+    name: Piercing
+    ref: damage-types/piercing.yaml
+desc: []
+equipment_category:
+  index: weapon
+  name: Weapon
+  ref: equipment-categories/weapon.yaml
+index: dart
+name: Dart
+properties:
+  - index: finesse
+    name: Finesse
+    ref: weapon-properties/finesse.yaml
+  - index: thrown
+    name: Thrown
+    ref: weapon-properties/thrown.yaml
+range:
+  long: 60
+  normal: 20
+ref: equipment/dart.yaml
+special: []
+throw_range:
+  long: 60
+  normal: 20
+updated_at: "2025-10-24T20:42:12.926Z"
+weapon_category: Simple
+weapon_range: Ranged
+weight: 0.25

@@ -1,0 +1,13 @@
+desc: |
+  # Appendix
+index: appendix
+name: Appendix
+ref: rules/appendix.yaml
+subsections:
+  - index: fantasy-historical-pantheons
+    name: Fantasy-Historical Pantheons
+    ref: rule-sections/fantasy-historical-pantheons.yaml
+  - index: the-planes-of-existence
+    name: The Planes of Existence
+    ref: rule-sections/the-planes-of-existence.yaml
+updated_at: "2025-10-24T20:42:14.409Z"

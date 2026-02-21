@@ -1,0 +1,40 @@
+class:
+  index: paladin
+  name: Paladin
+  ref: classes/paladin.yaml
+desc:
+  - At 2nd level, you adopt a style of fighting as your specialty. Choose one of the following options. You can't take a Fighting Style option more than once, even if you later get to choose again.
+feature_specific:
+  invocations: []
+  subfeature_options:
+    choose: 1
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: fighting-style-defense
+            name: 'Fighting Style: Defense'
+            ref: features/fighting-style-defense.yaml
+          option_type: reference
+        - item:
+            index: fighting-style-dueling
+            name: 'Fighting Style: Dueling'
+            ref: features/fighting-style-dueling.yaml
+          option_type: reference
+        - item:
+            index: fighting-style-great-weapon-fighting
+            name: 'Fighting Style: Great Weapon Fighting'
+            ref: features/fighting-style-great-weapon-fighting.yaml
+          option_type: reference
+        - item:
+            index: fighting-style-protection
+            name: 'Fighting Style: Protection'
+            ref: features/fighting-style-protection.yaml
+          option_type: reference
+    type: feature
+index: paladin-fighting-style
+level: 2
+name: Fighting Style
+prerequisites: []
+ref: features/paladin-fighting-style.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

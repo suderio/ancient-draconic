@@ -1,0 +1,11 @@
+classes: []
+index: greatswords
+name: Greatswords
+races: []
+ref: proficiencies/greatswords.yaml
+reference:
+  index: greatsword
+  name: Greatsword
+  ref: equipment/greatsword.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,89 @@
+desc:
+  - You know one cantrip of your choice form the wizard spell list. Intelligence is your spellcasting ability for it.
+index: high-elf-cantrip
+name: High Elf Cantrip
+proficiencies: []
+races: []
+ref: traits/high-elf-cantrip.yaml
+subraces:
+  - index: high-elf
+    name: High Elf
+    ref: subraces/high-elf.yaml
+trait_specific:
+  spell_options:
+    choose: 1
+    from:
+      option_set_type: options_array
+      options:
+        - item:
+            index: light
+            name: Light
+            ref: spells/light.yaml
+          option_type: reference
+        - item:
+            index: mage-hand
+            name: Mage Hand
+            ref: spells/mage-hand.yaml
+          option_type: reference
+        - item:
+            index: mending
+            name: Mending
+            ref: spells/mending.yaml
+          option_type: reference
+        - item:
+            index: message
+            name: Message
+            ref: spells/message.yaml
+          option_type: reference
+        - item:
+            index: minor-illusion
+            name: Minor Illusion
+            ref: spells/minor-illusion.yaml
+          option_type: reference
+        - item:
+            index: acid-splash
+            name: Acid Splash
+            ref: spells/acid-splash.yaml
+          option_type: reference
+        - item:
+            index: prestidigitation
+            name: Prestidigitation
+            ref: spells/prestidigitation.yaml
+          option_type: reference
+        - item:
+            index: ray-of-frost
+            name: Ray of Frost
+            ref: spells/ray-of-frost.yaml
+          option_type: reference
+        - item:
+            index: shocking-grasp
+            name: Shocking Grasp
+            ref: spells/shocking-grasp.yaml
+          option_type: reference
+        - item:
+            index: true-strike
+            name: True Strike
+            ref: spells/true-strike.yaml
+          option_type: reference
+        - item:
+            index: chill-touch
+            name: Chill Touch
+            ref: spells/chill-touch.yaml
+          option_type: reference
+        - item:
+            index: dancing-lights
+            name: Dancing Lights
+            ref: spells/dancing-lights.yaml
+          option_type: reference
+        - item:
+            index: fire-bolt
+            name: Fire Bolt
+            ref: spells/fire-bolt.yaml
+          option_type: reference
+        - item:
+            index: poison-spray
+            name: Poison Spray
+            ref: spells/poison-spray.yaml
+          option_type: reference
+    type: spell
+updated_at: "2025-10-24T20:42:14.945Z"

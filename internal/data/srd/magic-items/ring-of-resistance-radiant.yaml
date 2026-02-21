@@ -1,0 +1,15 @@
+desc:
+  - Ring, rare (requires attunement)
+  - You have resistance to radiant damage while wearing this topaz ring.
+equipment_category:
+  index: ring
+  name: Ring
+  ref: equipment-categories/ring.yaml
+index: ring-of-resistance-radiant
+name: Ring of Radiant Resistance
+rarity:
+  name: Rare
+ref: magic-items/ring-of-resistance-radiant.yaml
+updated_at: "2025-10-24T20:42:13.517Z"
+variant: true
+variants: []

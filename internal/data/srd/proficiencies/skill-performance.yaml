@@ -1,0 +1,11 @@
+classes: []
+index: skill-performance
+name: 'Skill: Performance'
+races: []
+ref: proficiencies/skill-performance.yaml
+reference:
+  index: performance
+  name: Performance
+  ref: skills/performance.yaml
+type: Skills
+updated_at: "2025-10-24T20:42:14.116Z"

@@ -1,0 +1,192 @@
+actions:
+  - actions:
+      - action_name: Greatsword
+        count: "2"
+        type: melee
+    damage: []
+    desc: The giant makes two greatsword attacks.
+    multiattack_type: actions
+    name: Multiattack
+  - actions: []
+    attack_bonus: 14
+    damage:
+      - damage_dice: 6d6+9
+        damage_type:
+          index: slashing
+          name: Slashing
+          ref: damage-types/slashing.yaml
+    desc: 'Melee Weapon Attack: +14 to hit, reach 10 ft., one target. Hit: 30 (6d6 + 9) slashing damage.'
+    name: Greatsword
+  - actions: []
+    attack_bonus: 14
+    damage:
+      - damage_dice: 4d12+9
+        damage_type:
+          index: bludgeoning
+          name: Bludgeoning
+          ref: damage-types/bludgeoning.yaml
+    desc: 'Ranged Weapon Attack: +14 to hit, range 60/240 ft., one target. Hit: 35 (4d12 + 9) bludgeoning damage.'
+    name: Rock
+  - actions: []
+    damage:
+      - damage_dice: 12d8
+        damage_type:
+          index: lightning
+          name: Lightning
+          ref: damage-types/lightning.yaml
+    dc:
+      dc_type:
+        index: dex
+        name: DEX
+        ref: ability-scores/dex.yaml
+      dc_value: 17
+      success_type: half
+    desc: The giant hurls a magical lightning bolt at a point it can see within 500 feet of it. Each creature within 10 feet of that point must make a DC 17 Dexterity saving throw, taking 54 (12d8) lightning damage on a failed save, or half as much damage on a successful one.
+    name: Lightning Strike
+    usage:
+      dice: 1d6
+      min_value: 5
+      type: recharge on roll
+alignment: chaotic good
+armor_class:
+  - armor:
+      - index: scale-mail
+        name: Scale Mail
+        ref: equipment/scale-mail.yaml
+    type: armor
+    value: 16
+challenge_rating: 13
+charisma: 18
+condition_immunities: []
+constitution: 20
+damage_immunities:
+  - lightning
+  - thunder
+damage_resistances:
+  - cold
+damage_vulnerabilities: []
+dexterity: 14
+forms: []
+hit_dice: 20d12
+hit_points: 230
+hit_points_roll: 20d12+100
+image: images/monsters/storm-giant.png
+index: storm-giant
+intelligence: 16
+languages: Common, Giant
+legendary_actions: []
+name: Storm Giant
+proficiencies:
+  - proficiency:
+      index: saving-throw-str
+      name: 'Saving Throw: STR'
+      ref: proficiencies/saving-throw-str.yaml
+    value: 14
+  - proficiency:
+      index: saving-throw-con
+      name: 'Saving Throw: CON'
+      ref: proficiencies/saving-throw-con.yaml
+    value: 10
+  - proficiency:
+      index: saving-throw-wis
+      name: 'Saving Throw: WIS'
+      ref: proficiencies/saving-throw-wis.yaml
+    value: 9
+  - proficiency:
+      index: saving-throw-cha
+      name: 'Saving Throw: CHA'
+      ref: proficiencies/saving-throw-cha.yaml
+    value: 9
+  - proficiency:
+      index: skill-arcana
+      name: 'Skill: Arcana'
+      ref: proficiencies/skill-arcana.yaml
+    value: 8
+  - proficiency:
+      index: skill-athletics
+      name: 'Skill: Athletics'
+      ref: proficiencies/skill-athletics.yaml
+    value: 14
+  - proficiency:
+      index: skill-history
+      name: 'Skill: History'
+      ref: proficiencies/skill-history.yaml
+    value: 8
+  - proficiency:
+      index: skill-perception
+      name: 'Skill: Perception'
+      ref: proficiencies/skill-perception.yaml
+    value: 9
+proficiency_bonus: 5
+reactions: []
+ref: monsters/storm-giant.yaml
+senses:
+  passive_perception: 19
+size: Huge
+special_abilities:
+  - damage: []
+    desc: The giant can breathe air and water.
+    name: Amphibious
+  - damage: []
+    desc: |-
+      The giant's innate spellcasting ability is Charisma (spell save DC 17). It can innately cast the following spells, requiring no material components:
+
+      At will: detect magic, feather fall, levitate, light
+      3/day each: control weather, water breathing
+    name: Innate Spellcasting
+    spellcasting:
+      ability:
+        index: cha
+        name: CHA
+        ref: ability-scores/cha.yaml
+      components_required:
+        - V
+        - S
+      dc: 17
+      spells:
+        - level: 1
+          name: Detect Magic
+          ref: spells/detect-magic.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 1
+          name: Feather Fall
+          ref: spells/feather-fall.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 2
+          name: Levitate
+          ref: spells/levitate.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 0
+          name: Light
+          ref: spells/light.yaml
+          usage:
+            rest_types: []
+            type: at will
+        - level: 8
+          name: Control Weather
+          ref: spells/control-weather.yaml
+          usage:
+            rest_types: []
+            times: 3
+            type: per day
+        - level: 3
+          name: Water Breathing
+          ref: spells/water-breathing.yaml
+          usage:
+            rest_types: []
+            times: 3
+            type: per day
+speed:
+  swim: 50 ft.
+  walk: 50 ft.
+strength: 29
+type: giant
+updated_at: "2025-10-24T20:42:13.742Z"
+wisdom: 18
+xp: 10000

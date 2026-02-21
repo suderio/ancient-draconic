@@ -1,0 +1,13 @@
+class:
+  index: ranger
+  name: Ranger
+  ref: classes/ranger.yaml
+desc:
+  - By the time you reach 2nd level, you have learned to use the magical essence of nature to cast spells, much as a druid does.
+index: spellcasting-ranger
+level: 2
+name: 'Spellcasting: Ranger'
+prerequisites: []
+ref: features/spellcasting-ranger.yaml
+reference: classes/ranger/spellcasting.yaml
+updated_at: "2025-10-24T20:42:13.150Z"

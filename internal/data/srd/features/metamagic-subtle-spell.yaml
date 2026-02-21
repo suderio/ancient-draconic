@@ -1,0 +1,16 @@
+class:
+  index: sorcerer
+  name: Sorcerer
+  ref: classes/sorcerer.yaml
+desc:
+  - When you cast a spell, you can spend 1 sorcery point to cast it without any somatic or verbal components.
+index: metamagic-subtle-spell
+level: 3
+name: 'Metamagic: Subtle Spell'
+parent:
+  index: metamagic-1
+  name: Metamagic
+  ref: features/metamagic-1.yaml
+prerequisites: []
+ref: features/metamagic-subtle-spell.yaml
+updated_at: "2025-10-24T20:42:13.151Z"

@@ -1,0 +1,14 @@
+classes: []
+index: handaxes
+name: Handaxes
+races:
+  - index: dwarf
+    name: Dwarf
+    ref: races/dwarf.yaml
+ref: proficiencies/handaxes.yaml
+reference:
+  index: handaxe
+  name: Handaxe
+  ref: equipment/handaxe.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

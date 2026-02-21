@@ -1,0 +1,31 @@
+casting_time: 1 action
+classes:
+  - index: druid
+    name: Druid
+    ref: classes/druid.yaml
+  - index: ranger
+    name: Ranger
+    ref: classes/ranger.yaml
+components:
+  - V
+  - S
+  - M
+concentration: false
+desc:
+  - Up to ten berries appear in your hand and are infused with magic for the duration. A creature can use its action to eat one berry. Eating a berry restores 1 hit point, and the berry provides enough nourishment to sustain a creature for a day.
+  - The berries lose their potency if they have not been consumed within 24 hours of the casting of this spell.
+duration: Instantaneous
+higher_level: []
+index: goodberry
+level: 1
+material: A sprig of mistletoe.
+name: Goodberry
+range: Touch
+ref: spells/goodberry.yaml
+ritual: false
+school:
+  index: transmutation
+  name: Transmutation
+  ref: magic-schools/transmutation.yaml
+subclasses: []
+updated_at: "2025-10-24T20:42:14.619Z"

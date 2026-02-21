@@ -1,0 +1,21 @@
+contents: []
+cost:
+  quantity: 1
+  unit: cp
+desc:
+  - For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet.
+equipment_category:
+  index: adventuring-gear
+  name: Adventuring Gear
+  ref: equipment-categories/adventuring-gear.yaml
+gear_category:
+  index: standard-gear
+  name: Standard Gear
+  ref: equipment-categories/standard-gear.yaml
+index: candle
+name: Candle
+properties: []
+ref: equipment/candle.yaml
+special: []
+updated_at: "2025-10-24T20:42:12.926Z"
+weight: 0

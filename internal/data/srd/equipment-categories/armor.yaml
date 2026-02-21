@@ -1,0 +1,131 @@
+equipment:
+  - index: padded-armor
+    name: Padded Armor
+    ref: equipment/padded-armor.yaml
+  - index: leather-armor
+    name: Leather Armor
+    ref: equipment/leather-armor.yaml
+  - index: studded-leather-armor
+    name: Studded Leather Armor
+    ref: equipment/studded-leather-armor.yaml
+  - index: hide-armor
+    name: Hide Armor
+    ref: equipment/hide-armor.yaml
+  - index: chain-shirt
+    name: Chain Shirt
+    ref: equipment/chain-shirt.yaml
+  - index: scale-mail
+    name: Scale Mail
+    ref: equipment/scale-mail.yaml
+  - index: breastplate
+    name: Breastplate
+    ref: equipment/breastplate.yaml
+  - index: half-plate-armor
+    name: Half Plate Armor
+    ref: equipment/half-plate-armor.yaml
+  - index: ring-mail
+    name: Ring Mail
+    ref: equipment/ring-mail.yaml
+  - index: chain-mail
+    name: Chain Mail
+    ref: equipment/chain-mail.yaml
+  - index: splint-armor
+    name: Splint Armor
+    ref: equipment/splint-armor.yaml
+  - index: plate-armor
+    name: Plate Armor
+    ref: equipment/plate-armor.yaml
+  - index: shield
+    name: Shield
+    ref: equipment/shield.yaml
+  - index: adamantine-armor
+    name: Adamantine Armor
+    ref: magic-items/adamantine-armor.yaml
+  - index: animated-shield
+    name: Animated Shield
+    ref: magic-items/animated-shield.yaml
+  - index: armor
+    name: Armor, +1, +2, or +3
+    ref: magic-items/armor.yaml
+  - index: armor-of-invulnerability
+    name: Armor of Invulnerability
+    ref: magic-items/armor-of-invulnerability.yaml
+  - index: armor-of-resistance
+    name: Armor of Resistance
+    ref: magic-items/armor-of-resistance.yaml
+  - index: armor-of-vulnerability
+    name: Armor of Vulnerability
+    ref: magic-items/armor-of-vulnerability.yaml
+  - index: arrow-catching-shield
+    name: Arrow-Catching Shield
+    ref: magic-items/arrow-catching-shield.yaml
+  - index: demon-armor
+    name: Demon Armor
+    ref: magic-items/demon-armor.yaml
+  - index: dragon-scale-mail
+    name: Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail.yaml
+  - index: dwarven-plate
+    name: Dwarven Plate
+    ref: magic-items/dwarven-plate.yaml
+  - index: elven-chain
+    name: Elven Chain
+    ref: magic-items/elven-chain.yaml
+  - index: glamoured-studded-leather-armor
+    name: Glamoured Studded Leather Armor
+    ref: magic-items/glamoured-studded-leather-armor.yaml
+  - index: mithral-armor
+    name: Mithral Armor
+    ref: magic-items/mithral-armor.yaml
+  - index: plate-armor-of-etherealness
+    name: Plate Armor of Etherealness
+    ref: magic-items/plate-armor-of-etherealness.yaml
+  - index: shield-of-missile-attraction
+    name: Shield of Missile Attraction
+    ref: magic-items/shield-of-missile-attraction.yaml
+  - index: spellguard-shield
+    name: Spellguard Shield
+    ref: magic-items/spellguard-shield.yaml
+  - index: armor-1
+    name: Armor, +1
+    ref: magic-items/armor-1.yaml
+  - index: armor-2
+    name: Armor, +2
+    ref: magic-items/armor-2.yaml
+  - index: armor-3
+    name: Armor, +3
+    ref: magic-items/armor-3.yaml
+  - index: dragon-scale-mail-black
+    name: Black Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-black.yaml
+  - index: dragon-scale-mail-blue
+    name: Blue Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-blue.yaml
+  - index: dragon-scale-mail-brass
+    name: Brass Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-brass.yaml
+  - index: dragon-scale-mail-bronze
+    name: Bronze Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-bronze.yaml
+  - index: dragon-scale-mail-copper
+    name: Copper Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-copper.yaml
+  - index: dragon-scale-mail-gold
+    name: Gold Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-gold.yaml
+  - index: dragon-scale-mail-green
+    name: Green Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-green.yaml
+  - index: dragon-scale-mail-red
+    name: Red Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-red.yaml
+  - index: dragon-scale-mail-silver
+    name: Silver Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-silver.yaml
+  - index: dragon-scale-mail-white
+    name: White Dragon Scale Mail
+    ref: magic-items/dragon-scale-mail-white.yaml
+index: armor
+name: Armor
+ref: equipment-categories/armor.yaml
+updated_at: "2025-10-24T20:42:12.821Z"

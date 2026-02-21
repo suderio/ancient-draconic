@@ -1,0 +1,20 @@
+capacity: 480 lb.
+contents: []
+cost:
+  quantity: 50
+  unit: gp
+desc: []
+equipment_category:
+  index: mounts-and-vehicles
+  name: Mounts and Vehicles
+  ref: equipment-categories/mounts-and-vehicles.yaml
+index: camel
+name: Camel
+properties: []
+ref: equipment/camel.yaml
+special: []
+speed:
+  quantity: 50
+  unit: ft/round
+updated_at: "2025-10-24T20:42:12.926Z"
+vehicle_category: Mounts and Other Animals

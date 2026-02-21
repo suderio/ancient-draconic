@@ -1,0 +1,103 @@
+class:
+  index: paladin
+  name: Paladin
+  ref: classes/paladin.yaml
+desc:
+  - The Oath of Devotion binds a paladin to the loftiest ideals of justice, virtue, and order. Sometimes called cavaliers, white knights, or holy warriors, these paladins meet the ideal of the knight in shining armor, acting with honor in pursuit of justice and the greater good. They hold themselves to the highest standards of conduct, and some, for better or worse, hold the rest of the world to the same standards. Many who swear this oath are devoted to gods of law and good and use their gods' tenets as the measure of their devotion. They hold angels--the perfect servants of good--as their ideals, and incorporate images of angelic wings into their helmets or coats of arms.
+index: devotion
+name: Devotion
+ref: subclasses/devotion.yaml
+spells:
+  - prerequisites:
+      - index: paladin-3
+        name: Paladin 3
+        ref: classes/paladin/levels/3.yaml
+        type: level
+    spell:
+      index: protection-from-evil-and-good
+      name: Protection from Evil and Good
+      ref: spells/protection-from-evil-and-good.yaml
+  - prerequisites:
+      - index: paladin-3
+        name: Paladin 3
+        ref: classes/paladin/levels/3.yaml
+        type: level
+    spell:
+      index: sanctuary
+      name: Sanctuary
+      ref: spells/sanctuary.yaml
+  - prerequisites:
+      - index: paladin-5
+        name: Paladin 5
+        ref: classes/paladin/levels/5.yaml
+        type: level
+    spell:
+      index: lesser-restoration
+      name: Lesser Restoration
+      ref: spells/lesser-restoration.yaml
+  - prerequisites:
+      - index: paladin-5
+        name: Paladin 5
+        ref: classes/paladin/levels/5.yaml
+        type: level
+    spell:
+      index: zone-of-truth
+      name: Zone of Truth
+      ref: spells/zone-of-truth.yaml
+  - prerequisites:
+      - index: paladin-9
+        name: Paladin 9
+        ref: classes/paladin/levels/9.yaml
+        type: level
+    spell:
+      index: beacon-of-hope
+      name: Beacon of Hope
+      ref: spells/beacon-of-hope.yaml
+  - prerequisites:
+      - index: paladin-9
+        name: Paladin 9
+        ref: classes/paladin/levels/9.yaml
+        type: level
+    spell:
+      index: dispel-magic
+      name: Dispel Magic
+      ref: spells/dispel-magic.yaml
+  - prerequisites:
+      - index: paladin-13
+        name: Paladin 13
+        ref: classes/paladin/levels/13.yaml
+        type: level
+    spell:
+      index: freedom-of-movement
+      name: Freedom of Movement
+      ref: spells/freedom-of-movement.yaml
+  - prerequisites:
+      - index: paladin-13
+        name: Paladin 13
+        ref: classes/paladin/levels/13.yaml
+        type: level
+    spell:
+      index: guardian-of-faith
+      name: Guardian of Faith
+      ref: spells/guardian-of-faith.yaml
+  - prerequisites:
+      - index: paladin-17
+        name: Paladin 17
+        ref: classes/paladin/levels/17.yaml
+        type: level
+    spell:
+      index: commune
+      name: Commune
+      ref: spells/commune.yaml
+  - prerequisites:
+      - index: paladin-17
+        name: Paladin 17
+        ref: classes/paladin/levels/17.yaml
+        type: level
+    spell:
+      index: flame-strike
+      name: Flame Strike
+      ref: spells/flame-strike.yaml
+subclass_flavor: Sacred Oath
+subclass_levels: subclasses/devotion/levels.yaml
+updated_at: "2025-10-24T20:42:14.748Z"

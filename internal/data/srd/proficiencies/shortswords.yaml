@@ -1,0 +1,23 @@
+classes:
+  - index: bard
+    name: Bard
+    ref: classes/bard.yaml
+  - index: monk
+    name: Monk
+    ref: classes/monk.yaml
+  - index: rogue
+    name: Rogue
+    ref: classes/rogue.yaml
+index: shortswords
+name: Shortswords
+races:
+  - index: high-elf
+    name: High Elf
+    ref: subraces/high-elf.yaml
+ref: proficiencies/shortswords.yaml
+reference:
+  index: shortsword
+  name: Shortsword
+  ref: equipment/shortsword.yaml
+type: Weapons
+updated_at: "2025-10-24T20:42:14.116Z"

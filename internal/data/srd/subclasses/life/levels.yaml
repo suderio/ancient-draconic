@@ -1,0 +1,83 @@
+- class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  features:
+    - index: bonus-proficiency
+      name: Bonus Proficiency
+      ref: features/bonus-proficiency.yaml
+    - index: disciple-of-life
+      name: Disciple of Life
+      ref: features/disciple-of-life.yaml
+  index: life-1
+  level: 1
+  ref: subclasses/life/levels/1.yaml
+  subclass:
+    index: life
+    name: Life
+    ref: subclasses/life.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  features:
+    - index: channel-divinity-preserve-life
+      name: 'Channel Divinity: Preserve Life'
+      ref: features/channel-divinity-preserve-life.yaml
+  index: life-2
+  level: 2
+  ref: subclasses/life/levels/2.yaml
+  subclass:
+    index: life
+    name: Life
+    ref: subclasses/life.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  features:
+    - index: blessed-healer
+      name: Blessed Healer
+      ref: features/blessed-healer.yaml
+  index: life-6
+  level: 6
+  ref: subclasses/life/levels/6.yaml
+  subclass:
+    index: life
+    name: Life
+    ref: subclasses/life.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  features:
+    - index: divine-strike
+      name: Divine Strike
+      ref: features/divine-strike.yaml
+  index: life-8
+  level: 8
+  ref: subclasses/life/levels/8.yaml
+  subclass:
+    index: life
+    name: Life
+    ref: subclasses/life.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"
+- class:
+    index: cleric
+    name: Cleric
+    ref: classes/cleric.yaml
+  features:
+    - index: supreme-healing
+      name: Supreme Healing
+      ref: features/supreme-healing.yaml
+  index: life-17
+  level: 17
+  ref: subclasses/life/levels/17.yaml
+  subclass:
+    index: life
+    name: Life
+    ref: subclasses/life.yaml
+  updated_at: "2025-10-24T20:42:13.397Z"

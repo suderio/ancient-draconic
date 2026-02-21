@@ -21,6 +21,7 @@
 | 18 | Final Documentation & README | [x] |
 | 20 | Syntax Refactor (Prepositions) | [x] |
 | 21 | Justfile Coverage Task | [x] |
+| 22 | SRD Data Internalization (Embedding) | [x] |
 
 ---
 
