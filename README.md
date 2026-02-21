@@ -1,8 +1,8 @@
 <div align="center">
 
-![DND-DSL Logo](/home/paulo/.gemini/antigravity/brain/fab788d4-1ab1-41e5-991a-91e5ea05e0fb/dndsl_logo_1771696526725.png)
+![DnDSL Logo](assets/logo.png)
 
-# DND-DSL
+# DnDSL
 
 **The ultimate command-line engine for D&D 5e encounters.**
 
@@ -21,9 +21,9 @@
 
 ## 📖 Introduction
 
-**DND-DSL** is a developer-centric tool for Dungeons & Dragons Game Masters. It provides a structured, terminal-based interface (powered by Bubble Tea) to manage complex combat encounters. By using an event-sourced architecture, every roll, hit, and turn is recorded in an immutable log, ensuring your campaign's history is safe and fully reproducible.
+**DnDSL** is a developer-centric tool for Dungeons & Dragons Game Masters. It provides a structured, terminal-based interface (powered by Bubble Tea) to manage complex combat encounters. By using an event-sourced architecture, every roll, hit, and turn is recorded in an immutable log, ensuring your campaign's history is safe and fully reproducible.
 
-### Why DND-DSL?
+### Why DnDSL?
 
 - **Speed**: No more clicking through complex UIs. Type `attack :with Longsword :to Orc_1` and let the engine handle the rest.
 - **Precision**: Automated damage resistance, immunity, and vulnerability calculations.
@@ -158,5 +158,5 @@ To maintain a vibrant profile, we recommend integrating the following in your Gi
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 <div align="center">
-  Built with ❤️ by the DND-DSL Team.
+  Built with ❤️ by the DnDSL Team.
 </div>
