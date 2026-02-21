@@ -22,7 +22,7 @@
 
 ---
 
-*(Placeholder: Amazing GIF of the Bubble Tea TUI here)*
+![DnDSL TUI](assets/tui.png)
 
 ---
 
