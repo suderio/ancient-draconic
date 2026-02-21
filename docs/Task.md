@@ -27,6 +27,7 @@
 | 25 | Refactor: TUI Autocomplete Refinement | [x] |
 | 26 | Refactor: Syntax Cleanup in Docs and Strings | [x] |
 | 27 | Refactor: Move dnd5eapi to internal/ | [x] |
+| 28 | Refactor: TUI Layout Padding (Bottom) | [x] |
 
 ---
 

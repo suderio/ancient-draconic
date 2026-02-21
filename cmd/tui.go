@@ -277,7 +277,7 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 		m.viewport.Width = msg.Width - 4
-		m.viewport.Height = msg.Height - 18 // Leave room for other components
+		m.viewport.Height = msg.Height - 25 // Leave more room for other components and padding
 		if m.viewport.Height < 5 {
 			m.viewport.Height = 5
 		}
@@ -291,7 +291,7 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if m.showList {
 		listAreaHeight = m.suggestions.Height() + 2
 	}
-	m.viewport.Height = m.height - 13 - listAreaHeight
+	m.viewport.Height = m.height - 20 - listAreaHeight // Leave 7 lines of padding at the bottom (13 + 7 = 20)
 	if m.viewport.Height < 5 {
 		m.viewport.Height = 5
 	}
