@@ -1,4 +1,5 @@
 ---
+trigger: always_on
 description: Maintain project documentation in docs/
 ---
 
@@ -11,7 +12,7 @@ description: Maintain project documentation in docs/
 
 2. **Implementation Plans**:
     - When creating a new Implementation Plan, always save it as a markdown file in the `docs/` directory.
-    - Use a descriptive naming convention: `docs/plan_<phase>_<description>.md` (e.g., `docs/plan_phase_5_refactoring.md`).
+    - Use a descriptive naming convention: `docs/<phase>_<description>_plan.md` (e.g., `docs/plan_phase_5_refactoring.md`).
     - This ensures a permanent record of design decisions and plans.
 3. **Code Documentation**:
     - Every code generation task must include or update code documentation (GoDoc).
