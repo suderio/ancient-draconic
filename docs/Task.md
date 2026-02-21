@@ -19,7 +19,8 @@
 | 16 | Context-Aware Help | [x] |
 | 17 | Telegram Bot Integration | [x] |
 | 18 | Final Documentation & README | [x] |
-| 20 | Syntax Refactor (Prepositions) | [/] |
+| 20 | Syntax Refactor (Prepositions) | [x] |
+| 21 | Justfile Coverage Task | [x] |
 
 ---
 

@@ -19,3 +19,8 @@ build:
 # Run all tests (after cleaning)
 test: clean
     go test ./...
+
+# Show test coverage in the terminal
+coverage:
+	go test -cover ./...
+
