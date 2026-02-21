@@ -6,8 +6,7 @@
 
 **The ultimate command-line engine for D&D 5e encounters.**
 
-<!-- [![Go Report Card](https://goreportcard.com/badge/github.com/suderio/dndsl)](https://goreportcard.com/report/github.com/suderio/dndsl) -->
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/suderio/dndsl)](https://goreportcard.com/report/github.com/suderio/dndsl)
 [![GoDoc](https://godoc.org/github.com/suderio/dndsl?status.svg)](https://godoc.org/github.com/suderio/dndsl)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Stability: Stable](https://img.shields.io/badge/Stability-Stable-green.svg)](https://github.com/suderio/dndsl/releases)
