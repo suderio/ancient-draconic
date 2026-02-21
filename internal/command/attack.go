@@ -33,8 +33,32 @@ func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.
 		return nil, engine.ErrSilentIgnore
 	}
 
+	ent, ok := state.Entities[currentActor]
+	if !ok {
+		return nil, fmt.Errorf("actor %s not found in encounter", currentActor)
+	}
+
+	// Enforce action economy
+	if ent.ActionsRemaining <= 0 && ent.AttacksRemaining <= 0 {
+		return nil, fmt.Errorf("%s has no actions or attacks remaining this turn", currentActor)
+	}
+
+	// Check if this specific command exceeds remaining multi-attacks
+	neededAttacks := len(cmd.Targets)
+	availableAttacks := ent.AttacksRemaining
+	if ent.ActionsRemaining > 0 && availableAttacks <= 0 {
+		// If we still have an action, we assume taking the Attack action grants at least 1 attack (or more if implemented)
+		availableAttacks = 1
+	}
+
+	if neededAttacks > availableAttacks {
+		return nil, fmt.Errorf("%s only has %d attack(s) remaining, but tried to target %d", currentActor, availableAttacks, neededAttacks)
+	}
+
 	// Try resolving the physical attacker in game memory
 	var attackBonus int
+	var recharge string
+	var resolvedWeaponName string
 	attackerFound := false
 
 	// Default matching for attacker sheet (Characters or Monsters map weapons)
@@ -42,6 +66,8 @@ func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.
 		for _, a := range char.Actions {
 			if strings.EqualFold(a.Name, cmd.Weapon) || strings.Contains(strings.ToLower(a.Name), strings.ToLower(cmd.Weapon)) {
 				attackBonus = a.AttackBonus
+				recharge = a.Recharge
+				resolvedWeaponName = a.Name
 				attackerFound = true
 				break
 			}
@@ -52,8 +78,21 @@ func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.
 			for _, a := range mon.Actions {
 				if strings.EqualFold(a.Name, cmd.Weapon) || strings.Contains(strings.ToLower(a.Name), strings.ToLower(cmd.Weapon)) {
 					attackBonus = a.AttackBonus
+					recharge = a.Recharge
+					resolvedWeaponName = a.Name
 					attackerFound = true
 					break
+				}
+			}
+		}
+	}
+
+	if attackerFound {
+		// Check if the resolved weapon is currently spent
+		if spent, ok := state.SpentRecharges[currentActor]; ok {
+			for _, s := range spent {
+				if strings.EqualFold(s, resolvedWeaponName) {
+					return nil, fmt.Errorf("ability %s is still cooling down", resolvedWeaponName)
 				}
 			}
 		}
@@ -158,6 +197,28 @@ func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.
 		Targets:   cmd.Targets,
 		HitStatus: hitStatus,
 	})
+
+	// Check for and consume Help benefit on the targets
+	for _, targetName := range cmd.Targets {
+		if target, ok := state.Entities[targetName]; ok {
+			for _, c := range target.Conditions {
+				if strings.HasPrefix(c, "HelpedAttack:") {
+					events = append(events, &engine.ConditionRemovedEvent{
+						ActorID:   targetName,
+						Condition: c,
+					})
+					break // Consume only one distraction per target per attack action
+				}
+			}
+		}
+	}
+
+	if recharge != "" {
+		events = append(events, &engine.AbilitySpentEvent{
+			ActorID:    currentActor,
+			ActionName: resolvedWeaponName,
+		})
+	}
 
 	return events, nil
 }

@@ -40,6 +40,14 @@ func GetConditionMatrixForCheck(actorID string, checkType []string, state *engin
 			if isDexSave {
 				hasDis = true
 			}
+		case "Dodging":
+			if isDexSave && !IsIncapacitated(ent) {
+				hasAdv = true
+			}
+		default:
+			if strings.HasPrefix(cond, "HelpedCheck:") {
+				hasAdv = true
+			}
 		}
 	}
 
@@ -74,6 +82,14 @@ func GetConditionMatrixForAttack(attackerID, targetID string, state *engine.Game
 				hasDis = true
 			case "prone":
 				hasAdv = true // Assuming melee for now, or letting GM decide
+			case "Dodging":
+				if !IsIncapacitated(target) {
+					hasDis = true
+				}
+			default:
+				if strings.HasPrefix(cond, "HelpedAttack:") {
+					hasAdv = true
+				}
 			}
 		}
 	}
@@ -84,4 +100,15 @@ func GetConditionMatrixForAttack(attackerID, targetID string, state *engine.Game
 	}
 
 	return hasAdv, hasDis
+}
+
+// IsIncapacitated checks if an entity is unable to take actions or reactions
+func IsIncapacitated(ent *engine.Entity) bool {
+	for _, c := range ent.Conditions {
+		switch c {
+		case "incapacitated", "paralyzed", "petrified", "stunned", "unconscious":
+			return true
+		}
+	}
+	return false
 }

@@ -2,13 +2,15 @@ package engine
 
 // GameState is the actively calculated projection of the game session.
 type GameState struct {
-	IsEncounterActive bool                          `json:"is_encounter_active"`
-	Initiatives       map[string]int                `json:"initiatives"`
-	Entities          map[string]*Entity            `json:"entities"`
-	TurnOrder         []string                      `json:"turn_order"`
-	CurrentTurn       int                           `json:"current_turn"`
-	PendingDamage     *PendingDamageState           `json:"pending_damage"`
-	PendingChecks     map[string]*PendingCheckState `json:"pending_checks"`
+	IsEncounterActive   bool                          `json:"is_encounter_active"`
+	Initiatives         map[string]int                `json:"initiatives"`
+	Entities            map[string]*Entity            `json:"entities"`
+	TurnOrder           []string                      `json:"turn_order"`
+	CurrentTurn         int                           `json:"current_turn"`
+	PendingDamage       *PendingDamageState           `json:"pending_damage"`
+	PendingChecks       map[string]*PendingCheckState `json:"pending_checks"`
+	PendingAdjudication *PendingAdjudicationState     `json:"pending_adjudication"`
+	SpentRecharges      map[string][]string           `json:"spent_recharges"`
 }
 
 // RollConsequence tracks the automated impacts of parsing an Ask string
@@ -35,6 +37,12 @@ type PendingDamageState struct {
 	HitStatus map[string]bool `json:"hit_status"`
 }
 
+// PendingAdjudicationState tracks a command waiting for GM approval
+type PendingAdjudicationState struct {
+	OriginalCommand string `json:"original_command"`
+	Approved        bool   `json:"approved"`
+}
+
 // Entity represents an actor (Monster, Player, NPC) participating in the session
 type Entity struct {
 	ID         string   `json:"id"`
@@ -43,22 +51,31 @@ type Entity struct {
 	HP         int      `json:"hp"`
 	MaxHP      int      `json:"max_hp"`
 	Conditions []string `json:"conditions"`
+
+	ActionsRemaining      int `json:"actions_remaining"`
+	BonusActionsRemaining int `json:"bonus_actions_remaining"`
+	ReactionsRemaining    int `json:"reactions_remaining"`
+	AttacksRemaining      int `json:"attacks_remaining"`
 }
 
 // NewGameState creates an empty clean slate
 func NewGameState() *GameState {
 	return &GameState{
-		Entities:      make(map[string]*Entity),
-		TurnOrder:     make([]string, 0),
-		Initiatives:   make(map[string]int),
-		PendingChecks: make(map[string]*PendingCheckState),
-		CurrentTurn:   -1,
+		Entities:       make(map[string]*Entity),
+		TurnOrder:      make([]string, 0),
+		Initiatives:    make(map[string]int),
+		PendingChecks:  make(map[string]*PendingCheckState),
+		SpentRecharges: make(map[string][]string),
+		CurrentTurn:    -1,
 	}
 }
 
 // IsFrozen checks if the active encounter is blocked by missing initiative rolls or GM-requested checks
 func (s *GameState) IsFrozen() bool {
 	if len(s.PendingChecks) > 0 {
+		return true
+	}
+	if s.PendingAdjudication != nil && !s.PendingAdjudication.Approved {
 		return true
 	}
 	if !s.IsEncounterActive {

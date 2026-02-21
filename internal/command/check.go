@@ -104,7 +104,7 @@ func ExecuteCheck(cmd *parser.CheckCmd, state *engine.GameState, loader *data.Lo
 	if cmd.Actor != nil {
 		actorName = cmd.Actor.Name
 	}
-	cleanActor := strings.ToLower(actorName)
+	cleanActor := actorName
 
 	if state.PendingDamage != nil {
 		return nil, engine.ErrSilentIgnore
@@ -216,6 +216,19 @@ func ExecuteCheck(cmd *parser.CheckCmd, state *engine.GameState, loader *data.Lo
 			Result:  result,
 			Success: true, // defaults to true out of scope
 		})
+	}
+
+	// Check for and consume Help benefit
+	if ent, ok := state.Entities[cleanActor]; ok {
+		for _, c := range ent.Conditions {
+			if strings.HasPrefix(c, "HelpedCheck:") {
+				events = append(events, &engine.ConditionRemovedEvent{
+					ActorID:   cleanActor,
+					Condition: c,
+				})
+				break // Consume only one
+			}
+		}
 	}
 
 	return events, nil

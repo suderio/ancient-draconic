@@ -16,6 +16,13 @@ type Command struct {
 	Hint       *HintCmd       `parser:"| @@"`
 	Ask        *AskCmd        `parser:"| @@"`
 	Check      *CheckCmd      `parser:"| @@"`
+	Adjudicate *AdjudicateCmd `parser:"| @@"`
+	Allow      *AllowCmd      `parser:"| @@"`
+	Deny       *DenyCmd       `parser:"| @@"`
+	Dodge      *DodgeCmd      `parser:"| @@"`
+	Grapple    *GrappleCmd    `parser:"| @@"`
+	HelpAction *HelpActionCmd `parser:"| @@"`
+	Action     *ActionCmd     `parser:"| @@"`
 	Help       *HelpCmd       `parser:"| @@ )"`
 }
 
@@ -134,4 +141,50 @@ type HelpCmd struct {
 	Keyword string     `parser:"@(\"help\"|\"Help\"|\"HELP\")"`
 	Actor   *ActorExpr `parser:"@@?"`
 	Command string     `parser:"(@Ident|@(\"all\"))?"`
+}
+
+// AdjudicateCmd requests GM authorization
+type AdjudicateCmd struct {
+	Keyword string `parser:"@(\"adjudicate\"|\"Adjudicate\"|\"ADJUDICATE\")"`
+	Command string `parser:"@String"`
+}
+
+// AllowCmd approves a pending adjudication
+type AllowCmd struct {
+	Keyword string     `parser:"@(\"allow\"|\"Allow\"|\"ALLOW\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+}
+
+// DenyCmd rejects a pending adjudication
+type DenyCmd struct {
+	Keyword string     `parser:"@(\"deny\"|\"Deny\"|\"DENY\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+}
+
+// DodgeCmd takes the dodge action
+type DodgeCmd struct {
+	Keyword string     `parser:"@(\"dodge\"|\"Dodge\"|\"DODGE\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+}
+
+// GrappleCmd attempts to grapple a target
+type GrappleCmd struct {
+	Keyword string     `parser:"@(\"grapple\"|\"Grapple\"|\"GRAPPLE\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+	Target  string     `parser:"\"to\" \":\" @Ident"`
+}
+
+// HelpActionCmd manages mechanical help (Advantage on next roll)
+type HelpActionCmd struct {
+	Keyword string     `parser:"@(\"help\"|\"Help\"|\"HELP\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+	Type    string     `parser:"@(\"check\"|\"attack\")"`
+	Target  string     `parser:"\"to\" \":\" @Ident"`
+}
+
+// ActionCmd handles other standard 5e actions (Dash, Disengage, etc.)
+type ActionCmd struct {
+	Action string     `parser:"@(\"dash\"|\"Dash\"|\"DASH\"|\"disengage\"|\"Disengage\"|\"DISENGAGE\"|\"hide\"|\"Hide\"|\"HIDE\"|\"improvise\"|\"Improvise\"|\"IMPROVISE\"|\"influence\"|\"Influence\"|\"INFLUENCE\"|\"magic\"|\"Magic\"|\"MAGIC\"|\"ready\"|\"Ready\"|\"READY\"|\"search\"|\"Search\"|\"SEARCH\"|\"shove\"|\"Shove\"|\"SHOVE\"|\"study\"|\"Study\"|\"STUDY\"|\"utilize\"|\"Utilize\"|\"UTILIZE\")"`
+	Actor  *ActorExpr `parser:"@@?"`
+	Target string     `parser:"( \"to\" \":\" @Ident )?"`
 }

@@ -13,19 +13,29 @@ var ErrSilentIgnore = errors.New("silently ignored by combat rules")
 type EventType string
 
 const (
-	EventEncounterStarted EventType = "EncounterStarted"
-	EventEncounterEnded   EventType = "EncounterEnded"
-	EventActorAdded       EventType = "ActorAdded"
-	EventTurnChanged      EventType = "TurnChanged"
-	EventHPChanged        EventType = "HPChanged"
-	EventDiceRolled       EventType = "DiceRolled"
-	EventInitiativeRolled EventType = "InitiativeRolled"
-	EventAttackResolved   EventType = "AttackResolved"
-	EventTurnEnded        EventType = "TurnEnded"
-	EventHint             EventType = "Hint"
-	EventAskIssued        EventType = "AskIssued"
-	EventCheckResolved    EventType = "CheckResolved"
-	EventConditionApplied EventType = "ConditionApplied"
+	EventEncounterStarted     EventType = "EncounterStarted"
+	EventEncounterEnded       EventType = "EncounterEnded"
+	EventActorAdded           EventType = "ActorAdded"
+	EventTurnChanged          EventType = "TurnChanged"
+	EventHPChanged            EventType = "HPChanged"
+	EventDiceRolled           EventType = "DiceRolled"
+	EventInitiativeRolled     EventType = "InitiativeRolled"
+	EventAttackResolved       EventType = "AttackResolved"
+	EventTurnEnded            EventType = "TurnEnded"
+	EventHint                 EventType = "Hint"
+	EventAskIssued            EventType = "AskIssued"
+	EventCheckResolved        EventType = "CheckResolved"
+	EventConditionApplied     EventType = "ConditionApplied"
+	EventAdjudicationStarted  EventType = "AdjudicationStarted"
+	EventAdjudicationResolved EventType = "AdjudicationResolved"
+	EventDodgeTaken           EventType = "DodgeTaken"
+	EventGrappleTaken         EventType = "GrappleTaken"
+	EventActionConsumed       EventType = "ActionConsumed"
+	EventHelpTaken            EventType = "HelpTaken"
+	EventConditionRemoved     EventType = "ConditionRemoved"
+	EventAbilitySpent         EventType = "AbilitySpent"
+	EventAbilityRecharged     EventType = "AbilityRecharged"
+	EventRechargeRolled       EventType = "RechargeRolled"
 )
 
 // Event is the building block of the Event Sourced engine.
@@ -74,6 +84,23 @@ func (e *AttackResolvedEvent) Apply(state *GameState) error {
 		Targets:   e.Targets,
 		Weapon:    e.Weapon,
 		HitStatus: e.HitStatus,
+	}
+
+	if ent, ok := state.Entities[e.Attacker]; ok {
+		// If this is the start of an Attack action, consume the action
+		// We use a simple heuristic: if AttacksRemaining is at its reset value (1),
+		// and we haven't 'started' an action, or just always consume if ActionsRemaining > 0
+		// Actually, let's be more precise:
+		// If we haven't used an action yet, use it and get attacks.
+		if ent.ActionsRemaining > 0 && ent.AttacksRemaining <= 0 {
+			ent.ActionsRemaining--
+			ent.AttacksRemaining = 1 // Default to 1, should be better handled by stat blocks later
+		}
+
+		ent.AttacksRemaining -= len(e.Targets)
+		if ent.AttacksRemaining < 0 {
+			ent.AttacksRemaining = 0
+		}
 	}
 	return nil
 }
@@ -132,10 +159,14 @@ func (e *ActorAddedEvent) Apply(state *GameState) error {
 	}
 
 	state.Entities[e.ID] = &Entity{
-		ID:    e.ID,
-		Name:  e.Name,
-		HP:    e.MaxHP,
-		MaxHP: e.MaxHP,
+		ID:                    e.ID,
+		Name:                  e.Name,
+		HP:                    e.MaxHP,
+		MaxHP:                 e.MaxHP,
+		ActionsRemaining:      1,
+		BonusActionsRemaining: 1,
+		ReactionsRemaining:    1,
+		AttacksRemaining:      1,
 	}
 	state.TurnOrder = append(state.TurnOrder, e.ID)
 	return nil
@@ -155,6 +186,39 @@ func (e *TurnChangedEvent) Apply(state *GameState) error {
 	for i, id := range state.TurnOrder {
 		if id == e.ActorID {
 			state.CurrentTurn = i
+
+			// Reset Action Economy for the actor starting their turn
+			if ent, ok := state.Entities[e.ActorID]; ok {
+				ent.ActionsRemaining = 1
+				ent.BonusActionsRemaining = 1
+				ent.ReactionsRemaining = 1
+				ent.AttacksRemaining = 1 // Basic assumption, will be overridden by stat load later if needed
+
+				// Remove "Dodging" condition
+				newConds := []string{}
+				for _, c := range ent.Conditions {
+					if c != "Dodging" {
+						newConds = append(newConds, c)
+					}
+				}
+				ent.Conditions = newConds
+
+				// Expire any Help benefits provided by this actor
+				for _, entity := range state.Entities {
+					activeConds := []string{}
+					for _, c := range entity.Conditions {
+						isHelp := strings.HasPrefix(c, "HelpedCheck:") || strings.HasPrefix(c, "HelpedAttack:")
+						if isHelp {
+							parts := strings.Split(c, ":")
+							if len(parts) == 2 && parts[1] == e.ActorID {
+								continue // Expired
+							}
+						}
+						activeConds = append(activeConds, c)
+					}
+					entity.Conditions = activeConds
+				}
+			}
 			return nil
 		}
 	}
@@ -393,4 +457,216 @@ func (e *ConditionAppliedEvent) Apply(state *GameState) error {
 }
 func (e *ConditionAppliedEvent) Message() string {
 	return fmt.Sprintf("%s is now %s.", e.ActorID, e.Condition)
+}
+
+// AdjudicationStartedEvent freezes the system for GM authorization
+type AdjudicationStartedEvent struct {
+	OriginalCommand string
+}
+
+func (e *AdjudicationStartedEvent) Type() EventType { return EventAdjudicationStarted }
+func (e *AdjudicationStartedEvent) Apply(state *GameState) error {
+	state.PendingAdjudication = &PendingAdjudicationState{
+		OriginalCommand: e.OriginalCommand,
+	}
+	return nil
+}
+func (e *AdjudicationStartedEvent) Message() string {
+	return fmt.Sprintf("Adjudicate \"%s\"", e.OriginalCommand)
+}
+
+// AdjudicationResolvedEvent records the GM decision
+type AdjudicationResolvedEvent struct {
+	Allowed bool
+}
+
+func (e *AdjudicationResolvedEvent) Type() EventType { return EventAdjudicationResolved }
+func (e *AdjudicationResolvedEvent) Apply(state *GameState) error {
+	if e.Allowed {
+		if state.PendingAdjudication != nil {
+			state.PendingAdjudication.Approved = true
+		}
+	} else {
+		state.PendingAdjudication = nil
+	}
+	return nil
+}
+func (e *AdjudicationResolvedEvent) Message() string {
+	if e.Allowed {
+		return "GM allowed the action."
+	}
+	return "GM denied the action."
+}
+
+// DodgeTakenEvent records that an actor is dodging
+type DodgeTakenEvent struct {
+	ActorID string
+}
+
+func (e *DodgeTakenEvent) Type() EventType { return EventDodgeTaken }
+func (e *DodgeTakenEvent) Apply(state *GameState) error {
+	if ent, ok := state.Entities[e.ActorID]; ok {
+		if ent.ActionsRemaining > 0 {
+			ent.ActionsRemaining--
+		}
+
+		hasIt := false
+		for _, c := range ent.Conditions {
+			if c == "Dodging" {
+				hasIt = true
+				break
+			}
+		}
+		if !hasIt {
+			ent.Conditions = append(ent.Conditions, "Dodging")
+		}
+	}
+	return nil
+}
+func (e *DodgeTakenEvent) Message() string {
+	return fmt.Sprintf("%s is now Dodging.", e.ActorID)
+}
+
+// GrappleTakenEvent records a grapple attempt
+type GrappleTakenEvent struct {
+	Attacker string
+	Target   string
+}
+
+func (e *GrappleTakenEvent) Type() EventType { return EventGrappleTaken }
+func (e *GrappleTakenEvent) Apply(state *GameState) error {
+	// Clears adjudication as the action has now resolved into its consequences (Ask)
+	state.PendingAdjudication = nil
+	return nil
+}
+func (e *GrappleTakenEvent) Message() string {
+	return fmt.Sprintf("%s attempts to grapple %s.", e.Attacker, e.Target)
+}
+
+// ActionConsumedEvent record usage of a standard action
+type ActionConsumedEvent struct {
+	ActorID string
+}
+
+func (e *ActionConsumedEvent) Type() EventType { return EventActionConsumed }
+func (e *ActionConsumedEvent) Apply(state *GameState) error {
+	if ent, ok := state.Entities[e.ActorID]; ok {
+		if ent.ActionsRemaining > 0 {
+			ent.ActionsRemaining--
+		}
+	}
+	// Once an action is consumed, any pending adjudication for it is also resolved/finished
+	state.PendingAdjudication = nil
+	return nil
+}
+func (e *ActionConsumedEvent) Message() string {
+	return fmt.Sprintf("%s used an action.", e.ActorID)
+}
+
+// HelpTakenEvent records a help action was performed
+type HelpTakenEvent struct {
+	HelperID string
+	TargetID string
+	HelpType string // "check" or "attack"
+}
+
+func (e *HelpTakenEvent) Type() EventType { return EventHelpTaken }
+func (e *HelpTakenEvent) Apply(state *GameState) error {
+	if ent, ok := state.Entities[e.TargetID]; ok {
+		// Capitalize first letter
+		uType := strings.ToUpper(e.HelpType[0:1]) + e.HelpType[1:]
+		condition := fmt.Sprintf("Helped%s:%s", uType, e.HelperID)
+		ent.Conditions = append(ent.Conditions, condition)
+	}
+	if ent, ok := state.Entities[e.HelperID]; ok {
+		if ent.ActionsRemaining > 0 {
+			ent.ActionsRemaining--
+		}
+	}
+	state.PendingAdjudication = nil
+	return nil
+}
+func (e *HelpTakenEvent) Message() string {
+	return fmt.Sprintf("%s helps %s with an %s.", e.HelperID, e.TargetID, e.HelpType)
+}
+
+// ConditionRemovedEvent forcibly removes a condition
+type ConditionRemovedEvent struct {
+	ActorID   string
+	Condition string
+}
+
+func (e *ConditionRemovedEvent) Type() EventType { return EventConditionRemoved }
+func (e *ConditionRemovedEvent) Apply(state *GameState) error {
+	if ent, ok := state.Entities[e.ActorID]; ok {
+		newConds := []string{}
+		for _, c := range ent.Conditions {
+			if c != e.Condition {
+				newConds = append(newConds, c)
+			}
+		}
+		ent.Conditions = newConds
+	}
+	return nil
+}
+func (e *ConditionRemovedEvent) Message() string {
+	return fmt.Sprintf("%s is no longer %s.", e.ActorID, e.Condition)
+}
+
+// AbilitySpentEvent marks a monster ability as cooling down
+type AbilitySpentEvent struct {
+	ActorID    string
+	ActionName string
+}
+
+func (e *AbilitySpentEvent) Type() EventType { return EventAbilitySpent }
+func (e *AbilitySpentEvent) Apply(state *GameState) error {
+	state.SpentRecharges[e.ActorID] = append(state.SpentRecharges[e.ActorID], e.ActionName)
+	return nil
+}
+func (e *AbilitySpentEvent) Message() string {
+	return fmt.Sprintf("%s spent %s (cooling down).", e.ActorID, e.ActionName)
+}
+
+// AbilityRechargedEvent marks a monster ability as available again
+type AbilityRechargedEvent struct {
+	ActorID    string
+	ActionName string
+}
+
+func (e *AbilityRechargedEvent) Type() EventType { return EventAbilityRecharged }
+func (e *AbilityRechargedEvent) Apply(state *GameState) error {
+	spent := state.SpentRecharges[e.ActorID]
+	newSpent := []string{}
+	for _, s := range spent {
+		if s != e.ActionName {
+			newSpent = append(newSpent, s)
+		}
+	}
+	state.SpentRecharges[e.ActorID] = newSpent
+	return nil
+}
+func (e *AbilityRechargedEvent) Message() string {
+	return fmt.Sprintf("%s's %s recharged!", e.ActorID, e.ActionName)
+}
+
+// RechargeRolledEvent records the attempt to recharge an ability
+type RechargeRolledEvent struct {
+	ActorID     string
+	ActionName  string
+	Roll        int
+	Requirement string
+	Success     bool
+}
+
+func (e *RechargeRolledEvent) Type() EventType { return EventRechargeRolled }
+func (e *RechargeRolledEvent) Apply(state *GameState) error {
+	return nil // Purely informational
+}
+func (e *RechargeRolledEvent) Message() string {
+	resolution := "Failed"
+	if e.Success {
+		resolution = "Success!"
+	}
+	return fmt.Sprintf("Recharge %s for %s: Rolled %d (Req: %s) -> %s", e.ActionName, e.ActorID, e.Roll, e.Requirement, resolution)
 }

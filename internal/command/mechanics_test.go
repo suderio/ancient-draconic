@@ -1,0 +1,168 @@
+package command
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
+)
+
+func TestAdjudicationFlow(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	state.Entities["Grog"] = &engine.Entity{ID: "Grog", Name: "Grog", HP: 100, MaxHP: 100, ActionsRemaining: 1, AttacksRemaining: 0}
+	state.Entities["Goblin"] = &engine.Entity{ID: "Goblin", Name: "Goblin", HP: 7, MaxHP: 7}
+	state.Initiatives = map[string]int{"Grog": 20, "Goblin": 10}
+	state.TurnOrder = []string{"Grog", "Goblin"}
+	state.CurrentTurn = 0
+
+	// 1. Initiate grapple (should trigger adjudication)
+	cmd := &parser.GrappleCmd{Target: "Goblin"}
+	events, err := ExecuteGrapple(cmd, state)
+	assert.NoError(t, err)
+	assert.Len(t, events, 1)
+	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
+
+	// Apply event
+	err = events[0].Apply(state)
+	assert.NoError(t, err)
+	assert.NotNil(t, state.PendingAdjudication)
+	assert.True(t, state.IsFrozen())
+
+	// 2. Allow adjudication
+	allowCmd := &parser.AllowCmd{}
+	events, err = ExecuteAllow(allowCmd, state)
+	assert.NoError(t, err)
+	assert.Len(t, events, 1)
+
+	// Apply event (marks Approved, does not clear yet)
+	err = events[0].Apply(state)
+	assert.NoError(t, err)
+	assert.NotNil(t, state.PendingAdjudication)
+	assert.True(t, state.PendingAdjudication.Approved)
+	assert.False(t, state.IsFrozen()) // Approved adjudication does NOT freeze
+
+	// 3. Resume grapple (re-execution logic would be in Session, but we test the command's second stage)
+	events, err = ExecuteGrapple(cmd, state)
+	assert.NoError(t, err)
+	assert.Len(t, events, 2) // GrappleTaken + AskIssued
+	assert.IsType(t, &engine.GrappleTakenEvent{}, events[0])
+	assert.IsType(t, &engine.AskIssuedEvent{}, events[1])
+}
+
+func TestActionEconomy(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	state.Entities["Paulo"] = &engine.Entity{ID: "Paulo", Name: "Paulo", HP: 20, MaxHP: 20, ActionsRemaining: 1, AttacksRemaining: 0}
+	state.Initiatives = map[string]int{"Paulo": 15}
+	state.TurnOrder = []string{"Paulo"}
+	state.CurrentTurn = 0
+
+	loader := data.NewLoader([]string{"../../data"})
+
+	// 1. Take Dodge (uses action)
+	dodgeCmd := &parser.DodgeCmd{}
+	events, err := ExecuteDodge(dodgeCmd, state)
+	assert.NoError(t, err)
+
+	for _, e := range events {
+		e.Apply(state)
+	}
+	assert.Equal(t, 0, state.Entities["Paulo"].ActionsRemaining)
+	assert.Contains(t, state.Entities["Paulo"].Conditions, "Dodging")
+
+	// 2. Try another action (should fail)
+	_, err = ExecuteDodge(dodgeCmd, state)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "no actions remaining")
+
+	// 3. Verify Checks are free
+	state.Entities["Paulo"].ActionsRemaining = 1
+	checkCmd := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "Paulo"}, Check: []string{"Athletics"}}
+	events, err = ExecuteCheck(checkCmd, state, loader)
+	assert.NoError(t, err)
+	for _, e := range events {
+		e.Apply(state)
+	}
+	assert.Equal(t, 1, state.Entities["Paulo"].ActionsRemaining)
+
+	// 4. Test Attack consumption
+	state.Entities["Paulo"].ActionsRemaining = 1
+	state.Entities["Paulo"].AttacksRemaining = 0
+
+	attackCmd := &parser.AttackCmd{Weapon: "longsword", Targets: []string{"Goblin"}}
+
+	events, err = ExecuteAttack(attackCmd, state, loader)
+	// Even if it fails due to missing targets/AC, we can check the Apply logic of AttackResolvedEvent
+
+	evt := &engine.AttackResolvedEvent{Attacker: "Paulo", Targets: []string{"Goblin"}}
+	evt.Apply(state)
+	assert.Equal(t, 0, state.Entities["Paulo"].ActionsRemaining)
+}
+
+func TestHelpAction(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	state.Entities["Paulo"] = &engine.Entity{ID: "Paulo", Name: "Paulo", ActionsRemaining: 1}
+	state.Entities["Elara"] = &engine.Entity{ID: "Elara", Name: "Elara", HP: 10, MaxHP: 10}
+	state.Entities["Orc"] = &engine.Entity{ID: "Orc", Name: "Orc", HP: 15, MaxHP: 15}
+	state.Initiatives = map[string]int{"Paulo": 20, "Elara": 15, "Orc": 10}
+	state.TurnOrder = []string{"Paulo", "Elara", "Orc"}
+	state.CurrentTurn = 0
+
+	loader := data.NewLoader([]string{"../../data"})
+
+	// 1. Paulo helps Elara with a check
+	helpCmd := &parser.HelpActionCmd{Type: "check", Target: "Elara"}
+	// First call triggers adjudication
+	events, err := ExecuteHelpAction(helpCmd, state)
+	assert.NoError(t, err)
+	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
+	events[0].Apply(state)
+
+	// GM allows
+	state.PendingAdjudication.Approved = true
+	events, err = ExecuteHelpAction(helpCmd, state)
+	assert.NoError(t, err)
+	for _, e := range events {
+		e.Apply(state)
+	}
+
+	assert.Contains(t, state.Entities["Elara"].Conditions, "HelpedCheck:Paulo")
+	assert.Equal(t, 0, state.Entities["Paulo"].ActionsRemaining)
+
+	// 2. Elara makes a check, gets advantage, and condition is removed
+	checkCmd := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "Elara"}, Check: []string{"Athletics"}}
+	events, err = ExecuteCheck(checkCmd, state, loader)
+	assert.NoError(t, err)
+
+	foundRemoved := false
+	for _, e := range events {
+		if _, ok := e.(*engine.ConditionRemovedEvent); ok {
+			foundRemoved = true
+		}
+		e.Apply(state)
+	}
+	assert.True(t, foundRemoved)
+	assert.NotContains(t, state.Entities["Elara"].Conditions, "HelpedCheck:Paulo")
+
+	// 3. Help for attack
+	state.Entities["Paulo"].ActionsRemaining = 1
+	helpAttackCmd := &parser.HelpActionCmd{Type: "attack", Target: "Orc"}
+	// Mock approved adjudication
+	state.PendingAdjudication = &engine.PendingAdjudicationState{Approved: true}
+	events, err = ExecuteHelpAction(helpAttackCmd, state)
+	assert.NoError(t, err)
+	for _, e := range events {
+		e.Apply(state)
+	}
+	assert.Contains(t, state.Entities["Orc"].Conditions, "HelpedAttack:Paulo")
+
+	// 4. Expiration
+	// Change turn back to Paulo
+	turnEvent := &engine.TurnChangedEvent{ActorID: "Paulo"}
+	turnEvent.Apply(state)
+	assert.NotContains(t, state.Entities["Orc"].Conditions, "HelpedAttack:Paulo")
+}

@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
 )
 
 // ExecuteTurn forces the initiative rotation explicitly
-func ExecuteTurn(cmd *parser.TurnCmd, state *engine.GameState) ([]engine.Event, error) {
+func ExecuteTurn(cmd *parser.TurnCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}
@@ -33,7 +34,52 @@ func ExecuteTurn(cmd *parser.TurnCmd, state *engine.GameState) ([]engine.Event, 
 		return nil, engine.ErrSilentIgnore
 	}
 
-	return []engine.Event{
+	events := []engine.Event{
 		&engine.TurnEndedEvent{ActorID: currentActor},
-	}, nil
+	}
+
+	// Determine next actor
+	nextIndex := (state.CurrentTurn + 1) % len(state.TurnOrder)
+	nextActor := state.TurnOrder[nextIndex]
+
+	// Handle Monster Recharge Logic for the next actor
+	if spent, ok := state.SpentRecharges[nextActor]; ok && len(spent) > 0 {
+		mon, err := loader.LoadMonster(nextActor)
+		if err == nil {
+			for _, actionName := range spent {
+				for _, a := range mon.Actions {
+					if strings.EqualFold(a.Name, actionName) && a.Recharge != "" {
+						// Roll d6
+						res, _ := engine.Roll(&parser.DiceExpr{Raw: "1d6"})
+
+						success := false
+						if a.Recharge == "6" && res.Total == 6 {
+							success = true
+						} else if a.Recharge == "5-6" && res.Total >= 5 {
+							success = true
+						}
+
+						events = append(events, &engine.RechargeRolledEvent{
+							ActorID:     nextActor,
+							ActionName:  a.Name,
+							Roll:        res.Total,
+							Requirement: a.Recharge,
+							Success:     success,
+						})
+
+						if success {
+							events = append(events, &engine.AbilityRechargedEvent{
+								ActorID:    nextActor,
+								ActionName: a.Name,
+							})
+						}
+					}
+				}
+			}
+		}
+	}
+
+	events = append(events, &engine.TurnChangedEvent{ActorID: nextActor})
+
+	return events, nil
 }

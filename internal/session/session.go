@@ -159,7 +159,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Turn != nil {
-		events, err := command.ExecuteTurn(astCmd.Turn, s.state)
+		events, err := command.ExecuteTurn(astCmd.Turn, s.state, s.loader)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil
@@ -178,6 +178,90 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 			return nil, err
 		}
 		// Hints are stateless queries; we do not append them to the log
+		return events[0], nil
+	} else if astCmd.Adjudicate != nil {
+		events, err := command.ExecuteAdjudicate(astCmd.Adjudicate)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Allow != nil {
+		originalStr := ""
+		if s.state.PendingAdjudication != nil {
+			originalStr = s.state.PendingAdjudication.OriginalCommand
+		}
+		events, err := command.ExecuteAllow(astCmd.Allow, s.state)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		if originalStr != "" {
+			return s.Execute(originalStr)
+		}
+		return events[0], nil
+	} else if astCmd.Deny != nil {
+		events, err := command.ExecuteDeny(astCmd.Deny, s.state)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Dodge != nil {
+		events, err := command.ExecuteDodge(astCmd.Dodge, s.state)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Grapple != nil {
+		events, err := command.ExecuteGrapple(astCmd.Grapple, s.state)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.Action != nil {
+		events, err := command.ExecuteAction(astCmd.Action, s.state)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
+		return events[0], nil
+	} else if astCmd.HelpAction != nil {
+		events, err := command.ExecuteHelpAction(astCmd.HelpAction, s.state)
+		if err != nil {
+			return nil, err
+		}
+		for _, e := range events {
+			if err := s.ApplyAndAppend(e); err != nil {
+				return nil, err
+			}
+		}
 		return events[0], nil
 	} else if astCmd.Ask != nil {
 		events, err := command.ExecuteAsk(astCmd.Ask, s.state)

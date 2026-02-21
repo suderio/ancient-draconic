@@ -25,6 +25,7 @@ type Action struct {
 	Desc        string   `yaml:"desc"`
 	AttackBonus int      `yaml:"attack_bonus"`
 	Damage      []Damage `yaml:"damage"`
+	Recharge    string   `yaml:"recharge"`
 }
 
 // Defense defines a creature's damage modifiers
