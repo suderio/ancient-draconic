@@ -1,6 +1,6 @@
 # REPL TUI Plan
 
-The goal is to upgrade the current barebones `bufio.Scanner` REPL loop in DND-DSL into a fully-fledged Terminal User Interface (TUI). We want to introduce command history (Up/Down arrows), keybindings, and potentially a persistent dashboard of the GameState so the REPL isn't constantly spamming `hint` or status printouts into the terminal buffer.
+The goal is to upgrade the current barebones `bufio.Scanner` REPL loop in DnDSL into a fully-fledged Terminal User Interface (TUI). We want to introduce command history (Up/Down arrows), keybindings, and potentially a persistent dashboard of the GameState so the REPL isn't constantly spamming `hint` or status printouts into the terminal buffer.
 
 Here is an analysis of the three leading alternatives in the Go ecosystem, their pros/cons, and a proposed implementation plan.
 

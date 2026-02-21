@@ -1,4 +1,4 @@
-# DND-DSL Master Task List
+# DnDSL Master Task List
 
 | Phase | Description | Status |
 |---|---|---|
@@ -19,6 +19,7 @@
 | 16 | Context-Aware Help | [x] |
 | 17 | Telegram Bot Integration | [x] |
 | 18 | Final Documentation & README | [x] |
+| 20 | Syntax Refactor (Prepositions) | [/] |
 
 ---
 

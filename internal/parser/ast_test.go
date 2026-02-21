@@ -8,7 +8,7 @@ import (
 func TestParseEncounterStart(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "encounter :by GM start :with Goblin :and Paulo")
+	cmd, err := p.ParseString("", "encounter by: GM start with: Goblin and: Paulo")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -37,7 +37,7 @@ func TestParseEncounterStart(t *testing.T) {
 func TestParseEncounterEnd(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "encounter :by GM end")
+	cmd, err := p.ParseString("", "encounter by: GM end")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -58,7 +58,7 @@ func TestParseEncounterEnd(t *testing.T) {
 func TestParseAddCommand(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "add :by GM Dragon :and Mage")
+	cmd, err := p.ParseString("", "add by: GM Dragon and: Mage")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -80,7 +80,7 @@ func TestParseInitiativeCommand(t *testing.T) {
 	p := parser.Build()
 
 	t.Run("Auto Roll", func(t *testing.T) {
-		cmd, err := p.ParseString("", "initiative :by Paulo")
+		cmd, err := p.ParseString("", "initiative by: Paulo")
 		if err != nil {
 			t.Fatalf("Failed to parse: %v", err)
 		}
@@ -95,7 +95,7 @@ func TestParseInitiativeCommand(t *testing.T) {
 	})
 
 	t.Run("Manual Roll", func(t *testing.T) {
-		cmd, err := p.ParseString("", "initiative :by Paulo 18")
+		cmd, err := p.ParseString("", "initiative by: Paulo 18")
 		if err != nil {
 			t.Fatalf("Failed to parse: %v", err)
 		}
@@ -113,7 +113,7 @@ func TestParseInitiativeCommand(t *testing.T) {
 func TestParseAttackCommand(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "attack :by Goblin :with Scimitar :to Elara :and Paulo :dice 1d20+10")
+	cmd, err := p.ParseString("", "attack by: Goblin with: Scimitar to: Elara and: Paulo dice: 1d20+10")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -142,7 +142,7 @@ func TestParseAttackCommand(t *testing.T) {
 func TestParseDamageCommand(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "damage :by Goblin :with Scimitar :dice 2d6+2")
+	cmd, err := p.ParseString("", "damage by: Goblin with: Scimitar dice: 2d6+2")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -167,7 +167,7 @@ func TestParseDamageCommand(t *testing.T) {
 func TestParseTurnCommand(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "turn :by Goblin")
+	cmd, err := p.ParseString("", "turn by: Goblin")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -197,7 +197,7 @@ func TestParseHintCommand(t *testing.T) {
 func TestParseAskCommand(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "ask :by GM :check dex save :of goblin :and paulo :dc 15 :fails prone :succeeds damage 2d6")
+	cmd, err := p.ParseString("", "ask by: GM check: dex save of: goblin and: paulo dc: 15 fails: prone succeeds: damage 2d6")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}
@@ -230,7 +230,7 @@ func TestParseAskCommand(t *testing.T) {
 func TestParseCheckCommand(t *testing.T) {
 	p := parser.Build()
 
-	cmd, err := p.ParseString("", "check :by goblin dex save")
+	cmd, err := p.ParseString("", "check by: goblin dex save")
 	if err != nil {
 		t.Fatalf("Failed to parse: %v", err)
 	}

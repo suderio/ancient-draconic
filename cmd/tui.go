@@ -69,7 +69,7 @@ func newREPLModel(app *session.Session, worldName, campaignName string) replMode
 	ti.Width = 60
 
 	vp := viewport.New(0, 0)
-	vp.SetContent("Welcome to the DND-DSL Engine!\nType 'exit' to quit.")
+	vp.SetContent("Welcome to the DnDSL Engine!\nType 'exit' to quit.")
 
 	// Configure a minimalist list for autocomplete
 	sugList := list.New([]list.Item{}, list.NewDefaultDelegate(), 50, 10)
@@ -85,7 +85,7 @@ func newREPLModel(app *session.Session, worldName, campaignName string) replMode
 		suggestions:  sugList,
 		history:      []string{},
 		historyIdx:   -1,
-		logContent:   "Welcome to the DND-DSL Engine!\nType 'exit' to quit.",
+		logContent:   "Welcome to the DnDSL Engine!\nType 'exit' to quit.",
 		worldName:    worldName,
 		campaignName: campaignName,
 	}
@@ -285,7 +285,7 @@ func (m replModel) View() string {
 		return "Initializing..."
 	}
 
-	title := titleStyle.Render(fmt.Sprintf(" DND-DSL Engine | %s / %s ", m.worldName, m.campaignName))
+	title := titleStyle.Render(fmt.Sprintf(" DnDSL Engine | %s / %s ", m.worldName, m.campaignName))
 
 	// Render state
 	stateView := "=== Active Encounter ==="

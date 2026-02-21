@@ -1,8 +1,8 @@
+# DnDSL
+
 <div align="center">
 
 ![DnDSL Logo](assets/logo.png)
-
-# DnDSL
 
 **The ultimate command-line engine for D&D 5e encounters.**
 
@@ -25,7 +25,7 @@
 
 ### Why DnDSL?
 
-- **Speed**: No more clicking through complex UIs. Type `attack :with Longsword :to Orc_1` and let the engine handle the rest.
+- **Speed**: No more clicking through complex UIs. Type `attack with: Longsword to: Orc_1` and let the engine handle the rest.
 - **Precision**: Automated damage resistance, immunity, and vulnerability calculations.
 - **Remote-First**: Built-in Telegram bot integration allows players to roll from their phones while the GM runs the engine on a server.
 - **Customizable**: Purely YAML-based data layer. Adding a new monster or character is as simple as creating a file.
@@ -79,7 +79,7 @@ go build -o dndsl main.go
 ./dndsl campaign create "SwordCoast" "LostMine"
 
 # Add some participants
-./dndsl add :by GM elara :and thorne
+./dndsl add elara and: thorne
 
 # Start the interactive REPL
 ./dndsl repl SwordCoast LostMine
@@ -94,21 +94,21 @@ The language is designed to be self-documenting. Use the `help` command for cont
 **Roll for Initiative:**
 
 ```bash
-initiative :by Elara
+initiative
 ```
 
 **Attack and Damage:**
 
 ```bash
-attack :by Elara :with Longsword :to Goblin_A
-damage :by Elara :with Longsword :dice 1d8+3 :type slashing
+attack with: Longsword to: Goblin_A
+damage with: Longsword dice: 1d8+3 type: slashing
 ```
 
 **Universal Checks:**
 
 ```bash
-ask :by GM :check athletics :of Elara :dc 15 :fails prone
-check :by Elara athletics
+ask check: athletics of: Elara dc: 15 fails: prone
+check athletics
 ```
 
 ---

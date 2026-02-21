@@ -91,8 +91,8 @@ func (b *Bot) handleMessage(msg *Message) {
 		return
 	}
 
-	// Inject :by <actor> after the first word (command)
-	translatedCmd := parts[0] + " :by " + actorID + " " + strings.Join(parts[1:], " ")
+	// Inject by: <actor> after the first word (command)
+	translatedCmd := parts[0] + " by: " + actorID + " " + strings.Join(parts[1:], " ")
 
 	// 4. Execution
 	evt, err := b.executor.Execute(translatedCmd)
