@@ -22,7 +22,7 @@
 
 ---
 
-![DnDSL TUI](assets/tui.png)
+![DnDSL TUI](assets/TUI.png)
 
 ---
 
