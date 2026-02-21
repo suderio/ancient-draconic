@@ -108,10 +108,16 @@ func (m *replModel) updateSuggestions() {
 		m.showList = len(items) > 0
 		if m.showList {
 			h := len(items)
-			if h > 7 {
-				h = 7
+			if h > 10 {
+				h = 10
 			}
-			m.suggestions.SetHeight(h)
+			// Important: set height large enough for items
+			// If we only have 1 or 2 items, we still want a decent dropdown size
+			listHeight := h
+			if listHeight < 3 && len(items) > 0 {
+				listHeight = 3
+			}
+			m.suggestions.SetHeight(listHeight)
 			m.suggestions.ResetSelected()
 		}
 	}()
@@ -277,7 +283,7 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 		m.viewport.Width = msg.Width - 4
-		m.viewport.Height = msg.Height - 25 // Leave more room for other components and padding
+		m.viewport.Height = msg.Height - 30 // Initial conservative estimate
 		if m.viewport.Height < 5 {
 			m.viewport.Height = 5
 		}
@@ -286,27 +292,31 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	m.viewport, vpCmd = m.viewport.Update(msg)
 
-	// Final height adjustment to prevent jitter
+	// Calculate accurate heights for dynamic components
+	titleHeight := lipgloss.Height(titleStyle.Render("Dummy"))
+	stateHeight := lipgloss.Height(m.renderState())
+	inputHeight := 1
+
 	listAreaHeight := 0
 	if m.showList {
-		listAreaHeight = m.suggestions.Height() + 2
+		listAreaHeight = m.suggestions.Height() + 2 // +2 for autocompleteStyle borders
 	}
-	m.viewport.Height = m.height - 20 - listAreaHeight // Leave 7 lines of padding at the bottom (13 + 7 = 20)
-	if m.viewport.Height < 5 {
-		m.viewport.Height = 5
+
+	infoHeight := lipgloss.Height(infoStyle.Render("Dummy"))
+	bottomPadding := 7
+
+	// Total fixed overhead (except viewport)
+	overhead := titleHeight + stateHeight + inputHeight + listAreaHeight + infoHeight + bottomPadding + 3
+
+	m.viewport.Height = m.height - overhead
+	if m.viewport.Height < 4 {
+		m.viewport.Height = 4
 	}
 
 	return m, tea.Batch(tiCmd, vpCmd, lsCmd)
 }
 
-func (m replModel) View() string {
-	if m.width == 0 {
-		return "Initializing..."
-	}
-
-	title := titleStyle.Render(fmt.Sprintf(" DnDSL Engine | %s / %s ", m.worldName, m.campaignName))
-
-	// Render state
+func (m replModel) renderState() string {
 	stateView := "=== Active Encounter ==="
 	state := m.app.State()
 
@@ -352,7 +362,16 @@ func (m replModel) View() string {
 		}
 	}
 
-	stateBox := stateBoxStyle.Width(m.width - 4).Render(stateView)
+	return stateBoxStyle.Width(m.width - 4).Render(stateView)
+}
+
+func (m replModel) View() string {
+	if m.width == 0 {
+		return "Initializing..."
+	}
+
+	title := titleStyle.Render(fmt.Sprintf(" DnDSL Engine | %s / %s ", m.worldName, m.campaignName))
+	stateBox := m.renderState()
 	logBox := logBoxStyle.Width(m.width - 4).Render(m.viewport.View())
 
 	var inputArea string
