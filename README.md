@@ -143,13 +143,9 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct
 
 ---
 
-## 📊 Project Stats & Activity (Dynamic Recommendations)
+## 📊 Project Stats & Activity
 
-To maintain a vibrant profile, we recommend integrating the following in your GitHub README:
-
-1. **[GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats)**: Display your most-used languages and overall activity levels.
-2. **[WakaTime Weekly Stats](https://github.com/athul/waka-readme-stats)**: Show exactly how much time is spent crafting the DSL engine logic.
-3. **[Contributor Faces](https://github.com/lineone/contributor-faces)**: Automatically display avatars of the brave souls contributing to the code.
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
 
 ---
 

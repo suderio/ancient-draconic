@@ -21,7 +21,15 @@
 | 18 | Final Documentation & README | [x] |
 | 20 | Syntax Refactor (Prepositions) | [x] |
 | 21 | Justfile Coverage Task | [x] |
+
+- [x] **Phase 22: SRD Data Internalization (Embedding)**
+- [/] **Phase 23: Debug: Help Command Panic**
+  - [ ] Reproduce panic in test/REPL
+  - [ ] Fix index out of range in `internal/command/help.go`
+  - [ ] Improve `IsFrozen()` logic in `internal/engine/state.go` (if needed)
+  - [ ] Verify fix in REPL
 | 22 | SRD Data Internalization (Embedding) | [x] |
+| 23 | Debug: Help Command Panic | [/] |
 
 ---
 
