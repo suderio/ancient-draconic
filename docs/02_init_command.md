@@ -34,7 +34,7 @@ Implement the `init` command to bootstrap the local game data environment. This 
 * `github.com/schollz/progressbar/v3`: For download progress.
 * `gopkg.in/yaml.v3`: For YAML serialization.
 
-### API Client (`pkg/dnd5eapi`)
+### API Client (`internal/dnd5eapi`)
 
 * Implement `Client` to fetch data from the API.
 * Implement `DownloadAll` to iterate over 24 endpoints: "spells", "monsters", "classes", "ability-scores", "alignments", "backgrounds", "conditions", "damage-types", "equipment", "equipment-categories", "feats", "features", "languages", "magic-items", "magic-schools", "proficiencies", "races", "rule-sections", "rules", "skills", "subclasses", "subraces", "traits", "weapon-properties"

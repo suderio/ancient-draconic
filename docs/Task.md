@@ -26,6 +26,7 @@
 | 24 | Refactor: Valid Module Path | [x] |
 | 25 | Refactor: TUI Autocomplete Refinement | [x] |
 | 26 | Refactor: Syntax Cleanup in Docs and Strings | [x] |
+| 27 | Refactor: Move dnd5eapi to internal/ | [x] |
 
 ---
 

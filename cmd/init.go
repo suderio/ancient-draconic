@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/suderio/dndsl/pkg/dnd5eapi"
+	"github.com/suderio/dndsl/internal/dnd5eapi"
 
 	"github.com/schollz/progressbar/v3"
 	"github.com/spf13/cobra"
