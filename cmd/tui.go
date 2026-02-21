@@ -72,7 +72,11 @@ func newREPLModel(app *session.Session, worldName, campaignName string) replMode
 	vp.SetContent("Welcome to the DnDSL Engine!\nType 'exit' to quit.")
 
 	// Configure a minimalist list for autocomplete
-	sugList := list.New([]list.Item{}, list.NewDefaultDelegate(), 50, 10)
+	delegate := list.NewDefaultDelegate()
+	delegate.ShowDescription = false
+	delegate.SetHeight(1)
+	delegate.SetSpacing(0)
+	sugList := list.New([]list.Item{}, delegate, 50, 7) // Show up to 7 items
 	sugList.SetShowTitle(false)
 	sugList.SetShowStatusBar(false)
 	sugList.SetFilteringEnabled(false) // We filter manually
@@ -103,6 +107,11 @@ func (m *replModel) updateSuggestions() {
 		m.suggestions.SetItems(items)
 		m.showList = len(items) > 0
 		if m.showList {
+			h := len(items)
+			if h > 7 {
+				h = 7
+			}
+			m.suggestions.SetHeight(h)
 			m.suggestions.ResetSelected()
 		}
 	}()
@@ -113,17 +122,17 @@ func (m *replModel) updateSuggestions() {
 
 	state := m.app.State()
 
-	if strings.HasPrefix(strings.ToLower(val), "attack :by ") {
+	if strings.HasPrefix(strings.ToLower(val), "attack by: ") {
 		prefix := val[11:]
-		if !strings.Contains(prefix, " :") {
+		if !strings.Contains(prefix, " ") {
 			// Suggest entity names
 			for id := range state.Entities {
 				if strings.HasPrefix(id, prefix) {
-					items = append(items, suggestion("attack :by "+id+" :with "))
+					items = append(items, suggestion("attack by: "+id+" with: "))
 				}
 			}
-		} else if strings.Contains(prefix, " :with ") {
-			parts := strings.SplitN(prefix, " :with ", 2)
+		} else if strings.Contains(prefix, " with: ") {
+			parts := strings.SplitN(prefix, " with: ", 2)
 			if len(parts) == 2 {
 				actorID := strings.TrimSpace(parts[0])
 				weaponPrefix := parts[1]
@@ -131,20 +140,20 @@ func (m *replModel) updateSuggestions() {
 					if char, err := m.app.Loader().LoadCharacter(actorID); err == nil {
 						for _, act := range char.Actions {
 							if strings.HasPrefix(strings.ToLower(act.Name), strings.ToLower(weaponPrefix)) {
-								items = append(items, suggestion(fmt.Sprintf("attack :by %s :with %s :to ", actorID, strings.ToLower(act.Name))))
+								items = append(items, suggestion(fmt.Sprintf("attack by: %s with: %s to: ", actorID, strings.ToLower(act.Name))))
 							}
 						}
 					} else if monster, err := m.app.Loader().LoadMonster(actorID); err == nil {
 						for _, act := range monster.Actions {
 							if strings.HasPrefix(strings.ToLower(act.Name), strings.ToLower(weaponPrefix)) {
-								items = append(items, suggestion(fmt.Sprintf("attack :by %s :with %s :to ", actorID, strings.ToLower(act.Name))))
+								items = append(items, suggestion(fmt.Sprintf("attack by: %s with: %s to: ", actorID, strings.ToLower(act.Name))))
 							}
 						}
 					}
 				}
 			}
-		} else if strings.Contains(prefix, " :to ") {
-			parts := strings.SplitN(prefix, " :to ", 2)
+		} else if strings.Contains(prefix, " to: ") {
+			parts := strings.SplitN(prefix, " to: ", 2)
 			if len(parts) == 2 {
 				targetPrefix := parts[1]
 				baseCmd := val[:len(val)-len(targetPrefix)]
@@ -155,24 +164,22 @@ func (m *replModel) updateSuggestions() {
 				}
 			}
 		}
-	} else if strings.HasPrefix(strings.ToLower(val), "ask :by gm :check ") {
+	} else if strings.HasPrefix(strings.ToLower(val), "ask by: gm check: ") {
 		checkPrefix := val[18:]
 		baseCmds := []string{"dex save", "str save", "con save", "int save", "wis save", "cha save", "athletics", "acrobatics", "stealth", "perception", "deception", "intimidation"}
 		for _, c := range baseCmds {
 			if strings.HasPrefix(c, checkPrefix) {
-				items = append(items, suggestion("ask :by GM :check "+c+" :of "))
+				items = append(items, suggestion("ask by: GM check: "+c+" of: "))
 			}
 		}
-	} else if strings.HasPrefix(strings.ToLower(val), "encounter start :with ") {
+	} else if strings.HasPrefix(strings.ToLower(val), "encounter start with: ") {
 		prefix := val[22:]
-		baseCmd := val[:22]
 		// It's hard to read local files smoothly on every keystroke, so if there's an active entity list we can suggest them,
 		// but since encounter is starting, list is likely empty.
 		_ = prefix
-		_ = baseCmd
 	} else {
 		// Base commands
-		cmds := []string{"roll :by ", "encounter start", "encounter end", "add ", "initiative :by ", "attack :by ", "damage :by ", "turn", "hint", "ask :by ", "check :by ", "exit", "quit"}
+		cmds := []string{"roll by: ", "encounter start", "encounter end", "add ", "initiative by: ", "attack by: ", "damage by: ", "turn", "hint", "ask by: ", "check by: ", "exit", "quit"}
 		for _, c := range cmds {
 			if strings.HasPrefix(c, strings.ToLower(val)) && len(val) < len(c) {
 				items = append(items, suggestion(c))
@@ -270,13 +277,25 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 		m.viewport.Width = msg.Width - 4
-		m.viewport.Height = msg.Height - 15 - 10 // Leave room for headers, input and list
+		m.viewport.Height = msg.Height - 18 // Leave room for other components
 		if m.viewport.Height < 5 {
 			m.viewport.Height = 5
 		}
+		m.suggestions.SetWidth(msg.Width - 6)
 	}
 
 	m.viewport, vpCmd = m.viewport.Update(msg)
+
+	// Final height adjustment to prevent jitter
+	listAreaHeight := 0
+	if m.showList {
+		listAreaHeight = m.suggestions.Height() + 2
+	}
+	m.viewport.Height = m.height - 13 - listAreaHeight
+	if m.viewport.Height < 5 {
+		m.viewport.Height = 5
+	}
+
 	return m, tea.Batch(tiCmd, vpCmd, lsCmd)
 }
 

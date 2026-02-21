@@ -24,6 +24,7 @@
 | 22 | SRD Data Internalization (Embedding) | [x] |
 | 23 | Debug: Help Command Panic | [x] |
 | 24 | Refactor: Valid Module Path | [x] |
+| 25 | Refactor: TUI Autocomplete Refinement | [x] |
 
 ---
 
