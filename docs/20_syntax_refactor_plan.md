@@ -1,6 +1,6 @@
 # Phase 20: Syntax Refactor (Post-Colon Prepositions)
 
-This phase involves refactoring the Domain Specific Language (DSL) to use post-colon prepositions (e.g., `with:`, `by:`, `to:`) instead of the current pre-colon syntax (e.g., `:with`, `:by`, `:to`). This change aims to make the language more natural and readable for users.
+This phase involves refactoring the Domain Specific Language (DSL) to use post-colon prepositions (e.g., `with:`, `by:`, `to:`) instead of the current pre-colon syntax (e.g., `with:`, `by:`, `to:`). This change aims to make the language more natural and readable for users.
 
 ## User Review Required
 
@@ -13,15 +13,15 @@ This phase involves refactoring the Domain Specific Language (DSL) to use post-c
 
 - **[MODIFY]**: Update all `parser` tags in structs to swap the order of `":"` and the keyword.
 - **Example**:
-  - Before: `parser:": " "by"`
-  - After: `parser:" "by" ":"`
+ - Before: `parser:": " "by"`
+ - After: `parser:" "by" ":"`
 
 ### 2. internal/telegram/worker.go
 
-- **[MODIFY]**: Update the command translation logic that injects the `:by` preposition.
+- **[MODIFY]**: Update the command translation logic that injects the `by:` preposition.
 - **Example**:
-  - Before: `parts[0] + " :by " + actorID`
-  - After: `parts[0] + " by: " + actorID`
+ - Before: `parts[0] + " by: " + actorID`
+ - After: `parts[0] + " by: " + actorID`
 
 ### 3. internal/parser/ast_test.go
 

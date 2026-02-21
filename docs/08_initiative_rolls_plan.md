@@ -31,8 +31,8 @@ The `CheckEntityLocally` function inside `internal/command/utils.go` currently o
 
 ```go
 type TargetRes struct {
- Type          string // 'Character' | 'Monster'
- Name          string
+ Type     string // 'Character' | 'Monster'
+ Name     string
  InitiativeMod int
 }
 ```

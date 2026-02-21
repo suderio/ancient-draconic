@@ -20,7 +20,7 @@ var replCmd = &cobra.Command{
 	Short: "Start the interactive REPL shell",
 	Long: `Starts the read-eval-print loop for encountering sequences and issuing commands.
 Usage:
-	> roll :by Somebody 3d6k1+1`,
+	> roll by: Somebody 3d6k1+1`,
 	Args: cobra.MaximumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		worldDir, _ := cmd.Flags().GetString("world_dir")

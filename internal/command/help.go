@@ -16,42 +16,42 @@ type commandHelp struct {
 
 var commandRegistry = map[string]commandHelp{
 	"roll": {
-		Usage:   "roll [:by Actor] <dice>",
+		Usage:   "roll [by: Actor] <dice>",
 		Summary: "Calculates dice expressions (e.g., 3d6+2).",
 	},
 	"encounter": {
-		Usage:   "encounter [:by GM] <start|end> [:with T1 [:and T2]*]",
+		Usage:   "encounter [by: GM] <start|end> [with: T1 [and: T2]*]",
 		Summary: "Starts or ends a combat encounter. GM only.",
 		GMOnly:  true,
 	},
 	"add": {
-		Usage:   "add [:by GM] T1 [:and T2]*",
+		Usage:   "add [by: GM] T1 [and: T2]*",
 		Summary: "Adds participants to an active encounter. GM only.",
 		GMOnly:  true,
 	},
 	"initiative": {
-		Usage:   "initiative [:by Actor] [manual_score]",
+		Usage:   "initiative [by: Actor] [manual_score]",
 		Summary: "Sets or rolls initiative for a participant.",
 	},
 	"attack": {
-		Usage:   "attack [:by Actor] :with Weapon :to Target1 [:and Target2]* [:dice 1d20+M]",
+		Usage:   "attack [by: Actor] with: Weapon to: Target1 [and: Target2]* [dice: 1d20+M]",
 		Summary: "Attempts to strike targets with a weapon.",
 	},
 	"damage": {
-		Usage:   "damage [:by Actor] [:with Weapon] [:dice Dice :type Type]*",
+		Usage:   "damage [by: Actor] [with: Weapon] [dice: Dice type: Type]*",
 		Summary: "Resolves HP reduction after a successful strike.",
 	},
 	"turn": {
-		Usage:   "turn [:by Actor]",
+		Usage:   "turn [by: Actor]",
 		Summary: "Ends the current actor's turn and rotates to the next.",
 	},
 	"ask": {
-		Usage:   "ask :by GM :check skill :of participants :dc N [:fails cons] [:succeeds cons]",
+		Usage:   "ask by: GM check: skill of: participants dc: N [fails: cons] [succeeds: cons]",
 		Summary: "GM requests a check from participants. GM only.",
 		GMOnly:  true,
 	},
 	"check": {
-		Usage:   "check :by Actor <skill/save>",
+		Usage:   "check by: Actor <skill/save>",
 		Summary: "Resolves an ability check or saving throw.",
 	},
 	"hint": {
@@ -59,7 +59,7 @@ var commandRegistry = map[string]commandHelp{
 		Summary: "Provides mechanical guidance based on the current context.",
 	},
 	"help": {
-		Usage:   "help [:by Actor] [command|all]",
+		Usage:   "help [by: Actor] [command|all]",
 		Summary: "Shows available commands or detailed info on a specific one.",
 	},
 }
@@ -167,6 +167,6 @@ func ExecuteHelp(cmd *parser.HelpCmd, state *engine.GameState) ([]engine.Event, 
 		}
 	}
 
-	sb.WriteString("\nUse 'help :by actor all' for a full list of commands.")
+	sb.WriteString("\nUse 'help by: actor all' for a full list of commands.")
 	return []engine.Event{&engine.HintEvent{MessageStr: strings.TrimSpace(sb.String())}}, nil
 }

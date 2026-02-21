@@ -44,9 +44,9 @@ The REPL loop will become purely a presentation and entry point layer:
 ```go
 evt, err := dispatcher.Execute(line) // Example conceptual flow
 if err != nil {
-    fmt.Printf("Error: %v\n", err)
+  fmt.Printf("Error: %v\n", err)
 } else if evt != nil {
-    fmt.Println(evt.Message())
+  fmt.Println(evt.Message())
 }
 ```
 

@@ -26,7 +26,7 @@ type RollCmd struct {
 	Dice    *DiceExpr  `parser:"@@"`
 }
 
-// ActorExpr maps parsing the optional ":by Someone" block
+// ActorExpr maps parsing the optional "by: Someone" block
 type ActorExpr struct {
 	Keyword string `parser:"@(\"by\" \":\")"`
 	Name    string `parser:"@Ident"`
@@ -66,7 +66,7 @@ type AddCmd struct {
 type InitiativeCmd struct {
 	Keyword string     `parser:"@(\"initiative\"|\"Initiative\"|\"INITIATIVE\")"`
 	Actor   *ActorExpr `parser:"@@?"`   // Target character taking the roll
-	Value   *int       `parser:"@Int?"` // Optional manual override, e.g. "initiative :by Paulo 18"
+	Value   *int       `parser:"@Int?"` // Optional manual override, e.g. "initiative by: Paulo 18"
 }
 
 // AttackCmd attempts to strike target(s) with a weapon

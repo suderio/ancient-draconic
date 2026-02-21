@@ -11,12 +11,12 @@ Here is an analysis of the three leading alternatives in the Go ecosystem, their
 Bubble Tea (used with `bubbles` like `textinput` and `viewport`) provides a comprehensive Elm-inspired Model-View-Update architecture for TUIs.
 
 * **Pros**:
-  * **True UI**: We can split the terminal into panes. The top pane can persistently render the `=== Active Encounter ===` state, pending checks, and turn order. The bottom pane acts as the command input box with history.
-  * Highly customizable, modern, and beautiful. Allows for colors, borders, and advanced layout (via `lipgloss`).
-  * Event-driven: Fits well with our existing Command -> Event -> State architecture.
+ * **True UI**: We can split the terminal into panes. The top pane can persistently render the `=== Active Encounter ===` state, pending checks, and turn order. The bottom pane acts as the command input box with history.
+ * Highly customizable, modern, and beautiful. Allows for colors, borders, and advanced layout (via `lipgloss`).
+ * Event-driven: Fits well with our existing Command -> Event -> State architecture.
 * **Cons**:
-  * **Complexity**: Requires rewriting `cmd/repl.go` to fit the `Update(msg) (Model, Cmd)` loop rather than a simple `for` loop.
-  * The REPL output (event log) must be manually rendered into a scrollable viewport instead of relying on standard `fmt.Println` scrolling.
+ * **Complexity**: Requires rewriting `cmd/repl.go` to fit the `Update(msg) (Model, Cmd)` loop rather than a simple `for` loop.
+ * The REPL output (event log) must be manually rendered into a scrollable viewport instead of relying on standard `fmt.Println` scrolling.
 * **Tradeoff**: High initial setup cost, but provides the ultimate "Game Engine" experience without spamming the CLI.
 
 ---
@@ -26,11 +26,11 @@ Bubble Tea (used with `bubbles` like `textinput` and `viewport`) provides a comp
 Go-Prompt is heavily inspired by `python-prompt-toolkit`.
 
 * **Pros**:
-  * **Auto-completion**: It natively supports rich drop-down menus for auto-complete. We could give the user instant suggestions like `[roll, encounter, attack, ask, hint]` as they type.
-  * Built-in history and standard Emacs/Vim keybindings.
+ * **Auto-completion**: It natively supports rich drop-down menus for auto-complete. We could give the user instant suggestions like `[roll, encounter, attack, ask, hint]` as they type.
+ * Built-in history and standard Emacs/Vim keybindings.
 * **Cons**:
-  * Still operates as a classic line-by-line CLI. State updates (HP changes) simply print to the terminal, pushing old text up.
-  * The library hasn't seen major updates recently and can sometimes fight with standard `fmt.Print` calls.
+ * Still operates as a classic line-by-line CLI. State updates (HP changes) simply print to the terminal, pushing old text up.
+ * The library hasn't seen major updates recently and can sometimes fight with standard `fmt.Print` calls.
 * **Tradeoff**: Excellent for pure command discovery (if syntax is hard to remember), but visually it is just an upgraded prompt, not a "dashboard".
 
 ---
@@ -40,11 +40,11 @@ Go-Prompt is heavily inspired by `python-prompt-toolkit`.
 A pure Go implementation of the GNU Readline interface.
 
 * **Pros**:
-  * **Drop-in Replacement**: We can literally replace `scanner.Scan()` with `rl.Readline()`.
-  * Gives exactly what was asked: Command history (Up/Down) and standard keybindings (Ctrl-A, Ctrl-E, etc.).
-  * Lowest risk and fastest implementation.
+ * **Drop-in Replacement**: We can literally replace `scanner.Scan()` with `rl.Readline()`.
+ * Gives exactly what was asked: Command history (Up/Down) and standard keybindings (Ctrl-A, Ctrl-E, etc.).
+ * Lowest risk and fastest implementation.
 * **Cons**:
-  * Bare minimum. No auto-complete prompts, no split-panes, no persistent visual formatting.
+ * Bare minimum. No auto-complete prompts, no split-panes, no persistent visual formatting.
 * **Tradeoff**: Quick and dirty. Solves the immediate pain point of navigating history but adds zero "wow" factor.
 
 ---
@@ -61,18 +61,18 @@ The terminal screen will be divided into three sections:
 
 1. **Top Header**: The active World/Campaign names.
 2. **Main Viewport**:
-    * *Left Side*: The `Event.Message()` rolling log (what just happened).
-    * *Right Side*: A persistent, bordered box showing the `GameState`: Entities, HP, Turn Order, and Pending Checks locks.
-3. **Bottom Footer**: The `textinput` component acting as the REPL prompt (`> roll :by paulo...`), infused with history tracking.
+  * *Left Side*: The `Event.Message()` rolling log (what just happened).
+  * *Right Side*: A persistent, bordered box showing the `GameState`: Entities, HP, Turn Order, and Pending Checks locks.
+3. **Bottom Footer**: The `textinput` component acting as the REPL prompt (`> roll by: paulo...`), infused with history tracking.
 
 ### Implementation Steps
 
 1. **Add Dependencies**: `go get github.com/charmbracelet/bubbletea github.com/charmbracelet/bubbles github.com/charmbracelet/lipgloss`
 2. **Define the Model**: Create a `replModel` struct in `cmd/repl.go` holding our `app *session.Session`, a `textinput.Model`, a list of `history []string`, and a `viewport.Model` for logs.
 3. **Update Loop**:
-    * On `<Enter>`, extract text, push to history, call `app.Execute(text)`.
-    * Retrieve generated `Event`, push its `.Message()` to the log viewport.
-    * Let the `View()` function re-render the screen.
+  * On `<Enter>`, extract text, push to history, call `app.Execute(text)`.
+  * Retrieve generated `Event`, push its `.Message()` to the log viewport.
+  * Let the `View()` function re-render the screen.
 4. **Keybindings**: Up/Down arrow keys will cycle through the `history []string` and replace the `textinput.Value()`.
 5. **Remove Stdout statements**: Ensure the `Execute` path no longer calls `fmt.Println` directly, routing everything to the Bubble Tea UI buffer.
 
@@ -86,12 +86,12 @@ However, implementing autocomplete in Bubble Tea is relatively straightforward u
 
 1. **Complexity Level**: Moderate.
 2. **How it works**:
-    * We watch the `textinput` value on every keystroke (`tea.KeyMsg`).
-    * If the user types a command keyword (`encounter`, `attack`, `roll`), we can pass the prefix to a search function.
-    * We toggle a floating `list.Model` underneath the `textinput` in the `View()` render.
-    * The user can use `<Tab>` or `<Up/Down>` to navigate the `list` selections, and `<Enter>` to inject the selection back into the `textinput`.
+  * We watch the `textinput` value on every keystroke (`tea.KeyMsg`).
+  * If the user types a command keyword (`encounter`, `attack`, `roll`), we can pass the prefix to a search function.
+  * We toggle a floating `list.Model` underneath the `textinput` in the `View()` render.
+  * The user can use `<Tab>` or `<Up/Down>` to navigate the `list` selections, and `<Enter>` to inject the selection back into the `textinput`.
 3. **Data Sources**: We already have `data.Loader` wired into the REPL. This means our autocomplete engine can literally suggest live game data:
-    * `"attack :by "` -> Autocompletes active `GameState.Entities` names.
-    * `"attack :by paulo :with "` -> Autocompletes Paulo's configured weapons from his YAML.
+  * `"attack by: "` -> Autocompletes active `GameState.Entities` names.
+  * `"attack by: paulo with: "` -> Autocompletes Paulo's configured weapons from his YAML.
 
 **Verdict on Autocomplete**: Building a bespoke auto-completer in Bubble Tea takes more manual wiring than `go-prompt`, but because we own the `Update` loop, we can make it hyper-intelligent by tying it directly to our `GameState` rather than just static strings. We will add this to the Phase 13 roadmap.

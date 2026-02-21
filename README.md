@@ -133,14 +133,14 @@ The engine follows a strict Event Sourcing pattern to maintain high reliability 
 
 ```mermaid
 graph TD
-    A[CLI / TUI REPL] --> B[Session Manager]
-    T[Telegram Bot] --> B
-    B --> C[Parser / Lexer]
-    C --> D[Command Executor]
-    D --> E[Event Log]
-    E --> F[State Projector]
-    F --> G[GameState]
-    B --> G
+  A[CLI / TUI REPL] --> B[Session Manager]
+  T[Telegram Bot] --> B
+  B --> C[Parser / Lexer]
+  C --> D[Command Executor]
+  D --> E[Event Log]
+  E --> F[State Projector]
+  F --> G[GameState]
+  B --> G
 ```
 
 ---
@@ -150,5 +150,5 @@ graph TD
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 <div align="center">
-  Built with ❤️ by the DnDSL Team.
+ Built with ❤️ by the DnDSL Team.
 </div>

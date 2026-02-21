@@ -1,7 +1,7 @@
 # Roll Command Implementation Plan
 
 This document outlines the approach for implementing the `roll` command in the DSL:
-`Roll :by Someone1 3d6 + 1`
+`Roll by: Someone1 3d6 + 1`
 
 ## Chosen Approach
 
@@ -51,22 +51,22 @@ We will update the grammar using Participle tags:
 
 ```go
 type DiceExpr struct {
-    Number   int           `@Int?` // Optional number of dice, defaults to 1
-    Sides    int           `"d" | "D" @Int`
-    AdvDis   string        `@( "a" | "A" | "d" | "D" )?` // Shorthand advantage/disadvantage
-    KeepDrop *KeepDropExpr `@@?`
-    Modifier *ModifierExpr `@@?`
+  Number  int      `@Int?` // Optional number of dice, defaults to 1
+  Sides  int      `"d" | "D" @Int`
+  AdvDis  string    `@( "a" | "A" | "d" | "D" )?` // Shorthand advantage/disadvantage
+  KeepDrop *KeepDropExpr `@@?`
+  Modifier *ModifierExpr `@@?`
 }
 
 type KeepDropExpr struct {
-    Op    string `@("k"|"K"|"d"|"D")`
-    Order string `@("h"|"H"|"l"|"L")`
-    Count int    `@Int`
+  Op  string `@("k"|"K"|"d"|"D")`
+  Order string `@("h"|"H"|"l"|"L")`
+  Count int  `@Int`
 }
 
 type ModifierExpr struct {
-    Op    string `@("+" | "-")`
-    Value int    `@Int`
+  Op  string `@("+" | "-")`
+  Value int  `@Int`
 }
 ```
 
@@ -75,8 +75,8 @@ type ModifierExpr struct {
 1. **Lexer Updates**: In `internal/parser`, define the lexical grammar. Since dice expressions don't use spaces strictly inside the token (like `3d6kh3+1`), the lexer might need to properly tokenize numbers and identifiers, or we might need to rely on the `Elide("Whitespace")` defaults.
 2. **AST Definition**: Create `internal/parser/ast.go` to define `RollCommand` that embeds an `Actor` struct and the `DiceExpr` struct.
 3. **Engine Logic**: Create an internal module `internal/engine/dice.go`.
-    - Function `Eval(expr *DiceExpr) (int, []int, error)`.
-    - Use `crypto/rand` mapped to standard ranges to ensure fair and secure rolls.
-    - Evaluate keep/drop logic and sorting safely.
-    - Expand shorthand `a`/`d` transparently into keep/drop logic before evaluation.
+  - Function `Eval(expr *DiceExpr) (int, []int, error)`.
+  - Use `crypto/rand` mapped to standard ranges to ensure fair and secure rolls.
+  - Evaluate keep/drop logic and sorting safely.
+  - Expand shorthand `a`/`d` transparently into keep/drop logic before evaluation.
 4. **REPL Wiring**: Integrate the `participle.Build()` call within `cmd/repl.go` to intercept inputs that match the `roll` command and simply print the result trace `(e.g., "Rolled [14, 2] = 14 + 1 = 15")` to standard output. Wait to emit any permanent JSON events until deeper architectural needs arise.

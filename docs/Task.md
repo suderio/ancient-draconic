@@ -25,6 +25,7 @@
 | 23 | Debug: Help Command Panic | [x] |
 | 24 | Refactor: Valid Module Path | [x] |
 | 25 | Refactor: TUI Autocomplete Refinement | [x] |
+| 26 | Refactor: Syntax Cleanup in Docs and Strings | [x] |
 
 ---
 

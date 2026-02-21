@@ -13,9 +13,9 @@ Implement a context-aware help system that filters commands based on the actor a
 ### 2. internal/command
 
 - **[NEW] `help.go`**: Implement `ExecuteHelp`.
-  - Filter commands based on `actor` (GM vs Player).
-  - Filter commands based on `GameState` (e.g., combat actions only available during active turns).
-  - Support `help :by <actor> <command|all>`.
+ - Filter commands based on `actor` (GM vs Player).
+ - Filter commands based on `GameState` (e.g., combat actions only available during active turns).
+ - Support `help by: <actor> <command|all>`.
 
 ### 3. internal/session
 

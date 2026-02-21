@@ -33,7 +33,7 @@ func RollInitiative(actorName string, res TargetRes, manualOverride *int) *engin
 	}
 }
 
-// ExecuteInitiative handles the `initiative :by <Actor> [Override]` syntax
+// ExecuteInitiative handles the `initiative by: <Actor> [Override]` syntax
 func ExecuteInitiative(cmd *parser.InitiativeCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
 	if !state.IsEncounterActive {
 		return nil, fmt.Errorf("conflict: cannot roll initiative without an active encounter")

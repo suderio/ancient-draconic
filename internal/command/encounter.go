@@ -8,7 +8,7 @@ import (
 	"github.com/suderio/dndsl/internal/parser"
 )
 
-// ExecuteEncounter handles the `encounter :by <Actor> start|end` syntax
+// ExecuteEncounter handles the `encounter by: <Actor> start|end` syntax
 func ExecuteEncounter(cmd *parser.EncounterCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
 	if cmd.Actor == nil {
 		cmd.Actor = &parser.ActorExpr{Name: "GM"}
@@ -32,7 +32,7 @@ func ExecuteEncounter(cmd *parser.EncounterCmd, state *engine.GameState, loader 
 	if isStart {
 		events = append(events, &engine.EncounterStartedEvent{})
 
-		// Process the `:with <targets>` list
+		// Process the `with: <targets>` list
 		for _, target := range cmd.Targets {
 			res, err := CheckEntityLocally(target, loader)
 			if err != nil {

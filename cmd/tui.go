@@ -63,7 +63,7 @@ type replModel struct {
 
 func newREPLModel(app *session.Session, worldName, campaignName string) replModel {
 	ti := textinput.New()
-	ti.Placeholder = "Enter command (e.g., roll :by GM 1d20)..."
+	ti.Placeholder = "Enter command (e.g., roll by: GM 1d20)..."
 	ti.Focus()
 	ti.CharLimit = 256
 	ti.Width = 60

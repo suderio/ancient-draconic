@@ -31,7 +31,7 @@ Establish the core DnD 5e DSL engine. The initial scope focuses purely on Game S
 
 - Implement the `Store` interface with a file-backed JSONL serializer.
 * Define a `CampaignManager` to handle `worlds/` organization.
-  * Structure: `worlds/<WorldName>/<CampaignName>/log.jsonl`.
+ * Structure: `worlds/<WorldName>/<CampaignName>/log.jsonl`.
 * Support `CampaignManager.Create(name)` and `CampaignManager.Load(name)`.
 
 ### CLI Interface (`cmd`)

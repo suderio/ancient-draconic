@@ -84,8 +84,8 @@ func (b *Bot) handleMessage(msg *Message) {
 	actorID, ok := b.userMap[msg.From.ID]
 	if !ok {
 		// If user not mapped, check if they are the GM?
-		// For now, let's assume if not mapped, they can't issue commands unless they specify :by GM?
-		// Actually, the user requirement says "every command /command change it to command :by get-user(user_id)".
+		// For now, let's assume if not mapped, they can't issue commands unless they specify by: GM?
+		// Actually, the user requirement says "every command /command change it to command by: get-user(user_id)".
 		// If get-user(user_id) is empty, we might want to tell them.
 		b.client.SendMessage(b.chatID, fmt.Sprintf("User %s (%d) is not registered in this campaign.", msg.From.FirstName, msg.From.ID))
 		return
