@@ -105,6 +105,7 @@ func (m *replModel) updateSuggestions() {
 
 	defer func() {
 		m.suggestions.SetItems(items)
+		m.showList = len(items) > 0
 		if m.showList {
 			// Use a more generous height for the list to avoid the pagination indicator (•••)
 			// Small counts like 1-3 often need at least 4-5 total lines in the list model
