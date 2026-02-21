@@ -207,6 +207,12 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 			}
 		}
 		return events[0], nil
+	} else if astCmd.Help != nil {
+		events, err := command.ExecuteHelp(astCmd.Help, s.state)
+		if err != nil {
+			return nil, err
+		}
+		return events[0], nil
 	}
 
 	return nil, fmt.Errorf("unsupported command pattern")

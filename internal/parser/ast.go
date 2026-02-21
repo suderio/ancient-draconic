@@ -15,7 +15,8 @@ type Command struct {
 	Turn       *TurnCmd       `parser:"| @@"`
 	Hint       *HintCmd       `parser:"| @@"`
 	Ask        *AskCmd        `parser:"| @@"`
-	Check      *CheckCmd      `parser:"| @@ )"`
+	Check      *CheckCmd      `parser:"| @@"`
+	Help       *HelpCmd       `parser:"| @@ )"`
 }
 
 // RollCmd calculates a set of dice expressions
@@ -126,4 +127,11 @@ type CheckCmd struct {
 	Keyword string     `parser:"@(\"check\"|\"Check\"|\"CHECK\")"`
 	Actor   *ActorExpr `parser:"@@?"`
 	Check   []string   `parser:"@Ident (@Ident)*"`
+}
+
+// HelpCmd provides context-aware guidance
+type HelpCmd struct {
+	Keyword string     `parser:"@(\"help\"|\"Help\"|\"HELP\")"`
+	Actor   *ActorExpr `parser:"@@?"`
+	Command string     `parser:"(@Ident|@(\"all\"))?"`
 }

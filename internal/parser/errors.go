@@ -36,6 +36,8 @@ func MapError(input string, err error) error {
 		return fmt.Errorf("The command check must be: check :by Actor <skill/save>")
 	case "hint":
 		return fmt.Errorf("The command hint must be: hint")
+	case "help":
+		return fmt.Errorf("The command help must be: help [:by Actor] [command|all]")
 	}
 
 	return fmt.Errorf("I wasn't able to understand your command")
