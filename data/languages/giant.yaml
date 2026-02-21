@@ -1,9 +1,0 @@
-index: giant
-name: Giant
-ref: languages/giant.yaml
-script: Dwarvish
-type: Standard
-typical_speakers:
-  - Ogres
-  - Giants
-updated_at: "2025-10-24T20:42:13.303Z"

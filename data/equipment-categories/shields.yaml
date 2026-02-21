@@ -1,8 +1,0 @@
-equipment:
-  - index: shield
-    name: Shield
-    ref: equipment/shield.yaml
-index: shields
-name: Shields
-ref: equipment-categories/shields.yaml
-updated_at: "2025-10-24T20:42:12.821Z"
