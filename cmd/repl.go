@@ -4,13 +4,10 @@ Copyright © 2026 Paulo Suderio
 package cmd
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
-	"dndsl/internal/engine"
 	"dndsl/internal/persistence"
 	"dndsl/internal/session"
 
@@ -85,41 +82,9 @@ Usage:
 
 		fmt.Printf("Starting REPL for '%s/%s'...\nType 'exit' or 'quit' to leave.\n\n", worldDir, campaignDir)
 
-		scanner := bufio.NewScanner(os.Stdin)
-		for {
-			fmt.Print("> ")
-			if !scanner.Scan() {
-				break
-			}
-
-			line := strings.TrimSpace(scanner.Text())
-			if line == "exit" || line == "quit" {
-				break
-			}
-			if line == "" {
-				continue
-			}
-
-			evt, err := app.Execute(line)
-			if err != nil {
-				fmt.Printf("Error: %v\n", err)
-				continue
-			}
-
-			if evt != nil {
-				// Display the human-readable message parsed by the engine layer
-				fmt.Println(evt.Message())
-
-				// Re-evaluate State purely for legacy demonstration purposes
-				// In reality, UIs will just request `session.State()` as needed.
-				if _, ok := evt.(*engine.DiceRolledEvent); !ok {
-					state := app.State()
-					fmt.Println("=== Active Encounter ===")
-					for id, ent := range state.Entities {
-						fmt.Printf(" - %s (%s): %d/%d HP\n", id, ent.Name, ent.HP, ent.MaxHP)
-					}
-				}
-			}
+		if err := RunTUI(app, worldDir, campaignDir); err != nil {
+			fmt.Printf("Fatal TUI Error: %v\n", err)
+			os.Exit(1)
 		}
 	},
 }

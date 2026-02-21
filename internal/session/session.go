@@ -56,6 +56,11 @@ func (s *Session) State() *engine.GameState {
 	return s.state
 }
 
+// Loader returns the instantiated YAML reference engine
+func (s *Session) Loader() *data.Loader {
+	return s.loader
+}
+
 // Execute takes a raw command string from a UI client, coordinates execution, appends the result, and returns the descriptive Event
 func (s *Session) Execute(input string) (engine.Event, error) {
 	langParser := parser.Build()

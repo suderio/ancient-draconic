@@ -77,12 +77,18 @@ type AttackCmd struct {
 	Dice    *DiceExpr  `parser:"( \":\" \"dice\" @@ )?"`
 }
 
+// DamageRollExpr maps an individual damage dice group and its type
+type DamageRollExpr struct {
+	Dice *DiceExpr `parser:"\":\" \"dice\" @@"`
+	Type string    `parser:"( \":\" \"type\" @Ident )?"`
+}
+
 // DamageCmd resolves HP reduction after a successful strike
 type DamageCmd struct {
-	Keyword string     `parser:"@(\"damage\"|\"Damage\"|\"DAMAGE\")"`
-	Actor   *ActorExpr `parser:"@@?"`
-	Weapon  string     `parser:"( \":\" \"with\" @Ident )?"`
-	Dice    *DiceExpr  `parser:"( \":\" \"dice\" @@ )?"`
+	Keyword string            `parser:"@(\"damage\"|\"Damage\"|\"DAMAGE\")"`
+	Actor   *ActorExpr        `parser:"@@?"`
+	Weapon  string            `parser:"( \":\" \"with\" @Ident )?"`
+	Rolls   []*DamageRollExpr `parser:"@@*"`
 }
 
 // TurnCmd advances the initiative rotation

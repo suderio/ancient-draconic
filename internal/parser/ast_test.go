@@ -159,7 +159,7 @@ func TestParseDamageCommand(t *testing.T) {
 		t.Errorf("Expected Weapon Scimitar, got %s", cmd.Damage.Weapon)
 	}
 
-	if cmd.Damage.Dice == nil || cmd.Damage.Dice.Raw != "2d6+2" {
+	if len(cmd.Damage.Rolls) != 1 || cmd.Damage.Rolls[0].Dice == nil || cmd.Damage.Rolls[0].Dice.Raw != "2d6+2" {
 		t.Errorf("Expected Dice macro 2d6+2")
 	}
 }

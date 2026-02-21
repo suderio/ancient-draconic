@@ -27,6 +27,13 @@ type Action struct {
 	Damage      []Damage `yaml:"damage"`
 }
 
+// Defense defines a creature's damage modifiers
+type Defense struct {
+	Resistances     []string `yaml:"resistances"`
+	Immunities      []string `yaml:"immunities"`
+	Vulnerabilities []string `yaml:"vulnerabilities"`
+}
+
 // ArmorClass represents the varying AC calculation rules
 type ArmorClass struct {
 	Type  string `yaml:"type"`
@@ -52,6 +59,7 @@ type Monster struct {
 	Charisma      int               `yaml:"charisma"`
 	Actions       []Action          `yaml:"actions"`
 	Proficiencies []Proficiency     `yaml:"proficiencies"`
+	Defenses      []Defense         `yaml:"defenses"`
 }
 
 // Character represents a player character from the data loaded via YAML.
@@ -69,6 +77,7 @@ type Character struct {
 	Charisma      int           `yaml:"charisma"`
 	Actions       []Action      `yaml:"actions"`
 	Proficiencies []Proficiency `yaml:"proficiencies"`
+	Defenses      []Defense     `yaml:"defenses"`
 }
 
 // CalculateModifier returns the standard D&D 5e ability modifier for a given score.

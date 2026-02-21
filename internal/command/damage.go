@@ -9,6 +9,11 @@ import (
 	"dndsl/internal/parser"
 )
 
+type explicitDamage struct {
+	DiceMacro string
+	Type      string
+}
+
 // ExecuteDamage deducts hits resolving back entirely mechanically through GameState buffers
 func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
 	if state.PendingDamage == nil || state.IsFrozen() {
@@ -47,9 +52,15 @@ func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.
 	}
 
 	// Figure out damage roll
-	var damageMacro string
-	if cmd.Dice != nil {
-		damageMacro = cmd.Dice.Raw
+	var damageInstances []explicitDamage
+
+	if len(cmd.Rolls) > 0 {
+		for _, r := range cmd.Rolls {
+			damageInstances = append(damageInstances, explicitDamage{
+				DiceMacro: r.Dice.Raw,
+				Type:      strings.ToLower(r.Type),
+			})
+		}
 	} else {
 		// Use loader to find weapon
 		found := false
@@ -57,7 +68,12 @@ func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.
 			for _, a := range char.Actions {
 				if strings.EqualFold(a.Name, weaponToUse) || strings.Contains(strings.ToLower(a.Name), strings.ToLower(weaponToUse)) {
 					if len(a.Damage) > 0 {
-						damageMacro = a.Damage[0].DamageDice
+						for _, dm := range a.Damage {
+							damageInstances = append(damageInstances, explicitDamage{
+								DiceMacro: dm.DamageDice,
+								Type:      strings.ToLower(dm.DamageType.Index),
+							})
+						}
 						found = true
 						break
 					}
@@ -69,7 +85,12 @@ func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.
 				for _, a := range mon.Actions {
 					if strings.EqualFold(a.Name, weaponToUse) || strings.Contains(strings.ToLower(a.Name), strings.ToLower(weaponToUse)) {
 						if len(a.Damage) > 0 {
-							damageMacro = a.Damage[0].DamageDice
+							for _, dm := range a.Damage {
+								damageInstances = append(damageInstances, explicitDamage{
+									DiceMacro: dm.DamageDice,
+									Type:      strings.ToLower(dm.DamageType.Index),
+								})
+							}
 							found = true
 							break
 						}
@@ -86,21 +107,76 @@ func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.
 	events := []engine.Event{}
 
 	for _, t := range validTargets {
-		res, err := engine.Roll(&parser.DiceExpr{Raw: damageMacro})
-		if err != nil {
-			return nil, err
+		targetResistances := []string{}
+		targetImmunities := []string{}
+		targetVulnerabilities := []string{}
+
+		if char, err := loader.LoadCharacter(t); err == nil {
+			for _, def := range char.Defenses {
+				targetResistances = append(targetResistances, def.Resistances...)
+				targetImmunities = append(targetImmunities, def.Immunities...)
+				targetVulnerabilities = append(targetVulnerabilities, def.Vulnerabilities...)
+			}
+		} else if mon, err := loader.LoadMonster(t); err == nil {
+			for _, def := range mon.Defenses {
+				targetResistances = append(targetResistances, def.Resistances...)
+				targetImmunities = append(targetImmunities, def.Immunities...)
+				targetVulnerabilities = append(targetVulnerabilities, def.Vulnerabilities...)
+			}
 		}
-		events = append(events, &engine.DiceRolledEvent{
-			ActorName: currentActor,
-			Total:     res.Total,
-			RawRolls:  res.RawRolls,
-			Kept:      res.Kept,
-			Dropped:   res.Dropped,
-			Modifier:  res.Modifier,
-		})
+
+		totalDamageDealt := 0
+
+		for _, inst := range damageInstances {
+			res, err := engine.Roll(&parser.DiceExpr{Raw: inst.DiceMacro})
+			if err != nil {
+				return nil, err
+			}
+
+			// Compute multi
+			multiplier := 1.0
+			foundType := inst.Type
+			if foundType != "" {
+				for _, im := range targetImmunities {
+					if strings.EqualFold(im, foundType) {
+						multiplier = 0.0
+						break
+					}
+				}
+				if multiplier > 0 {
+					for _, res := range targetResistances {
+						if strings.EqualFold(res, foundType) {
+							multiplier = 0.5
+							break
+						}
+					}
+				}
+				if multiplier > 0 {
+					for _, vul := range targetVulnerabilities {
+						if strings.EqualFold(vul, foundType) {
+							multiplier = 2.0
+							break
+						}
+					}
+				}
+			}
+
+			computedDmg := int(float64(res.Total) * multiplier)
+			totalDamageDealt += computedDmg
+
+			events = append(events, &engine.DiceRolledEvent{
+				ActorName: currentActor,
+				Total:     computedDmg,
+				RawRolls:  res.RawRolls,
+				Kept:      res.Kept,
+				Dropped:   res.Dropped,
+				Modifier:  res.Modifier,
+			})
+		}
+
 		events = append(events, &engine.HPChangedEvent{
 			ActorID: t,
-			Amount:  -res.Total,
+			Amount:  -totalDamageDealt,
 		})
 	}
 
