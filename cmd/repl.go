@@ -82,6 +82,8 @@ Usage:
 
 		fmt.Printf("Starting REPL for '%s/%s'...\nType 'exit' or 'quit' to leave.\n\n", worldDir, campaignDir)
 
+		maybeStartBot(app, worldDir, campaignDir)
+
 		if err := RunTUI(app, worldDir, campaignDir); err != nil {
 			fmt.Printf("Fatal TUI Error: %v\n", err)
 			os.Exit(1)
