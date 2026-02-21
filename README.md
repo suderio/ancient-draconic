@@ -145,7 +145,7 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct
 
 ## 📊 Project Stats & Activity
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
+[![suderio's GitHub stats](https://github-readme-stats.vercel.app/api?username=suderio)](https://github.com/suderio/dndsl)
 
 ---
 
