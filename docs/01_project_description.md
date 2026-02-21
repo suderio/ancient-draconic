@@ -99,4 +99,4 @@ Roll by: Someone1 3d6 + 1
 
 This command rolls dice using the standard syntax for dice rolling. The dicing rolling should be implemented or added as a library, if a convenient one is found (preferable).
 
-Important: the commands, prepositions (like by:) and parameters must be all case insensitive. by: Someone == :By someone.
+Important: the commands, prepositions (like by:) and parameters must be all case insensitive. by: Someone == By: someone.
