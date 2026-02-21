@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 // RollResult contains the finalized answer alongside the raw rolls used

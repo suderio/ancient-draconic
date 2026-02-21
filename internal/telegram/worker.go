@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/engine"
 
 	"github.com/spf13/viper"
 )

@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/engine"
 )
 
 func TestStoreAppendLoad(t *testing.T) {

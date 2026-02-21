@@ -5,10 +5,10 @@ import (
 	"strconv"
 	"strings"
 
-	"dndsl/internal/command"
-	"dndsl/internal/data"
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/command"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 // Store defines the dependency required by Session to persist events

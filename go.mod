@@ -1,4 +1,4 @@
-module dndsl
+module github.com/suderio/dndsl
 
 go 1.25.6
 

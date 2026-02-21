@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"dndsl/internal/data"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 // Result encapsulation for tracking target types

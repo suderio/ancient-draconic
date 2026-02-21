@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"dndsl/internal/data"
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 // ExecuteAttack resolves "meets it, beats it" math recursively against target Arrays

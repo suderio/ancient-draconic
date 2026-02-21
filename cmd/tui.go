@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"dndsl/internal/session"
+	"github.com/suderio/dndsl/internal/session"
 
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/textinput"

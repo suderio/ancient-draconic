@@ -3,9 +3,9 @@ package command
 import (
 	"fmt"
 
-	"dndsl/internal/data"
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 // RollInitiative encapsulates all standard D&D 5e logic required to generate an initiative roll

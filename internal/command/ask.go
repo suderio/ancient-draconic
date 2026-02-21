@@ -1,8 +1,8 @@
 package command
 
 import (
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 	"strings"
 )
 

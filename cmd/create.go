@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"dndsl/internal/persistence"
+	"github.com/suderio/dndsl/internal/persistence"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

@@ -3,7 +3,7 @@ package engine
 import (
 	"testing"
 
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 func TestRollBasic(t *testing.T) {

@@ -1,10 +1,10 @@
 package command_test
 
 import (
-	"dndsl/internal/command"
-	"dndsl/internal/data"
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/command"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 	"os"
 	"path/filepath"
 	"testing"

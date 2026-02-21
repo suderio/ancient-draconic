@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/engine"
 )
 
 // EventWrapper facilitates serialization of polyphormic events

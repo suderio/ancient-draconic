@@ -3,9 +3,9 @@ package command
 import (
 	"fmt"
 
-	"dndsl/internal/data"
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 // ExecuteEncounter handles the `encounter :by <Actor> start|end` syntax

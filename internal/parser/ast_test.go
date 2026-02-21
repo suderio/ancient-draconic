@@ -1,7 +1,7 @@
 package parser_test
 
 import (
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/parser"
 	"testing"
 )
 

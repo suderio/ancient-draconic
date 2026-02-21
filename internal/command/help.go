@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"dndsl/internal/engine"
-	"dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/dndsl/internal/parser"
 )
 
 type commandHelp struct {
