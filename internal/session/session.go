@@ -73,7 +73,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 
 	astCmd, err := langParser.ParseString("", input)
 	if err != nil {
-		return nil, fmt.Errorf("syntax error: %w", err)
+		return nil, parser.MapError(input, err)
 	}
 
 	if astCmd.Roll != nil {
