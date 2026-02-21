@@ -8,6 +8,7 @@ build/
 
 # Local game sessions and logs
 worlds/
+data/
 
 # Go workspaces
 go.work
