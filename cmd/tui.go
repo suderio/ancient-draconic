@@ -95,7 +95,7 @@ func newREPLModel(app *session.Session, worldName, campaignName string) replMode
 	}
 }
 
-func (m replModel) Init() tea.Cmd {
+func (m *replModel) Init() tea.Cmd {
 	return textinput.Blink
 }
 
@@ -105,17 +105,17 @@ func (m *replModel) updateSuggestions() {
 
 	defer func() {
 		m.suggestions.SetItems(items)
-		m.showList = len(items) > 0
 		if m.showList {
+			// Use a more generous height for the list to avoid the pagination indicator (•••)
+			// Small counts like 1-3 often need at least 4-5 total lines in the list model
+			// to avoid clipping symbols depending on theme/styles.
 			h := len(items)
 			if h > 10 {
 				h = 10
 			}
-			// Important: set height large enough for items
-			// If we only have 1 or 2 items, we still want a decent dropdown size
 			listHeight := h
-			if listHeight < 3 && len(items) > 0 {
-				listHeight = 3
+			if listHeight > 0 && listHeight < 4 {
+				listHeight = 4
 			}
 			m.suggestions.SetHeight(listHeight)
 			m.suggestions.ResetSelected()
@@ -194,7 +194,7 @@ func (m *replModel) updateSuggestions() {
 	}
 }
 
-func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m *replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var (
 		tiCmd tea.Cmd
 		vpCmd tea.Cmd
@@ -293,20 +293,20 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	m.viewport, vpCmd = m.viewport.Update(msg)
 
 	// Calculate accurate heights for dynamic components
-	titleHeight := lipgloss.Height(titleStyle.Render("Dummy"))
-	stateHeight := lipgloss.Height(m.renderState())
-	inputHeight := 1
+	titleH := lipgloss.Height(titleStyle.Render("Dummy"))
+	stateH := lipgloss.Height(m.renderState())
+	inputH := 1
 
 	listAreaHeight := 0
 	if m.showList {
 		listAreaHeight = m.suggestions.Height() + 2 // +2 for autocompleteStyle borders
 	}
 
-	infoHeight := lipgloss.Height(infoStyle.Render("Dummy"))
-	bottomPadding := 7
+	infoH := lipgloss.Height(infoStyle.Render("Dummy"))
+	paddingH := 7
 
-	// Total fixed overhead (except viewport)
-	overhead := titleHeight + stateHeight + inputHeight + listAreaHeight + infoHeight + bottomPadding + 3
+	// Total fixed overhead: title + state + input + listArea + info + padding + spacing
+	overhead := titleH + stateH + inputH + listAreaHeight + infoH + paddingH + 4
 
 	m.viewport.Height = m.height - overhead
 	if m.viewport.Height < 4 {
@@ -316,7 +316,7 @@ func (m replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, tea.Batch(tiCmd, vpCmd, lsCmd)
 }
 
-func (m replModel) renderState() string {
+func (m *replModel) renderState() string {
 	stateView := "=== Active Encounter ==="
 	state := m.app.State()
 
@@ -365,7 +365,7 @@ func (m replModel) renderState() string {
 	return stateBoxStyle.Width(m.width - 4).Render(stateView)
 }
 
-func (m replModel) View() string {
+func (m *replModel) View() string {
 	if m.width == 0 {
 		return "Initializing..."
 	}
@@ -381,18 +381,21 @@ func (m replModel) View() string {
 		inputArea = m.textInput.View()
 	}
 
-	return fmt.Sprintf(
-		"%s\n%s\n%s\n\n%s\n%s",
+	mainView := lipgloss.JoinVertical(lipgloss.Left,
 		title,
 		stateBox,
 		logBox,
+		"\n",
 		inputArea,
 		infoStyle.Render("(esc to quit, tab to complete, up/down history)"),
 	)
+
+	return mainView + strings.Repeat("\n", 7)
 }
 
 func RunTUI(app *session.Session, worldDir, campaignDir string) error {
-	p := tea.NewProgram(newREPLModel(app, filepath.Base(worldDir), filepath.Base(campaignDir)), tea.WithAltScreen())
+	m := newREPLModel(app, filepath.Base(worldDir), filepath.Base(campaignDir))
+	p := tea.NewProgram(&m, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		return err
 	}
