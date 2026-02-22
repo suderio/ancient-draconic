@@ -18,9 +18,11 @@ func TestAdjudicationFlow(t *testing.T) {
 	state.TurnOrder = []string{"Grog", "Goblin"}
 	state.CurrentTurn = 0
 
+	loader := data.NewLoader([]string{"../../data"})
+
 	// 1. Initiate grapple (should trigger adjudication)
 	cmd := &parser.GrappleCmd{Target: "Goblin"}
-	events, err := ExecuteGrapple(cmd, state)
+	events, err := ExecuteGrapple(cmd, state, loader)
 	assert.NoError(t, err)
 	assert.Len(t, events, 1)
 	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
@@ -45,7 +47,7 @@ func TestAdjudicationFlow(t *testing.T) {
 	assert.False(t, state.IsFrozen()) // Approved adjudication does NOT freeze
 
 	// 3. Resume grapple (re-execution logic would be in Session, but we test the command's second stage)
-	events, err = ExecuteGrapple(cmd, state)
+	events, err = ExecuteGrapple(cmd, state, loader)
 	assert.NoError(t, err)
 	assert.Len(t, events, 2) // GrappleTaken + AskIssued
 	assert.IsType(t, &engine.GrappleTakenEvent{}, events[0])
@@ -165,4 +167,33 @@ func TestHelpAction(t *testing.T) {
 	turnEvent := &engine.TurnChangedEvent{ActorID: "Paulo"}
 	turnEvent.Apply(state)
 	assert.NotContains(t, state.Entities["Orc"].Conditions, "HelpedAttack:Paulo")
+}
+
+func TestDynamicGrappleDC(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	// Thorne has 16 Str (+3) and 2 Prof Bonus -> DC should be 8 + 3 + 2 = 13
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1}
+	state.Entities["Goblin"] = &engine.Entity{ID: "Goblin", Name: "Goblin"}
+	state.Initiatives = map[string]int{"thorne": 20, "Goblin": 10}
+	state.TurnOrder = []string{"thorne", "Goblin"}
+	state.CurrentTurn = 0
+
+	loader := data.NewLoader([]string{"../../data"})
+	cmd := &parser.GrappleCmd{Target: "Goblin"}
+
+	// Mock approved adjudication
+	state.PendingAdjudication = &engine.PendingAdjudicationState{Approved: true}
+
+	events, err := ExecuteGrapple(cmd, state, loader)
+	assert.NoError(t, err)
+
+	foundAsk := false
+	for _, e := range events {
+		if ask, ok := e.(*engine.AskIssuedEvent); ok {
+			foundAsk = true
+			assert.Equal(t, 13, ask.DC, "DC should be 8 + 3 (Str) + 2 (Prof) = 13")
+		}
+	}
+	assert.True(t, foundAsk)
 }

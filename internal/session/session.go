@@ -231,7 +231,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Grapple != nil {
-		events, err := command.ExecuteGrapple(astCmd.Grapple, s.state)
+		events, err := command.ExecuteGrapple(astCmd.Grapple, s.state, s.loader)
 		if err != nil {
 			return nil, err
 		}

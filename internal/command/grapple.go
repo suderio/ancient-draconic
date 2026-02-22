@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
 )
 
 // ExecuteGrapple initiates a grapple attempt which requires GM adjudication
-func ExecuteGrapple(cmd *parser.GrappleCmd, state *engine.GameState) ([]engine.Event, error) {
+func ExecuteGrapple(cmd *parser.GrappleCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}
@@ -59,8 +60,21 @@ func ExecuteGrapple(cmd *parser.GrappleCmd, state *engine.GameState) ([]engine.E
 	// For now, we'll ask for a generic "Strength or Dexterity save"
 	// and let the internal logic handle the "choose one" better later if needed.
 
-	// DC calculation (mocked for now, needs proper stat loading)
-	dc := 12
+	// DC calculation (2024 revision): 8 + Strength modifier + Proficiency bonus
+	dc := 10 // Baseline fallback
+	if ent, ok := state.Entities[currentActor]; ok {
+		// Try to load as character
+		char, err := loader.LoadCharacter(ent.ID)
+		if err == nil {
+			dc = 8 + data.CalculateModifier(char.Strength) + char.ProficiencyBonus
+		} else {
+			// Try to load as monster
+			mon, err := loader.LoadMonster(ent.ID)
+			if err == nil {
+				dc = 8 + data.CalculateModifier(mon.Strength) + mon.ProficiencyBonus
+			}
+		}
+	}
 
 	return []engine.Event{
 		&engine.GrappleTakenEvent{
