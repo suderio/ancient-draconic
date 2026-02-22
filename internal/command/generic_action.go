@@ -100,18 +100,28 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 		}, nil
 	}
 
+	// Handle specific action logic
+	var events []engine.Event
+	events = append(events, &engine.ActionConsumedEvent{ActorID: currentActor})
+
+	switch strings.ToLower(actionType) {
+	case "disengage":
+		events = append(events, &engine.ConditionAppliedEvent{
+			ActorID:   currentActor,
+			Condition: "Disengaged",
+		})
+	case "dash", "hide", "improvise", "influence", "ready", "search", "study", "utilize":
+		// Simple action consumption + log
+	default:
+		return nil, fmt.Errorf("unknown action type: %s", actionType)
+	}
+
 	// Logging event for the action
 	msg := fmt.Sprintf("%s used %s", currentActor, cmd.Action)
 	if cmd.Target != "" {
 		msg += " on " + cmd.Target
 	}
+	events = append(events, &engine.HintEvent{MessageStr: msg})
 
-	return []engine.Event{
-		&engine.ActionConsumedEvent{
-			ActorID: currentActor,
-		},
-		&engine.HintEvent{
-			MessageStr: msg,
-		},
-	}, nil
+	return events, nil
 }

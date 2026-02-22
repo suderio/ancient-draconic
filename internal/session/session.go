@@ -242,7 +242,13 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Action != nil {
-		events, err := command.ExecuteAction(astCmd.Action, s.state, s.loader)
+		var events []engine.Event
+		var err error
+		if strings.ToLower(astCmd.Action.Action) == "shove" {
+			events, err = command.ExecuteShove(astCmd.Action, s.state, s.loader)
+		} else {
+			events, err = command.ExecuteAction(astCmd.Action, s.state, s.loader)
+		}
 		if err != nil {
 			return nil, err
 		}

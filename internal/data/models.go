@@ -64,10 +64,18 @@ type Monster struct {
 	Defenses         []Defense         `yaml:"defenses"`
 }
 
+// Race represents a character race from the SRD.
+type Race struct {
+	Index string `yaml:"index"`
+	Name  string `yaml:"name"`
+	Size  string `yaml:"size"`
+}
+
 // Character represents a player character from the data loaded via YAML.
 type Character struct {
 	Index            string        `yaml:"index"`
 	Name             string        `yaml:"name"`
+	Race             string        `yaml:"race"`
 	HitPoints        int           `yaml:"hit_points"`
 	HitDice          string        `yaml:"hit_dice"`
 	ArmorClass       []ArmorClass  `yaml:"armor_class"`

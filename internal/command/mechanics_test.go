@@ -234,3 +234,58 @@ func TestDynamicEscapeDC(t *testing.T) {
 	}
 	assert.True(t, foundAsk)
 }
+
+func TestShoveMechanic(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	loader := data.NewLoader([]string{"../../data"})
+
+	// Thorne (Medium) shoves a Goblin (Small) -> OK
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1, Type: "Character"}
+	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", Type: "Monster"}
+	state.Initiatives = map[string]int{"thorne": 20, "goblin": 10}
+	state.TurnOrder = []string{"thorne", "goblin"}
+	state.CurrentTurn = 0
+
+	cmd := &parser.ActionCmd{Action: "shove", Target: "goblin"}
+	events, err := ExecuteShove(cmd, state, loader)
+	assert.NoError(t, err)
+	assert.Equal(t, 13, events[2].(*engine.AskIssuedEvent).DC) // 8 + 3 (Str) + 2 (Prof)
+
+	// Thorne (Medium) shoves a T-Rex (Huge) -> FAIL (Too large)
+	state.Entities["t-rex"] = &engine.Entity{ID: "t-rex", Name: "T-Rex", Type: "Monster"}
+	state.Initiatives["t-rex"] = 5 // Avoid freezing the game
+	cmdHuge := &parser.ActionCmd{Action: "shove", Target: "t-rex"}
+	_, err = ExecuteShove(cmdHuge, state, loader)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "too large")
+}
+
+func TestDisengageLogic(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	loader := data.NewLoader([]string{"../../data"})
+
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1}
+	state.Initiatives = map[string]int{"thorne": 20}
+	state.TurnOrder = []string{"thorne"}
+	state.CurrentTurn = 0
+
+	// 1. Take Disengage
+	cmd := &parser.ActionCmd{Action: "disengage"}
+	events, err := ExecuteAction(cmd, state, loader)
+	assert.NoError(t, err)
+	for _, e := range events {
+		e.Apply(state)
+	}
+	assert.Contains(t, state.Entities["thorne"].Conditions, "Disengaged")
+
+	// 2. End Turn -> Disengaged should be cleared
+	turnCmd := &parser.TurnCmd{}
+	events, err = ExecuteTurn(turnCmd, state, loader)
+	assert.NoError(t, err)
+	for _, e := range events {
+		e.Apply(state)
+	}
+	assert.NotContains(t, state.Entities["thorne"].Conditions, "Disengaged")
+}

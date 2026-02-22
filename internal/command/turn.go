@@ -38,6 +38,23 @@ func ExecuteTurn(cmd *parser.TurnCmd, state *engine.GameState, loader *data.Load
 		&engine.TurnEndedEvent{ActorID: currentActor},
 	}
 
+	// 1. Reset actor stats (Actions, etc.)
+	if ent, ok := state.Entities[currentActor]; ok {
+		ent.ActionsRemaining = 1
+		ent.BonusActionsRemaining = 1
+		ent.ReactionsRemaining = 1
+		ent.AttacksRemaining = 0
+
+		// Clear Disengaged condition
+		newConditions := []string{}
+		for _, c := range ent.Conditions {
+			if strings.ToLower(c) != "disengaged" {
+				newConditions = append(newConditions, c)
+			}
+		}
+		ent.Conditions = newConditions
+	}
+
 	// Determine next actor
 	nextIndex := (state.CurrentTurn + 1) % len(state.TurnOrder)
 	nextActor := state.TurnOrder[nextIndex]

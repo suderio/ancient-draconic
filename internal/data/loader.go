@@ -46,6 +46,17 @@ func (l *Loader) LoadMonster(name string) (*Monster, error) {
 	return &m, nil
 }
 
+// LoadRace constructs a typed Race object by searching through the SRD races
+func (l *Loader) LoadRace(name string) (*Race, error) {
+	var r Race
+	dashName := strings.ReplaceAll(strings.ToLower(name), " ", "-")
+	ref := filepath.Join("races", fmt.Sprintf("%s.yaml", dashName))
+	if err := l.load(ref, &r); err != nil {
+		return nil, err
+	}
+	return &r, nil
+}
+
 func (l *Loader) load(ref string, target interface{}) error {
 	// 1. Check external directories (Campaign/World/etc)
 	for _, dir := range l.dataDirs {
