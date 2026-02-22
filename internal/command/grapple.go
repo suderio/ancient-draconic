@@ -86,7 +86,7 @@ func ExecuteGrapple(cmd *parser.GrappleCmd, state *engine.GameState, loader *dat
 			Check:   []string{"strength", "save", "or", "dexterity", "save"},
 			DC:      dc,
 			Fails: &engine.RollConsequence{
-				Condition: "Grappled",
+				Condition: fmt.Sprintf("grappledby:%s", currentActor),
 			},
 		},
 	}, nil

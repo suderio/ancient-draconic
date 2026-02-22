@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
 )
 
 // ExecuteAction handles standard 5e actions like Dash, Disengage, etc.
-func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState) ([]engine.Event, error) {
+func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}
@@ -58,14 +59,42 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState) ([]engine.Eve
 		}
 	}
 	if actionType == "escape" {
+		// Try to find who is grappling the current actor
+		grapplerID := ""
+		conditionToRemove := "grappled"
+		for _, c := range ent.Conditions {
+			if strings.HasPrefix(strings.ToLower(c), "grappledby:") {
+				parts := strings.Split(c, ":")
+				if len(parts) == 2 {
+					grapplerID = parts[1]
+					conditionToRemove = c
+					break
+				}
+			}
+		}
+
+		dc := 10 // Baseline fallback
+		if grapplerID != "" {
+			// Calculate DC from grappler's stats
+			char, err := loader.LoadCharacter(grapplerID)
+			if err == nil {
+				dc = 8 + data.CalculateModifier(char.Strength) + char.ProficiencyBonus
+			} else {
+				mon, err := loader.LoadMonster(grapplerID)
+				if err == nil {
+					dc = 8 + data.CalculateModifier(mon.Strength) + mon.ProficiencyBonus
+				}
+			}
+		}
+
 		return []engine.Event{
 			&engine.ActionConsumedEvent{ActorID: currentActor},
 			&engine.AskIssuedEvent{
 				Targets: []string{currentActor},
 				Check:   []string{"athletics", "or", "acrobatics"},
-				DC:      10, // Default baseline, GM can override or adjudicate
+				DC:      dc,
 				Succeeds: &engine.RollConsequence{
-					RemoveCondition: "grappled",
+					RemoveCondition: conditionToRemove,
 				},
 			},
 		}, nil

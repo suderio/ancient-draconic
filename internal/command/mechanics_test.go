@@ -102,6 +102,16 @@ func TestActionEconomy(t *testing.T) {
 	evt := &engine.AttackResolvedEvent{Attacker: "Paulo", Targets: []string{"Goblin"}}
 	evt.Apply(state)
 	assert.Equal(t, 0, state.Entities["Paulo"].ActionsRemaining)
+
+	// 5. Test Action logic
+	state.Entities["Paulo"].ActionsRemaining = 1
+	actionCmd := &parser.ActionCmd{Action: "dash"}
+	events, err = ExecuteAction(actionCmd, state, loader)
+	assert.NoError(t, err)
+	for _, e := range events {
+		e.Apply(state)
+	}
+	assert.Equal(t, 0, state.Entities["Paulo"].ActionsRemaining)
 }
 
 func TestHelpAction(t *testing.T) {
@@ -193,6 +203,33 @@ func TestDynamicGrappleDC(t *testing.T) {
 		if ask, ok := e.(*engine.AskIssuedEvent); ok {
 			foundAsk = true
 			assert.Equal(t, 13, ask.DC, "DC should be 8 + 3 (Str) + 2 (Prof) = 13")
+		}
+	}
+	assert.True(t, foundAsk)
+}
+
+func TestDynamicEscapeDC(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	// Thorne has 16 Str (+3) and 2 Prof Bonus -> DC should be 8 + 3 + 2 = 13
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1}
+	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", ActionsRemaining: 1, Conditions: []string{"grappledby:thorne"}}
+	state.Initiatives = map[string]int{"thorne": 20, "goblin": 10}
+	state.TurnOrder = []string{"thorne", "goblin"}
+	state.CurrentTurn = 1
+
+	loader := data.NewLoader([]string{"../../data"})
+	cmd := &parser.ActionCmd{Action: "escape"}
+
+	events, err := ExecuteAction(cmd, state, loader)
+	assert.NoError(t, err)
+
+	foundAsk := false
+	for _, e := range events {
+		if ask, ok := e.(*engine.AskIssuedEvent); ok {
+			foundAsk = true
+			assert.Equal(t, 13, ask.DC, "Escape DC should match Thorne's Grapple DC (13)")
+			assert.Equal(t, "grappledby:thorne", ask.Succeeds.RemoveCondition)
 		}
 	}
 	assert.True(t, foundAsk)
