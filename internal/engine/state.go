@@ -15,10 +15,11 @@ type GameState struct {
 
 // RollConsequence tracks the automated impacts of parsing an Ask string
 type RollConsequence struct {
-	IsDamage   bool   `json:"is_damage"`
-	DamageDice string `json:"damage_dice"`
-	HalfDamage bool   `json:"half_damage"`
-	Condition  string `json:"condition"`
+	IsDamage        bool   `json:"is_damage"`
+	DamageDice      string `json:"damage_dice"`
+	HalfDamage      bool   `json:"half_damage"`
+	Condition       string `json:"condition"`
+	RemoveCondition string `json:"remove_condition"`
 }
 
 // PendingCheckState tracks a required roll requested by the GM

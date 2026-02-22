@@ -32,7 +32,7 @@
 | 30 | Mechanics: Action Economy (1 Action, 1 Bonus, 1 Reaction) | [x] |
 | 31 | Mechanics: New Actions (Dodge, Grapple, Help) | [x] |
 | 32 | Mechanics: Monster Recharge Logic | [x] |
-| 33 | | [x] |
+| 33 | Remaining Actions: Dash, Disengage, Hide, Improvise,Influence,Magic,Ready,Search,Shove,Study,Utilize | [ ] |
 
 ---
 

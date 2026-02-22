@@ -57,6 +57,19 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState) ([]engine.Eve
 			return nil, fmt.Errorf("action is still pending GM adjudication")
 		}
 	}
+	if actionType == "escape" {
+		return []engine.Event{
+			&engine.ActionConsumedEvent{ActorID: currentActor},
+			&engine.AskIssuedEvent{
+				Targets: []string{currentActor},
+				Check:   []string{"athletics", "or", "acrobatics"},
+				DC:      10, // Default baseline, GM can override or adjudicate
+				Succeeds: &engine.RollConsequence{
+					RemoveCondition: "grappled",
+				},
+			},
+		}, nil
+	}
 
 	// Logging event for the action
 	msg := fmt.Sprintf("%s used %s", currentActor, cmd.Action)

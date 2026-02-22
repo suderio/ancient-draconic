@@ -12,6 +12,18 @@ import (
 	"github.com/suderio/dndsl/internal/parser"
 )
 
+var mockDiceQueue []int
+
+// MockDice prepares a sequence of deterministic results for the next calls to Roll
+func MockDice(results []int) {
+	mockDiceQueue = results
+}
+
+// ResetMockDice clears the deterministic queue
+func ResetMockDice() {
+	mockDiceQueue = nil
+}
+
 // RollResult contains the finalized answer alongside the raw rolls used
 type RollResult struct {
 	Total    int
@@ -92,7 +104,13 @@ func Roll(expr *parser.DiceExpr) (RollResult, error) {
 
 	// 4. Generate Raw Rolls
 	for i := 0; i < numDice; i++ {
-		val := safeRand(sides)
+		val := 0
+		if len(mockDiceQueue) > 0 {
+			val = mockDiceQueue[0]
+			mockDiceQueue = mockDiceQueue[1:]
+		} else {
+			val = safeRand(sides)
+		}
 		res.RawRolls = append(res.RawRolls, val)
 	}
 

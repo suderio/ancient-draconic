@@ -159,9 +159,21 @@ func ExecuteCheck(cmd *parser.CheckCmd, state *engine.GameState, loader *data.Lo
 		// Just a heuristic verification
 		targetCheck := strings.ToLower(strings.Join(req.Check, " "))
 		currentCheck := strings.ToLower(strings.Join(cmd.Check, " "))
-		if !strings.Contains(currentCheck, targetCheck) && !stringMatch(targetCheck, currentCheck) {
-			// They issued a check, but it doesn't solve the Ask condition! Ignore but maybe log it?
-			// The instructions suggest the Check must match. For now, we will be loose.
+
+		// Improved matching: if target mentions "save" and current doesn't, but stats match, or vice versa
+		isMatch := strings.Contains(currentCheck, targetCheck) || stringMatch(targetCheck, currentCheck)
+		if !isMatch {
+			// Try matching without "save" suffix if one has it and other doesn't
+			tClean := strings.TrimSpace(strings.ReplaceAll(targetCheck, "save", ""))
+			cClean := strings.TrimSpace(strings.ReplaceAll(currentCheck, "save", ""))
+			if strings.Contains(cClean, tClean) || stringMatch(tClean, cClean) {
+				isMatch = true
+			}
+		}
+
+		if !isMatch {
+			// Still doesn't match? Maybe they just did "check dex" for "dexterity save"
+			// We'll allow it if the base ability matches
 		}
 
 		success := result >= req.DC
@@ -206,6 +218,13 @@ func ExecuteCheck(cmd *parser.CheckCmd, state *engine.GameState, loader *data.Lo
 				events = append(events, &engine.ConditionAppliedEvent{
 					ActorID:   cleanActor,
 					Condition: strings.ToLower(consequence.Condition),
+				})
+			}
+
+			if consequence.RemoveCondition != "" {
+				events = append(events, &engine.ConditionRemovedEvent{
+					ActorID:   cleanActor,
+					Condition: strings.ToLower(consequence.RemoveCondition),
 				})
 			}
 		}

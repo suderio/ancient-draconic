@@ -69,7 +69,7 @@ func ExecuteGrapple(cmd *parser.GrappleCmd, state *engine.GameState) ([]engine.E
 		},
 		&engine.AskIssuedEvent{
 			Targets: []string{cmd.Target},
-			Check:   []string{"strength", "or", "dexterity", "save"},
+			Check:   []string{"strength", "save", "or", "dexterity", "save"},
 			DC:      dc,
 			Fails: &engine.RollConsequence{
 				Condition: "Grappled",

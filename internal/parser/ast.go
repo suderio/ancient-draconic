@@ -184,7 +184,7 @@ type HelpActionCmd struct {
 
 // ActionCmd handles other standard 5e actions (Dash, Disengage, etc.)
 type ActionCmd struct {
-	Action string     `parser:"@(\"dash\"|\"Dash\"|\"DASH\"|\"disengage\"|\"Disengage\"|\"DISENGAGE\"|\"hide\"|\"Hide\"|\"HIDE\"|\"improvise\"|\"Improvise\"|\"IMPROVISE\"|\"influence\"|\"Influence\"|\"INFLUENCE\"|\"magic\"|\"Magic\"|\"MAGIC\"|\"ready\"|\"Ready\"|\"READY\"|\"search\"|\"Search\"|\"SEARCH\"|\"shove\"|\"Shove\"|\"SHOVE\"|\"study\"|\"Study\"|\"STUDY\"|\"utilize\"|\"Utilize\"|\"UTILIZE\")"`
+	Action string     `parser:"@(\"dash\"|\"Dash\"|\"DASH\"|\"disengage\"|\"Disengage\"|\"DISENGAGE\"|\"escape\"|\"Escape\"|\"ESCAPE\"|\"hide\"|\"Hide\"|\"HIDE\"|\"improvise\"|\"Improvise\"|\"IMPROVISE\"|\"influence\"|\"Influence\"|\"INFLUENCE\"|\"magic\"|\"Magic\"|\"MAGIC\"|\"ready\"|\"Ready\"|\"READY\"|\"search\"|\"Search\"|\"SEARCH\"|\"shove\"|\"Shove\"|\"SHOVE\"|\"study\"|\"Study\"|\"STUDY\"|\"utilize\"|\"Utilize\"|\"UTILIZE\")"`
 	Actor  *ActorExpr `parser:"@@?"`
 	Target string     `parser:"( \"to\" \":\" @Ident )?"`
 }

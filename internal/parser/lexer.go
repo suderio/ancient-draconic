@@ -8,7 +8,7 @@ import (
 // Lexer maps the raw string tokens out for our AST definitions.
 // Basic whitespace elision is enough for our grammar.
 var Lexer = lexer.MustSimple([]lexer.SimpleRule{
-	{Name: "Keyword", Pattern: `(?i)\b(?:roll|encounter|start|end|with|and|add|initiative|by|attack|damage|turn|to|dice|hint|ask|check|of|dc|fails|succeeds|half|type|help|all|adjudicate|allow|deny|dodge|grapple|dash|disengage|hide|improvise|influence|magic|ready|search|shove|study|utilize)\b`},
+	{Name: "Keyword", Pattern: `(?i)\b(?:roll|encounter|start|end|with|and|add|initiative|by|attack|damage|turn|to|dice|hint|ask|check|of|dc|fails|succeeds|half|type|help|all|adjudicate|allow|deny|dodge|grapple|escape|dash|disengage|hide|improvise|influence|magic|ready|search|shove|study|utilize)\b`},
 	{Name: "Ident", Pattern: `[a-zA-Z_]\w*`},
 	{Name: "DiceMacro", Pattern: `\d+[dD]\d+(?:[kK][hHlL]?\d+|[aAdD])?(?:[+-]\d+)?`},
 	{Name: "Int", Pattern: `[0-9]+`},
