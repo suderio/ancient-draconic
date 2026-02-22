@@ -32,7 +32,10 @@
 | 30 | Mechanics: Action Economy (1 Action, 1 Bonus, 1 Reaction) | [x] |
 | 31 | Mechanics: New Actions (Dodge, Grapple, Help) | [x] |
 | 32 | Mechanics: Monster Recharge Logic | [x] |
-| 33 | Remaining Actions: Dash, Disengage, Hide, Improvise,Influence,Magic,Ready,Search,Shove,Study,Utilize | [ ] |
+| 33 | Remaining Actions: Dash, Disengage, Hide, Improvise, Influence, Ready, Search, Shove, Study, Utilize | [x] |
+| 34 | Bonus Actions: Two Weapon Fighting | [ ] |
+| 35 | Reaction: Opportunity Attack | [ ] |
+| 36 | Cast Action | [ ] |
 
 ---
 
@@ -56,6 +59,12 @@
   - [x] Implement turn-start recharge roll logic
   - [x] Update engine to track spent recharge abilities
   - [x] Verify with integration tests
+- [x] **Phase 33: Remaining Actions: Dash, Disengage, Hide, Improvise, Influence, Ready, Search, Shove, Study, Utilize**
+  - [x] Implement standard actions with logging in `generic_action.go`
+  - [x] Implement `Shove` with size restrictions and dynamic Saving Throw DC
+  - [x] Add `Race` and `Size` support to data layer
+  - [x] Update turn-reset logic for `Disengaged` condition
+  - [x] Verify all actions with integration tests
 
 ---
 
