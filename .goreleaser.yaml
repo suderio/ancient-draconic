@@ -1,6 +1,6 @@
 version: 2
 
-project_name: dndsl
+project_name: draconic
 
 builds:
   - id: nix
@@ -13,12 +13,12 @@ builds:
       - amd64
       - arm64
     main: ./main.go
-    binary: dndsl
+    binary: draconic
     ldflags:
       - -s -w
-      - -X dndsl/cmd.Version={{.Version}}
-      - -X dndsl/cmd.Commit={{.Commit}}
-      - -X dndsl/cmd.BuildDate={{.Date}}
+      - -X draconic/cmd.Version={{.Version}}
+      - -X draconic/cmd.Commit={{.Commit}}
+      - -X draconic/cmd.BuildDate={{.Date}}
 
   - id: windows
     env:
@@ -29,12 +29,12 @@ builds:
       - amd64
       - arm64
     main: ./main.go
-    binary: dndsl
+    binary: draconic
     ldflags:
       - -s -w
-      - -X dndsl/cmd.Version={{.Version}}
-      - -X dndsl/cmd.Commit={{.Commit}}
-      - -X dndsl/cmd.BuildDate={{.Date}}
+      - -X draconic/cmd.Version={{.Version}}
+      - -X draconic/cmd.Commit={{.Commit}}
+      - -X draconic/cmd.BuildDate={{.Date}}
 
 archives:
   - id: nix

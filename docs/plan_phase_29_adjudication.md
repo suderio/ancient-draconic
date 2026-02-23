@@ -12,7 +12,7 @@ Implement a GM-authorization system (Adjudication) and enforce 5e action economy
 
 ### [Component] Engine & State (`internal/engine/`)
 
-#### [MODIFY] [state.go](file:///home/paulo/org/projetos/dndsl/internal/engine/state.go)
+#### [MODIFY] [state.go](file:///home/paulo/org/projetos/draconic/internal/engine/state.go)
 
 - Update `GameState`:
   - Add `PendingAdjudication *PendingAdjudicationState`.
@@ -21,14 +21,14 @@ Implement a GM-authorization system (Adjudication) and enforce 5e action economy
   - Add `AttacksRemaining int`.
 - Update `IsFrozen()` to include `PendingAdjudication != nil`.
 
-#### [MODIFY] [events.go](file:///home/paulo/org/projetos/dndsl/internal/engine/events.go)
+#### [MODIFY] [events.go](file:///home/paulo/org/projetos/draconic/internal/engine/events.go)
 
 - Add `AdjudicationStartedEvent`: Stores the original command that requires GM approval.
 - Add `AdjudicationResolvedEvent`: Records if a command was `Allowed` or `Denied`.
 - Add `DodgeEvent`: Simple event to mark that an actor took the Dodge action.
 - Add `GrappleEvent`: Triggers adjudication-style flow or records result after GM approval.
 
-#### [MODIFY] [projector.go](file:///home/paulo/org/projetos/dndsl/internal/engine/projector.go)
+#### [MODIFY] [projector.go](file:///home/paulo/org/projetos/draconic/internal/engine/projector.go)
 
 - `TurnStartedEvent`: Resets counts (`ActionsRemaining=1`, `BonusActionsRemaining=1`, `ReactionsRemaining=1`, `AttacksRemaining=1` or based on stat block).
 - `DodgeEvent`: Adds the "Dodging" condition to the actor.
@@ -38,7 +38,7 @@ Implement a GM-authorization system (Adjudication) and enforce 5e action economy
 
 ### [Component] Parser (`internal/parser/`)
 
-#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/dndsl/internal/parser/ast.go)
+#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/draconic/internal/parser/ast.go)
 
 - Add `AdjudicateCmd`, `AllowCmd`, `DenyCmd`, `DodgeCmd`, `GrappleCmd` to parsing rules.
 
@@ -46,18 +46,18 @@ Implement a GM-authorization system (Adjudication) and enforce 5e action economy
 
 ### [Component] Session & Commands (`internal/session/` & `internal/command/`)
 
-#### [MODIFY] [session.go](file:///home/paulo/org/projetos/dndsl/internal/session/session.go)
+#### [MODIFY] [session.go](file:///home/paulo/org/projetos/draconic/internal/session/session.go)
 
 - Update `Execute` to block commands if `IsFrozen`, unless it's a "control" command from the GM.
 
-#### [NEW] [dodge.go](file:///home/paulo/org/projetos/dndsl/internal/command/dodge.go)
+#### [NEW] [dodge.go](file:///home/paulo/org/projetos/draconic/internal/command/dodge.go)
 
 - **Implementation**: Records a `DodgeEvent`.
 - **Consequences**:
   - Attack Logic: In `ExecuteAttack`, if the target has "Dodging", the roll is forced to Disadvantage.
   - Save Logic: In `ExecuteCheck` (or similar for saves), if the actor is making a DEX save and has "Dodging", the roll is forced to Advantage.
 
-#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/dndsl/internal/command/attack.go)
+#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/draconic/internal/command/attack.go)
 
 - Inject logic to check for "Dodging" condition on targets.
 

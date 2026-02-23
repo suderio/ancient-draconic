@@ -16,29 +16,29 @@ Transition the Ancient Draconic engine from hard-coded D&D 5e logic to a data-dr
 
 ### [Infrastructure] Rule Engine
 
-#### [NEW] [rules](file:///home/paulo/org/projetos/dndsl/internal/rules)
+#### [NEW] [rules](file:///home/paulo/org/projetos/draconic/internal/rules)
 
 - Create `internal/rules/env.go` to initialize the CEL environment.
 - Register custom functions like `roll()` to handle dice strings within CEL.
 
 ### [Core] Data Model
 
-#### [MODIFY] [state.go](file:///home/paulo/org/projetos/dndsl/internal/engine/state.go)
+#### [MODIFY] [state.go](file:///home/paulo/org/projetos/draconic/internal/engine/state.go)
 
 - Refactor `Entity` to use generic maps for stats and attributes.
 - Add `Abilities` slice containing CEL conditions and effects.
 
-#### [MODIFY] [models.go](file:///home/paulo/org/projetos/dndsl/internal/data/models.go)
+#### [MODIFY] [models.go](file:///home/paulo/org/projetos/draconic/internal/data/models.go)
 
 - Update `Character` and `Monster` to match the generic `Entity` blueprint.
 
 ### [Engine] Command Resolution
 
-#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/dndsl/internal/command/attack.go)
+#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/draconic/internal/command/attack.go)
 
 - Replace D&D-specific hit/damage logic with calls to `eval()` using formulas from the `CampaignManifest`.
 
-#### [NEW] [manifest.go](file:///home/paulo/org/projetos/dndsl/internal/engine/manifest.go)
+#### [NEW] [manifest.go](file:///home/paulo/org/projetos/draconic/internal/engine/manifest.go)
 
 - Define `CampaignManifest` to hold system-wide resolution logic.
 

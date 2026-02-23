@@ -1,6 +1,6 @@
 # Phase 22: SRD Data Internalization (Embedding)
 
-Internalize the baseline SRD data (YAML files) into the `dndsl` executable using Go's `embed` package. This allows the tool to run without an external `data/` directory.
+Internalize the baseline SRD data (YAML files) into the `draconic` executable using Go's `embed` package. This allows the tool to run without an external `data/` directory.
 
 ## User Review Required
 
@@ -40,6 +40,6 @@ Internalize the baseline SRD data (YAML files) into the `dndsl` executable using
 ### Manual Verification
 
 - Remove or rename the external `./data` directory.
-- Run `dndsl roll by: goblin 1d20` and verify it can still load the goblin's stats from the internalized data.
-- Run `dndsl --help` and verify `init` is not listed.
-- Verify `dndsl init` still runs if called explicitly (optional for debug).
+- Run `draconic roll by: goblin 1d20` and verify it can still load the goblin's stats from the internalized data.
+- Run `draconic --help` and verify `init` is not listed.
+- Verify `draconic init` still runs if called explicitly (optional for debug).

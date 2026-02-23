@@ -14,9 +14,9 @@ Enable remote play via Telegram by integrating a polling bot that maps chat user
 
 ### 1. Global Configuration (`bot telegram`)
 
-- **[NEW] `cmd/bot.go`**: Implement `dndsl bot telegram`.
+- **[NEW] `cmd/bot.go`**: Implement `draconic bot telegram`.
  - Interactive setup with `@BotFather` instructions.
- - Save token to global `.dndsl.yaml` via Viper.
+ - Save token to global `.draconic.yaml` via Viper.
 
 ### 2. Campaign-Specific Configuration (`campaign telegram`)
 

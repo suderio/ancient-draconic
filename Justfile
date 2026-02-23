@@ -18,7 +18,7 @@ release version: clean
 
 # Build the binary locally
 build:
-	go build -o dndsl ./main.go
+	go build -o draconic ./main.go
 
 # Run all tests (after cleaning)
 test: clean

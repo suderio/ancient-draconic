@@ -16,12 +16,12 @@ type Executor interface {
 	Execute(input string) (engine.Event, error)
 }
 
-// Bot handles the integration between Telegram and the DndSL session
+// Bot handles the integration between Telegram and the Ancient Draconic session
 type Bot struct {
 	client       *Client
 	executor     Executor
 	chatID       int64
-	userMap      map[int64]string // telegram_user_id -> dndsl_actor_id
+	userMap      map[int64]string // telegram_user_id -> draconic_actor_id
 	lastUpdateID int
 }
 

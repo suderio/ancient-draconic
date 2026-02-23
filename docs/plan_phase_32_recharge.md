@@ -4,28 +4,28 @@ Implement the "Recharge X-Y" mechanic for monster abilities, ensuring that power
 
 ## Proposed Changes
 
-### [internal/data](file:///home/paulo/org/projetos/dndsl/internal/data)
+### [internal/data](file:///home/paulo/org/projetos/draconic/internal/data)
 
-#### [MODIFY] [models.go](file:///home/paulo/org/projetos/dndsl/internal/data/models.go)
+#### [MODIFY] [models.go](file:///home/paulo/org/projetos/draconic/internal/data/models.go)
 
 - Update `Action` struct to include `Recharge string`json:"recharge" module:"yaml"`.
 
-### [internal/engine](file:///home/paulo/org/projetos/dndsl/internal/engine)
+### [internal/engine](file:///home/paulo/org/projetos/draconic/internal/engine)
 
-#### [MODIFY] [state.go](file:///home/paulo/org/projetos/dndsl/internal/engine/state.go)
+#### [MODIFY] [state.go](file:///home/paulo/org/projetos/draconic/internal/engine/state.go)
 
 - Add `SpentRecharges map[string][]string` to `GameState` to track which actions are currently cooling down for each entity.
 
-#### [MODIFY] [event.go](file:///home/paulo/org/projetos/dndsl/internal/engine/event.go)
+#### [MODIFY] [event.go](file:///home/paulo/org/projetos/draconic/internal/engine/event.go)
 
 - [NEW] `RechargeRollEvent`: Records a d6 roll for a specific ability.
 - [NEW] `AbilityRechargedEvent`: Clears the spent status for an ability.
 - [NEW] `AbilitySpentEvent`: Adds an ability to the spent list.
 - [MODIFY] `TurnChangedEvent.Apply`: Logic to iterate over `SpentRecharges` for the new actor and generate recharge rolls.
 
-### [internal/command](file:///home/paulo/org/projetos/dndsl/internal/command)
+### [internal/command](file:///home/paulo/org/projetos/draconic/internal/command)
 
-#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/dndsl/internal/command/attack.go)
+#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/draconic/internal/command/attack.go)
 
 - Check if the requested weapon/action index is in `SpentRecharges`.
 - Emit `AbilitySpentEvent` if the action has a `Recharge` property.

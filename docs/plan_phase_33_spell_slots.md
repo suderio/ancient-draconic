@@ -6,7 +6,7 @@ This phase introduces tracking and consumption of spell slots for spellcasting e
 
 ### [Component] Engine State
 
-#### [MODIFY] [state.go](file:///home/paulo/org/projetos/dndsl/internal/engine/state.go)
+#### [MODIFY] [state.go](file:///home/paulo/org/projetos/draconic/internal/engine/state.go)
 
 - Add `SpellSlots` field to `Entity` struct.
 - `SpellSlots` will be a map from level (int) to a struct containing `Current` and `Max`.
@@ -25,7 +25,7 @@ type Entity struct {
 
 ### [Component] Parser
 
-#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/dndsl/internal/parser/ast.go)
+#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/draconic/internal/parser/ast.go)
 
 - Add `CastCmd` to the `Command` union.
 - Define `CastCmd` struct with `Actor`, `SpellName`, and `Level`.
@@ -40,21 +40,21 @@ type CastCmd struct {
 
 ### [Component] Engine Events
 
-#### [MODIFY] [event.go](file:///home/paulo/org/projetos/dndsl/internal/engine/event.go)
+#### [MODIFY] [event.go](file:///home/paulo/org/projetos/draconic/internal/engine/event.go)
 
 - Add `SpellCastEvent`.
 - `Apply` logic will decrement the appropriate spell slot and consume an action if in combat.
 
 ### [Component] Commands
 
-#### [NEW] [cast.go](file:///home/paulo/org/projetos/dndsl/internal/command/cast.go)
+#### [NEW] [cast.go](file:///home/paulo/org/projetos/draconic/internal/command/cast.go)
 
 - Implement `ExecuteCast`.
 - Logic should verify slot availability and action economy.
 
 ### [Component] Data Loading
 
-#### [MODIFY] [models.go](file:///home/paulo/org/projetos/dndsl/internal/data/models.go)
+#### [MODIFY] [models.go](file:///home/paulo/org/projetos/draconic/internal/data/models.go)
 
 - Add `SpellSlots` to `Character` and `Monster` schemas.
 

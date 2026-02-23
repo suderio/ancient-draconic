@@ -1,6 +1,4 @@
 # Binaries and build artifacts
-/dndsl
-/dndsl-bin
 /dist/
 /build/
 *.exe

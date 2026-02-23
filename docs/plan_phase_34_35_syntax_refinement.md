@@ -14,12 +14,12 @@ This plan aims to refine the Two-Weapon Fighting (TWF) and Opportunity Attack me
 
 ### [Component] Parser/Lexer
 
-#### [MODIFY] [lexer.go](file:///home/paulo/org/projetos/dndsl/internal/parser/lexer.go)
+#### [MODIFY] [lexer.go](file:///home/paulo/org/projetos/draconic/internal/parser/lexer.go)
 
 - Rename `bonus` keyword to `off-hand`.
 - Rename `reaction` keyword to `opportunity`.
 
-#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/dndsl/internal/parser/ast.go)
+#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/draconic/internal/parser/ast.go)
 
 - Refactor `AttackCmd` struct:
   - Rename `Bonus` field to `OffHand`.
@@ -30,11 +30,11 @@ This plan aims to refine the Two-Weapon Fighting (TWF) and Opportunity Attack me
 
 ### [Component] Engine State
 
-#### [MODIFY] [state.go](file:///home/paulo/org/projetos/dndsl/internal/engine/state.go)
+#### [MODIFY] [state.go](file:///home/paulo/org/projetos/draconic/internal/engine/state.go)
 
 - Add `HasAttackedThisTurn bool` and `LastAttackedWithWeapon string` to the `Entity` struct.
 
-#### [MODIFY] [event.go](file:///home/paulo/org/projetos/dndsl/internal/engine/event.go)
+#### [MODIFY] [event.go](file:///home/paulo/org/projetos/draconic/internal/engine/event.go)
 
 - Update `AttackResolvedEvent.Apply`:
   - If it's a standard attack (not off-hand/opportunity), set `ent.HasAttackedThisTurn = true` and `ent.LastAttackedWithWeapon = e.Weapon`.
@@ -45,7 +45,7 @@ This plan aims to refine the Two-Weapon Fighting (TWF) and Opportunity Attack me
 
 ### [Component] Commands
 
-#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/dndsl/internal/command/attack.go)
+#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/draconic/internal/command/attack.go)
 
 - Update `ExecuteAttack` to use the new fields:
   - If `cmd.OffHand` is set:
@@ -57,7 +57,7 @@ This plan aims to refine the Two-Weapon Fighting (TWF) and Opportunity Attack me
 
 ### [Component] Tests
 
-#### [MODIFY] [mechanics_test.go](file:///home/paulo/org/projetos/dndsl/internal/command/mechanics_test.go)
+#### [MODIFY] [mechanics_test.go](file:///home/paulo/org/projetos/draconic/internal/command/mechanics_test.go)
 
 - Update `TestTwoWeaponFighting` and `TestOpportunityAttack` to use new syntax.
 - Add test case verifying TWF failure if no prior attack or same weapon used.

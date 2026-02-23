@@ -12,7 +12,7 @@ Initialize a Go-based engine and CLI for a D&D 5e DSL. The project uses **Cobra*
 
 ### **2. CLI Structure (Cobra)**
 
-Implement a root command `dndsl` with the following sub-commands:
+Implement a root command `draconic` with the following sub-commands:
 
 * **`repl`**: An interactive shell that accepts DSL strings, processes them into events, and prints the updated **Event Log** and **Calculated State** after every entry.
 * **`start`**: (Placeholder) Initialize a new game session.
@@ -86,7 +86,7 @@ That does not mean everything is set and done in the yaml files. They may need s
 
 ### **6. Implementation Steps for Agent**
 
-1. **Initialize:** `go mod init dndsl` and `cobra-cli init`.
+1. **Initialize:** `go mod init draconic` and `cobra-cli init`.
 2. **Grammar:** Build the Participle struct. Use a slice for `Actor` or a specific `@PREP "by" Ident` capture to handle the `by:` logic.
 3. **REPL:** Use a simple `bufio.Scanner` loop for the `repl` command.
 

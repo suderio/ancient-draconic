@@ -6,7 +6,7 @@ Implement the `init` command to bootstrap the local game data environment. This 
 
 ## **2. Technical Requirements**
 
-* **Configuration (Viper):** * Load settings from a `.dndsl.yaml` file.
+* **Configuration (Viper):** * Load settings from a `.draconic.yaml` file.
 * Configurable `data_dir` (default: `./data`).
 
 * **Data Pipeline:**

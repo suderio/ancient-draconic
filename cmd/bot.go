@@ -28,7 +28,7 @@ var telegramBotCmd = &cobra.Command{
 			fmt.Println("Create your Telegram Bot & Get Token")
 			fmt.Println("Open Telegram and search for the official @BotFather.")
 			fmt.Println("Send the /newbot command and follow the prompts to name your bot and choose a unique username.")
-			fmt.Println("BotFather will provide you with an HTTP API token. Store this token securely, as it is required for all API interactions. We will need it to configure dndsl.")
+			fmt.Println("BotFather will provide you with an HTTP API token. Store this token securely, as it is required for all API interactions. We will need it to configure draconic.")
 			fmt.Println("For testing in a group, add the bot to a group and ensure its privacy settings allow it to read all messages (this can be configured in BotFather's settings).")
 			fmt.Println("---")
 			fmt.Print("token: ")
@@ -48,9 +48,9 @@ var telegramBotCmd = &cobra.Command{
 				// but Cobra's initConfig already sets up paths.
 				err = viper.SafeWriteConfig()
 				if err != nil {
-					// Fallback: try to write to $HOME/.dndsl.yaml
+					// Fallback: try to write to $HOME/.draconic.yaml
 					home, _ := os.UserHomeDir()
-					err = viper.WriteConfigAs(home + "/.dndsl.yaml")
+					err = viper.WriteConfigAs(home + "/.draconic.yaml")
 				}
 			}
 			if err == nil {

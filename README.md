@@ -83,8 +83,8 @@ Download the latest release from the [Releases](https://github.com/suderio/ancie
 
 ```bash
 git clone https://github.com/suderio/ancient-draconic.git
-cd dndsl
-go build -o dndsl main.go
+cd draconic
+go build -o draconic main.go
 ```
 
 #### Prerequisites
@@ -95,13 +95,13 @@ go build -o dndsl main.go
 
 ```bash
 # Create a new world and campaign
-./dndsl campaign create "SwordCoast" "LostMine"
+./draconic campaign create "SwordCoast" "LostMine"
 
 # Add some participants
-./dndsl add elara and: thorne
+./draconic add elara and: thorne
 
 # Start the interactive REPL
-./dndsl repl SwordCoast LostMine
+./draconic repl SwordCoast LostMine
 ```
 
 ---
@@ -136,9 +136,9 @@ check athletics
 
 Play from anywhere! Configure a bot to let your players interact with the campaign via Telegram.
 
-1. **Register Bot**: `dndsl bot telegram --token YOUR_TOKEN`
-2. **Link Campaign**: `dndsl campaign telegram [world] [campaign] --chat_id YOUR_CHAT_ID`
-3. **Map Users**: `dndsl campaign telegram [world] [campaign] --user Elara:123456`
+1. **Register Bot**: `draconic bot telegram --token YOUR_TOKEN`
+2. **Link Campaign**: `draconic campaign telegram [world] [campaign] --chat_id YOUR_CHAT_ID`
+3. **Map Users**: `draconic campaign telegram [world] [campaign] --user Elara:123456`
 4. **Play**: Simply run the `repl` and your bot will start polling for messages starting with `/`.
 
 ---

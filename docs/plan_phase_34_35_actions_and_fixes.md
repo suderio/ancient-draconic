@@ -12,7 +12,7 @@ Address the misunderstanding between ability checks and saving throws, and imple
 
 ### [Component] Mechanics Fixes (`internal/command/`)
 
-#### [MODIFY] [check.go](file:///home/paulo/org/projetos/dndsl/internal/command/check.go)
+#### [MODIFY] [check.go](file:///home/paulo/org/projetos/draconic/internal/command/check.go)
 
 - Update `evalModifier` function:
   - Add `isSave bool` parameter.
@@ -23,32 +23,32 @@ Address the misunderstanding between ability checks and saving throws, and imple
 
 ### [Component] Two-Weapon Fighting (`internal/parser/` & `internal/command/`)
 
-#### [MODIFY] [lexer.go](file:///home/paulo/org/projetos/dndsl/internal/parser/lexer.go) - New Keywords
+#### [MODIFY] [lexer.go](file:///home/paulo/org/projetos/draconic/internal/parser/lexer.go) - New Keywords
 
 - Add `bonus` and `offhand` to keywords.
 
-#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/dndsl/internal/parser/ast.go) - Two-Weapon Fighting
+#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/draconic/internal/parser/ast.go) - Two-Weapon Fighting
 
 - Add `Bonus bool` field to `AttackCmd`.
 - Update grammar to: `Keyword: "attack" [Bonus: "bonus"] ...`.
 
-#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/dndsl/internal/command/attack.go) - Two-Weapon Fighting
+#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/draconic/internal/command/attack.go) - Two-Weapon Fighting
 
 - In `ExecuteAttack`, check `ent.BonusActionsRemaining` if `cmd.Bonus` is true.
 - Record `IsBonus` in the `AttackResolvedEvent`.
 
-#### [MODIFY] [damage.go](file:///home/paulo/org/projetos/dndsl/internal/command/damage.go) - Off-hand Damage
+#### [MODIFY] [damage.go](file:///home/paulo/org/projetos/draconic/internal/command/damage.go) - Off-hand Damage
 
 - In `ExecuteDamage`, if `state.PendingDamage.IsBonus` is true, modify the damage dice string to remove positive modifiers (e.g., `1d6+3` becomes `1d6`).
 
 ### Opportunity Attack Combat Action (`internal/parser/` & `internal/command/`)
 
-#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/dndsl/internal/parser/ast.go) - Opportunity Attack
+#### [MODIFY] [ast.go](file:///home/paulo/org/projetos/draconic/internal/parser/ast.go) - Opportunity Attack
 
 - Add `Reaction bool` field to `AttackCmd`.
 - Update grammar to support `attack reaction ...`.
 
-#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/dndsl/internal/command/attack.go) - Opportunity Attack
+#### [MODIFY] [attack.go](file:///home/paulo/org/projetos/draconic/internal/command/attack.go) - Opportunity Attack
 
 - In `ExecuteAttack`, if `cmd.Reaction` is true:
   - Check `ent.ReactionsRemaining`.

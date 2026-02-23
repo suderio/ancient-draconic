@@ -19,7 +19,7 @@ func testReg() *rules.Registry {
 
 func TestExecuteDamageWithDefenses(t *testing.T) {
 	// Setup a temporary data directory with elara.yaml
-	tmpDir, err := os.MkdirTemp("", "dndsl-test-*")
+	tmpDir, err := os.MkdirTemp("", "draconic-test-*")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -135,7 +135,7 @@ defenses:
 }
 
 func TestExecuteDamageDefaultWeapon(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "dndsl-test-default-*")
+	tmpDir, err := os.MkdirTemp("", "draconic-test-default-*")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -203,7 +203,7 @@ actions:
 }
 
 func TestExecuteDamageMultipleRolls(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "dndsl-test-multi-*")
+	tmpDir, err := os.MkdirTemp("", "draconic-test-multi-*")
 	if err != nil {
 		t.Fatal(err)
 	}

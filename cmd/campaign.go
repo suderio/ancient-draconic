@@ -12,7 +12,7 @@ import (
 // campaignCmd represents the campaign command
 var campaignCmd = &cobra.Command{
 	Use:   "campaign",
-	Short: "Manage dndsl world states and logging",
+	Short: "Manage draconic world states and logging",
 	Long: `The campaign command allows you to construct isolated event-sourced
 journals for varied D&D environments.
 

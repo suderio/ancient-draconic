@@ -19,9 +19,9 @@ var (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the application version",
-	Long:  `Displays the current running version of dndsl alongside the build metadata.`,
+	Long:  `Displays the current running version of draconic alongside the build metadata.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("dndsl Engine version %s\n", Version)
+		fmt.Printf("draconic Engine version %s\n", Version)
 		fmt.Printf("Commit: %s\n", Commit)
 		fmt.Printf("Build date: %s\n", BuildDate)
 		fmt.Printf("OS/Arch: %s/%s\n", runtime.GOOS, runtime.GOARCH)

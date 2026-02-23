@@ -11,7 +11,7 @@ Establish the core DnD 5e DSL engine. The initial scope focuses purely on Game S
 
 ### Project Initialization
 
-- Initialize a Go module (`go mod init dndsl`).
+- Initialize a Go module (`go mod init draconic`).
 * Set up a root CLI command using Cobra (`cobra-cli init`) and configure `viper` to track the `worlds_dir` (default: `./worlds`) and `data_dir` (default: `./data`).
 
 ### Read-Only Data Layer (`internal/data`)
@@ -36,7 +36,7 @@ Establish the core DnD 5e DSL engine. The initial scope focuses purely on Game S
 
 ### CLI Interface (`cmd`)
 
-- Scaffold the `dndsl campaign create <name>` and `dndsl campaign load <name>` commands.
+- Scaffold the `draconic campaign create <name>` and `draconic campaign load <name>` commands.
 * Implement the baseline structure for the `repl` command. Initially, parsing basic DSL fragments is optional, but it must be wired up to the `Store` appending logic so every action appends to `log.jsonl`.
 
 ## 3. Verification Plan
