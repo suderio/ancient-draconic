@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/suderio/dndsl/internal/data"
-	"github.com/suderio/dndsl/internal/engine"
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/data"
+	"github.com/suderio/ancient-draconic/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/parser"
 )
 
 func TestMonsterRecharge(t *testing.T) {

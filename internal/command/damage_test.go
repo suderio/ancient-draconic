@@ -5,11 +5,11 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/suderio/dndsl/internal/command"
-	"github.com/suderio/dndsl/internal/data"
-	"github.com/suderio/dndsl/internal/engine"
-	"github.com/suderio/dndsl/internal/parser"
-	"github.com/suderio/dndsl/internal/rules"
+	"github.com/suderio/ancient-draconic/internal/command"
+	"github.com/suderio/ancient-draconic/internal/data"
+	"github.com/suderio/ancient-draconic/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
 func testReg() *rules.Registry {

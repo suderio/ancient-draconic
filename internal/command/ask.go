@@ -1,8 +1,8 @@
 package command
 
 import (
-	"github.com/suderio/dndsl/internal/engine"
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/parser"
 	"strings"
 )
 

@@ -1,6 +1,6 @@
-# Contributing to DnDSL
+# Contributing to Ancient Draconic
 
-First off, thank you for considering contributing to DnDSL! It's people like you that make it a great tool for the community.
+First off, thank you for considering contributing to Ancient Draconic! It's people like you that make it a great tool for the community.
 
 ## Code of Conduct
 

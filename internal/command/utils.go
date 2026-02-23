@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/suderio/dndsl/internal/data"
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/data"
+	"github.com/suderio/ancient-draconic/internal/parser"
 )
 
 // Result encapsulation for tracking target types

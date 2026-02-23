@@ -14,7 +14,7 @@ snapshot: clean
 # Build full release
 release version: clean
     goreleaser release --clean
-	GOPROXY=proxy.golang.org go list -m github.com/suderio/dndsl@{{version}}
+	GOPROXY=proxy.golang.org go list -m github.com/suderio/ancient-draconic@{{version}}
 
 # Build the binary locally
 build:

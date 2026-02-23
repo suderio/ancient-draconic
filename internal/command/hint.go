@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/suderio/dndsl/internal/engine"
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/parser"
 )
 
 // ExecuteHint analyzes the GameState and explains the current block or turn rotation

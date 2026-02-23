@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/suderio/dndsl/internal/engine"
-	"github.com/suderio/dndsl/internal/parser"
-	"github.com/suderio/dndsl/internal/rules"
+	"github.com/suderio/ancient-draconic/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
 // ExecuteHelpAction handles the mechanical help action

@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/ancient-draconic/internal/data"
 )
 
 // GameState is the actively calculated projection of the game session.

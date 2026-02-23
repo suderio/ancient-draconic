@@ -1,4 +1,4 @@
-module github.com/suderio/dndsl
+module github.com/suderio/ancient-draconic
 
 go 1.25.6
 

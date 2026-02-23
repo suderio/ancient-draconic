@@ -2,7 +2,7 @@
 
 ## Goal
 
-Commit the implemented changes for Phases 28 through 32 of the DnDSL project.
+Commit the implemented changes for Phases 28 through 32 of the Ancient Draconic project.
 
 ## Changes Summary
 

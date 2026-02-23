@@ -6,8 +6,8 @@ package command
 import (
 	"fmt"
 
-	"github.com/suderio/dndsl/internal/engine"
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/parser"
 )
 
 // ExecuteAdjudicate starts a GM authorization flow.

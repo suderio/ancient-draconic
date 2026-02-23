@@ -2,7 +2,7 @@
 
 ## Goal Description
 
-Transition the DnDSL engine from hard-coded D&D 5e logic to a data-driven RPG simulator. By using **CEL-Go (Common Expression Language)**, we will store rules, requirements, and effects as strings in YAML data files. This makes the engine easily expandable and system-agnostic.
+Transition the Ancient Draconic engine from hard-coded D&D 5e logic to a data-driven RPG simulator. By using **CEL-Go (Common Expression Language)**, we will store rules, requirements, and effects as strings in YAML data files. This makes the engine easily expandable and system-agnostic.
 
 ## User Review Required
 >

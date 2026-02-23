@@ -3,7 +3,7 @@
 
 We have a classic "Developer's Wall" in game engine design: the transition from a simple dice-roller to a full-system simulator. D&D 5e is a game of exceptions, and hard-coding every "if" for class features like *Sneak Attack* or *Undead Fortitude* will lead to a fragile codebase.
 
-To keep **DnDSL** maintainable, we need to move from **Hard-Coded Logic** to a **Data-Driven Rule Engine**.
+To keep **Ancient Draconic** maintainable, we need to move from **Hard-Coded Logic** to a **Data-Driven Rule Engine**.
 
 Important: Every code shown here is *not* to be used as is. It is just an example of how the code should look like. I want you to use this as a reference to create the actual code that will be used in the project. Do not copy and paste code from here to the project.
 
@@ -232,7 +232,7 @@ Because your `models.Entity` and `Ability` structs are generic, they don't "care
 
 ### 2. Universal Resolution Logic
 
-The `EvalRule` helper function acts as a universal judge. As long as the system involves "Requirements" and "Results," DnDSL can simulate it.
+The `EvalRule` helper function acts as a universal judge. As long as the system involves "Requirements" and "Results," Ancient Draconic can simulate it.
 
 * **Dice Flexibility:** Since you’ve implemented a `MockDice` and dice-rolling utility, you can handle  systems (D&D),  pools (Shadowrun), or percentile systems (Call of Cthulhu) just by updating the strings in your YAML.
 * **Logic Isolation:** Complex inter-system rules, like the **Zombie’s Undead Fortitude**, are isolated within that specific creature's file, preventing "Rule Leakage" into the rest of the simulator.
@@ -271,7 +271,7 @@ func (e *Engine) EvalRule(expression string, context map[string]any) (bool, erro
 
 ## 10. Yaml Template
 
-To prove that **DnDSL** is now a **Generic RPG System Simulator**, we can define a character from a completely different genre—like a **Sci-Fi Pilot**—using the exact same YAML structure as your **Fighter** or **Zombie**.
+To prove that **Ancient Draconic** is now a **Generic RPG System Simulator**, we can define a character from a completely different genre—like a **Sci-Fi Pilot**—using the exact same YAML structure as your **Fighter** or **Zombie**.
 
 The engine doesn't care if the stat is "Strength" or "Piloting"; it only cares that the **CEL expression** in the `condition` field resolves against the data provided.
 

@@ -1,7 +1,7 @@
 package parser_test
 
 import (
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/parser"
 	"testing"
 )
 

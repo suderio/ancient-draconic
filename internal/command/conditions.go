@@ -3,7 +3,7 @@ package command
 import (
 	"strings"
 
-	"github.com/suderio/dndsl/internal/engine"
+	"github.com/suderio/ancient-draconic/internal/engine"
 )
 
 // GetConditionMatrix returns three booleans for a checking actor:

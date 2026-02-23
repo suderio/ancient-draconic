@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/parser"
 )
 
 var mockDiceQueue []int

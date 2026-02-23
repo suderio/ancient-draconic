@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/suderio/dndsl/internal/session"
-	"github.com/suderio/dndsl/internal/telegram"
+	"github.com/suderio/ancient-draconic/internal/session"
+	"github.com/suderio/ancient-draconic/internal/telegram"
 
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v3"

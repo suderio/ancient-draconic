@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/suderio/dndsl/internal/data"
+	"github.com/suderio/ancient-draconic/internal/data"
 )
 
 // ErrSilentIgnore alerts the runner that the request broke turn order rules and should drop seamlessly.
