@@ -33,8 +33,8 @@
 | 31 | Mechanics: New Actions (Dodge, Grapple, Help) | [x] |
 | 32 | Mechanics: Monster Recharge Logic | [x] |
 | 33 | Remaining Actions: Dash, Disengage, Hide, Improvise, Influence, Ready, Search, Shove, Study, Utilize | [x] |
-| 34 | Bonus Actions: Two Weapon Fighting | [ ] |
-| 35 | Reaction: Opportunity Attack | [ ] |
+| 34 | Bonus Actions: Two Weapon Fighting | [x] |
+| 35 | Reaction: Opportunity Attack | [x] |
 | 36 | Cast Action | [ ] |
 
 ---
@@ -65,6 +65,15 @@
   - [x] Add `Race` and `Size` support to data layer
   - [x] Update turn-reset logic for `Disengaged` condition
   - [x] Verify all actions with integration tests
+- [x] **Phase 34: Bonus Actions: Two Weapon Fighting**
+  - [x] Implement `attack off-hand` syntax
+  - [x] Implement damage modifier stripping for off-hand attacks
+  - [x] Enforce 5e rules: must have attacked previously this turn with a different weapon
+  - [x] Enforce strict syntax order (`attack by: actor off-hand`)
+- [x] **Phase 35: Reaction: Opportunity Attack**
+  - [x] Implement `attack opportunity` syntax
+  - [x] Integrate with Adjudication for GM approval
+  - [x] Enforce reaction economy
 
 ---
 

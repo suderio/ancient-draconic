@@ -108,6 +108,16 @@ func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.
 		}
 	}
 
+	// Two-Weapon Fighting: don't add positive ability modifier to off-hand attack damage
+	if state.PendingDamage.IsOffHand {
+		for i, inst := range damageInstances {
+			if strings.Contains(inst.DiceMacro, "+") {
+				parts := strings.Split(inst.DiceMacro, "+")
+				damageInstances[i].DiceMacro = strings.TrimSpace(parts[0])
+			}
+		}
+	}
+
 	events := []engine.Event{}
 
 	for _, t := range validTargets {

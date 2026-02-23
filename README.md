@@ -37,6 +37,40 @@
 - **Remote-First**: Built-in Telegram bot integration allows players to roll from their phones while the GM runs the engine on a server.
 - **Customizable**: Purely YAML-based data layer. Adding a new monster or character is as simple as creating a file.
 
+The **DnDSL** project is uniquely positioned to address "table-time" fatigue by bridging the gap between high-fidelity digital tools and the speed of rule-light systems. By prioritizing a text-based interface, you are offering a "low-friction" entry point that avoids the bloat of modern graphical Virtual Tabletops (VTTs) while keeping the mechanical depth of the 5e SRD.
+
+---
+
+### **The Problem: The "Crunch" vs. "Time" Paradox**
+
+Tabletop RPGs are more popular than ever, but the "Table Time" required to play them is becoming a luxury few can afford. Between managing 400-page rulebooks, setting up complex 3D VTTs, and tracking HP for five different **Zombies**, the actual *playing* often takes a backseat to the *math*.
+
+### **The Solution: DnDSL**
+
+DnDSL is a Domain-Specific Language and engine designed to automate the heavy lifting of D&D 5e through a fast, stateless text interface.
+
+- **Rule-Light Speed, Rule-Heavy Depth:** Perform complex actions like a **Young Green Dragon's Multiattack** or **Poison Breath** with a single line of text.
+- **Event-Sourced "Time Travel":** Every roll, damage point, and level-up is a permanent record. Made a mistake? Use the `undo` command to instantly revert the world state.
+- **Zero-Setup Persistence:** Sessions are saved as human-readable event logs. Close the CLI and resume your campaign months later exactly where you left off.
+- **Mod-First Architecture:** Don't like a rule? Open the **YAML** files for your **Fighter** or **Rogue** and change it. The engine adapts to your homebrew instantly.
+
+---
+
+## 🛠 Strategic Approach to Market Saturation
+
+To stand out in a saturated market, DnDSL focuses on three distinct pillars that traditional VTTs and rulebooks ignore:
+
+### **1. The "Interface of Choice"**
+
+While others chase 3D realism, DnDSL embraces the **efficiency of text**.
+
+- **Text-Based Precision:** A text interface allows for rapid-fire combat without the "click-and-drag" fatigue of graphical maps.
+- **Graphical Niceties:** Future updates will introduce TUI (Terminal User Interface) elements—like health bars and ASCII maps—that provide visual feedback without sacrificing the speed of a keyboard-driven workflow.
+
+### **2. Automation of "Pending Choices"**
+
+The engine acts as a digital Dungeon Master assistant. When a **Zombie** hits 0 HP, the engine doesn't just delete it; it pauses and prompts the user for the **Undead Fortitude** save, ensuring rules aren't forgotten in the heat of the moment.
+
 ---
 
 ## 🛠 Installation

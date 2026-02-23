@@ -36,6 +36,7 @@ type PendingDamageState struct {
 	Targets   []string        `json:"targets"`
 	Weapon    string          `json:"weapon"`
 	HitStatus map[string]bool `json:"hit_status"`
+	IsOffHand bool            `json:"is_off_hand"`
 }
 
 // PendingAdjudicationState tracks a command waiting for GM approval
@@ -57,6 +58,9 @@ type Entity struct {
 	BonusActionsRemaining int `json:"bonus_actions_remaining"`
 	ReactionsRemaining    int `json:"reactions_remaining"`
 	AttacksRemaining      int `json:"attacks_remaining"`
+
+	HasAttackedThisTurn    bool   `json:"has_attacked_this_turn"`
+	LastAttackedWithWeapon string `json:"last_attacked_with_weapon"`
 }
 
 // NewGameState creates an empty clean slate

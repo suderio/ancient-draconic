@@ -31,30 +31,21 @@ func evalModifier(actorID string, checkType []string, state *engine.GameState, l
 	// clean up save syntax
 	cleanTarget := strings.TrimSpace(strings.ReplaceAll(strings.ReplaceAll(strings.ToLower(targetName), "save", ""), "st", ""))
 
-	// 1. Loader -> Character/Monster (to search the nested 'proficiencies' slice)
-	// We'll brute force search Characters, although later we should pass the campaign path.
-	// For simulation purposes, we rely on the loader defaults.
+	// 1. Loader -> Character
 	c, err := loader.LoadCharacter(ent.ID)
 	if err == nil {
 		switch searchMode {
 		case "save":
 			for _, p := range c.Proficiencies {
-				if strings.Contains(strings.ToLower(p.Proficiency.Name), "save") {
-					parts := strings.Split(p.Proficiency.Name, " ")
-					last := parts[len(parts)-1]
-					if stringMatch(last, cleanTarget) {
-						return p.Value, nil
-					}
+				if strings.Contains(p.Proficiency.Index, "saving-throw") && strings.Contains(p.Proficiency.Index, cleanTarget) {
+					return p.Value, nil
 				}
 			}
-			// Fallback to base abilities
+			// Fallback to base abilities (no proficiency)
 		default: // skill or ability
 			for _, p := range c.Proficiencies {
-				parts := strings.Split(p.Proficiency.Name, ": ")
-				if len(parts) > 1 {
-					if stringMatch(parts[1], cleanTarget) {
-						return p.Value, nil
-					}
+				if strings.Contains(p.Proficiency.Index, "skill") && strings.Contains(p.Proficiency.Index, cleanTarget) {
+					return p.Value, nil
 				}
 			}
 		}
@@ -76,9 +67,23 @@ func evalModifier(actorID string, checkType []string, state *engine.GameState, l
 		}
 	}
 
-	// Wait, what if it's a Monster?
 	m, err := loader.LoadMonster(ent.ID)
 	if err == nil {
+		switch searchMode {
+		case "save":
+			for _, p := range m.Proficiencies {
+				if strings.Contains(p.Proficiency.Index, "saving-throw") && strings.Contains(p.Proficiency.Index, cleanTarget) {
+					return p.Value, nil
+				}
+			}
+		default:
+			for _, p := range m.Proficiencies {
+				if strings.Contains(p.Proficiency.Index, "skill") && strings.Contains(p.Proficiency.Index, cleanTarget) {
+					return p.Value, nil
+				}
+			}
+		}
+
 		switch {
 		case stringMatch("str", cleanTarget) || stringMatch("athletics", cleanTarget):
 			return data.CalculateModifier(m.Strength), nil

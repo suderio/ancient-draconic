@@ -71,10 +71,12 @@ func (e *EncounterEndedEvent) Message() string { return "Encounter Ended." }
 
 // AttackResolvedEvent logs successful and failed strikes across multiple targets
 type AttackResolvedEvent struct {
-	Attacker  string
-	Weapon    string
-	Targets   []string
-	HitStatus map[string]bool
+	Attacker      string
+	Weapon        string
+	Targets       []string
+	HitStatus     map[string]bool
+	IsOffHand     bool
+	IsOpportunity bool
 }
 
 func (e *AttackResolvedEvent) Type() EventType { return EventAttackResolved }
@@ -84,29 +86,45 @@ func (e *AttackResolvedEvent) Apply(state *GameState) error {
 		Targets:   e.Targets,
 		Weapon:    e.Weapon,
 		HitStatus: e.HitStatus,
+		IsOffHand: e.IsOffHand,
 	}
 
 	if ent, ok := state.Entities[e.Attacker]; ok {
-		// If this is the start of an Attack action, consume the action
-		// We use a simple heuristic: if AttacksRemaining is at its reset value (1),
-		// and we haven't 'started' an action, or just always consume if ActionsRemaining > 0
-		// Actually, let's be more precise:
-		// If we haven't used an action yet, use it and get attacks.
-		if ent.ActionsRemaining > 0 && ent.AttacksRemaining <= 0 {
-			ent.ActionsRemaining--
-			ent.AttacksRemaining = 1 // Default to 1, should be better handled by stat blocks later
-		}
+		if e.IsOffHand {
+			if ent.BonusActionsRemaining > 0 {
+				ent.BonusActionsRemaining--
+			}
+		} else if e.IsOpportunity {
+			if ent.ReactionsRemaining > 0 {
+				ent.ReactionsRemaining--
+			}
+		} else {
+			// standard action attack
+			ent.HasAttackedThisTurn = true
+			ent.LastAttackedWithWeapon = e.Weapon
 
-		ent.AttacksRemaining -= len(e.Targets)
-		if ent.AttacksRemaining < 0 {
-			ent.AttacksRemaining = 0
+			if ent.ActionsRemaining > 0 && ent.AttacksRemaining <= 0 {
+				ent.ActionsRemaining--
+				ent.AttacksRemaining = 1
+			}
+			ent.AttacksRemaining -= len(e.Targets)
+			if ent.AttacksRemaining < 0 {
+				ent.AttacksRemaining = 0
+			}
 		}
 	}
 	return nil
 }
+
 func (e *AttackResolvedEvent) Message() string {
 	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("%s attacks with %s:\n", e.Attacker, e.Weapon))
+	prefix := ""
+	if e.IsOffHand {
+		prefix = "[OFF-HAND] "
+	} else if e.IsOpportunity {
+		prefix = "[OPPORTUNITY] "
+	}
+	sb.WriteString(fmt.Sprintf("%s%s attacks with %s:\n", prefix, e.Attacker, e.Weapon))
 	for _, t := range e.Targets {
 		status := "Miss!"
 		if e.HitStatus[t] {
@@ -193,6 +211,9 @@ func (e *TurnChangedEvent) Apply(state *GameState) error {
 				ent.BonusActionsRemaining = 1
 				ent.ReactionsRemaining = 1
 				ent.AttacksRemaining = 1 // Basic assumption, will be overridden by stat load later if needed
+
+				ent.HasAttackedThisTurn = false
+				ent.LastAttackedWithWeapon = ""
 
 				// Remove "Dodging" condition
 				newConds := []string{}

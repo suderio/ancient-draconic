@@ -78,11 +78,13 @@ type InitiativeCmd struct {
 
 // AttackCmd attempts to strike target(s) with a weapon
 type AttackCmd struct {
-	Keyword string     `parser:"@(\"attack\"|\"Attack\"|\"ATTACK\")"`
-	Actor   *ActorExpr `parser:"@@?"`
-	Weapon  string     `parser:"\"with\" \":\" @Ident"`
-	Targets []string   `parser:"\"to\" \":\" @Ident ( \"and\" \":\" @Ident )*"`
-	Dice    *DiceExpr  `parser:"( \"dice\" \":\" @@ )?"`
+	Keyword     string     `parser:"@(\"attack\"|\"Attack\"|\"ATTACK\")"`
+	Actor       *ActorExpr `parser:"@@?"`
+	OffHand     bool       `parser:"@(\"off-hand\"|\"offhand\")?"`
+	Opportunity bool       `parser:"@(\"opportunity\")?"`
+	Weapon      string     `parser:"\"with\" \":\" @Ident"`
+	Targets     []string   `parser:"\"to\" \":\" @Ident ( \"and\" \":\" @Ident )*"`
+	Dice        *DiceExpr  `parser:"( \"dice\" \":\" @@ )?"`
 }
 
 // DamageRollExpr maps an individual damage dice group and its type

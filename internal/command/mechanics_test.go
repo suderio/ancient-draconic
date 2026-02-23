@@ -289,3 +289,147 @@ func TestDisengageLogic(t *testing.T) {
 	}
 	assert.NotContains(t, state.Entities["thorne"].Conditions, "Disengaged")
 }
+func TestSavingThrowProficiency(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	// Elara: Dex 16 (+3), Prof 2. Saving Throw Dex should be +5.
+	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara"}
+	state.Initiatives = map[string]int{"elara": 20}
+	state.TurnOrder = []string{"elara"}
+	state.CurrentTurn = 0
+
+	loader := data.NewLoader([]string{"../../data"})
+
+	// 1. Regular Check (No proficiency)
+	cmdCheck := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "elara"}, Check: []string{"dex"}}
+	events, err := ExecuteCheck(cmdCheck, state, loader)
+	assert.NoError(t, err)
+	foundCheck := false
+	for _, e := range events {
+		if dr, ok := e.(*engine.DiceRolledEvent); ok {
+			foundCheck = true
+			assert.Equal(t, 3, dr.Modifier, "Regular Dex check should only have +3 modifier")
+		}
+	}
+	assert.True(t, foundCheck)
+
+	// 2. Saving Throw (With proficiency)
+	cmdSave := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "elara"}, Check: []string{"dex", "save"}}
+	events, err = ExecuteCheck(cmdSave, state, loader)
+	assert.NoError(t, err)
+	foundSave := false
+	for _, e := range events {
+		if dr, ok := e.(*engine.DiceRolledEvent); ok {
+			foundSave = true
+			assert.Equal(t, 5, dr.Modifier, "Dex saving throw should have +5 modifier (3 + 2)")
+		}
+	}
+	assert.True(t, foundSave)
+}
+
+func TestTwoWeaponFighting(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	// Thorne: Str 16 (+3). Longsword: 1d8+3.
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1, BonusActionsRemaining: 1}
+	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin"}
+	state.Initiatives = map[string]int{"thorne": 20, "goblin": 10}
+	state.TurnOrder = []string{"thorne", "goblin"}
+	state.CurrentTurn = 0
+
+	loader := data.NewLoader([]string{"../../data"})
+
+	// 1. Off-hand Attack should fail if no prior attack this turn
+	cmdFailNoAttack := &parser.AttackCmd{OffHand: true, Weapon: "dagger", Targets: []string{"goblin"}, Dice: &parser.DiceExpr{Raw: "1d20+5"}}
+	_, err := ExecuteAttack(cmdFailNoAttack, state, loader)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "must take the Attack action before")
+
+	// 2. Main Attack (enables off-hand)
+	mainCmd := &parser.AttackCmd{Weapon: "longsword", Targets: []string{"goblin"}, Dice: &parser.DiceExpr{Raw: "1d1+20"}}
+	mainEvents, err := ExecuteAttack(mainCmd, state, loader)
+	assert.NoError(t, err)
+	for _, e := range mainEvents {
+		e.Apply(state)
+	}
+	assert.True(t, state.Entities["thorne"].HasAttackedThisTurn)
+	assert.Equal(t, "Longsword", state.Entities["thorne"].LastAttackedWithWeapon)
+
+	// 3. Off-hand Attack should fail if same weapon
+	cmdFailSameWeapon := &parser.AttackCmd{OffHand: true, Weapon: "longsword", Targets: []string{"goblin"}}
+	_, err = ExecuteAttack(cmdFailSameWeapon, state, loader)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "must use a different weapon")
+
+	// 4. Success with different weapon (guaranteed hit)
+	cmd := &parser.AttackCmd{OffHand: true, Weapon: "dagger", Targets: []string{"goblin"}, Dice: &parser.DiceExpr{Raw: "1d1+20"}}
+	events, err := ExecuteAttack(cmd, state, loader)
+	if !assert.NoError(t, err) {
+		return
+	}
+
+	for _, e := range events {
+		e.Apply(state)
+	}
+
+	assert.Equal(t, 0, state.Entities["thorne"].BonusActionsRemaining)
+	assert.NotNil(t, state.PendingDamage)
+	assert.True(t, state.PendingDamage.IsOffHand)
+
+	// 5. Damage Resolution (Stripping modifier)
+	dmgCmd := &parser.DamageCmd{
+		Rolls: []*parser.DamageRollExpr{
+			{Dice: &parser.DiceExpr{Raw: "1d4+3"}, Type: "piercing"},
+		},
+	}
+	dmgEvents, err := ExecuteDamage(dmgCmd, state, loader)
+	assert.NoError(t, err)
+
+	foundDice := false
+	for _, e := range dmgEvents {
+		if dr, ok := e.(*engine.DiceRolledEvent); ok {
+			foundDice = true
+			// If we used a simulated dagger (1d4+3), it should be stripped to 1d4.
+			// ExecuteDamage strips positive modifiers for IsOffHand.
+			assert.Equal(t, 0, dr.Modifier, "Off-hand attack damage should have no positive modifier")
+			assert.Equal(t, 1, len(dr.RawRolls), "Should roll 1d4")
+		}
+	}
+	assert.True(t, foundDice)
+}
+
+func TestOpportunityAttack(t *testing.T) {
+	state := engine.NewGameState()
+	state.IsEncounterActive = true
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ReactionsRemaining: 1}
+	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara"}
+	state.Initiatives = map[string]int{"thorne": 20, "elara": 10}
+	state.TurnOrder = []string{"thorne", "elara"}
+	state.CurrentTurn = 1 // Elara's turn
+
+	loader := data.NewLoader([]string{"../../data"})
+
+	// 1. Thorne takes reaction attack (Opportunity Attack)
+	cmd := &parser.AttackCmd{Opportunity: true, Actor: &parser.ActorExpr{Name: "thorne"}, Weapon: "longsword", Targets: []string{"elara"}}
+
+	// Should trigger adjudication
+	events, err := ExecuteAttack(cmd, state, loader)
+	assert.NoError(t, err)
+	assert.Len(t, events, 1)
+	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
+
+	events[0].Apply(state)
+	assert.NotNil(t, state.PendingAdjudication)
+	assert.Contains(t, state.PendingAdjudication.OriginalCommand, "opportunity attack")
+
+	// GM Allows
+	state.PendingAdjudication.Approved = true
+	events, err = ExecuteAttack(cmd, state, loader)
+	assert.NoError(t, err)
+
+	for _, e := range events {
+		e.Apply(state)
+	}
+
+	assert.Equal(t, 0, state.Entities["thorne"].ReactionsRemaining)
+}

@@ -1,3 +1,6 @@
+default:
+	@just --list
+
 # Clean build artifacts and test outputs
 clean:
 	rm -rf dist/
@@ -9,8 +12,9 @@ snapshot: clean
     goreleaser release --snapshot --clean
 
 # Build full release
-release: clean
+release version: clean
     goreleaser release --clean
+	GOPROXY=proxy.golang.org go list -m github.com/suderio/dndsl@{{version}}
 
 # Build the binary locally
 build:
