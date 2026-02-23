@@ -20,10 +20,9 @@ func TestMonsterRecharge(t *testing.T) {
 	state.CurrentTurn = 0
 
 	loader := data.NewLoader([]string{"../../data"})
-
 	// 1. Dragon uses Fire Breath
 	attackCmd := &parser.AttackCmd{Weapon: "Fire Breath", Targets: []string{"player"}}
-	events, err := ExecuteAttack(attackCmd, state, loader)
+	events, err := ExecuteAttack(attackCmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	spentFound := false
@@ -40,13 +39,13 @@ func TestMonsterRecharge(t *testing.T) {
 
 	// 2. Try to use it again (should fail)
 	state.Entities["dragon"].ActionsRemaining = 1 // Give another action to test recharge block
-	_, err = ExecuteAttack(attackCmd, state, loader)
+	_, err = ExecuteAttack(attackCmd, state, loader, testReg())
 	assert.Error(t, err)
 	assert.Contains(t, strings.ToLower(err.Error()), "cooling down")
 
 	// 3. End Dragon's turn (rotate to Player)
 	turnCmd := &parser.TurnCmd{}
-	events, err = ExecuteTurn(turnCmd, state, loader)
+	events, err = ExecuteTurn(turnCmd, state, loader, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -56,7 +55,7 @@ func TestMonsterRecharge(t *testing.T) {
 
 	// 4. End Player's turn (rotate to Dragon)
 	// This is where recharge roll happens
-	events, err = ExecuteTurn(turnCmd, state, loader)
+	events, err = ExecuteTurn(turnCmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	rollFound := false
@@ -72,12 +71,12 @@ func TestMonsterRecharge(t *testing.T) {
 	if len(state.SpentRecharges["dragon"]) == 0 {
 		// Recharged! Try attack again
 		state.Entities["dragon"].ActionsRemaining = 1
-		_, err = ExecuteAttack(attackCmd, state, loader)
+		_, err = ExecuteAttack(attackCmd, state, loader, testReg())
 		assert.NoError(t, err)
 	} else {
 		// Not recharged! Attack should still fail
 		state.Entities["dragon"].ActionsRemaining = 1
-		_, err = ExecuteAttack(attackCmd, state, loader)
+		_, err = ExecuteAttack(attackCmd, state, loader, testReg())
 		assert.Error(t, err)
 		assert.Contains(t, strings.ToLower(err.Error()), "cooling down")
 	}

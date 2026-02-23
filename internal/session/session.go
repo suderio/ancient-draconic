@@ -9,6 +9,7 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 // Store defines the dependency required by Session to persist events
@@ -20,14 +21,30 @@ type Store interface {
 
 // Session manages the cohesive loop of taking commands, executing them, persisting events, and projecting GameState
 type Session struct {
-	loader *data.Loader
-	store  Store
-	state  *engine.GameState
+	loader   *data.Loader
+	store    Store
+	state    *engine.GameState
+	registry *rules.Registry
 }
 
 // NewSession bootstraps a game session pipeline relying on an injected store
 func NewSession(dataDirs []string, store Store) (*Session, error) {
-	s := &Session{loader: data.NewLoader(dataDirs), store: store}
+	loader := data.NewLoader(dataDirs)
+	// Bridge rules.Registry to engine.Roll
+	reg, err := rules.NewRegistry(func(s string) int {
+		expr := &parser.DiceExpr{Raw: s}
+		res, _ := engine.Roll(expr)
+		return res.Total
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to init CEL registry: %w", err)
+	}
+
+	s := &Session{
+		loader:   loader,
+		store:    store,
+		registry: reg,
+	}
 	if err := s.RebuildState(); err != nil {
 		return nil, err
 	}
@@ -131,7 +148,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Attack != nil {
-		events, err := command.ExecuteAttack(astCmd.Attack, s.state, s.loader)
+		events, err := command.ExecuteAttack(astCmd.Attack, s.state, s.loader, s.registry)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil
@@ -145,7 +162,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Damage != nil {
-		events, err := command.ExecuteDamage(astCmd.Damage, s.state, s.loader)
+		events, err := command.ExecuteDamage(astCmd.Damage, s.state, s.loader, s.registry)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil
@@ -159,7 +176,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Turn != nil {
-		events, err := command.ExecuteTurn(astCmd.Turn, s.state, s.loader)
+		events, err := command.ExecuteTurn(astCmd.Turn, s.state, s.loader, s.registry)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil
@@ -220,7 +237,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Dodge != nil {
-		events, err := command.ExecuteDodge(astCmd.Dodge, s.state)
+		events, err := command.ExecuteDodge(astCmd.Dodge, s.state, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -231,7 +248,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Grapple != nil {
-		events, err := command.ExecuteGrapple(astCmd.Grapple, s.state, s.loader)
+		events, err := command.ExecuteGrapple(astCmd.Grapple, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -245,9 +262,9 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		var events []engine.Event
 		var err error
 		if strings.ToLower(astCmd.Action.Action) == "shove" {
-			events, err = command.ExecuteShove(astCmd.Action, s.state, s.loader)
+			events, err = command.ExecuteShove(astCmd.Action, s.state, s.loader, s.registry)
 		} else {
-			events, err = command.ExecuteAction(astCmd.Action, s.state, s.loader)
+			events, err = command.ExecuteAction(astCmd.Action, s.state, s.loader, s.registry)
 		}
 		if err != nil {
 			return nil, err
@@ -259,7 +276,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.HelpAction != nil {
-		events, err := command.ExecuteHelpAction(astCmd.HelpAction, s.state)
+		events, err := command.ExecuteHelpAction(astCmd.HelpAction, s.state, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -284,7 +301,7 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.Check != nil {
-		events, err := command.ExecuteCheck(astCmd.Check, s.state, s.loader)
+		events, err := command.ExecuteCheck(astCmd.Check, s.state, s.loader, s.registry)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil

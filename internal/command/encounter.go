@@ -40,15 +40,18 @@ func ExecuteEncounter(cmd *parser.EncounterCmd, state *engine.GameState, loader 
 			}
 
 			// All verified additions generate an ActorAddedEvent
-			// For now, we mock max HP to 10 as we haven't written the full YAML character sheet unmarshaler
 			events = append(events, &engine.ActorAddedEvent{
-				ID:    target,
-				Name:  res.Name,
-				MaxHP: 10,
+				ID:         target,
+				Category:   res.Category,
+				EntityType: res.EntityType,
+				Name:       res.Name,
+				MaxHP:      res.HP,
+				Stats:      res.Stats,
+				Abilities:  res.Abilities,
 			})
 
 			// Monsters automatically roll initiative
-			if res.Type == "Monster" {
+			if res.Category == "Monster" {
 				events = append(events, RollInitiative(target, res, nil))
 			}
 		}

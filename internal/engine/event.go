@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/suderio/dndsl/internal/data"
 )
 
 // ErrSilentIgnore alerts the runner that the request broke turn order rules and should drop seamlessly.
@@ -165,9 +167,14 @@ func (e *HintEvent) Message() string              { return e.MessageStr }
 
 // ActorAddedEvent brings a new entity into the encounter tracker.
 type ActorAddedEvent struct {
-	ID    string
-	Name  string
-	MaxHP int
+	ID         string
+	Category   string // "Character" or "Monster"
+	EntityType string // Genre-specific: "undead", etc.
+	Name       string
+	MaxHP      int
+	Stats      map[string]int
+	Resources  map[string]int
+	Abilities  []data.Ability
 }
 
 func (e *ActorAddedEvent) Type() EventType { return EventActorAdded }
@@ -178,9 +185,14 @@ func (e *ActorAddedEvent) Apply(state *GameState) error {
 
 	state.Entities[e.ID] = &Entity{
 		ID:                    e.ID,
+		Category:              e.Category,
+		EntityType:            e.EntityType,
 		Name:                  e.Name,
 		HP:                    e.MaxHP,
 		MaxHP:                 e.MaxHP,
+		Stats:                 e.Stats,
+		Resources:             e.Resources,
+		Abilities:             e.Abilities,
 		ActionsRemaining:      1,
 		BonusActionsRemaining: 1,
 		ReactionsRemaining:    1,

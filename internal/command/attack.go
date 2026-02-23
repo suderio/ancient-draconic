@@ -7,10 +7,11 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 // ExecuteAttack resolves "meets it, beats it" math recursively against target Arrays
-func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteAttack(cmd *parser.AttackCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}

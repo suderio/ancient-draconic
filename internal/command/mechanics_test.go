@@ -7,7 +7,13 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
+
+func testReg() *rules.Registry {
+	reg, _ := rules.NewRegistry(func(s string) int { return 10 })
+	return reg
+}
 
 func TestAdjudicationFlow(t *testing.T) {
 	state := engine.NewGameState()
@@ -22,7 +28,7 @@ func TestAdjudicationFlow(t *testing.T) {
 
 	// 1. Initiate grapple (should trigger adjudication)
 	cmd := &parser.GrappleCmd{Target: "Goblin"}
-	events, err := ExecuteGrapple(cmd, state, loader)
+	events, err := ExecuteGrapple(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 	assert.Len(t, events, 1)
 	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
@@ -47,7 +53,7 @@ func TestAdjudicationFlow(t *testing.T) {
 	assert.False(t, state.IsFrozen()) // Approved adjudication does NOT freeze
 
 	// 3. Resume grapple (re-execution logic would be in Session, but we test the command's second stage)
-	events, err = ExecuteGrapple(cmd, state, loader)
+	events, err = ExecuteGrapple(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 	assert.Len(t, events, 2) // GrappleTaken + AskIssued
 	assert.IsType(t, &engine.GrappleTakenEvent{}, events[0])
@@ -66,7 +72,7 @@ func TestActionEconomy(t *testing.T) {
 
 	// 1. Take Dodge (uses action)
 	dodgeCmd := &parser.DodgeCmd{}
-	events, err := ExecuteDodge(dodgeCmd, state)
+	events, err := ExecuteDodge(dodgeCmd, state, testReg())
 	assert.NoError(t, err)
 
 	for _, e := range events {
@@ -76,14 +82,14 @@ func TestActionEconomy(t *testing.T) {
 	assert.Contains(t, state.Entities["Paulo"].Conditions, "Dodging")
 
 	// 2. Try another action (should fail)
-	_, err = ExecuteDodge(dodgeCmd, state)
+	_, err = ExecuteDodge(dodgeCmd, state, testReg())
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "no actions remaining")
 
 	// 3. Verify Checks are free
 	state.Entities["Paulo"].ActionsRemaining = 1
 	checkCmd := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "Paulo"}, Check: []string{"Athletics"}}
-	events, err = ExecuteCheck(checkCmd, state, loader)
+	events, err = ExecuteCheck(checkCmd, state, loader, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -96,7 +102,7 @@ func TestActionEconomy(t *testing.T) {
 
 	attackCmd := &parser.AttackCmd{Weapon: "longsword", Targets: []string{"Goblin"}}
 
-	events, err = ExecuteAttack(attackCmd, state, loader)
+	events, err = ExecuteAttack(attackCmd, state, loader, testReg())
 	// Even if it fails due to missing targets/AC, we can check the Apply logic of AttackResolvedEvent
 
 	evt := &engine.AttackResolvedEvent{Attacker: "Paulo", Targets: []string{"Goblin"}}
@@ -106,7 +112,7 @@ func TestActionEconomy(t *testing.T) {
 	// 5. Test Action logic
 	state.Entities["Paulo"].ActionsRemaining = 1
 	actionCmd := &parser.ActionCmd{Action: "dash"}
-	events, err = ExecuteAction(actionCmd, state, loader)
+	events, err = ExecuteAction(actionCmd, state, loader, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -129,14 +135,14 @@ func TestHelpAction(t *testing.T) {
 	// 1. Paulo helps Elara with a check
 	helpCmd := &parser.HelpActionCmd{Type: "check", Target: "Elara"}
 	// First call triggers adjudication
-	events, err := ExecuteHelpAction(helpCmd, state)
+	events, err := ExecuteHelpAction(helpCmd, state, testReg())
 	assert.NoError(t, err)
 	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
 	events[0].Apply(state)
 
 	// GM allows
 	state.PendingAdjudication.Approved = true
-	events, err = ExecuteHelpAction(helpCmd, state)
+	events, err = ExecuteHelpAction(helpCmd, state, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -147,7 +153,7 @@ func TestHelpAction(t *testing.T) {
 
 	// 2. Elara makes a check, gets advantage, and condition is removed
 	checkCmd := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "Elara"}, Check: []string{"Athletics"}}
-	events, err = ExecuteCheck(checkCmd, state, loader)
+	events, err = ExecuteCheck(checkCmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	foundRemoved := false
@@ -165,7 +171,7 @@ func TestHelpAction(t *testing.T) {
 	helpAttackCmd := &parser.HelpActionCmd{Type: "attack", Target: "Orc"}
 	// Mock approved adjudication
 	state.PendingAdjudication = &engine.PendingAdjudicationState{Approved: true}
-	events, err = ExecuteHelpAction(helpAttackCmd, state)
+	events, err = ExecuteHelpAction(helpAttackCmd, state, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -195,7 +201,7 @@ func TestDynamicGrappleDC(t *testing.T) {
 	// Mock approved adjudication
 	state.PendingAdjudication = &engine.PendingAdjudicationState{Approved: true}
 
-	events, err := ExecuteGrapple(cmd, state, loader)
+	events, err := ExecuteGrapple(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	foundAsk := false
@@ -221,7 +227,7 @@ func TestDynamicEscapeDC(t *testing.T) {
 	loader := data.NewLoader([]string{"../../data"})
 	cmd := &parser.ActionCmd{Action: "escape"}
 
-	events, err := ExecuteAction(cmd, state, loader)
+	events, err := ExecuteAction(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	foundAsk := false
@@ -241,22 +247,22 @@ func TestShoveMechanic(t *testing.T) {
 	loader := data.NewLoader([]string{"../../data"})
 
 	// Thorne (Medium) shoves a Goblin (Small) -> OK
-	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1, Type: "Character"}
-	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", Type: "Monster"}
+	state.Entities["thorne"] = &engine.Entity{ID: "thorne", Name: "Thorne", ActionsRemaining: 1, Category: "Character"}
+	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", Category: "Monster"}
 	state.Initiatives = map[string]int{"thorne": 20, "goblin": 10}
 	state.TurnOrder = []string{"thorne", "goblin"}
 	state.CurrentTurn = 0
 
 	cmd := &parser.ActionCmd{Action: "shove", Target: "goblin"}
-	events, err := ExecuteShove(cmd, state, loader)
+	events, err := ExecuteShove(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 	assert.Equal(t, 13, events[2].(*engine.AskIssuedEvent).DC) // 8 + 3 (Str) + 2 (Prof)
 
 	// Thorne (Medium) shoves a T-Rex (Huge) -> FAIL (Too large)
-	state.Entities["t-rex"] = &engine.Entity{ID: "t-rex", Name: "T-Rex", Type: "Monster"}
+	state.Entities["t-rex"] = &engine.Entity{ID: "t-rex", Name: "T-Rex", Category: "Monster"}
 	state.Initiatives["t-rex"] = 5 // Avoid freezing the game
 	cmdHuge := &parser.ActionCmd{Action: "shove", Target: "t-rex"}
-	_, err = ExecuteShove(cmdHuge, state, loader)
+	_, err = ExecuteShove(cmdHuge, state, loader, testReg())
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "too large")
 }
@@ -273,7 +279,7 @@ func TestDisengageLogic(t *testing.T) {
 
 	// 1. Take Disengage
 	cmd := &parser.ActionCmd{Action: "disengage"}
-	events, err := ExecuteAction(cmd, state, loader)
+	events, err := ExecuteAction(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -282,7 +288,7 @@ func TestDisengageLogic(t *testing.T) {
 
 	// 2. End Turn -> Disengaged should be cleared
 	turnCmd := &parser.TurnCmd{}
-	events, err = ExecuteTurn(turnCmd, state, loader)
+	events, err = ExecuteTurn(turnCmd, state, loader, testReg())
 	assert.NoError(t, err)
 	for _, e := range events {
 		e.Apply(state)
@@ -302,7 +308,7 @@ func TestSavingThrowProficiency(t *testing.T) {
 
 	// 1. Regular Check (No proficiency)
 	cmdCheck := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "elara"}, Check: []string{"dex"}}
-	events, err := ExecuteCheck(cmdCheck, state, loader)
+	events, err := ExecuteCheck(cmdCheck, state, loader, testReg())
 	assert.NoError(t, err)
 	foundCheck := false
 	for _, e := range events {
@@ -315,7 +321,7 @@ func TestSavingThrowProficiency(t *testing.T) {
 
 	// 2. Saving Throw (With proficiency)
 	cmdSave := &parser.CheckCmd{Actor: &parser.ActorExpr{Name: "elara"}, Check: []string{"dex", "save"}}
-	events, err = ExecuteCheck(cmdSave, state, loader)
+	events, err = ExecuteCheck(cmdSave, state, loader, testReg())
 	assert.NoError(t, err)
 	foundSave := false
 	for _, e := range events {
@@ -341,13 +347,13 @@ func TestTwoWeaponFighting(t *testing.T) {
 
 	// 1. Off-hand Attack should fail if no prior attack this turn
 	cmdFailNoAttack := &parser.AttackCmd{OffHand: true, Weapon: "dagger", Targets: []string{"goblin"}, Dice: &parser.DiceExpr{Raw: "1d20+5"}}
-	_, err := ExecuteAttack(cmdFailNoAttack, state, loader)
+	_, err := ExecuteAttack(cmdFailNoAttack, state, loader, testReg())
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "must take the Attack action before")
 
 	// 2. Main Attack (enables off-hand)
 	mainCmd := &parser.AttackCmd{Weapon: "longsword", Targets: []string{"goblin"}, Dice: &parser.DiceExpr{Raw: "1d1+20"}}
-	mainEvents, err := ExecuteAttack(mainCmd, state, loader)
+	mainEvents, err := ExecuteAttack(mainCmd, state, loader, testReg())
 	assert.NoError(t, err)
 	for _, e := range mainEvents {
 		e.Apply(state)
@@ -357,13 +363,13 @@ func TestTwoWeaponFighting(t *testing.T) {
 
 	// 3. Off-hand Attack should fail if same weapon
 	cmdFailSameWeapon := &parser.AttackCmd{OffHand: true, Weapon: "longsword", Targets: []string{"goblin"}}
-	_, err = ExecuteAttack(cmdFailSameWeapon, state, loader)
+	_, err = ExecuteAttack(cmdFailSameWeapon, state, loader, testReg())
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "must use a different weapon")
 
 	// 4. Success with different weapon (guaranteed hit)
 	cmd := &parser.AttackCmd{OffHand: true, Weapon: "dagger", Targets: []string{"goblin"}, Dice: &parser.DiceExpr{Raw: "1d1+20"}}
-	events, err := ExecuteAttack(cmd, state, loader)
+	events, err := ExecuteAttack(cmd, state, loader, testReg())
 	if !assert.NoError(t, err) {
 		return
 	}
@@ -382,7 +388,7 @@ func TestTwoWeaponFighting(t *testing.T) {
 			{Dice: &parser.DiceExpr{Raw: "1d4+3"}, Type: "piercing"},
 		},
 	}
-	dmgEvents, err := ExecuteDamage(dmgCmd, state, loader)
+	dmgEvents, err := ExecuteDamage(dmgCmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	foundDice := false
@@ -413,7 +419,7 @@ func TestOpportunityAttack(t *testing.T) {
 	cmd := &parser.AttackCmd{Opportunity: true, Actor: &parser.ActorExpr{Name: "thorne"}, Weapon: "longsword", Targets: []string{"elara"}}
 
 	// Should trigger adjudication
-	events, err := ExecuteAttack(cmd, state, loader)
+	events, err := ExecuteAttack(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 	assert.Len(t, events, 1)
 	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
@@ -424,7 +430,7 @@ func TestOpportunityAttack(t *testing.T) {
 
 	// GM Allows
 	state.PendingAdjudication.Approved = true
-	events, err = ExecuteAttack(cmd, state, loader)
+	events, err = ExecuteAttack(cmd, state, loader, testReg())
 	assert.NoError(t, err)
 
 	for _, e := range events {

@@ -1,5 +1,12 @@
 package data
 
+// Ability represents a data-driven rule or feature
+type Ability struct {
+	Name      string `json:"name" yaml:"name"`
+	Condition string `json:"condition" yaml:"condition"` // CEL expression
+	Effect    string `json:"effect" yaml:"effect"`       // CEL expression or descriptive impact
+}
+
 // Reference represents a standard 5e API reference pointer (e.g. index: 'force', name: 'Force', ref: 'damage-types/force.yaml')
 type Reference struct {
 	Index string `yaml:"index"`
@@ -62,6 +69,22 @@ type Monster struct {
 	Actions          []Action          `yaml:"actions"`
 	Proficiencies    []Proficiency     `yaml:"proficiencies"`
 	Defenses         []Defense         `yaml:"defenses"`
+	SpecialAbilities []Ability         `yaml:"special_abilities"`
+}
+
+func (m *Monster) GetStats() map[string]int {
+	return map[string]int{
+		"str": m.Strength,
+		"dex": m.Dexterity,
+		"con": m.Constitution,
+		"int": m.Intelligence,
+		"wis": m.Wisdom,
+		"cha": m.Charisma,
+	}
+}
+
+func (m *Monster) GetAbilities() []Ability {
+	return m.SpecialAbilities
 }
 
 // Race represents a character race from the SRD.
@@ -89,6 +112,22 @@ type Character struct {
 	Actions          []Action      `yaml:"actions"`
 	Proficiencies    []Proficiency `yaml:"proficiencies"`
 	Defenses         []Defense     `yaml:"defenses"`
+	Abilities        []Ability     `yaml:"abilities"`
+}
+
+func (c *Character) GetStats() map[string]int {
+	return map[string]int{
+		"str": c.Strength,
+		"dex": c.Dexterity,
+		"con": c.Constitution,
+		"int": c.Intelligence,
+		"wis": c.Wisdom,
+		"cha": c.Charisma,
+	}
+}
+
+func (c *Character) GetAbilities() []Ability {
+	return c.Abilities
 }
 
 // CalculateModifier returns the standard D&D 5e ability modifier for a given score.

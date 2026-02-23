@@ -1,5 +1,9 @@
 package engine
 
+import (
+	"github.com/suderio/dndsl/internal/data"
+)
+
 // GameState is the actively calculated projection of the game session.
 type GameState struct {
 	IsEncounterActive   bool                          `json:"is_encounter_active"`
@@ -47,12 +51,16 @@ type PendingAdjudicationState struct {
 
 // Entity represents an actor (Monster, Player, NPC) participating in the session
 type Entity struct {
-	ID         string   `json:"id"`
-	Type       string   `json:"type"` // "Character" or "Monster"
-	Name       string   `json:"name"`
-	HP         int      `json:"hp"`
-	MaxHP      int      `json:"max_hp"`
-	Conditions []string `json:"conditions"`
+	ID         string         `json:"id"`
+	Category   string         `json:"category"`    // "Character" or "Monster"
+	EntityType string         `json:"entity_type"` // Genre-specific type: "undead", "humanoid", etc.
+	Name       string         `json:"name"`
+	HP         int            `json:"hp"`
+	MaxHP      int            `json:"max_hp"`
+	Conditions []string       `json:"conditions"`
+	Stats      map[string]int `json:"stats"`     // Generic stats: str, dex, technical, etc.
+	Resources  map[string]int `json:"resources"` // Tracked integers: spell_slots, luck, etc.
+	Abilities  []data.Ability `json:"abilities"`
 
 	ActionsRemaining      int `json:"actions_remaining"`
 	BonusActionsRemaining int `json:"bonus_actions_remaining"`

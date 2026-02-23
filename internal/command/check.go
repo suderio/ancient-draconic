@@ -7,6 +7,7 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 // stringMatch matches syntax aliases like 'str' vs 'strength'
@@ -104,7 +105,7 @@ func evalModifier(actorID string, checkType []string, state *engine.GameState, l
 }
 
 // ExecuteCheck evaluates a requested check or performs a standalone one, accounting for proficiencies and conditions
-func ExecuteCheck(cmd *parser.CheckCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteCheck(cmd *parser.CheckCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	actorName := "GM"
 	if cmd.Actor != nil {
 		actorName = cmd.Actor.Name

@@ -7,6 +7,7 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 type explicitDamage struct {
@@ -15,7 +16,7 @@ type explicitDamage struct {
 }
 
 // ExecuteDamage deducts hits resolving back entirely mechanically through GameState buffers
-func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteDamage(cmd *parser.DamageCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if state.PendingDamage == nil || state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}

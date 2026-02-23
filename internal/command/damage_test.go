@@ -1,14 +1,21 @@
 package command_test
 
 import (
+	"os"
+	"path/filepath"
+	"testing"
+
 	"github.com/suderio/dndsl/internal/command"
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
-	"os"
-	"path/filepath"
-	"testing"
+	"github.com/suderio/dndsl/internal/rules"
 )
+
+func testReg() *rules.Registry {
+	reg, _ := rules.NewRegistry(func(s string) int { return 10 })
+	return reg
+}
 
 func TestExecuteDamageWithDefenses(t *testing.T) {
 	// Setup a temporary data directory with elara.yaml
@@ -39,11 +46,11 @@ defenses:
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
 	state.Entities["elara"] = &engine.Entity{
-		ID:    "elara",
-		Name:  "Elara Shadowstep",
-		HP:    30,
-		MaxHP: 30,
-		Type:  "Character",
+		ID:       "elara",
+		Name:     "Elara Shadowstep",
+		HP:       30,
+		MaxHP:    30,
+		Category: "Character",
 	}
 	state.TurnOrder = []string{"gm", "elara"}
 	state.CurrentTurn = 0
@@ -103,7 +110,7 @@ defenses:
 				},
 			}
 
-			events, err := command.ExecuteDamage(cmdObj, state, loader)
+			events, err := command.ExecuteDamage(cmdObj, state, loader, testReg())
 			if err != nil {
 				t.Fatalf("ExecuteDamage failed: %v", err)
 			}
@@ -161,8 +168,8 @@ actions:
 
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
-	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara", HP: 30, Type: "Character"}
-	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", HP: 10, Type: "Monster"}
+	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara", HP: 30, Category: "Character"}
+	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", HP: 10, Category: "Monster"}
 	state.Initiatives["elara"] = 20
 	state.Initiatives["goblin"] = 10
 	state.TurnOrder = []string{"elara", "goblin"}
@@ -179,7 +186,7 @@ actions:
 		Weapon: "FireSword",
 	}
 
-	events, err := command.ExecuteDamage(cmdObj, state, loader)
+	events, err := command.ExecuteDamage(cmdObj, state, loader, testReg())
 	if err != nil {
 		t.Fatalf("ExecuteDamage failed: %v", err)
 	}
@@ -217,7 +224,7 @@ defenses:
 
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
-	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara", HP: 30, Type: "Character"}
+	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara", HP: 30, Category: "Character"}
 	state.Initiatives["elara"] = 20
 	state.Initiatives["gm"] = 10 // Need GM initiative if GM is the attacker
 	state.TurnOrder = []string{"elara", "gm"}
@@ -237,7 +244,7 @@ defenses:
 		},
 	}
 
-	events, err := command.ExecuteDamage(cmdObj, state, loader)
+	events, err := command.ExecuteDamage(cmdObj, state, loader, testReg())
 	if err != nil {
 		t.Fatalf("ExecuteDamage failed: %v", err)
 	}

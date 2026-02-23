@@ -7,10 +7,11 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 // ExecuteAction handles standard 5e actions like Dash, Disengage, etc.
-func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}

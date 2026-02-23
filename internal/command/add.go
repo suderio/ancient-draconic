@@ -35,13 +35,17 @@ func ExecuteAdd(cmd *parser.AddCmd, state *engine.GameState, loader *data.Loader
 
 		// All verified additions generate an ActorAddedEvent
 		events = append(events, &engine.ActorAddedEvent{
-			ID:    target,
-			Name:  res.Name,
-			MaxHP: 10,
+			ID:         target,
+			Category:   res.Category,
+			EntityType: res.EntityType,
+			Name:       res.Name,
+			MaxHP:      res.HP,
+			Stats:      res.Stats,
+			Abilities:  res.Abilities,
 		})
 
 		// Monsters automatically roll initiative
-		if res.Type == "Monster" {
+		if res.Category == "Monster" {
 			events = append(events, RollInitiative(target, res, nil))
 		}
 	}

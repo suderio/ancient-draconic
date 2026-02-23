@@ -10,8 +10,12 @@ import (
 
 // Result encapsulation for tracking target types
 type TargetRes struct {
-	Type          string // 'Character' | 'Monster'
+	Category      string // 'Character' | 'Monster'
+	EntityType    string // Genre-specific: 'undead', etc.
 	Name          string
+	HP            int
+	Stats         map[string]int
+	Abilities     []data.Ability
 	InitiativeMod int
 }
 
@@ -27,12 +31,28 @@ func ValidateGM(actor *parser.ActorExpr) error {
 func CheckEntityLocally(target string, loader *data.Loader) (TargetRes, error) {
 	if char, err := loader.LoadCharacter(target); err == nil {
 		mod := data.CalculateModifier(char.Dexterity)
-		return TargetRes{Type: "Character", Name: char.Name, InitiativeMod: mod}, nil
+		return TargetRes{
+			Category:      "Character",
+			EntityType:    char.Race, // Mapping race as type for characters
+			Name:          char.Name,
+			HP:            char.HitPoints,
+			Stats:         char.GetStats(),
+			Abilities:     char.GetAbilities(),
+			InitiativeMod: mod,
+		}, nil
 	}
 
 	if monster, err := loader.LoadMonster(target); err == nil {
 		mod := data.CalculateModifier(monster.Dexterity)
-		return TargetRes{Type: "Monster", Name: monster.Name, InitiativeMod: mod}, nil
+		return TargetRes{
+			Category:      "Monster",
+			EntityType:    monster.Type,
+			Name:          monster.Name,
+			HP:            monster.HitPoints,
+			Stats:         monster.GetStats(),
+			Abilities:     monster.GetAbilities(),
+			InitiativeMod: mod,
+		}, nil
 	}
 
 	return TargetRes{}, fmt.Errorf("entity tracking failed: could not locate %s as either Character or Monster in data files", target)

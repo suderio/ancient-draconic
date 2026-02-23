@@ -6,10 +6,11 @@ import (
 	"github.com/suderio/dndsl/internal/data"
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 // ExecuteShove handles the shove action with size restrictions and saving throws.
-func ExecuteShove(cmd *parser.ActionCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteShove(cmd *parser.ActionCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}
@@ -34,7 +35,7 @@ func ExecuteShove(cmd *parser.ActionCmd, state *engine.GameState, loader *data.L
 	targetSize := data.SizeUnknown
 
 	// Attacker Size
-	if attacker.Type == "Monster" {
+	if attacker.Category == "Monster" {
 		mon, err := loader.LoadMonster(attacker.ID)
 		if err == nil {
 			attackerSize = data.ParseSize(mon.Size)
@@ -52,7 +53,7 @@ func ExecuteShove(cmd *parser.ActionCmd, state *engine.GameState, loader *data.L
 	}
 
 	// Target Size
-	if target.Type == "Monster" {
+	if target.Category == "Monster" {
 		mon, err := loader.LoadMonster(target.ID)
 		if err == nil {
 			targetSize = data.ParseSize(mon.Size)
@@ -75,7 +76,7 @@ func ExecuteShove(cmd *parser.ActionCmd, state *engine.GameState, loader *data.L
 
 	// 2. DC Calculation
 	dc := 10
-	if attacker.Type == "Character" {
+	if attacker.Category == "Character" {
 		char, _ := loader.LoadCharacter(attacker.ID)
 		dc = 8 + data.CalculateModifier(char.Strength) + char.ProficiencyBonus
 	} else {

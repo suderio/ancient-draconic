@@ -6,10 +6,11 @@ import (
 
 	"github.com/suderio/dndsl/internal/engine"
 	"github.com/suderio/dndsl/internal/parser"
+	"github.com/suderio/dndsl/internal/rules"
 )
 
 // ExecuteHelpAction handles the mechanical help action
-func ExecuteHelpAction(cmd *parser.HelpActionCmd, state *engine.GameState) ([]engine.Event, error) {
+func ExecuteHelpAction(cmd *parser.HelpActionCmd, state *engine.GameState, reg *rules.Registry) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}
