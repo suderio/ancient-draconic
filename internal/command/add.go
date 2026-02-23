@@ -6,10 +6,11 @@ import (
 	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
 	"github.com/suderio/ancient-draconic/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
 // ExecuteAdd handles the `add by: GM <Name> and: <Name>` syntax
-func ExecuteAdd(cmd *parser.AddCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteAdd(cmd *parser.AddCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if cmd.Actor == nil {
 		cmd.Actor = &parser.ActorExpr{Name: "GM"}
 	}
@@ -42,6 +43,7 @@ func ExecuteAdd(cmd *parser.AddCmd, state *engine.GameState, loader *data.Loader
 			MaxHP:      res.HP,
 			Stats:      res.Stats,
 			Abilities:  res.Abilities,
+			Defenses:   res.Defenses,
 		})
 
 		// Monsters automatically roll initiative

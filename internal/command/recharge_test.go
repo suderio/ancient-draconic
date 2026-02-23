@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
-	"github.com/suderio/ancient-draconic/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
 func TestMonsterRecharge(t *testing.T) {
@@ -20,9 +20,12 @@ func TestMonsterRecharge(t *testing.T) {
 	state.CurrentTurn = 0
 
 	loader := data.NewLoader([]string{"../../data"})
+	manifest, _ := loader.LoadManifest()
+	reg, _ := rules.NewRegistry(manifest, func(s string) int { return 10 }, nil)
+
 	// 1. Dragon uses Fire Breath
-	attackCmd := &parser.AttackCmd{Weapon: "Fire Breath", Targets: []string{"player"}}
-	events, err := ExecuteAttack(attackCmd, state, loader, testReg())
+	params := map[string]any{"weapon": "Fire Breath"}
+	events, err := ExecuteGenericCommand("attack", "dragon", []string{"player"}, params, "", state, loader, reg)
 	assert.NoError(t, err)
 
 	spentFound := false
@@ -39,14 +42,15 @@ func TestMonsterRecharge(t *testing.T) {
 
 	// 2. Try to use it again (should fail)
 	state.Entities["dragon"].ActionsRemaining = 1 // Give another action to test recharge block
-	_, err = ExecuteAttack(attackCmd, state, loader, testReg())
+	_, err = ExecuteGenericCommand("attack", "dragon", []string{"player"}, params, "", state, loader, reg)
 	assert.Error(t, err)
 	assert.Contains(t, strings.ToLower(err.Error()), "cooling down")
 
 	// 3. End Dragon's turn (rotate to Player)
-	turnCmd := &parser.TurnCmd{}
-	events, err = ExecuteTurn(turnCmd, state, loader, testReg())
-	assert.NoError(t, err)
+	events, err = ExecuteGenericCommand("turn", "dragon", []string{"dragon"}, nil, "", state, loader, testReg(loader))
+	if err != nil {
+		t.Fatalf("ExecuteGenericCommand failed: %v", err)
+	}
 	for _, e := range events {
 		e.Apply(state)
 	}
@@ -55,8 +59,10 @@ func TestMonsterRecharge(t *testing.T) {
 
 	// 4. End Player's turn (rotate to Dragon)
 	// This is where recharge roll happens
-	events, err = ExecuteTurn(turnCmd, state, loader, testReg())
-	assert.NoError(t, err)
+	events, err = ExecuteGenericCommand("turn", "player", []string{"player"}, nil, "", state, loader, testReg(loader))
+	if err != nil {
+		t.Fatalf("ExecuteGenericCommand failed: %v", err)
+	}
 
 	rollFound := false
 	for _, e := range events {
@@ -71,12 +77,12 @@ func TestMonsterRecharge(t *testing.T) {
 	if len(state.SpentRecharges["dragon"]) == 0 {
 		// Recharged! Try attack again
 		state.Entities["dragon"].ActionsRemaining = 1
-		_, err = ExecuteAttack(attackCmd, state, loader, testReg())
+		_, err = ExecuteGenericCommand("attack", "dragon", []string{"player"}, params, "", state, loader, reg)
 		assert.NoError(t, err)
 	} else {
 		// Not recharged! Attack should still fail
 		state.Entities["dragon"].ActionsRemaining = 1
-		_, err = ExecuteAttack(attackCmd, state, loader, testReg())
+		_, err = ExecuteGenericCommand("attack", "dragon", []string{"player"}, params, "", state, loader, reg)
 		assert.Error(t, err)
 		assert.Contains(t, strings.ToLower(err.Error()), "cooling down")
 	}

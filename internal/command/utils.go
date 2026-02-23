@@ -16,6 +16,8 @@ type TargetRes struct {
 	HP            int
 	Stats         map[string]int
 	Abilities     []data.Ability
+	Proficiencies []string
+	Defenses      []data.Defense
 	InitiativeMod int
 }
 
@@ -31,6 +33,10 @@ func ValidateGM(actor *parser.ActorExpr) error {
 func CheckEntityLocally(target string, loader *data.Loader) (TargetRes, error) {
 	if char, err := loader.LoadCharacter(target); err == nil {
 		mod := data.CalculateModifier(char.Dexterity)
+		profs := []string{}
+		for _, p := range char.Proficiencies {
+			profs = append(profs, p.Proficiency.Index)
+		}
 		return TargetRes{
 			Category:      "Character",
 			EntityType:    char.Race, // Mapping race as type for characters
@@ -38,12 +44,18 @@ func CheckEntityLocally(target string, loader *data.Loader) (TargetRes, error) {
 			HP:            char.HitPoints,
 			Stats:         char.GetStats(),
 			Abilities:     char.GetAbilities(),
+			Proficiencies: profs,
+			Defenses:      char.Defenses,
 			InitiativeMod: mod,
 		}, nil
 	}
 
 	if monster, err := loader.LoadMonster(target); err == nil {
 		mod := data.CalculateModifier(monster.Dexterity)
+		profs := []string{}
+		for _, p := range monster.Proficiencies {
+			profs = append(profs, p.Proficiency.Index)
+		}
 		return TargetRes{
 			Category:      "Monster",
 			EntityType:    monster.Type,
@@ -51,6 +63,8 @@ func CheckEntityLocally(target string, loader *data.Loader) (TargetRes, error) {
 			HP:            monster.HitPoints,
 			Stats:         monster.GetStats(),
 			Abilities:     monster.GetAbilities(),
+			Proficiencies: profs,
+			Defenses:      monster.Defenses,
 			InitiativeMod: mod,
 		}, nil
 	}

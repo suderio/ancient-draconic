@@ -6,10 +6,11 @@ import (
 	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
 	"github.com/suderio/ancient-draconic/internal/parser"
+	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
 // ExecuteEncounter handles the `encounter by: <Actor> start|end` syntax
-func ExecuteEncounter(cmd *parser.EncounterCmd, state *engine.GameState, loader *data.Loader) ([]engine.Event, error) {
+func ExecuteEncounter(cmd *parser.EncounterCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if cmd.Actor == nil {
 		cmd.Actor = &parser.ActorExpr{Name: "GM"}
 	}

@@ -7,6 +7,26 @@ type Ability struct {
 	Effect    string `json:"effect" yaml:"effect"`       // CEL expression or descriptive impact
 }
 
+// CommandStep defines a single evaluation step in a command chain
+type CommandStep struct {
+	Name    string `json:"name" yaml:"name"`
+	Formula string `json:"formula" yaml:"formula"` // CEL expression
+	Event   string `json:"event" yaml:"event"`     // Mapping to engine.Event type
+}
+
+// CommandDefinition defines how a generic command (e.g., 'attack') behaves
+type CommandDefinition struct {
+	Name  string        `json:"name" yaml:"name"`
+	Steps []CommandStep `json:"steps" yaml:"steps"`
+}
+
+// CampaignManifest centralizes all system-specific rules and command definitions
+type CampaignManifest struct {
+	System      string                       `json:"system" yaml:"system"`
+	Commands    map[string]CommandDefinition `json:"commands" yaml:"commands"`
+	GlobalRules map[string]string            `json:"global_rules" yaml:"global_rules"`
+}
+
 // Reference represents a standard 5e API reference pointer (e.g. index: 'force', name: 'Force', ref: 'damage-types/force.yaml')
 type Reference struct {
 	Index string `yaml:"index"`
@@ -31,6 +51,7 @@ type Action struct {
 	Name        string   `yaml:"name"`
 	Desc        string   `yaml:"desc"`
 	AttackBonus int      `yaml:"attack_bonus"`
+	HitRule     string   `yaml:"hit_rule" json:"hit_rule"` // CEL formula for hit resolution
 	Damage      []Damage `yaml:"damage"`
 	Recharge    string   `yaml:"recharge"`
 }
@@ -73,14 +94,19 @@ type Monster struct {
 }
 
 func (m *Monster) GetStats() map[string]int {
-	return map[string]int{
-		"str": m.Strength,
-		"dex": m.Dexterity,
-		"con": m.Constitution,
-		"int": m.Intelligence,
-		"wis": m.Wisdom,
-		"cha": m.Charisma,
+	stats := map[string]int{
+		"str":        m.Strength,
+		"dex":        m.Dexterity,
+		"con":        m.Constitution,
+		"int":        m.Intelligence,
+		"wis":        m.Wisdom,
+		"cha":        m.Charisma,
+		"prof_bonus": m.ProficiencyBonus,
 	}
+	if len(m.ArmorClass) > 0 {
+		stats["ac"] = m.ArmorClass[0].Value
+	}
+	return stats
 }
 
 func (m *Monster) GetAbilities() []Ability {
@@ -116,14 +142,19 @@ type Character struct {
 }
 
 func (c *Character) GetStats() map[string]int {
-	return map[string]int{
-		"str": c.Strength,
-		"dex": c.Dexterity,
-		"con": c.Constitution,
-		"int": c.Intelligence,
-		"wis": c.Wisdom,
-		"cha": c.Charisma,
+	stats := map[string]int{
+		"str":        c.Strength,
+		"dex":        c.Dexterity,
+		"con":        c.Constitution,
+		"int":        c.Intelligence,
+		"wis":        c.Wisdom,
+		"cha":        c.Charisma,
+		"prof_bonus": c.ProficiencyBonus,
 	}
+	if len(c.ArmorClass) > 0 {
+		stats["ac"] = c.ArmorClass[0].Value
+	}
+	return stats
 }
 
 func (c *Character) GetAbilities() []Ability {

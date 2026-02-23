@@ -21,7 +21,7 @@ func TestExecuteEncounterStateValidations(t *testing.T) {
 			Actor:  &parser.ActorExpr{Name: "Paulo"},
 		}
 
-		_, err := command.ExecuteEncounter(cmd, state, loader)
+		_, err := command.ExecuteEncounter(cmd, state, loader, nil)
 		if err == nil {
 			t.Fatalf("Expected error when non-GM tries to start encounter")
 		}
@@ -33,7 +33,7 @@ func TestExecuteEncounterStateValidations(t *testing.T) {
 			Actor:  &parser.ActorExpr{Name: "GM"},
 		}
 
-		_, err := command.ExecuteEncounter(cmd, state, loader)
+		_, err := command.ExecuteEncounter(cmd, state, loader, nil)
 		if err == nil {
 			t.Fatalf("Expected error when ending a non-existent encounter")
 		}
@@ -47,7 +47,7 @@ func TestExecuteEncounterStateValidations(t *testing.T) {
 			Actor:  &parser.ActorExpr{Name: "GM"},
 		}
 
-		_, err := command.ExecuteEncounter(cmd, state, loader)
+		_, err := command.ExecuteEncounter(cmd, state, loader, nil)
 		if err == nil {
 			t.Fatalf("Expected error when starting encounter over an active one")
 		}

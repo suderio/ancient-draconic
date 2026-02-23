@@ -25,6 +25,15 @@ func NewLoader(dataDirs []string) *Loader {
 	}
 }
 
+// LoadManifest constructs a typed CampaignManifest object
+func (l *Loader) LoadManifest() (*CampaignManifest, error) {
+	var m CampaignManifest
+	if err := l.load("manifest.yaml", &m); err != nil {
+		return nil, err
+	}
+	return &m, nil
+}
+
 // LoadCharacter constructs a typed Character object by searching through the data directories sequentially
 func (l *Loader) LoadCharacter(name string) (*Character, error) {
 	var c Character

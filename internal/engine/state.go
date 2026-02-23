@@ -1,6 +1,8 @@
 package engine
 
 import (
+	"fmt"
+
 	"github.com/suderio/ancient-draconic/internal/data"
 )
 
@@ -51,16 +53,19 @@ type PendingAdjudicationState struct {
 
 // Entity represents an actor (Monster, Player, NPC) participating in the session
 type Entity struct {
-	ID         string         `json:"id"`
-	Category   string         `json:"category"`    // "Character" or "Monster"
-	EntityType string         `json:"entity_type"` // Genre-specific type: "undead", "humanoid", etc.
-	Name       string         `json:"name"`
-	HP         int            `json:"hp"`
-	MaxHP      int            `json:"max_hp"`
-	Conditions []string       `json:"conditions"`
-	Stats      map[string]int `json:"stats"`     // Generic stats: str, dex, technical, etc.
-	Resources  map[string]int `json:"resources"` // Tracked integers: spell_slots, luck, etc.
-	Abilities  []data.Ability `json:"abilities"`
+	ID            string         `json:"id"`
+	Category      string         `json:"category"`    // "Character" or "Monster"
+	EntityType    string         `json:"entity_type"` // Genre-specific type: "undead", "humanoid", etc.
+	Name          string         `json:"name"`
+	Size          string         `json:"size"`
+	HP            int            `json:"hp"`
+	MaxHP         int            `json:"max_hp"`
+	Conditions    []string       `json:"conditions"`
+	Stats         map[string]int `json:"stats"`     // Generic stats: str, dex, technical, etc.
+	Resources     map[string]int `json:"resources"` // Tracked integers: spell_slots, luck, etc.
+	Abilities     []data.Ability `json:"abilities"`
+	Proficiencies []string       `json:"proficiencies"` // List of proficient skills/saves
+	Defenses      []data.Defense `json:"defenses"`
 
 	ActionsRemaining      int `json:"actions_remaining"`
 	BonusActionsRemaining int `json:"bonus_actions_remaining"`
@@ -89,6 +94,7 @@ func (s *GameState) IsFrozen() bool {
 		return true
 	}
 	if s.PendingAdjudication != nil && !s.PendingAdjudication.Approved {
+		fmt.Printf(">>> ISFROZEN: Pending adjudicated action not approved\n")
 		return true
 	}
 	if !s.IsEncounterActive {
@@ -96,6 +102,7 @@ func (s *GameState) IsFrozen() bool {
 	}
 	for id := range s.Entities {
 		if _, ok := s.Initiatives[id]; !ok {
+			fmt.Printf(">>> ISFROZEN: Missing initiative for %s\n", id)
 			return true
 		}
 	}

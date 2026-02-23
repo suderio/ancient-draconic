@@ -167,14 +167,17 @@ func (e *HintEvent) Message() string              { return e.MessageStr }
 
 // ActorAddedEvent brings a new entity into the encounter tracker.
 type ActorAddedEvent struct {
-	ID         string
-	Category   string // "Character" or "Monster"
-	EntityType string // Genre-specific: "undead", etc.
-	Name       string
-	MaxHP      int
-	Stats      map[string]int
-	Resources  map[string]int
-	Abilities  []data.Ability
+	ID            string
+	Category      string // "Character" or "Monster"
+	EntityType    string // Genre-specific: "undead", etc.
+	Name          string
+	Size          string
+	MaxHP         int
+	Stats         map[string]int
+	Resources     map[string]int
+	Abilities     []data.Ability
+	Proficiencies []string
+	Defenses      []data.Defense
 }
 
 func (e *ActorAddedEvent) Type() EventType { return EventActorAdded }
@@ -188,11 +191,14 @@ func (e *ActorAddedEvent) Apply(state *GameState) error {
 		Category:              e.Category,
 		EntityType:            e.EntityType,
 		Name:                  e.Name,
+		Size:                  e.Size,
 		HP:                    e.MaxHP,
 		MaxHP:                 e.MaxHP,
 		Stats:                 e.Stats,
 		Resources:             e.Resources,
 		Abilities:             e.Abilities,
+		Proficiencies:         e.Proficiencies,
+		Defenses:              e.Defenses,
 		ActionsRemaining:      1,
 		BonusActionsRemaining: 1,
 		ReactionsRemaining:    1,
@@ -227,10 +233,10 @@ func (e *TurnChangedEvent) Apply(state *GameState) error {
 				ent.HasAttackedThisTurn = false
 				ent.LastAttackedWithWeapon = ""
 
-				// Remove "Dodging" condition
+				// Remove temporary conditions
 				newConds := []string{}
 				for _, c := range ent.Conditions {
-					if c != "Dodging" {
+					if c != "Dodging" && c != "Disengaged" {
 						newConds = append(newConds, c)
 					}
 				}

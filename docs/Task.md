@@ -1,23 +1,25 @@
 # Task: Architecture Pivot to Data-Driven Game Engine
 
-- [ ] Phase 1: Infrastructure & Environment Setup
-  - [ ] Add `google/cel-go` dependency
-  - [ ] Create `internal/rules` package for CEL initialization
-  - [ ] Implement `roll()` custom function for CEL
-- [ ] Phase 2: Core Data Model Refactor
-  - [ ] Update `engine.Entity` to generic map-based stats
-  - [ ] Implement `Ability` and `Action` models with CEL support
-  - [ ] Refactor `data.Loader` to populate generic structs
-- [ ] Phase 3: Rule Evaluation Bridge
-  - [ ] Implement `EvalRule` in the engine
-  - [ ] Create context binding for CEL (actor, target, action)
-  - [ ] Refactor `attack` command to use CEL formulas
-  - [ ] Refactor `check` command to use CEL formulas
-- [ ] Phase 4: System Manifest & Extensibility
-  - [ ] Implement `CampaignManifest` (global rules/formulas)
-  - [ ] Dynamic command registration in the manifest
-  - [ ] Verify multi-system support with a Sci-Fi character test
-- [ ] Phase 5: Cleanup & Verification
-  - [ ] Remove hard-coded D&D logic
-  - [ ] Update integration tests
-  - [ ] Final architecture walkthrough
+- [x] Phase 1: Infrastructure & Environment Setup
+  - [x] Add `google/cel-go` dependency
+  - [x] Create `internal/rules` package for CEL initialization
+  - [x] Implement `roll()` custom function for CEL
+- [x] Phase 2: Core Data Model Refactor
+  - [x] Update `engine.Entity` to generic map-based stats
+  - [x] Implement `Ability` and `Action` models with CEL support
+  - [x] Refactor `data.Loader` to populate generic structs
+- [x] Phase 3: Rule Evaluation Bridge
+  - [x] Implement `EvalRule` in the engine
+  - [x] Create context binding for CEL (actor, target, action)
+  - [x] Refactor `attack` command to use CEL formulas
+  - [x] Refactor `check` command to use CEL formulas
+- [x] Phase 4: System Manifest & Extensibility
+  - [x] Implement `CampaignManifest` (global rules/formulas)
+  - [x] Dynamic command registration in the manifest
+  - [x] Generic Command Executor (`ExecuteGenericCommand`)
+  - [x] Unified mapping logic for complex events (Attack/Check)
+  - [x] Automated Help action consumption via CEL
+- [x] Phase 5: Cleanup & Verification
+  - [x] Remove hard-coded D&D logic (`attack.go`, `check.go`)
+  - [x] Update and verify full integration test suite
+  - [x] Final architecture walkthrough

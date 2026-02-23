@@ -12,8 +12,12 @@ import (
 	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
-func testReg() *rules.Registry {
-	reg, _ := rules.NewRegistry(func(s string) int { return 10 })
+func testReg(loader *data.Loader) *rules.Registry {
+	var m *data.CampaignManifest
+	if loader != nil {
+		m, _ = loader.LoadManifest()
+	}
+	reg, _ := rules.NewRegistry(m, func(s string) int { return 10 }, nil)
 	return reg
 }
 
@@ -41,7 +45,7 @@ defenses:
 		t.Fatal(err)
 	}
 
-	loader := data.NewLoader([]string{tmpDir})
+	loader := data.NewLoader([]string{tmpDir, "../../data"})
 
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
@@ -51,7 +55,9 @@ defenses:
 		HP:       30,
 		MaxHP:    30,
 		Category: "Character",
+		Defenses: []data.Defense{{Resistances: []string{"fire"}, Immunities: []string{"poison"}, Vulnerabilities: []string{"cold"}}},
 	}
+	state.Entities["gm"] = &engine.Entity{ID: "gm", Name: "GM", Category: "GM"}
 	state.TurnOrder = []string{"gm", "elara"}
 	state.CurrentTurn = 0
 	state.Initiatives["gm"] = 10
@@ -101,18 +107,19 @@ defenses:
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			cmdObj := &parser.DamageCmd{
-				Rolls: []*parser.DamageRollExpr{
-					{
-						Dice: &parser.DiceExpr{Raw: tt.dice},
-						Type: tt.dmgType,
-					},
-				},
-			}
 
-			events, err := command.ExecuteDamage(cmdObj, state, loader, testReg())
+			state.PendingDamage = &engine.PendingDamageState{
+				Attacker:  "GM",
+				Targets:   []string{"elara"},
+				HitStatus: map[string]bool{"elara": true},
+			}
+			params := map[string]any{
+				"dice": tt.dice,
+				"type": tt.dmgType,
+			}
+			events, err := command.ExecuteGenericCommand("damage", "gm", []string{"elara"}, params, "", state, loader, testReg(loader))
 			if err != nil {
-				t.Fatalf("ExecuteDamage failed: %v", err)
+				t.Fatalf("ExecuteGenericCommand failed: %v", err)
 			}
 
 			foundHPChange := false
@@ -164,11 +171,17 @@ actions:
 	os.WriteFile(filepath.Join(charDir, "elara.yaml"), []byte(elaraYaml), 0644)
 	os.WriteFile(filepath.Join(charDir, "goblin.yaml"), []byte(goblinYaml), 0644)
 
-	loader := data.NewLoader([]string{tmpDir})
+	loader := data.NewLoader([]string{tmpDir, "../../data"})
 
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
-	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara", HP: 30, Category: "Character"}
+	state.Entities["elara"] = &engine.Entity{
+		ID:       "elara",
+		Name:     "Elara",
+		HP:       30,
+		Category: "Character",
+		Defenses: []data.Defense{{Resistances: []string{"fire"}}},
+	}
 	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", HP: 10, Category: "Monster"}
 	state.Initiatives["elara"] = 20
 	state.Initiatives["goblin"] = 10
@@ -182,13 +195,12 @@ actions:
 		HitStatus: map[string]bool{"elara": true},
 	}
 
-	cmdObj := &parser.DamageCmd{
-		Weapon: "FireSword",
+	params := map[string]any{
+		"weapon": "FireSword",
 	}
-
-	events, err := command.ExecuteDamage(cmdObj, state, loader, testReg())
+	events, err := command.ExecuteGenericCommand("damage", "goblin", []string{"elara"}, params, "", state, loader, testReg(loader))
 	if err != nil {
-		t.Fatalf("ExecuteDamage failed: %v", err)
+		t.Fatalf("ExecuteGenericCommand failed: %v", err)
 	}
 
 	for _, ev := range events {
@@ -220,11 +232,18 @@ defenses:
     vulnerabilities: [cold]
 `
 	os.WriteFile(filepath.Join(charDir, "elara.yaml"), []byte(elaraYaml), 0644)
-	loader := data.NewLoader([]string{tmpDir})
+	loader := data.NewLoader([]string{tmpDir, "../../data"})
 
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
-	state.Entities["elara"] = &engine.Entity{ID: "elara", Name: "Elara", HP: 30, Category: "Character"}
+	state.Entities["elara"] = &engine.Entity{
+		ID:       "elara",
+		Name:     "Elara",
+		HP:       30,
+		Category: "Character",
+		Defenses: []data.Defense{{Resistances: []string{"fire"}, Vulnerabilities: []string{"cold"}}},
+	}
+	state.Entities["gm"] = &engine.Entity{ID: "gm", Name: "GM", Category: "GM"}
 	state.Initiatives["elara"] = 20
 	state.Initiatives["gm"] = 10 // Need GM initiative if GM is the attacker
 	state.TurnOrder = []string{"elara", "gm"}
@@ -243,19 +262,32 @@ defenses:
 			{Dice: &parser.DiceExpr{Raw: "10d1"}, Type: "cold"},
 		},
 	}
-
-	events, err := command.ExecuteDamage(cmdObj, state, loader, testReg())
-	if err != nil {
-		t.Fatalf("ExecuteDamage failed: %v", err)
+	var events []engine.Event
+	for _, r := range cmdObj.Rolls {
+		// Re-setup pending damage because HPChanged clears it
+		state.PendingDamage = &engine.PendingDamageState{
+			Attacker:  "gm",
+			Targets:   []string{"elara"},
+			HitStatus: map[string]bool{"elara": true},
+		}
+		params := map[string]any{
+			"dice": r.Dice.Raw,
+			"type": r.Type,
+		}
+		evs, err := command.ExecuteGenericCommand("damage", "gm", []string{"elara"}, params, "", state, loader, testReg(loader))
+		if err != nil {
+			t.Fatalf("ExecuteGenericCommand failed: %v", err)
+		}
+		events = append(events, evs...)
 	}
 
+	totalHPChange := 0
 	for _, ev := range events {
 		if hpc, ok := ev.(*engine.HPChangedEvent); ok {
-			if hpc.Amount != -25 {
-				t.Errorf("Expected HP change -25, got %d", hpc.Amount)
-			}
-			return
+			totalHPChange += hpc.Amount
 		}
 	}
-	t.Errorf("HPChangedEvent not found")
+	if totalHPChange != -25 {
+		t.Errorf("Expected total HP change -25, got %d", totalHPChange)
+	}
 }

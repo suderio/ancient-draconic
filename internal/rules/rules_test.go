@@ -15,7 +15,7 @@ func TestCELRegistry(t *testing.T) {
 		return 0
 	}
 
-	registry, err := NewRegistry(mockRoll)
+	registry, err := NewRegistry(nil, mockRoll, nil)
 	assert.NoError(t, err)
 
 	t.Run("Basic Boolean Expression", func(t *testing.T) {
