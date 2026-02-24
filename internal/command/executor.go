@@ -2,6 +2,7 @@ package command
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/suderio/ancient-draconic/internal/data"
@@ -138,8 +139,11 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 
 	actor, ok := state.Entities[actorID]
 	if !ok {
-		fmt.Printf(">>> ERROR: actor %s not found\n", actorID)
-		return nil, fmt.Errorf("actor '%s' not found in encounter", actorID)
+		if strings.EqualFold(actorID, "GM") {
+			actor = &engine.Entity{ID: "GM", Name: "GM"}
+		} else {
+			return nil, fmt.Errorf("actor '%s' not found in encounter", actorID)
+		}
 	}
 
 	// Normalize standard parameters
@@ -187,10 +191,12 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 	// Check cooldown
 	if resolvedName, ok := params["weapon_resolved"].(string); ok && resolvedName != "" {
 		if recharge, ok := params["recharge"].(string); ok && recharge != "" {
-			if spent, ok := state.SpentRecharges[actorID]; ok {
-				for _, s := range spent {
-					if s == resolvedName {
-						return nil, fmt.Errorf("ability '%s' is cooling down", resolvedName)
+			if spentMap, ok := state.Metadata["spent_recharges"].(map[string][]string); ok {
+				if spent, ok := spentMap[actorID]; ok {
+					for _, s := range spent {
+						if s == resolvedName {
+							return nil, fmt.Errorf("ability '%s' is cooling down", resolvedName)
+						}
 					}
 				}
 			}
@@ -198,12 +204,36 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 	}
 
 	// events is already initialized above
+	loopTargets := targets
+	if len(loopTargets) == 0 {
+		loopTargets = []string{""}
+	}
 
-	for _, targetID := range targets {
-		target, _ := state.Entities[targetID]
+	for _, targetID := range loopTargets {
+		target, ok := state.Entities[targetID]
+		if !ok {
+			// Try loading from local files to provide context
+			if res, err := CheckEntityLocally(targetID, loader); err == nil {
+				target = &engine.Entity{
+					ID:            targetID,
+					Name:          res.Name,
+					Types:         []string{res.EntityType},
+					Classes:       map[string]string{"category": res.Category},
+					Resources:     map[string]int{"hp": res.HP},
+					Spent:         map[string]int{"hp": 0},
+					Stats:         res.Stats,
+					Proficiencies: res.Proficiencies,
+				}
+			}
+		}
+
 		evalCtx := rules.BuildEvalContext(state, actor, target, params)
+		approved := false
+		if adj, ok := state.Metadata["pending_adjudication"].(map[string]any); ok {
+			approved, _ = adj["approved"].(bool)
+		}
 		evalCtx["manifest"] = map[string]any{
-			"approved": state.PendingAdjudication != nil && state.PendingAdjudication.Approved,
+			"approved": approved,
 		}
 		steps := map[string]any{}
 		evalCtx["steps"] = steps
@@ -231,7 +261,7 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 
 			// Produce event if specified
 			if step.Event != "" {
-				event := mapManifestEvent(step.Event, actorID, targetID, res, evalCtx, params, cmdName, state)
+				event := mapManifestEvent(step.Event, actorID, targetID, res, evalCtx, params, cmdName, state, loader)
 				if event != nil {
 					events = append(events, event)
 				}
@@ -261,33 +291,36 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 
 		if turnChanged != nil {
 			nextActor := turnChanged.ActorID
-			if spent, ok := state.SpentRecharges[nextActor]; ok && len(spent) > 0 {
-				mon, err := loader.LoadMonster(nextActor)
-				if err == nil {
-					for _, actionName := range spent {
-						for _, a := range mon.Actions {
-							if strings.EqualFold(a.Name, actionName) && a.Recharge != "" {
-								res, _ := engine.Roll(&parser.DiceExpr{Raw: "1d6"})
-								success := false
-								if a.Recharge == "6" && res.Total == 6 {
-									success = true
-								} else if a.Recharge == "5-6" && res.Total >= 5 {
-									success = true
-								}
+			spentMap, ok := state.Metadata["spent_recharges"].(map[string][]string)
+			if ok {
+				if spent, ok := spentMap[nextActor]; ok && len(spent) > 0 {
+					mon, err := loader.LoadMonster(nextActor)
+					if err == nil {
+						for _, actionName := range spent {
+							for _, a := range mon.Actions {
+								if strings.EqualFold(a.Name, actionName) && a.Recharge != "" {
+									res, _ := engine.Roll(&parser.DiceExpr{Raw: "1d6"})
+									success := false
+									if a.Recharge == "6" && res.Total == 6 {
+										success = true
+									} else if a.Recharge == "5-6" && res.Total >= 5 {
+										success = true
+									}
 
-								events = append(events, &engine.RechargeRolledEvent{
-									ActorID:     nextActor,
-									ActionName:  a.Name,
-									Roll:        res.Total,
-									Requirement: a.Recharge,
-									Success:     success,
-								})
-
-								if success {
-									events = append(events, &engine.AbilityRechargedEvent{
-										ActorID:    nextActor,
-										ActionName: a.Name,
+									events = append(events, &engine.RechargeRolledEvent{
+										ActorID:     nextActor,
+										ActionName:  a.Name,
+										Roll:        res.Total,
+										Requirement: a.Recharge,
+										Success:     success,
 									})
+
+									if success {
+										events = append(events, &engine.AbilityRechargedEvent{
+											ActorID:    nextActor,
+											ActionName: a.Name,
+										})
+									}
 								}
 							}
 						}
@@ -303,7 +336,36 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 // mapManifestEvent converts a string event name and CEL result into a concrete engine.Event.
 // It extracts relevant metadata from the evaluation context and parameters to populate
 // event fields like targets, hit status, and resource usage.
-func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx map[string]any, params map[string]any, cmdName string, state *engine.GameState) engine.Event {
+func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx map[string]any, params map[string]any, cmdName string, state *engine.GameState, loader *data.Loader) engine.Event {
+	if res == "skip" {
+		return nil
+	}
+	if m, ok := res.(map[string]any); ok {
+		if t, ok := m["type"].(string); ok && t == "skip" {
+			return nil
+		}
+		if s, ok := m["skip"].(bool); ok && s {
+			return nil
+		}
+	}
+
+	// Helper to extract int from res or ctx[steps][stepName]
+	getInt := func(val any) (int, bool) {
+		if i, ok := val.(int); ok {
+			return i, true
+		}
+		if i, ok := val.(int64); ok {
+			return int(i), true
+		}
+		if s, ok := val.(string); ok {
+			var i int
+			if _, err := fmt.Sscanf(s, "%d", &i); err == nil {
+				return i, true
+			}
+		}
+		return 0, false
+	}
+
 	switch eventName {
 	case "AttackResolved":
 		hit := false
@@ -377,17 +439,13 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 	case "AskIssued":
 		dc := 10
 		if d, ok := params["dc"]; ok {
-			if i, ok := d.(int); ok {
+			if i, ok := getInt(d); ok {
 				dc = i
-			} else if i, ok := d.(int64); ok {
-				dc = int(i)
 			}
 		} else if steps, ok := ctx["steps"].(map[string]any); ok {
 			if d, ok := steps["dc"]; ok {
-				if i, ok := d.(int); ok {
+				if i, ok := getInt(d); ok {
 					dc = i
-				} else if i, ok := d.(int64); ok {
-					dc = int(i)
 				}
 			}
 		}
@@ -400,16 +458,30 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 			}
 		}
 
-		fails := &engine.RollConsequence{}
-		if cmdName == "grapple" {
-			fails.Condition = "grappledby:" + actorID
+		fails := make(map[string]any)
+		if f, ok := params["fails"].(map[string]any); ok {
+			fails["condition"], _ = f["condition"].(string)
+			fails["half"], _ = f["half"].(bool)
+			fails["is_damage"], _ = f["is_damage"].(bool)
+			fails["dice"], _ = f["dice"].(string)
+		} else if cmdName == "grapple" {
+			fails["condition"] = "grappledby:" + actorID
+		}
+
+		succeeds := make(map[string]any)
+		if s, ok := params["succeeds"].(map[string]any); ok {
+			succeeds["condition"], _ = s["condition"].(string)
+			succeeds["half"], _ = s["half"].(bool)
+			succeeds["is_damage"], _ = s["is_damage"].(bool)
+			succeeds["dice"], _ = s["dice"].(string)
 		}
 
 		return &engine.AskIssuedEvent{
-			Targets: []string{targetID},
-			Check:   check,
-			DC:      dc,
-			Fails:   fails,
+			Targets:  []string{targetID},
+			Check:    check,
+			DC:       dc,
+			Fails:    fails,
+			Succeeds: succeeds,
 		}
 	case "Hint":
 		return &engine.HintEvent{
@@ -421,8 +493,8 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 		}
 	case "HPChanged":
 		amount := 0
-		if i, ok := res.(int64); ok {
-			amount = int(i)
+		if i, ok := getInt(res); ok {
+			amount = i
 		}
 		return &engine.HPChangedEvent{
 			ActorID: targetID,
@@ -481,8 +553,8 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 		}
 	case "InitiativeRolled":
 		score := 0
-		if i, ok := res.(int64); ok {
-			score = int(i)
+		if i, ok := getInt(res); ok {
+			score = i
 		}
 		if score == 0 {
 			if steps, ok := ctx["steps"].(map[string]any); ok {
@@ -511,6 +583,85 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 				ActorID:    actorID,
 				ActionName: s,
 			}
+		}
+	case "HelpTaken":
+		helpType := "check"
+		if t, ok := params["type"]; ok {
+			helpType = fmt.Sprintf("%v", t)
+		}
+		return &engine.HelpTakenEvent{
+			HelperID: actorID,
+			TargetID: targetID,
+			HelpType: strings.ToLower(helpType),
+		}
+	case "ActorAdded":
+		if resStr, ok := res.(string); ok && resStr == "skip" {
+			return nil
+		}
+		if r, err := CheckEntityLocally(targetID, loader); err == nil {
+			return &engine.ActorAddedEvent{
+				ID:            targetID,
+				Category:      r.Category,
+				EntityType:    r.EntityType,
+				Name:          r.Name,
+				MaxHP:         r.HP,
+				Stats:         r.Stats,
+				Resources:     map[string]int{"hp": r.HP},
+				Abilities:     r.Abilities,
+				Proficiencies: r.Proficiencies,
+				Defenses:      r.Defenses,
+			}
+		}
+	case "EncounterStateChanged":
+		if s, ok := res.(string); ok && s == "started" {
+			if state != nil && state.IsEncounterActive {
+				return nil // Already active
+			}
+			return &engine.EncounterStartedEvent{}
+		} else if s, ok := res.(string); ok && s == "ended" {
+			if state != nil && !state.IsEncounterActive {
+				return nil // Already ended
+			}
+			return &engine.EncounterEndedEvent{}
+		}
+	case "AttributeChanged":
+		// CEL might return map[string]any, map[string]string, or other specific map types.
+		// We'll use a type-safe extraction helper.
+		m := make(map[string]any)
+		if ma, ok := res.(map[string]any); ok {
+			m = ma
+		} else if ms, ok := res.(map[string]string); ok {
+			for k, v := range ms {
+				m[k] = v
+			}
+		} else {
+			// Try to iterate if it's a map we don't recognize
+			rv := reflect.ValueOf(res)
+			if rv.Kind() == reflect.Map {
+				for _, k := range rv.MapKeys() {
+					m[fmt.Sprintf("%v", k.Interface())] = rv.MapIndex(k).Interface()
+				}
+			} else {
+				return nil
+			}
+		}
+
+		if t, ok := m["type"].(string); ok && t == "skip" {
+			return nil
+		}
+
+		attrType := engine.AttributeType(fmt.Sprintf("%v", m["type"]))
+		key := fmt.Sprintf("%v", m["key"])
+		value := m["value"]
+		if i, ok := getInt(value); ok {
+			value = i
+		}
+
+		return &engine.AttributeChangedEvent{
+			ActorID:  actorID,
+			AttrType: attrType,
+			Key:      key,
+			Value:    value,
 		}
 	}
 	return nil

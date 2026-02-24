@@ -16,7 +16,7 @@ type TargetRes struct {
 	HP            int
 	Stats         map[string]int
 	Abilities     []data.Ability
-	Proficiencies []string
+	Proficiencies map[string]int
 	Defenses      []data.Defense
 	InitiativeMod int
 }
@@ -33,9 +33,9 @@ func ValidateGM(actor *parser.ActorExpr) error {
 func CheckEntityLocally(target string, loader *data.Loader) (TargetRes, error) {
 	if char, err := loader.LoadCharacter(target); err == nil {
 		mod := data.CalculateModifier(char.Dexterity)
-		profs := []string{}
+		profs := make(map[string]int)
 		for _, p := range char.Proficiencies {
-			profs = append(profs, p.Proficiency.Index)
+			profs[p.Proficiency.Index] = p.Value
 		}
 		return TargetRes{
 			Category:      "Character",
@@ -52,9 +52,9 @@ func CheckEntityLocally(target string, loader *data.Loader) (TargetRes, error) {
 
 	if monster, err := loader.LoadMonster(target); err == nil {
 		mod := data.CalculateModifier(monster.Dexterity)
-		profs := []string{}
+		profs := make(map[string]int)
 		for _, p := range monster.Proficiencies {
-			profs = append(profs, p.Proficiency.Index)
+			profs[p.Proficiency.Index] = p.Value
 		}
 		return TargetRes{
 			Category:      "Monster",

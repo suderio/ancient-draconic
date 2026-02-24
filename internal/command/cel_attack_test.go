@@ -40,17 +40,17 @@ actions:
 	state := engine.NewGameState()
 	state.IsEncounterActive = true
 	state.Entities["thorne"] = &engine.Entity{
-		ID:               "thorne",
-		Name:             "Thorne",
-		Stats:            map[string]int{"str": 3},
-		ActionsRemaining: 1,
+		ID:    "thorne",
+		Name:  "Thorne",
+		Stats: map[string]int{"str": 3},
+		Spent: map[string]int{"actions": 0},
 	}
 	state.Entities["goblin"] = &engine.Entity{
 		ID:    "goblin",
 		Name:  "Goblin",
 		Stats: map[string]int{"ac": 15},
 	}
-	state.Initiatives = map[string]int{"thorne": 20, "goblin": 10}
+	state.Metadata["initiatives"] = map[string]int{"thorne": 20, "goblin": 10}
 	state.TurnOrder = []string{"thorne", "goblin"}
 	state.CurrentTurn = 0
 

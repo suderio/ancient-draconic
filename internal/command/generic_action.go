@@ -35,7 +35,8 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 		return nil, fmt.Errorf("actor %s not found in encounter", currentActor)
 	}
 
-	if ent.ActionsRemaining <= 0 {
+	// In the generic model, we check ent.Spent["actions"]
+	if ent.Spent["actions"] > 0 {
 		return nil, fmt.Errorf("%s has no actions remaining this turn", currentActor)
 	}
 
@@ -43,7 +44,8 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 
 	// Complex actions that might need adjudication
 	if actionType == "shove" || actionType == "magic" || actionType == "ready" {
-		if state.PendingAdjudication == nil {
+		pendingAdj, ok := state.Metadata["pending_adjudication"].(map[string]any)
+		if !ok {
 			originalCmd := fmt.Sprintf("%s by: %s", actionType, currentActor)
 			if cmd.Target != "" {
 				originalCmd += " to: " + cmd.Target
@@ -55,7 +57,7 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 			}, nil
 		}
 
-		if !state.PendingAdjudication.Approved {
+		if approved, ok := pendingAdj["approved"].(bool); !ok || !approved {
 			return nil, fmt.Errorf("action is still pending GM adjudication")
 		}
 	}
@@ -94,8 +96,8 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 				Targets: []string{currentActor},
 				Check:   []string{"athletics", "or", "acrobatics"},
 				DC:      dc,
-				Succeeds: &engine.RollConsequence{
-					RemoveCondition: conditionToRemove,
+				Succeeds: map[string]any{
+					"remove_condition": conditionToRemove,
 				},
 			},
 		}, nil

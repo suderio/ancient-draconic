@@ -80,7 +80,9 @@ the GameState via the event Projector.`,
 		fmt.Printf("Processed %d events.\n", len(events))
 		fmt.Printf("Active Entities: %d\n", len(state.Entities))
 		for id, ent := range state.Entities {
-			fmt.Printf("- %s (HP: %d/%d)\n", id, ent.HP, ent.MaxHP)
+			hp := ent.Resources["hp"] - ent.Spent["hp"]
+			maxHP := ent.Resources["hp"]
+			fmt.Printf("- %s (HP: %d/%d)\n", id, hp, maxHP)
 		}
 	},
 }

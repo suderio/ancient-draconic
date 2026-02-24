@@ -7,8 +7,8 @@ import (
 func TestProjectorBuild(t *testing.T) {
 	events := []Event{
 		&EncounterStartedEvent{},
-		&ActorAddedEvent{ID: "goblin1", Name: "Goblin", MaxHP: 15},
-		&ActorAddedEvent{ID: "fighter1", Name: "Fighter", MaxHP: 30},
+		&ActorAddedEvent{ID: "goblin1", Name: "Goblin", Resources: map[string]int{"hp": 15}},
+		&ActorAddedEvent{ID: "fighter1", Name: "Fighter", Resources: map[string]int{"hp": 30}},
 		&HPChangedEvent{ActorID: "goblin1", Amount: -5},
 		&HPChangedEvent{ActorID: "fighter1", Amount: -10},
 		&HPChangedEvent{ActorID: "fighter1", Amount: 2}, // test slight heal
@@ -26,12 +26,12 @@ func TestProjectorBuild(t *testing.T) {
 	}
 
 	goblin := state.Entities["goblin1"]
-	if goblin.HP != 10 {
-		t.Errorf("expected goblin HP to be 10, got %d", goblin.HP)
+	if hp := goblin.Resources["hp"] - goblin.Spent["hp"]; hp != 10 {
+		t.Errorf("expected goblin HP to be 10, got %d", hp)
 	}
 
 	fighter := state.Entities["fighter1"]
-	if fighter.HP != 22 {
-		t.Errorf("expected fighter HP to be 22, got %d", fighter.HP)
+	if hp := fighter.Resources["hp"] - fighter.Spent["hp"]; hp != 22 {
+		t.Errorf("expected fighter HP to be 22, got %d", hp)
 	}
 }

@@ -38,6 +38,12 @@ const (
 	EventAbilitySpent         EventType = "AbilitySpent"
 	EventAbilityRecharged     EventType = "AbilityRecharged"
 	EventRechargeRolled       EventType = "RechargeRolled"
+
+	// Truly Generic Events
+	EventAttributeChanged   EventType = "AttributeChanged"
+	EventConditionToggled   EventType = "ConditionToggled"
+	EventMetadataChanged    EventType = "MetadataChanged"
+	EventFrozenUntilChanged EventType = "FrozenUntilChanged"
 )
 
 // Event is the building block of the Event Sourced engine.
@@ -55,8 +61,9 @@ func (e *EncounterStartedEvent) Apply(state *GameState) error {
 	state.IsEncounterActive = true
 	state.Entities = make(map[string]*Entity)
 	state.TurnOrder = make([]string, 0)
-	state.Initiatives = make(map[string]int)
+	state.Metadata = make(map[string]any)
 	state.CurrentTurn = -1
+	state.FrozenUntil = ""
 	return nil
 }
 func (e *EncounterStartedEvent) Message() string { return "Encounter Started." }
@@ -83,37 +90,12 @@ type AttackResolvedEvent struct {
 
 func (e *AttackResolvedEvent) Type() EventType { return EventAttackResolved }
 func (e *AttackResolvedEvent) Apply(state *GameState) error {
-	state.PendingDamage = &PendingDamageState{
-		Attacker:  e.Attacker,
-		Targets:   e.Targets,
-		Weapon:    e.Weapon,
-		HitStatus: e.HitStatus,
-		IsOffHand: e.IsOffHand,
-	}
-
-	if ent, ok := state.Entities[e.Attacker]; ok {
-		if e.IsOffHand {
-			if ent.BonusActionsRemaining > 0 {
-				ent.BonusActionsRemaining--
-			}
-		} else if e.IsOpportunity {
-			if ent.ReactionsRemaining > 0 {
-				ent.ReactionsRemaining--
-			}
-		} else {
-			// standard action attack
-			ent.HasAttackedThisTurn = true
-			ent.LastAttackedWithWeapon = e.Weapon
-
-			if ent.ActionsRemaining > 0 && ent.AttacksRemaining <= 0 {
-				ent.ActionsRemaining--
-				ent.AttacksRemaining = 1
-			}
-			ent.AttacksRemaining -= len(e.Targets)
-			if ent.AttacksRemaining < 0 {
-				ent.AttacksRemaining = 0
-			}
-		}
+	state.Metadata["pending_damage"] = map[string]any{
+		"attacker":    e.Attacker,
+		"targets":     e.Targets,
+		"weapon":      e.Weapon,
+		"hit_status":  e.HitStatus,
+		"is_off_hand": e.IsOffHand,
 	}
 	return nil
 }
@@ -176,8 +158,8 @@ type ActorAddedEvent struct {
 	Stats         map[string]int
 	Resources     map[string]int
 	Abilities     []data.Ability
-	Proficiencies []string
-	Defenses      []data.Defense
+	Proficiencies map[string]int
+	Defenses      []data.Defense // TODO: Genericize defenses
 }
 
 func (e *ActorAddedEvent) Type() EventType { return EventActorAdded }
@@ -187,22 +169,17 @@ func (e *ActorAddedEvent) Apply(state *GameState) error {
 	}
 
 	state.Entities[e.ID] = &Entity{
-		ID:                    e.ID,
-		Category:              e.Category,
-		EntityType:            e.EntityType,
-		Name:                  e.Name,
-		Size:                  e.Size,
-		HP:                    e.MaxHP,
-		MaxHP:                 e.MaxHP,
-		Stats:                 e.Stats,
-		Resources:             e.Resources,
-		Abilities:             e.Abilities,
-		Proficiencies:         e.Proficiencies,
-		Defenses:              e.Defenses,
-		ActionsRemaining:      1,
-		BonusActionsRemaining: 1,
-		ReactionsRemaining:    1,
-		AttacksRemaining:      1,
+		ID:            e.ID,
+		Name:          e.Name,
+		Types:         []string{e.EntityType},
+		Classes:       map[string]string{"size": e.Size, "category": e.Category},
+		Stats:         e.Stats,
+		Resources:     e.Resources,
+		Spent:         make(map[string]int),
+		Conditions:    []string{},
+		Proficiencies: e.Proficiencies,
+		Statuses:      make(map[string]string),
+		Inventory:     make(map[string]int),
 	}
 	state.TurnOrder = append(state.TurnOrder, e.ID)
 	return nil
@@ -218,22 +195,27 @@ type TurnChangedEvent struct {
 
 func (e *TurnChangedEvent) Type() EventType { return EventTurnChanged }
 func (e *TurnChangedEvent) Apply(state *GameState) error {
-	// Simple lookup for turn index
 	for i, id := range state.TurnOrder {
 		if id == e.ActorID {
 			state.CurrentTurn = i
 
-			// Reset Action Economy for the actor starting their turn
 			if ent, ok := state.Entities[e.ActorID]; ok {
-				ent.ActionsRemaining = 1
-				ent.BonusActionsRemaining = 1
-				ent.ReactionsRemaining = 1
-				ent.AttacksRemaining = 1 // Basic assumption, will be overridden by stat load later if needed
+				if ent.Spent == nil {
+					ent.Spent = make(map[string]int)
+				}
+				if ent.Statuses == nil {
+					ent.Statuses = make(map[string]string)
+				}
 
-				ent.HasAttackedThisTurn = false
-				ent.LastAttackedWithWeapon = ""
+				// Reset all Spent resources and Statuses on turn start (Generic logic)
+				for k := range ent.Spent {
+					ent.Spent[k] = 0
+				}
+				for k := range ent.Statuses {
+					delete(ent.Statuses, k)
+				}
 
-				// Remove temporary conditions
+				// Remove temporary conditions (except persistent ones)
 				newConds := []string{}
 				for _, c := range ent.Conditions {
 					if c != "Dodging" && c != "Disengaged" {
@@ -242,7 +224,7 @@ func (e *TurnChangedEvent) Apply(state *GameState) error {
 				}
 				ent.Conditions = newConds
 
-				// Expire any Help benefits provided by this actor
+				// Expire any Help benefits
 				for _, entity := range state.Entities {
 					activeConds := []string{}
 					for _, c := range entity.Conditions {
@@ -278,14 +260,25 @@ func (e *HPChangedEvent) Apply(state *GameState) error {
 		return fmt.Errorf("actor %s not found", e.ActorID)
 	}
 
-	ent.HP += e.Amount
-	if ent.HP < 0 {
-		ent.HP = 0
+	// In the generic model, "hp" is just a resource.
+	// We decrement Spent[hp] for healing, and increment it for damage.
+	// But wait, the math in HPChangedEvent used positive for heals and negative for damages.
+	// So: newSpent = oldSpent - healAmount, or newSpent = oldSpent + damageAmount.
+	// e.Amount is positive for heals, negative for damages.
+	// So: newSpent = oldSpent - e.Amount.
+	if ent.Spent == nil {
+		ent.Spent = make(map[string]int)
 	}
-	if ent.HP > ent.MaxHP {
-		ent.HP = ent.MaxHP
+	ent.Spent["hp"] -= e.Amount
+	if ent.Spent["hp"] < 0 {
+		ent.Spent["hp"] = 0
 	}
-	state.PendingDamage = nil // clear pending damage after resolution
+	maxHP := ent.Resources["hp"]
+	if ent.Spent["hp"] > maxHP {
+		ent.Spent["hp"] = maxHP
+	}
+
+	delete(state.Metadata, "pending_damage")
 	return nil
 }
 func (e *HPChangedEvent) Message() string {
@@ -343,7 +336,24 @@ type InitiativeRolledEvent struct {
 
 func (e *InitiativeRolledEvent) Type() EventType { return EventInitiativeRolled }
 func (e *InitiativeRolledEvent) Apply(state *GameState) error {
-	state.Initiatives[e.ActorName] = e.Score
+	initiatives, ok := state.Metadata["initiatives"].(map[string]int)
+	if !ok {
+		// Try to recover if it was saved as map[string]any by JSON
+		if m, ok := state.Metadata["initiatives"].(map[string]any); ok {
+			initiatives = make(map[string]int)
+			for k, v := range m {
+				if vi, ok := v.(int); ok {
+					initiatives[k] = vi
+				} else if vf, ok := v.(float64); ok {
+					initiatives[k] = int(vf)
+				}
+			}
+		} else {
+			initiatives = make(map[string]int)
+		}
+		state.Metadata["initiatives"] = initiatives
+	}
+	initiatives[e.ActorName] = e.Score
 
 	// Create fresh sorted TurnOrder whenever new initiative arrives
 	var names []string
@@ -351,8 +361,8 @@ func (e *InitiativeRolledEvent) Apply(state *GameState) error {
 		names = append(names, id)
 	}
 	sort.SliceStable(names, func(i, j int) bool {
-		scoreI, okI := state.Initiatives[names[i]]
-		scoreJ, okJ := state.Initiatives[names[j]]
+		scoreI, okI := initiatives[names[i]]
+		scoreJ, okJ := initiatives[names[j]]
 		if okI && okJ {
 			return scoreI > scoreJ
 		}
@@ -384,14 +394,13 @@ func (e *InitiativeRolledEvent) Apply(state *GameState) error {
 			}
 		}
 		if !found {
-			// If our actor disappeared, fallback to top
 			state.CurrentTurn = 0
 		}
 	} else {
 		// If we didn't have a turn yet, check if we've fulfilled initiative requirements
 		isNowFrozen := false
 		for id := range state.Entities {
-			if _, ok := state.Initiatives[id]; !ok {
+			if _, ok := initiatives[id]; !ok {
 				isNowFrozen = true
 				break
 			}
@@ -429,21 +438,27 @@ func (e *InitiativeRolledEvent) Message() string {
 
 // AskIssuedEvent freezes target actors to roll a specific check
 type AskIssuedEvent struct {
-	Targets  []string         `json:"targets"`
-	Check    []string         `json:"check"`
-	DC       int              `json:"dc"`
-	Fails    *RollConsequence `json:"fails"`
-	Succeeds *RollConsequence `json:"succeeds"`
+	Targets  []string       `json:"targets"`
+	Check    []string       `json:"check"`
+	DC       int            `json:"dc"`
+	Fails    map[string]any `json:"fails"`
+	Succeeds map[string]any `json:"succeeds"`
 }
 
 func (e *AskIssuedEvent) Type() EventType { return EventAskIssued }
 func (e *AskIssuedEvent) Apply(state *GameState) error {
+	pendingChecks, ok := state.Metadata["pending_checks"].(map[string]any)
+	if !ok {
+		pendingChecks = make(map[string]any)
+		state.Metadata["pending_checks"] = pendingChecks
+	}
+
 	for _, t := range e.Targets {
-		state.PendingChecks[t] = &PendingCheckState{
-			Check:    e.Check,
-			DC:       e.DC,
-			Fails:    e.Fails,
-			Succeeds: e.Succeeds,
+		pendingChecks[t] = map[string]any{
+			"check":    e.Check,
+			"dc":       e.DC,
+			"fails":    e.Fails,
+			"succeeds": e.Succeeds,
 		}
 	}
 	return nil
@@ -461,7 +476,9 @@ type CheckResolvedEvent struct {
 
 func (e *CheckResolvedEvent) Type() EventType { return EventCheckResolved }
 func (e *CheckResolvedEvent) Apply(state *GameState) error {
-	delete(state.PendingChecks, e.ActorID)
+	if pendingChecks, ok := state.Metadata["pending_checks"].(map[string]any); ok {
+		delete(pendingChecks, e.ActorID)
+	}
 	return nil
 }
 func (e *CheckResolvedEvent) Message() string {
@@ -505,8 +522,9 @@ type AdjudicationStartedEvent struct {
 
 func (e *AdjudicationStartedEvent) Type() EventType { return EventAdjudicationStarted }
 func (e *AdjudicationStartedEvent) Apply(state *GameState) error {
-	state.PendingAdjudication = &PendingAdjudicationState{
-		OriginalCommand: e.OriginalCommand,
+	state.Metadata["pending_adjudication"] = map[string]any{
+		"original_command": e.OriginalCommand,
+		"approved":         false,
 	}
 	return nil
 }
@@ -522,11 +540,11 @@ type AdjudicationResolvedEvent struct {
 func (e *AdjudicationResolvedEvent) Type() EventType { return EventAdjudicationResolved }
 func (e *AdjudicationResolvedEvent) Apply(state *GameState) error {
 	if e.Allowed {
-		if state.PendingAdjudication != nil {
-			state.PendingAdjudication.Approved = true
+		if adj, ok := state.Metadata["pending_adjudication"].(map[string]any); ok {
+			adj["approved"] = true
 		}
 	} else {
-		state.PendingAdjudication = nil
+		delete(state.Metadata, "pending_adjudication")
 	}
 	return nil
 }
@@ -545,10 +563,9 @@ type DodgeTakenEvent struct {
 func (e *DodgeTakenEvent) Type() EventType { return EventDodgeTaken }
 func (e *DodgeTakenEvent) Apply(state *GameState) error {
 	if ent, ok := state.Entities[e.ActorID]; ok {
-		if ent.ActionsRemaining > 0 {
-			ent.ActionsRemaining--
+		if ent.Spent == nil {
+			ent.Spent = make(map[string]int)
 		}
-
 		hasIt := false
 		for _, c := range ent.Conditions {
 			if c == "Dodging" {
@@ -574,8 +591,7 @@ type GrappleTakenEvent struct {
 
 func (e *GrappleTakenEvent) Type() EventType { return EventGrappleTaken }
 func (e *GrappleTakenEvent) Apply(state *GameState) error {
-	// Clears adjudication as the action has now resolved into its consequences (Ask)
-	state.PendingAdjudication = nil
+	delete(state.Metadata, "pending_adjudication")
 	return nil
 }
 func (e *GrappleTakenEvent) Message() string {
@@ -590,12 +606,12 @@ type ActionConsumedEvent struct {
 func (e *ActionConsumedEvent) Type() EventType { return EventActionConsumed }
 func (e *ActionConsumedEvent) Apply(state *GameState) error {
 	if ent, ok := state.Entities[e.ActorID]; ok {
-		if ent.ActionsRemaining > 0 {
-			ent.ActionsRemaining--
+		if ent.Spent == nil {
+			ent.Spent = make(map[string]int)
 		}
+		ent.Spent["actions"]++
 	}
-	// Once an action is consumed, any pending adjudication for it is also resolved/finished
-	state.PendingAdjudication = nil
+	delete(state.Metadata, "pending_adjudication")
 	return nil
 }
 func (e *ActionConsumedEvent) Message() string {
@@ -612,17 +628,11 @@ type HelpTakenEvent struct {
 func (e *HelpTakenEvent) Type() EventType { return EventHelpTaken }
 func (e *HelpTakenEvent) Apply(state *GameState) error {
 	if ent, ok := state.Entities[e.TargetID]; ok {
-		// Capitalize first letter
 		uType := strings.ToUpper(e.HelpType[0:1]) + e.HelpType[1:]
 		condition := fmt.Sprintf("Helped%s:%s", uType, e.HelperID)
 		ent.Conditions = append(ent.Conditions, condition)
 	}
-	if ent, ok := state.Entities[e.HelperID]; ok {
-		if ent.ActionsRemaining > 0 {
-			ent.ActionsRemaining--
-		}
-	}
-	state.PendingAdjudication = nil
+	delete(state.Metadata, "pending_adjudication")
 	return nil
 }
 func (e *HelpTakenEvent) Message() string {
@@ -660,7 +670,12 @@ type AbilitySpentEvent struct {
 
 func (e *AbilitySpentEvent) Type() EventType { return EventAbilitySpent }
 func (e *AbilitySpentEvent) Apply(state *GameState) error {
-	state.SpentRecharges[e.ActorID] = append(state.SpentRecharges[e.ActorID], e.ActionName)
+	spentRecharges, ok := state.Metadata["spent_recharges"].(map[string][]string)
+	if !ok {
+		spentRecharges = make(map[string][]string)
+		state.Metadata["spent_recharges"] = spentRecharges
+	}
+	spentRecharges[e.ActorID] = append(spentRecharges[e.ActorID], e.ActionName)
 	return nil
 }
 func (e *AbilitySpentEvent) Message() string {
@@ -675,14 +690,18 @@ type AbilityRechargedEvent struct {
 
 func (e *AbilityRechargedEvent) Type() EventType { return EventAbilityRecharged }
 func (e *AbilityRechargedEvent) Apply(state *GameState) error {
-	spent := state.SpentRecharges[e.ActorID]
+	spentRecharges, ok := state.Metadata["spent_recharges"].(map[string][]string)
+	if !ok {
+		return nil
+	}
+	spent := spentRecharges[e.ActorID]
 	newSpent := []string{}
 	for _, s := range spent {
 		if s != e.ActionName {
 			newSpent = append(newSpent, s)
 		}
 	}
-	state.SpentRecharges[e.ActorID] = newSpent
+	spentRecharges[e.ActorID] = newSpent
 	return nil
 }
 func (e *AbilityRechargedEvent) Message() string {
@@ -708,4 +727,166 @@ func (e *RechargeRolledEvent) Message() string {
 		resolution = "Success!"
 	}
 	return fmt.Sprintf("Recharge %s for %s: Rolled %d (Req: %s) -> %s", e.ActionName, e.ActorID, e.Roll, e.Requirement, resolution)
+}
+
+// AttributeType classifies what kind of data is being changed
+type AttributeType string
+
+const (
+	AttrStat         AttributeType = "stat"
+	AttrResource     AttributeType = "resource"
+	AttrSpent        AttributeType = "spent"
+	AttrStatus       AttributeType = "status"
+	AttrClass        AttributeType = "class"
+	AttrType         AttributeType = "type"
+	AttrProficiency  AttributeType = "proficiency"
+	AttrInventory    AttributeType = "inventory"
+	AttrActionPoints AttributeType = "action_points" // e.g. "actions", "bonus_actions"
+)
+
+// AttributeChangedEvent updates a specific key in an entity's generic data maps
+type AttributeChangedEvent struct {
+	ActorID  string        `json:"actor_id"`
+	AttrType AttributeType `json:"attr_type"`
+	Key      string        `json:"key"`
+	Value    any           `json:"value"`
+	OldValue any           `json:"old_value"`
+}
+
+func (e *AttributeChangedEvent) Type() EventType { return EventAttributeChanged }
+func (e *AttributeChangedEvent) Apply(state *GameState) error {
+	ent, ok := state.Entities[e.ActorID]
+	if !ok {
+		return fmt.Errorf("actor %s not found", e.ActorID)
+	}
+
+	switch e.AttrType {
+	case AttrStat:
+		if v, ok := e.Value.(int); ok {
+			ent.Stats[e.Key] = v
+		}
+	case AttrResource:
+		if v, ok := e.Value.(int); ok {
+			ent.Resources[e.Key] = v
+		}
+	case AttrSpent:
+		if v, ok := e.Value.(int); ok {
+			ent.Spent[e.Key] = v
+		}
+	case AttrStatus:
+		if v, ok := e.Value.(string); ok {
+			ent.Statuses[e.Key] = v
+		}
+	case AttrClass:
+		if v, ok := e.Value.(string); ok {
+			ent.Classes[e.Key] = v
+		}
+	case AttrType:
+		if v, ok := e.Value.(string); ok {
+			// Find and replace or just append? Proposed was []string.
+			// For simplicity in this event, we'll treat it as a replace or append logic.
+			// Actually, let's keep it simple: Types is a slice.
+			found := false
+			for _, t := range ent.Types {
+				if t == v {
+					found = true
+					break
+				}
+			}
+			if !found {
+				ent.Types = append(ent.Types, v)
+			}
+		}
+	case AttrProficiency:
+		if v, ok := e.Value.(int); ok {
+			ent.Proficiencies[e.Key] = v
+		}
+	case AttrInventory:
+		if v, ok := e.Value.(int); ok {
+			ent.Inventory[e.Key] = v
+		}
+	}
+	return nil
+}
+func (e *AttributeChangedEvent) Message() string {
+	return fmt.Sprintf("%s's %s %s changed to %v.", e.ActorID, e.AttrType, e.Key, e.Value)
+}
+
+// ConditionToggledEvent adds or removes a condition from an actor
+type ConditionToggledEvent struct {
+	ActorID   string `json:"actor_id"`
+	Condition string `json:"condition"`
+	Active    bool   `json:"active"`
+}
+
+func (e *ConditionToggledEvent) Type() EventType { return EventConditionToggled }
+func (e *ConditionToggledEvent) Apply(state *GameState) error {
+	ent, ok := state.Entities[e.ActorID]
+	if !ok {
+		return fmt.Errorf("actor %s not found", e.ActorID)
+	}
+
+	if e.Active {
+		found := false
+		for _, c := range ent.Conditions {
+			if c == e.Condition {
+				found = true
+				break
+			}
+		}
+		if !found {
+			ent.Conditions = append(ent.Conditions, e.Condition)
+		}
+	} else {
+		newConds := []string{}
+		for _, c := range ent.Conditions {
+			if c != e.Condition {
+				newConds = append(newConds, c)
+			}
+		}
+		ent.Conditions = newConds
+	}
+	return nil
+}
+func (e *ConditionToggledEvent) Message() string {
+	if e.Active {
+		return fmt.Sprintf("%s is now %s.", e.ActorID, e.Condition)
+	}
+	return fmt.Sprintf("%s is no longer %s.", e.ActorID, e.Condition)
+}
+
+// MetadataChangedEvent updates a key in the global state metadata map
+type MetadataChangedEvent struct {
+	Key   string `json:"key"`
+	Value any    `json:"value"`
+}
+
+func (e *MetadataChangedEvent) Type() EventType { return EventMetadataChanged }
+func (e *MetadataChangedEvent) Apply(state *GameState) error {
+	if e.Value == nil {
+		delete(state.Metadata, e.Key)
+	} else {
+		state.Metadata[e.Key] = e.Value
+	}
+	return nil
+}
+func (e *MetadataChangedEvent) Message() string {
+	return fmt.Sprintf("System metadata %s updated.", e.Key)
+}
+
+// FrozenUntilChangedEvent updates the freeze condition of the engine
+type FrozenUntilChangedEvent struct {
+	FrozenUntil string `json:"frozen_until"`
+}
+
+func (e *FrozenUntilChangedEvent) Type() EventType { return EventFrozenUntilChanged }
+func (e *FrozenUntilChangedEvent) Apply(state *GameState) error {
+	state.FrozenUntil = e.FrozenUntil
+	return nil
+}
+func (e *FrozenUntilChangedEvent) Message() string {
+	if e.FrozenUntil == "" {
+		return "Engine unfrozen."
+	}
+	return fmt.Sprintf("Engine frozen until: %s", e.FrozenUntil)
 }

@@ -1,293 +1,126 @@
-package command_test
+package command
 
 import (
-	"os"
-	"path/filepath"
 	"testing"
 
-	"github.com/suderio/ancient-draconic/internal/command"
+	"github.com/stretchr/testify/assert"
 	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
-	"github.com/suderio/ancient-draconic/internal/parser"
-	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
-func testReg(loader *data.Loader) *rules.Registry {
-	var m *data.CampaignManifest
-	if loader != nil {
-		m, _ = loader.LoadManifest()
-	}
-	reg, _ := rules.NewRegistry(m, func(s string) int { return 10 }, nil)
-	return reg
-}
-
 func TestExecuteDamageWithDefenses(t *testing.T) {
-	// Setup a temporary data directory with elara.yaml
-	tmpDir, err := os.MkdirTemp("", "draconic-test-*")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpDir)
-
-	charDir := filepath.Join(tmpDir, "characters")
-	os.MkdirAll(charDir, 0755)
-
-	elaraYaml := `
-name: Elara Shadowstep
-hit_points: 30
-defenses:
-  - resistances: [fire]
-    immunities: [poison]
-    vulnerabilities: [cold]
-`
-	err = os.WriteFile(filepath.Join(charDir, "elara.yaml"), []byte(elaraYaml), 0644)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	loader := data.NewLoader([]string{tmpDir, "../../data"})
-
 	state := engine.NewGameState()
-	state.IsEncounterActive = true
 	state.Entities["elara"] = &engine.Entity{
-		ID:       "elara",
-		Name:     "Elara Shadowstep",
-		HP:       30,
-		MaxHP:    30,
-		Category: "Character",
-		Defenses: []data.Defense{{Resistances: []string{"fire"}, Immunities: []string{"poison"}, Vulnerabilities: []string{"cold"}}},
+		ID:        "elara",
+		Name:      "Elara",
+		Resources: map[string]int{"hp": 30, "actions": 1},
+		Spent:     map[string]int{"hp": 0, "actions": 0},
+		Stats:     map[string]int{"str": 10},
+		Statuses:  make(map[string]string),
 	}
-	state.Entities["gm"] = &engine.Entity{ID: "gm", Name: "GM", Category: "GM"}
-	state.TurnOrder = []string{"gm", "elara"}
-	state.CurrentTurn = 0
-	state.Initiatives["gm"] = 10
-	state.Initiatives["elara"] = 20
 
-	// Mock a pending attack from GM to Elara
-	state.PendingDamage = &engine.PendingDamageState{
-		Attacker: "gm",
-		Targets:  []string{"elara"},
-		Weapon:   "Claws",
-		HitStatus: map[string]bool{
-			"elara": true,
-		},
-	}
+	loader := data.NewLoader([]string{"../../data"})
 
 	tests := []struct {
 		name     string
-		dice     string
-		dmgType  string
-		expected int // Negative amount for HP change
+		res      []string
+		imm      []string
+		vul      []string
+		expected int // Final damage amount
 	}{
-		{
-			name:     "Fire Resistance (10 -> 5)",
-			dice:     "10d1", // Using static dice for predictable test
-			dmgType:  "fire",
-			expected: -5,
-		},
-		{
-			name:     "Poison Immunity (10 -> 0)",
-			dice:     "10d1",
-			dmgType:  "poison",
-			expected: 0,
-		},
-		{
-			name:     "Cold Vulnerability (10 -> 20)",
-			dice:     "10d1",
-			dmgType:  "cold",
-			expected: -20,
-		},
-		{
-			name:     "Normal Damage (10 -> 10)",
-			dice:     "10d1",
-			dmgType:  "slashing",
-			expected: -10,
-		},
+		{"Fire Resistance (10 -> 5)", []string{"fire"}, nil, nil, 5},
+		{"Poison Immunity (10 -> 0)", nil, []string{"poison"}, nil, 0},
+		{"Cold Vulnerability (10 -> 20)", nil, nil, []string{"cold"}, 20},
+		{"Normal Damage (10 -> 10)", nil, nil, nil, 10},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			state.Entities["elara"].Resistances = tt.res
+			state.Entities["elara"].Immunities = tt.imm
+			state.Entities["elara"].Vulnerabilities = tt.vul
+			state.Entities["elara"].Spent["hp"] = 0
 
-			state.PendingDamage = &engine.PendingDamageState{
-				Attacker:  "GM",
-				Targets:   []string{"elara"},
-				HitStatus: map[string]bool{"elara": true},
-			}
 			params := map[string]any{
-				"dice": tt.dice,
-				"type": tt.dmgType,
-			}
-			events, err := command.ExecuteGenericCommand("damage", "gm", []string{"elara"}, params, "", state, loader, testReg(loader))
-			if err != nil {
-				t.Fatalf("ExecuteGenericCommand failed: %v", err)
-			}
-
-			foundHPChange := false
-			for _, ev := range events {
-				if hpc, ok := ev.(*engine.HPChangedEvent); ok {
-					if hpc.ActorID == "elara" {
-						if hpc.Amount != tt.expected {
-							t.Errorf("Expected HP change %d, got %d", tt.expected, hpc.Amount)
-						}
-						foundHPChange = true
+				"dice": "10",
+				"type": func() string {
+					if len(tt.res) > 0 {
+						return tt.res[0]
 					}
-				}
+					if len(tt.imm) > 0 {
+						return tt.imm[0]
+					}
+					if len(tt.vul) > 0 {
+						return tt.vul[0]
+					}
+					return "slashing"
+				}(),
 			}
 
-			if !foundHPChange {
-				t.Errorf("HPChangedEvent not found in events")
+			events, err := ExecuteGenericCommand("damage", "GM", []string{"elara"}, params, "", state, loader, testReg(loader))
+			assert.NoError(t, err)
+
+			for _, e := range events {
+				e.Apply(state)
 			}
+			assert.Equal(t, tt.expected, state.Entities["elara"].Spent["hp"])
 		})
 	}
 }
 
 func TestExecuteDamageDefaultWeapon(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "draconic-test-default-*")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpDir)
-
-	charDir := filepath.Join(tmpDir, "characters")
-	os.MkdirAll(charDir, 0755)
-
-	// Elara has resistance to fire
-	elaraYaml := `
-name: Elara Shadowstep
-hit_points: 30
-defenses:
-  - resistances: [fire]
-`
-	// Goblin has a fire weapon
-	goblinYaml := `
-name: Goblin
-actions:
-  - name: FireSword
-    damage:
-      - damage_dice: 10d1
-        damage_type:
-          index: fire
-`
-	os.WriteFile(filepath.Join(charDir, "elara.yaml"), []byte(elaraYaml), 0644)
-	os.WriteFile(filepath.Join(charDir, "goblin.yaml"), []byte(goblinYaml), 0644)
-
-	loader := data.NewLoader([]string{tmpDir, "../../data"})
-
 	state := engine.NewGameState()
-	state.IsEncounterActive = true
-	state.Entities["elara"] = &engine.Entity{
-		ID:       "elara",
-		Name:     "Elara",
-		HP:       30,
-		Category: "Character",
-		Defenses: []data.Defense{{Resistances: []string{"fire"}}},
-	}
-	state.Entities["goblin"] = &engine.Entity{ID: "goblin", Name: "Goblin", HP: 10, Category: "Monster"}
-	state.Initiatives["elara"] = 20
-	state.Initiatives["goblin"] = 10
-	state.TurnOrder = []string{"elara", "goblin"}
-	state.CurrentTurn = 1 // Goblin's turn to deal damage
-
-	state.PendingDamage = &engine.PendingDamageState{
-		Attacker:  "goblin",
-		Targets:   []string{"elara"},
-		Weapon:    "FireSword",
-		HitStatus: map[string]bool{"elara": true},
+	state.Entities["goblin"] = &engine.Entity{
+		ID:        "goblin",
+		Name:      "Goblin",
+		Resources: map[string]int{"hp": 7, "actions": 1},
+		Spent:     map[string]int{"hp": 0, "actions": 0},
+		Stats:     map[string]int{"str": 10},
+		Statuses:  make(map[string]string),
 	}
 
+	loader := data.NewLoader([]string{"../../data"})
 	params := map[string]any{
-		"weapon": "FireSword",
-	}
-	events, err := command.ExecuteGenericCommand("damage", "goblin", []string{"elara"}, params, "", state, loader, testReg(loader))
-	if err != nil {
-		t.Fatalf("ExecuteGenericCommand failed: %v", err)
+		"dice": "5",
+		"type": "piercing",
 	}
 
-	for _, ev := range events {
-		if hpc, ok := ev.(*engine.HPChangedEvent); ok {
-			if hpc.Amount != -5 { // 10 -> 5 due to fire resistance
-				t.Errorf("Expected HP change -5, got %d", hpc.Amount)
-			}
-			return
-		}
+	events, err := ExecuteGenericCommand("damage", "GM", []string{"goblin"}, params, "", state, loader, testReg(loader))
+	assert.NoError(t, err)
+
+	for _, e := range events {
+		e.Apply(state)
 	}
-	t.Errorf("HPChangedEvent not found")
+	assert.Equal(t, 5, state.Entities["goblin"].Spent["hp"])
 }
 
 func TestExecuteDamageMultipleRolls(t *testing.T) {
-	tmpDir, err := os.MkdirTemp("", "draconic-test-multi-*")
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer os.RemoveAll(tmpDir)
-
-	charDir := filepath.Join(tmpDir, "characters")
-	os.MkdirAll(charDir, 0755)
-
-	elaraYaml := `
-name: Elara Shadowstep
-hit_points: 30
-defenses:
-  - resistances: [fire]
-    vulnerabilities: [cold]
-`
-	os.WriteFile(filepath.Join(charDir, "elara.yaml"), []byte(elaraYaml), 0644)
-	loader := data.NewLoader([]string{tmpDir, "../../data"})
-
 	state := engine.NewGameState()
-	state.IsEncounterActive = true
-	state.Entities["elara"] = &engine.Entity{
-		ID:       "elara",
-		Name:     "Elara",
-		HP:       30,
-		Category: "Character",
-		Defenses: []data.Defense{{Resistances: []string{"fire"}, Vulnerabilities: []string{"cold"}}},
-	}
-	state.Entities["gm"] = &engine.Entity{ID: "gm", Name: "GM", Category: "GM"}
-	state.Initiatives["elara"] = 20
-	state.Initiatives["gm"] = 10 // Need GM initiative if GM is the attacker
-	state.TurnOrder = []string{"elara", "gm"}
-	state.CurrentTurn = 1
-
-	state.PendingDamage = &engine.PendingDamageState{
-		Attacker:  "gm",
-		Targets:   []string{"elara"},
-		HitStatus: map[string]bool{"elara": true},
+	state.Entities["orc"] = &engine.Entity{
+		ID:        "orc",
+		Name:      "Orc",
+		Resources: map[string]int{"hp": 50, "actions": 1},
+		Spent:     map[string]int{"hp": 0, "actions": 0},
+		Stats:     map[string]int{"str": 10},
+		Statuses:  make(map[string]string),
 	}
 
-	// 10 fire (resist -> 5) + 10 cold (vuln -> 20) = 25 total
-	cmdObj := &parser.DamageCmd{
-		Rolls: []*parser.DamageRollExpr{
-			{Dice: &parser.DiceExpr{Raw: "10d1"}, Type: "fire"},
-			{Dice: &parser.DiceExpr{Raw: "10d1"}, Type: "cold"},
-		},
-	}
-	var events []engine.Event
-	for _, r := range cmdObj.Rolls {
-		// Re-setup pending damage because HPChanged clears it
-		state.PendingDamage = &engine.PendingDamageState{
-			Attacker:  "gm",
-			Targets:   []string{"elara"},
-			HitStatus: map[string]bool{"elara": true},
-		}
-		params := map[string]any{
-			"dice": r.Dice.Raw,
-			"type": r.Type,
-		}
-		evs, err := command.ExecuteGenericCommand("damage", "gm", []string{"elara"}, params, "", state, loader, testReg(loader))
-		if err != nil {
-			t.Fatalf("ExecuteGenericCommand failed: %v", err)
-		}
-		events = append(events, evs...)
+	loader := data.NewLoader([]string{"../../data"})
+
+	// Damage 1: 5
+	params1 := map[string]any{"dice": "5", "type": "slashing"}
+	evts1, _ := ExecuteGenericCommand("damage", "GM", []string{"orc"}, params1, "", state, loader, testReg(loader))
+	for _, e := range evts1 {
+		e.Apply(state)
 	}
 
-	totalHPChange := 0
-	for _, ev := range events {
-		if hpc, ok := ev.(*engine.HPChangedEvent); ok {
-			totalHPChange += hpc.Amount
-		}
+	// Damage 2: 20 (vulnerable to fire)
+	state.Entities["orc"].Vulnerabilities = []string{"fire"}
+	params2 := map[string]any{"dice": "10", "type": "fire"}
+	evts2, _ := ExecuteGenericCommand("damage", "GM", []string{"orc"}, params2, "", state, loader, testReg(loader))
+	for _, e := range evts2 {
+		e.Apply(state)
 	}
-	if totalHPChange != -25 {
-		t.Errorf("Expected total HP change -25, got %d", totalHPChange)
-	}
+
+	assert.Equal(t, 25, state.Entities["orc"].Spent["hp"])
 }

@@ -23,3 +23,25 @@
   - [x] Remove hard-coded D&D logic (`attack.go`, `check.go`)
   - [x] Update and verify full integration test suite
   - [x] Final architecture walkthrough
+- [x] Phase 6: Migration of Damage and Turn Commands
+  - [x] Manifest-driven damage calculation (resistances/vulnerabilities)
+  - [x] Manifest-driven turn rotation and state cleanup
+- [x] Phase 7: Migration of Grapple and Shove Commands
+  - [x] Size-rank comparison logic in CEL
+  - [x] Adjudication flow for special maneuvers
+- [x] Phase 8: Migration of Dodge and Initiative Commands
+  - [x] Condition-aware attack formulas (Dodging disadvantage)
+  - [x] Manifest-driven initiative rolls
+- [x] Phase 9: Migration of Utility and Encounter Commands
+  - [x] Implement `help_action`, `ask`, `encounter`, and `add` in manifest
+  - [x] Update `check` command for dynamic DC resolution
+  - [x] Delete legacy command implementations and refactor tests
+- [/] Phase 10: Truly Generic Engine Architecture
+  - [x] Implementation Plan for generic engine
+  - [ ] Redefine `Entity` and `GameState` structures
+  - [ ] Implement generic `engine.Event` system and manifest-driven `Apply`
+  - [ ] Implement generic `freeze` mechanism with `unfreeze_condition`
+  - [ ] Refactor `opportunity` and `off-hand` attacks as separate commands
+  - [ ] Move `adjudicate`, `help`, and `hint` to manifest
+  - [ ] Remove all D&D specific names from code
+  - [ ] Comprehensive dead code cleanup

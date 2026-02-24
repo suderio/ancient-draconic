@@ -15,8 +15,9 @@ func ExecuteHint(cmd *parser.HintCmd, state *engine.GameState) ([]engine.Event, 
 	}
 
 	var missingInitiatives []string
+	initiatives, _ := state.Metadata["initiatives"].(map[string]int)
 	for id, ent := range state.Entities {
-		if _, ok := state.Initiatives[id]; !ok {
+		if _, ok := initiatives[id]; !ok {
 			missingInitiatives = append(missingInitiatives, ent.Name)
 		}
 	}
@@ -39,9 +40,9 @@ func ExecuteHint(cmd *parser.HintCmd, state *engine.GameState) ([]engine.Event, 
 		}}, nil
 	}
 
-	if len(state.PendingChecks) > 0 {
+	if pendingChecks, ok := state.Metadata["pending_checks"].(map[string]any); ok && len(pendingChecks) > 0 {
 		var waiting []string
-		for id := range state.PendingChecks {
+		for id := range pendingChecks {
 			nameStr := id
 			if ent, ok := state.Entities[id]; ok {
 				nameStr = ent.Name
@@ -74,7 +75,7 @@ func ExecuteHint(cmd *parser.HintCmd, state *engine.GameState) ([]engine.Event, 
 		currentActorName = ent.Name
 	}
 
-	if state.PendingDamage != nil {
+	if pendingDmg, ok := state.Metadata["pending_damage"].(map[string]any); ok && pendingDmg != nil {
 		return []engine.Event{&engine.HintEvent{
 			MessageStr: fmt.Sprintf("It's %s turn. Waiting for damage of last attack.", currentActorName),
 		}}, nil

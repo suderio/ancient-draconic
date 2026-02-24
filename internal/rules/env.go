@@ -1,6 +1,7 @@
 package rules
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/google/cel-go/cel"
@@ -120,6 +121,9 @@ func NewRegistry(manifest *data.CampaignManifest, rollFunc func(string) int, rep
 		),
 		cel.Variable("pending_adjudication", cel.DynType),
 		cel.Variable("is_frozen", cel.BoolType),
+		cel.Variable("is_encounter_active", cel.BoolType),
+		cel.Variable("pending_checks", cel.DynType),
+		cel.Variable("entities", cel.DynType),
 	)
 	if err != nil {
 		return nil, err
@@ -135,6 +139,8 @@ func (r *Registry) SetDiceReporter(reporter DiceReporter) {
 
 // Eval executes a CEL expression against the provided context.
 func (r *Registry) Eval(expression string, context map[string]any) (any, error) {
+	if strings.Contains(expression, "immunities") {
+	}
 	// Inject manifest into context if not present
 	if _, ok := context["manifest"]; !ok && r.manifest != nil {
 		context["manifest"] = map[string]any{
@@ -155,7 +161,30 @@ func (r *Registry) Eval(expression string, context map[string]any) (any, error) 
 	if err != nil {
 		return nil, err
 	}
-	return out.Value(), nil
+
+	result := convertRefVal(out)
+
+	return result, nil
+}
+
+func convertRefVal(v ref.Val) any {
+	if v == nil {
+		return nil
+	}
+	res := v.Value()
+
+	// If it's a map returned by CEL, it might contain ref.Val elements
+	if m, ok := res.(map[ref.Val]ref.Val); ok {
+		nativeMap := make(map[string]any)
+		for mk, mv := range m {
+			keyStr := fmt.Sprintf("%v", mk.Value())
+			nativeMap[keyStr] = convertRefVal(mv)
+		}
+		return nativeMap
+	}
+
+	// Handle other collection types if needed
+	return res
 }
 
 // GetCommand returns the definition for a given command from the manifest.

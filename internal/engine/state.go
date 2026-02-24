@@ -1,108 +1,77 @@
 package engine
 
-import (
-	"fmt"
-
-	"github.com/suderio/ancient-draconic/internal/data"
-)
-
 // GameState is the actively calculated projection of the game session.
 type GameState struct {
-	IsEncounterActive   bool                          `json:"is_encounter_active"`
-	Initiatives         map[string]int                `json:"initiatives"`
-	Entities            map[string]*Entity            `json:"entities"`
-	TurnOrder           []string                      `json:"turn_order"`
-	CurrentTurn         int                           `json:"current_turn"`
-	PendingDamage       *PendingDamageState           `json:"pending_damage"`
-	PendingChecks       map[string]*PendingCheckState `json:"pending_checks"`
-	PendingAdjudication *PendingAdjudicationState     `json:"pending_adjudication"`
-	SpentRecharges      map[string][]string           `json:"spent_recharges"`
+	IsEncounterActive bool               `json:"is_encounter_active"`
+	Entities          map[string]*Entity `json:"entities"`
+	TurnOrder         []string           `json:"turn_order"`
+	CurrentTurn       int                `json:"current_turn"`
+
+	// System-agnostic state tracking (e.g., "pending_damage", "initiatives")
+	Metadata map[string]any `json:"metadata"`
+
+	// Manifest-driven freeze logic: contain a CEL expression that must be false to unfreeze
+	FrozenUntil string `json:"frozen_until"`
 }
 
-// RollConsequence tracks the automated impacts of parsing an Ask string
-type RollConsequence struct {
-	IsDamage        bool   `json:"is_damage"`
-	DamageDice      string `json:"damage_dice"`
-	HalfDamage      bool   `json:"half_damage"`
-	Condition       string `json:"condition"`
-	RemoveCondition string `json:"remove_condition"`
-}
-
-// PendingCheckState tracks a required roll requested by the GM
-type PendingCheckState struct {
-	Check    []string         `json:"check"`
-	DC       int              `json:"dc"`
-	Fails    *RollConsequence `json:"fails"`
-	Succeeds *RollConsequence `json:"succeeds"`
-}
-
-// PendingDamageState tracks weapon hits for the next sequential damage command
-type PendingDamageState struct {
-	Attacker  string          `json:"attacker"`
-	Targets   []string        `json:"targets"`
-	Weapon    string          `json:"weapon"`
-	HitStatus map[string]bool `json:"hit_status"`
-	IsOffHand bool            `json:"is_off_hand"`
-}
-
-// PendingAdjudicationState tracks a command waiting for GM approval
-type PendingAdjudicationState struct {
-	OriginalCommand string `json:"original_command"`
-	Approved        bool   `json:"approved"`
-}
-
-// Entity represents an actor (Monster, Player, NPC) participating in the session
+// Entity represents an actor participating in the session with a generic data model.
 type Entity struct {
-	ID            string         `json:"id"`
-	Category      string         `json:"category"`    // "Character" or "Monster"
-	EntityType    string         `json:"entity_type"` // Genre-specific type: "undead", "humanoid", etc.
-	Name          string         `json:"name"`
-	Size          string         `json:"size"`
-	HP            int            `json:"hp"`
-	MaxHP         int            `json:"max_hp"`
-	Conditions    []string       `json:"conditions"`
-	Stats         map[string]int `json:"stats"`     // Generic stats: str, dex, technical, etc.
-	Resources     map[string]int `json:"resources"` // Tracked integers: spell_slots, luck, etc.
-	Abilities     []data.Ability `json:"abilities"`
-	Proficiencies []string       `json:"proficiencies"` // List of proficient skills/saves
-	Defenses      []data.Defense `json:"defenses"`
-
-	ActionsRemaining      int `json:"actions_remaining"`
-	BonusActionsRemaining int `json:"bonus_actions_remaining"`
-	ReactionsRemaining    int `json:"reactions_remaining"`
-	AttacksRemaining      int `json:"attacks_remaining"`
-
-	HasAttackedThisTurn    bool   `json:"has_attacked_this_turn"`
-	LastAttackedWithWeapon string `json:"last_attacked_with_weapon"`
+	ID              string            `json:"id"`
+	Name            string            `json:"name"`
+	Types           []string          `json:"types"`         // e.g., "monster", "undead", "humanoid"
+	Classes         map[string]string `json:"classes"`       // e.g., "size": "medium", "class": "fighter"
+	Stats           map[string]int    `json:"stats"`         // e.g., "str": 16, "dex": 14
+	Resources       map[string]int    `json:"resources"`     // Max values for tracked integers (e.g., "hp": 20)
+	Spent           map[string]int    `json:"spent"`         // Current usage of resources (e.g., "hp": 5 means 15 current HP)
+	Conditions      []string          `json:"conditions"`    // Temporary conditions (e.g., "poisoned")
+	Proficiencies   map[string]int    `json:"proficiencies"` // e.g., "athletics": 2, "saving-throw-dex": 2
+	Statuses        map[string]string `json:"statuses"`      // Arbitrary state (e.g., "concentrating": "true")
+	Inventory       map[string]int    `json:"inventory"`     // Items and counts
+	Immunities      []string          `json:"immunities"`
+	Resistances     []string          `json:"resistances"`
+	Vulnerabilities []string          `json:"vulnerabilities"`
 }
 
 // NewGameState creates an empty clean slate
 func NewGameState() *GameState {
 	return &GameState{
-		Entities:       make(map[string]*Entity),
-		TurnOrder:      make([]string, 0),
-		Initiatives:    make(map[string]int),
-		PendingChecks:  make(map[string]*PendingCheckState),
-		SpentRecharges: make(map[string][]string),
-		CurrentTurn:    -1,
+		Entities:    make(map[string]*Entity),
+		TurnOrder:   make([]string, 0),
+		Metadata:    make(map[string]any),
+		CurrentTurn: -1,
 	}
 }
 
-// IsFrozen checks if the active encounter is blocked by missing initiative rolls or GM-requested checks
+// IsFrozen checks if the active encounter is blocked by manifest-driven requirements
 func (s *GameState) IsFrozen() bool {
-	if len(s.PendingChecks) > 0 {
+	// 1. Check explicit manifest freeze (e.g. "is_frozen: true" or "dc_check_pending: true")
+	if s.FrozenUntil != "" {
 		return true
 	}
-	if s.PendingAdjudication != nil && !s.PendingAdjudication.Approved {
-		fmt.Printf(">>> ISFROZEN: Pending adjudicated action not approved\n")
+
+	// 2. Check transient metadata that implies freeze (legacy compatibility/helper)
+	if pendingChecks, ok := s.Metadata["pending_checks"].(map[string]any); ok && len(pendingChecks) > 0 {
 		return true
 	}
+	if pendingAdj, ok := s.Metadata["pending_adjudication"].(map[string]any); ok {
+		if approved, ok := pendingAdj["approved"].(bool); ok && !approved {
+			return true
+		}
+	}
+
 	if !s.IsEncounterActive {
 		return false
 	}
+
+	// 3. System-level freeze (e.g. missing initiative)
+	initiatives, ok := s.Metadata["initiatives"].(map[string]int)
+	if !ok {
+		// If no initiative map at all, and encounter active, we might be frozen if there are entities
+		return len(s.Entities) > 0
+	}
+
 	for id := range s.Entities {
-		if _, ok := s.Initiatives[id]; !ok {
-			fmt.Printf(">>> ISFROZEN: Missing initiative for %s\n", id)
+		if _, ok := initiatives[id]; !ok {
 			return true
 		}
 	}

@@ -122,8 +122,8 @@ func ExecuteHelp(cmd *parser.HelpCmd, state *engine.GameState) ([]engine.Event, 
 		// Mid-encounter context
 		if state.IsFrozen() {
 			// Check why frozen
-			if len(state.PendingChecks) > 0 {
-				if _, ok := state.PendingChecks[actorName]; ok || (isGM && actorName == "GM") {
+			if pendingChecks, ok := state.Metadata["pending_checks"].(map[string]any); ok && len(pendingChecks) > 0 {
+				if _, ok := pendingChecks[actorName]; ok || (isGM && actorName == "GM") {
 					sb.WriteString(" - check: Resolve your pending check\n")
 				} else {
 					sb.WriteString("Waiting for other participants to resolve checks.\n")
@@ -144,8 +144,12 @@ func ExecuteHelp(cmd *parser.HelpCmd, state *engine.GameState) ([]engine.Event, 
 
 			if canAct {
 				sb.WriteString(" - attack: Attempt to hit someone\n")
-				if state.PendingDamage != nil && strings.EqualFold(state.PendingDamage.Attacker, currentActor) {
-					sb.WriteString(" - damage: Resolve weapon damage\n")
+				if pendingDmg, ok := state.Metadata["pending_damage"].(map[string]any); ok && pendingDmg != nil {
+					attacker, _ := pendingDmg["attacker"].(string)
+					hits, _ := pendingDmg["hit_status"].(map[string]bool)
+					if strings.EqualFold(attacker, currentActor) && len(hits) > 0 {
+						sb.WriteString(" - damage: Resolve weapon damage\n")
+					}
 				}
 				sb.WriteString(" - turn: End your turn\n")
 			} else {

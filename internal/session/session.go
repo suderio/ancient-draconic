@@ -112,7 +112,14 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 	}
 
 	if astCmd.Encounter != nil {
-		events, err := command.ExecuteEncounter(astCmd.Encounter, s.state, s.loader, s.registry)
+		actorID := "GM"
+		if astCmd.Encounter.Actor != nil {
+			actorID = astCmd.Encounter.Actor.Name
+		}
+		params := map[string]any{
+			"action": astCmd.Encounter.Action,
+		}
+		events, err := command.ExecuteGenericCommand("encounter", actorID, astCmd.Encounter.Targets, params, input, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -121,12 +128,18 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 				return nil, err
 			}
 		}
-		// Return the defining top-level event as the printable anchor
-		return events[0], nil
+		if len(events) > 0 {
+			return events[0], nil
+		}
+		return nil, nil
 	}
 
 	if astCmd.Add != nil {
-		events, err := command.ExecuteAdd(astCmd.Add, s.state, s.loader, s.registry)
+		actorID := "GM"
+		if astCmd.Add.Actor != nil {
+			actorID = astCmd.Add.Actor.Name
+		}
+		events, err := command.ExecuteGenericCommand("add", actorID, astCmd.Add.Targets, nil, input, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -135,7 +148,10 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 				return nil, err
 			}
 		}
-		return events[0], nil
+		if len(events) > 0 {
+			return events[0], nil
+		}
+		return nil, nil
 	}
 
 	if astCmd.Initiative != nil {
@@ -173,7 +189,15 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 			"offhand":     astCmd.Attack.OffHand,
 			"opportunity": astCmd.Attack.Opportunity,
 		}
-		events, err := command.ExecuteGenericCommand("attack", actorID, astCmd.Attack.Targets, params, input, s.state, s.loader, s.registry)
+
+		cmdName := "attack"
+		if astCmd.Attack.Opportunity {
+			cmdName = "opportunity_attack"
+		} else if astCmd.Attack.OffHand {
+			cmdName = "offhand_attack"
+		}
+
+		events, err := command.ExecuteGenericCommand(cmdName, actorID, astCmd.Attack.Targets, params, input, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -187,13 +211,16 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return nil, nil
 	} else if astCmd.Damage != nil {
-		if s.state.PendingDamage == nil || s.state.IsFrozen() {
+		pendingDmg, ok := s.state.Metadata["pending_damage"].(map[string]any)
+		if !ok || pendingDmg == nil || s.state.IsFrozen() {
 			return nil, nil // Silently ignore as per legacy
 		}
 
 		targets := []string{}
-		for _, t := range s.state.PendingDamage.Targets {
-			if s.state.PendingDamage.HitStatus[t] {
+		pendingTargets, _ := pendingDmg["targets"].([]string)
+		hitStatus, _ := pendingDmg["hit_status"].(map[string]bool)
+		for _, t := range pendingTargets {
+			if hitStatus[t] {
 				targets = append(targets, t)
 			}
 		}
@@ -202,15 +229,13 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 			return nil, nil
 		}
 
+		attacker, _ := pendingDmg["attacker"].(string)
 		params := map[string]any{
-			"weapon":  s.state.PendingDamage.Weapon,
-			"offhand": s.state.PendingDamage.IsOffHand,
+			"weapon":  pendingDmg["weapon"],
+			"offhand": pendingDmg["is_off_hand"],
 		}
-		// In a real scenario, we'd lookup the actual weapon dice/type from loader here
-		// but for the transition, we'll let ExecuteGenericCommand do its best or pass them in.
-		// Actually, ExecuteGenericCommand already calls ResolveEntityAction.
 
-		events, err := command.ExecuteGenericCommand("damage", s.state.PendingDamage.Attacker, targets, params, input, s.state, s.loader, s.registry)
+		events, err := command.ExecuteGenericCommand("damage", attacker, targets, params, input, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -261,8 +286,8 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		return events[0], nil
 	} else if astCmd.Allow != nil {
 		originalStr := ""
-		if s.state.PendingAdjudication != nil {
-			originalStr = s.state.PendingAdjudication.OriginalCommand
+		if pendingAdj, ok := s.state.Metadata["pending_adjudication"].(map[string]any); ok && pendingAdj != nil {
+			originalStr, _ = pendingAdj["original_command"].(string)
 		}
 		events, err := command.ExecuteAllow(astCmd.Allow, s.state)
 		if err != nil {
@@ -345,7 +370,15 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		}
 		return events[0], nil
 	} else if astCmd.HelpAction != nil {
-		events, err := command.ExecuteHelpAction(astCmd.HelpAction, s.state, s.registry)
+		actorID := "GM"
+		if astCmd.HelpAction.Actor != nil {
+			actorID = astCmd.HelpAction.Actor.Name
+		}
+		params := map[string]any{
+			"type":   astCmd.HelpAction.Type,
+			"target": astCmd.HelpAction.Target,
+		}
+		events, err := command.ExecuteGenericCommand("help_action", actorID, []string{astCmd.HelpAction.Target}, params, input, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
@@ -354,9 +387,43 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 				return nil, err
 			}
 		}
-		return events[0], nil
+		if len(events) > 0 {
+			return events[0], nil
+		}
+		return nil, nil
 	} else if astCmd.Ask != nil {
-		events, err := command.ExecuteAsk(astCmd.Ask, s.state)
+		actorID := "GM"
+		if astCmd.Ask.Actor != nil {
+			actorID = astCmd.Ask.Actor.Name
+		}
+		params := map[string]any{
+			"dc":    astCmd.Ask.DC,
+			"check": strings.Join(astCmd.Ask.Check, " "),
+		}
+		if astCmd.Ask.Fails != nil {
+			f := map[string]any{
+				"condition": astCmd.Ask.Fails.Condition,
+				"half":      astCmd.Ask.Fails.HalfDamage,
+				"is_damage": astCmd.Ask.Fails.IsDamage != "",
+			}
+			if astCmd.Ask.Fails.DamageDice != nil {
+				f["dice"] = astCmd.Ask.Fails.DamageDice.Raw
+			}
+			params["fails"] = f
+		}
+		if astCmd.Ask.Succeeds != nil {
+			s := map[string]any{
+				"condition": astCmd.Ask.Succeeds.Condition,
+				"half":      astCmd.Ask.Succeeds.HalfDamage,
+				"is_damage": astCmd.Ask.Succeeds.IsDamage != "",
+			}
+			if astCmd.Ask.Succeeds.DamageDice != nil {
+				s["dice"] = astCmd.Ask.Succeeds.DamageDice.Raw
+			}
+			params["succeeds"] = s
+		}
+
+		events, err := command.ExecuteGenericCommand("ask", actorID, astCmd.Ask.Targets, params, input, s.state, s.loader, s.registry)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil
@@ -368,7 +435,10 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 				return nil, err
 			}
 		}
-		return events[0], nil
+		if len(events) > 0 {
+			return events[0], nil
+		}
+		return nil, nil
 	} else if astCmd.Check != nil {
 		actorID, err := command.ResolveActor(astCmd.Check.Actor, s.state)
 		if err != nil {

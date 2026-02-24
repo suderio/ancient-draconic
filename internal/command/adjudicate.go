@@ -29,7 +29,7 @@ func ExecuteAllow(cmd *parser.AllowCmd, state *engine.GameState) ([]engine.Event
 	if err := ValidateGM(cmd.Actor); err != nil {
 		return nil, err
 	}
-	if state.PendingAdjudication == nil {
+	if _, ok := state.Metadata["pending_adjudication"]; !ok {
 		return nil, fmt.Errorf("conflict: no pending action to allow")
 	}
 	return []engine.Event{
@@ -45,7 +45,7 @@ func ExecuteDeny(cmd *parser.DenyCmd, state *engine.GameState) ([]engine.Event, 
 	if err := ValidateGM(cmd.Actor); err != nil {
 		return nil, err
 	}
-	if state.PendingAdjudication == nil {
+	if _, ok := state.Metadata["pending_adjudication"]; !ok {
 		return nil, fmt.Errorf("conflict: no pending action to deny")
 	}
 	return []engine.Event{

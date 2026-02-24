@@ -341,21 +341,32 @@ func (m *replModel) renderState() string {
 			if len(ent.Conditions) > 0 {
 				conds = fmt.Sprintf(" [%s]", strings.Join(ent.Conditions, ", "))
 			}
-			stateView += fmt.Sprintf(" - %s (%s): %d/%d HP%s\n", id, ent.Name, ent.HP, ent.MaxHP, conds)
+			hp := ent.Resources["hp"] - ent.Spent["hp"]
+			maxHP := ent.Resources["hp"]
+			stateView += fmt.Sprintf(" - %s (%s): %d/%d HP%s\n", id, ent.Name, hp, maxHP, conds)
 		}
 	}
 
-	if len(state.PendingChecks) > 0 {
+	if pendingChecks, ok := state.Metadata["pending_checks"].(map[string]any); ok && len(pendingChecks) > 0 {
 		stateView += "\nPending Checks:\n"
-		for id, req := range state.PendingChecks {
-			stateView += fmt.Sprintf(" - %s requires %v (DC %d)\n", id, req.Check, req.DC)
+		for id, reqAny := range pendingChecks {
+			if req, ok := reqAny.(map[string]any); ok {
+				check, _ := req["check"].(string)
+				dc, _ := req["dc"].(int)
+				stateView += fmt.Sprintf(" - %s requires %v (DC %d)\n", id, check, dc)
+			}
 		}
 	}
 
-	if state.PendingDamage != nil {
-		stateView += fmt.Sprintf("\nPending Damage from %s:\n", state.PendingDamage.Attacker)
-		for _, t := range state.PendingDamage.Targets {
-			if state.PendingDamage.HitStatus[t] {
+	if pendingDmg, ok := state.Metadata["pending_damage"].(map[string]any); ok && pendingDmg != nil {
+		attacker, _ := pendingDmg["attacker"].(string)
+		stateView += fmt.Sprintf("\nPending Damage from %s:\n", attacker)
+
+		targets, _ := pendingDmg["targets"].([]string)
+		hitStatus, _ := pendingDmg["hit_status"].(map[string]bool)
+
+		for _, t := range targets {
+			if hitStatus[t] {
 				stateView += fmt.Sprintf(" - %s (Hit)\n", t)
 			} else {
 				stateView += fmt.Sprintf(" - %s (Miss)\n", t)

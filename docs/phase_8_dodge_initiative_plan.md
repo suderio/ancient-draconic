@@ -1,30 +1,35 @@
-# Implementation Plan - Phase 8: Dodge and Initiative
+# Plan - Phase 8: Migrating Dodge and Initiative
 
-Implement the `dodge` and `initiative` mechanics using the manifest-driven generic command engine.
+I will migrate the `dodge` and `initiative` commands to the manifest-driven engine to complete the core combat action set.
 
 ## Proposed Changes
 
-### [manifest.yaml](file:///home/paulo/org/projetos/dndsl/data/manifest.yaml)
+### [Manifest] [manifest.yaml](file:///home/paulo/org/projetos/dndsl/data/manifest.yaml)
 
-- **Dodge**:
-  - Adds a "Dodging" condition to the actor.
-  - Consumes one Action.
-- **Attack**:
-  - Update the `hit` step formula to check if the target has the "Dodging" condition.
-  - If dodging, the attack roll should have disadvantage (simulated via `roll('2d20l1')` or similar).
-- **Initiative**:
-  - New command to roll initiative.
-  - Formula: `roll('1d20') + mod(actor.stats.dex)`.
-  - Event: Map the result to set the actor's initiative in the game state.
+- [NEW] Define `dodge` command.
+- [NEW] Define `initiative` command.
+- [MODIFY] Update `attack` formula to apply disadvantage if the target has the `Dodging` condition.
 
-### [internal/command/executor.go](file:///home/paulo/org/projetos/dndsl/internal/command/executor.go)
+### [Command Engine] [executor.go](file:///home/paulo/org/projetos/dndsl/internal/command/executor.go)
 
-- Ensure the `HPChanged` and other event mappings can handle the results from the new commands.
-- (TBD) Add mapping for initiative updates if the generic `AttributeSet` is insufficient.
+- [MODIFY] Map `DodgeTaken` and `InitiativeRolled` manifest events to engine events.
+- [MODIFY] Add `RollInitiative` helper to the `command` package.
+- [MODIFY] Fix `ResolveEntityAction` to ignore empty strings (preventing recharge check bugs).
+
+### [Rules Bridge] [bridge.go](file:///home/paulo/org/projetos/dndsl/internal/rules/bridge.go)
+
+- [MODIFY] Add `prof_bonus` to default stats to avoid CEL evaluation errors for uninitialized entities.
+
+### [Session] [session.go](file:///home/paulo/org/projetos/dndsl/internal/session/session.go)
+
+- [MODIFY] Route `dodge` and `initiative` AST commands to `ExecuteGenericCommand`.
 
 ## Verification Plan
 
 ### Automated Tests
 
-- `TestDodgeMechanic`: Verify that taking the dodge action adds the condition and subsequent attacks have correctly adjusted formulas.
-- `TestInitiativeCommand`: Verify that rolling initiative updates the game state's `Initiatives` map and `TurnOrder`.
+- `go test -v ./internal/command/...`
+- Specific tests in `mechanics_test.go`:
+  - `TestDodgeMechanic`: Verify that dodging grants disadvantage to attackers.
+  - `TestTwoWeaponFighting`: Verify that initiative and action economy work correctly with the new engine.
+- Verify `recharge_test.go` passes (regression check for the recharge bug).
