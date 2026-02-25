@@ -253,17 +253,46 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		if astCmd.Turn.Actor != nil {
 			actorID = astCmd.Turn.Actor.Name
 		}
+
+		// 1. End turn for current actor
+		if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
+			currentActor := s.state.TurnOrder[s.state.CurrentTurn]
+			if endEvents, err := command.ExecuteGenericCommand("end_turn", currentActor, []string{currentActor}, nil, "end_turn", s.state, s.loader, s.registry); err == nil {
+				for _, e := range endEvents {
+					s.ApplyAndAppend(e)
+				}
+			}
+			s.processExpirations("end_turn", currentActor)
+		}
+
+		// 2. Advance turn
 		events, err := command.ExecuteGenericCommand("turn", actorID, []string{actorID}, nil, input, s.state, s.loader, s.registry)
 		if err != nil {
 			return nil, err
 		}
+		var firstEvent engine.Event
 		for _, e := range events {
 			if err := s.ApplyAndAppend(e); err != nil {
 				return nil, err
 			}
+			if firstEvent == nil {
+				firstEvent = e
+			}
 		}
-		if len(events) > 0 {
-			return events[0], nil
+
+		// 3. Start turn for next actor
+		if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
+			newActor := s.state.TurnOrder[s.state.CurrentTurn]
+			if startEvents, err := command.ExecuteGenericCommand("start_turn", newActor, []string{newActor}, nil, "start_turn", s.state, s.loader, s.registry); err == nil {
+				for _, e := range startEvents {
+					s.ApplyAndAppend(e)
+				}
+			}
+			s.processExpirations("start_turn", newActor)
+		}
+
+		if firstEvent != nil {
+			return firstEvent, nil
 		}
 		return nil, nil
 	} else if astCmd.Hint != nil {
@@ -516,4 +545,35 @@ func (s *Session) executeLegacyPseudoCommand(parts []string) (engine.Event, erro
 	}
 
 	return nil, fmt.Errorf("unrecognized legacy command")
+}
+func (s *Session) processExpirations(trigger string, currentActor string) error {
+	var events []engine.Event
+	if expMap, ok := s.state.Metadata["conditions_expiry"].(map[string]any); ok {
+		// Because maps might be modified or iterated, we collect first
+		var keysToDelete []string
+		for key, val := range expMap {
+			if vMap, ok := val.(map[string]string); ok {
+				if vMap["expires_on"] == trigger && vMap["reference_actor"] == currentActor {
+					parts := strings.SplitN(key, ":", 2)
+					if len(parts) == 2 {
+						events = append(events, &engine.ConditionRemovedEvent{
+							ActorID:   parts[0],
+							Condition: parts[1],
+						})
+						keysToDelete = append(keysToDelete, key)
+					}
+				}
+			}
+		}
+		// Clean up the tracking state directly so it's not repeatedly checked
+		for _, k := range keysToDelete {
+			delete(expMap, k)
+		}
+	}
+	for _, e := range events {
+		if err := s.ApplyAndAppend(e); err != nil {
+			return err
+		}
+	}
+	return nil
 }

@@ -30,10 +30,6 @@ const (
 	EventConditionApplied     EventType = "ConditionApplied"
 	EventAdjudicationStarted  EventType = "AdjudicationStarted"
 	EventAdjudicationResolved EventType = "AdjudicationResolved"
-	EventDodgeTaken           EventType = "DodgeTaken"
-	EventGrappleTaken         EventType = "GrappleTaken"
-	EventActionConsumed       EventType = "ActionConsumed"
-	EventHelpTaken            EventType = "HelpTaken"
 	EventConditionRemoved     EventType = "ConditionRemoved"
 	EventAbilitySpent         EventType = "AbilitySpent"
 	EventAbilityRecharged     EventType = "AbilityRecharged"
@@ -198,48 +194,6 @@ func (e *TurnChangedEvent) Apply(state *GameState) error {
 	for i, id := range state.TurnOrder {
 		if id == e.ActorID {
 			state.CurrentTurn = i
-
-			if ent, ok := state.Entities[e.ActorID]; ok {
-				if ent.Spent == nil {
-					ent.Spent = make(map[string]int)
-				}
-				if ent.Statuses == nil {
-					ent.Statuses = make(map[string]string)
-				}
-
-				// Reset all Spent resources and Statuses on turn start (Generic logic)
-				for k := range ent.Spent {
-					ent.Spent[k] = 0
-				}
-				for k := range ent.Statuses {
-					delete(ent.Statuses, k)
-				}
-
-				// Remove temporary conditions (except persistent ones)
-				newConds := []string{}
-				for _, c := range ent.Conditions {
-					if c != "Dodging" && c != "Disengaged" {
-						newConds = append(newConds, c)
-					}
-				}
-				ent.Conditions = newConds
-
-				// Expire any Help benefits
-				for _, entity := range state.Entities {
-					activeConds := []string{}
-					for _, c := range entity.Conditions {
-						isHelp := strings.HasPrefix(c, "HelpedCheck:") || strings.HasPrefix(c, "HelpedAttack:")
-						if isHelp {
-							parts := strings.Split(c, ":")
-							if len(parts) == 2 && parts[1] == e.ActorID {
-								continue // Expired
-							}
-						}
-						activeConds = append(activeConds, c)
-					}
-					entity.Conditions = activeConds
-				}
-			}
 			return nil
 		}
 	}
@@ -491,8 +445,10 @@ func (e *CheckResolvedEvent) Message() string {
 
 // ConditionAppliedEvent adds a condition to an actor
 type ConditionAppliedEvent struct {
-	ActorID   string `json:"actor_id"`
-	Condition string `json:"condition"`
+	ActorID        string `json:"actor_id"`
+	Condition      string `json:"condition"`
+	ExpiresOn      string `json:"expires_on"`
+	ReferenceActor string `json:"reference_actor"`
 }
 
 func (e *ConditionAppliedEvent) Type() EventType { return EventConditionApplied }
@@ -507,6 +463,18 @@ func (e *ConditionAppliedEvent) Apply(state *GameState) error {
 		}
 		if !hasIt {
 			ent.Conditions = append(ent.Conditions, e.Condition)
+		}
+
+		if e.ExpiresOn != "" && e.ReferenceActor != "" {
+			expMap, ok := state.Metadata["conditions_expiry"].(map[string]any)
+			if !ok {
+				expMap = make(map[string]any)
+				state.Metadata["conditions_expiry"] = expMap
+			}
+			expMap[fmt.Sprintf("%s:%s", e.ActorID, e.Condition)] = map[string]string{
+				"expires_on":      e.ExpiresOn,
+				"reference_actor": e.ReferenceActor,
+			}
 		}
 	}
 	return nil
@@ -553,90 +521,6 @@ func (e *AdjudicationResolvedEvent) Message() string {
 		return "GM allowed the action."
 	}
 	return "GM denied the action."
-}
-
-// DodgeTakenEvent records that an actor is dodging
-type DodgeTakenEvent struct {
-	ActorID string
-}
-
-func (e *DodgeTakenEvent) Type() EventType { return EventDodgeTaken }
-func (e *DodgeTakenEvent) Apply(state *GameState) error {
-	if ent, ok := state.Entities[e.ActorID]; ok {
-		if ent.Spent == nil {
-			ent.Spent = make(map[string]int)
-		}
-		hasIt := false
-		for _, c := range ent.Conditions {
-			if c == "Dodging" {
-				hasIt = true
-				break
-			}
-		}
-		if !hasIt {
-			ent.Conditions = append(ent.Conditions, "Dodging")
-		}
-	}
-	return nil
-}
-func (e *DodgeTakenEvent) Message() string {
-	return fmt.Sprintf("%s is now Dodging.", e.ActorID)
-}
-
-// GrappleTakenEvent records a grapple attempt
-type GrappleTakenEvent struct {
-	Attacker string
-	Target   string
-}
-
-func (e *GrappleTakenEvent) Type() EventType { return EventGrappleTaken }
-func (e *GrappleTakenEvent) Apply(state *GameState) error {
-	delete(state.Metadata, "pending_adjudication")
-	return nil
-}
-func (e *GrappleTakenEvent) Message() string {
-	return fmt.Sprintf("%s attempts to grapple %s.", e.Attacker, e.Target)
-}
-
-// ActionConsumedEvent record usage of a standard action
-type ActionConsumedEvent struct {
-	ActorID string
-}
-
-func (e *ActionConsumedEvent) Type() EventType { return EventActionConsumed }
-func (e *ActionConsumedEvent) Apply(state *GameState) error {
-	if ent, ok := state.Entities[e.ActorID]; ok {
-		if ent.Spent == nil {
-			ent.Spent = make(map[string]int)
-		}
-		ent.Spent["actions"]++
-	}
-	delete(state.Metadata, "pending_adjudication")
-	return nil
-}
-func (e *ActionConsumedEvent) Message() string {
-	return fmt.Sprintf("%s used an action.", e.ActorID)
-}
-
-// HelpTakenEvent records a help action was performed
-type HelpTakenEvent struct {
-	HelperID string
-	TargetID string
-	HelpType string // "check" or "attack"
-}
-
-func (e *HelpTakenEvent) Type() EventType { return EventHelpTaken }
-func (e *HelpTakenEvent) Apply(state *GameState) error {
-	if ent, ok := state.Entities[e.TargetID]; ok {
-		uType := strings.ToUpper(e.HelpType[0:1]) + e.HelpType[1:]
-		condition := fmt.Sprintf("Helped%s:%s", uType, e.HelperID)
-		ent.Conditions = append(ent.Conditions, condition)
-	}
-	delete(state.Metadata, "pending_adjudication")
-	return nil
-}
-func (e *HelpTakenEvent) Message() string {
-	return fmt.Sprintf("%s helps %s with an %s.", e.HelperID, e.TargetID, e.HelpType)
 }
 
 // ConditionRemovedEvent forcibly removes a condition

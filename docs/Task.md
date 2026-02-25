@@ -43,5 +43,11 @@
   - [ ] Implement generic `freeze` mechanism with `unfreeze_condition`
   - [ ] Refactor `opportunity` and `off-hand` attacks as separate commands
   - [ ] Move `adjudicate`, `help`, and `hint` to manifest
-  - [ ] Remove all D&D specific names from code
   - [ ] Comprehensive dead code cleanup
+
+- [x] Phase 11: Game Loop & Resource Agnosticism
+  - [x] Create implementation plan (`docs/plan_phase_11_game_loop.md`)
+  - [x] Refactor engine generic events to remove D&D specific ones
+  - [x] Implement `start_turn` and `end_turn` workflow in manifest
+  - [x] Migrate condition duration tracking (like Dodge/Help) to generic logic
+  - [x] Verify combat loops and resource resets in integration tests

@@ -91,7 +91,7 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 		}
 
 		return []engine.Event{
-			&engine.ActionConsumedEvent{ActorID: currentActor},
+			&engine.AttributeChangedEvent{ActorID: currentActor, AttrType: engine.AttrSpent, Key: "actions", Value: ent.Spent["actions"] + 1},
 			&engine.AskIssuedEvent{
 				Targets: []string{currentActor},
 				Check:   []string{"athletics", "or", "acrobatics"},
@@ -105,7 +105,12 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 
 	// Handle specific action logic
 	var events []engine.Event
-	events = append(events, &engine.ActionConsumedEvent{ActorID: currentActor})
+	events = append(events, &engine.AttributeChangedEvent{
+		ActorID:  currentActor,
+		AttrType: engine.AttrSpent,
+		Key:      "actions",
+		Value:    ent.Spent["actions"] + 1,
+	})
 
 	switch strings.ToLower(actionType) {
 	case "disengage":

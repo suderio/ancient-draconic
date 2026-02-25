@@ -278,58 +278,6 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 		}
 	}
 
-	// Post-processing for specific commands
-	if cmdName == "turn" {
-		// If we just changed the turn, handle recharges for the NEW actor
-		var turnChanged *engine.TurnChangedEvent
-		for _, e := range events {
-			if tc, ok := e.(*engine.TurnChangedEvent); ok {
-				turnChanged = tc
-				break
-			}
-		}
-
-		if turnChanged != nil {
-			nextActor := turnChanged.ActorID
-			spentMap, ok := state.Metadata["spent_recharges"].(map[string][]string)
-			if ok {
-				if spent, ok := spentMap[nextActor]; ok && len(spent) > 0 {
-					mon, err := loader.LoadMonster(nextActor)
-					if err == nil {
-						for _, actionName := range spent {
-							for _, a := range mon.Actions {
-								if strings.EqualFold(a.Name, actionName) && a.Recharge != "" {
-									res, _ := engine.Roll(&parser.DiceExpr{Raw: "1d6"})
-									success := false
-									if a.Recharge == "6" && res.Total == 6 {
-										success = true
-									} else if a.Recharge == "5-6" && res.Total >= 5 {
-										success = true
-									}
-
-									events = append(events, &engine.RechargeRolledEvent{
-										ActorID:     nextActor,
-										ActionName:  a.Name,
-										Roll:        res.Total,
-										Requirement: a.Recharge,
-										Success:     success,
-									})
-
-									if success {
-										events = append(events, &engine.AbilityRechargedEvent{
-											ActorID:    nextActor,
-											ActionName: a.Name,
-										})
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
 	return events, nil
 }
 
@@ -431,11 +379,7 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 		return &engine.AdjudicationStartedEvent{
 			OriginalCommand: fmt.Sprintf("%s attempted to %s on %s", actorID, cmdName, targetID),
 		}
-	case "GrappleTaken":
-		return &engine.GrappleTakenEvent{
-			Attacker: actorID,
-			Target:   targetID,
-		}
+
 	case "AskIssued":
 		dc := 10
 		if d, ok := params["dc"]; ok {
@@ -487,10 +431,7 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 		return &engine.HintEvent{
 			MessageStr: fmt.Sprintf("%s attempted to %s %s", actorID, cmdName, targetID),
 		}
-	case "ActionConsumed":
-		return &engine.ActionConsumedEvent{
-			ActorID: actorID,
-		}
+
 	case "HPChanged":
 		amount := 0
 		if i, ok := getInt(res); ok {
@@ -515,10 +456,35 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 			ActionName: weapon,
 		}
 	case "ConditionRemoved":
-		if s, ok := res.(string); ok && s != "" && s != "none" && s != "ok" {
+		if s, ok := res.(string); ok && s != "" && s != "none" && s != "ok" && s != "skip" {
 			return &engine.ConditionRemovedEvent{
 				ActorID:   actorID,
 				Condition: s,
+			}
+		}
+	case "ConditionApplied":
+		var conditionName string
+		expiresOn := ""
+		refActor := ""
+		if s, ok := res.(string); ok && s != "" && s != "none" && s != "ok" && s != "skip" {
+			conditionName = s
+		} else if m, ok := res.(map[string]any); ok {
+			if s, ok := m["condition"].(string); ok && s != "" && s != "skip" {
+				conditionName = s
+				if exp, ok := m["expires_on"].(string); ok {
+					expiresOn = exp
+				}
+				if ref, ok := m["reference_actor"].(string); ok {
+					refActor = ref
+				}
+			}
+		}
+		if conditionName != "" {
+			return &engine.ConditionAppliedEvent{
+				ActorID:        targetID,
+				Condition:      conditionName,
+				ExpiresOn:      expiresOn,
+				ReferenceActor: refActor,
 			}
 		}
 	case "TurnEnded":
@@ -547,10 +513,7 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 		return &engine.TurnChangedEvent{
 			ActorID: nextActor,
 		}
-	case "DodgeTaken":
-		return &engine.DodgeTakenEvent{
-			ActorID: actorID,
-		}
+
 	case "InitiativeRolled":
 		score := 0
 		if i, ok := getInt(res); ok {
@@ -584,16 +547,7 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 				ActionName: s,
 			}
 		}
-	case "HelpTaken":
-		helpType := "check"
-		if t, ok := params["type"]; ok {
-			helpType = fmt.Sprintf("%v", t)
-		}
-		return &engine.HelpTakenEvent{
-			HelperID: actorID,
-			TargetID: targetID,
-			HelpType: strings.ToLower(helpType),
-		}
+
 	case "ActorAdded":
 		if resStr, ok := res.(string); ok && resStr == "skip" {
 			return nil
