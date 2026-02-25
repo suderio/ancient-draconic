@@ -59,8 +59,16 @@
   - [x] Update D&D Manifest to utilize `ChoiceIssuedEvent` and `ContestStartedEvent`
   - [x] Verify functionality via integration tests for PDQ damage application and D&D grapple resisting
 
-- [/] Phase 13: Generic AST Parser & Dynamic TUI
+- [x] Phase 13: Generic AST Parser & Dynamic TUI
   - [x] Plan generic AST refactoring (`docs/plan_generic_parser.md`)
   - [x] Refactor Lexer & AST layers to support `GenericCmd`
   - [x] Refactor `session.go` to execute `GenericCmd` directly through `manifest.Commands`
-  - [ ] Refactor `tui.go` to pull auto-complete suggestions dynamically from the loaded manifest
+  - [x] Refactor `tui.go` to pull auto-complete suggestions dynamically from the loaded manifest
+
+- [ ] Phase 14: Decoupling Engine Events
+  - [ ] Draft Implementation Plan (`docs/plan_phase_14_event_decoupling.md`)
+  - [ ] Remove `HPChanged`, `AttackResolved`, and `InitiativeRolled` events from `engine/event.go`.
+  - [ ] Add `TurnOrderUpdatedEvent` to `engine/event.go`.
+  - [ ] Update `executor.go` to remove specialized dispatching for deleted events.
+  - [ ] Rewrite `attack`, `damage`, and `initiative` commands in `manifest.yaml` using CEL.
+  - [ ] Fix integration tests to expect the generic event equivalents (`AttributeChangedEvent`, `MetadataChangedEvent`).

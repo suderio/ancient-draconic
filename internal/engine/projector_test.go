@@ -9,9 +9,9 @@ func TestProjectorBuild(t *testing.T) {
 		&EncounterStartedEvent{},
 		&ActorAddedEvent{ID: "goblin1", Name: "Goblin", Resources: map[string]int{"hp": 15}},
 		&ActorAddedEvent{ID: "fighter1", Name: "Fighter", Resources: map[string]int{"hp": 30}},
-		&HPChangedEvent{ActorID: "goblin1", Amount: -5},
-		&HPChangedEvent{ActorID: "fighter1", Amount: -10},
-		&HPChangedEvent{ActorID: "fighter1", Amount: 2}, // test slight heal
+		&AttributeChangedEvent{ActorID: "goblin1", AttrType: AttrSpent, Key: "hp", Value: 5},
+		&AttributeChangedEvent{ActorID: "fighter1", AttrType: AttrSpent, Key: "hp", Value: 10},
+		&AttributeChangedEvent{ActorID: "fighter1", AttrType: AttrSpent, Key: "hp", Value: 8}, // test slight heal
 	}
 
 	projector := NewProjector()

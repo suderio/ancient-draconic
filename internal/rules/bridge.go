@@ -63,6 +63,7 @@ func BuildEvalContext(state *engine.GameState, actor *engine.Entity, target *eng
 		res["is_frozen"] = state.IsFrozen()
 		res["is_encounter_active"] = state.IsEncounterActive
 		res["entities"] = state.Entities
+		res["metadata"] = state.Metadata
 	}
 
 	return res

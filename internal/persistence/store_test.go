@@ -26,12 +26,14 @@ func TestStoreAppendLoad(t *testing.T) {
 		t.Fatalf("failed to append actor added: %v", err)
 	}
 
-	err = store.Append(&engine.HPChangedEvent{
-		ActorID: "goblin1",
-		Amount:  -3,
+	err = store.Append(&engine.AttributeChangedEvent{
+		ActorID:  "goblin1",
+		AttrType: engine.AttrSpent,
+		Key:      "hp",
+		Value:    3,
 	})
 	if err != nil {
-		t.Fatalf("failed to append hp changed: %v", err)
+		t.Fatalf("failed to append attribute changed: %v", err)
 	}
 
 	// Read it back
@@ -52,10 +54,11 @@ func TestStoreAppendLoad(t *testing.T) {
 		t.Errorf("expected ID goblin1, got %s", e1.ID)
 	}
 
-	e2, ok := events[1].(*engine.HPChangedEvent)
+	e2, ok := events[1].(*engine.AttributeChangedEvent)
 	if !ok {
-		t.Errorf("expected second event to be HPChangedEvent")
-	} else if e2.Amount != -3 {
-		t.Errorf("expected amount -3, got %d", e2.Amount)
+		t.Errorf("expected second event to be AttributeChangedEvent")
+	} else if val, ok := e2.Value.(float64); !ok || int(val) != 3 {
+		// JSON parses numbers into interface{} as float64
+		t.Errorf("expected value 3, got %v", e2.Value)
 	}
 }

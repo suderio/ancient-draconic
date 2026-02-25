@@ -267,12 +267,13 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 				}
 			}
 
-			// If a boolean step returns false, we stop execution of this branch.
-			// This ONLY applies for steps without an event (requirement checks).
 			// Steps with events (like 'hit') allow subsequent steps to check their result.
-			if b, ok := res.(bool); ok && !b && step.Event == "" {
-				break
-			}
+			// We no longer break on false here, allowing subsequent steps (like resource consumption) to run.
+			/*
+				if b, ok := res.(bool); ok && !b && step.Event == "" {
+					break
+				}
+			*/
 
 			steps[step.Name] = res
 		}
@@ -315,40 +316,7 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 	}
 
 	switch eventName {
-	case "AttackResolved":
-		hit := false
-		if b, ok := res.(bool); ok {
-			hit = b
-		}
-		weapon := "unknown"
-		if w, ok := params["weapon_resolved"]; ok {
-			weapon = fmt.Sprintf("%v", w)
-		} else if w, ok := params["weapon"]; ok {
-			weapon = fmt.Sprintf("%v", w)
-		}
 
-		offhand := false
-		if val, ok := params["offhand"]; ok {
-			if b, ok := val.(bool); ok {
-				offhand = b
-			}
-		}
-
-		opportunity := false
-		if val, ok := params["opportunity"]; ok {
-			if b, ok := val.(bool); ok {
-				opportunity = b
-			}
-		}
-
-		return &engine.AttackResolvedEvent{
-			Attacker:      actorID,
-			Weapon:        weapon,
-			Targets:       []string{targetID},
-			HitStatus:     map[string]bool{targetID: hit},
-			IsOffHand:     offhand,
-			IsOpportunity: opportunity,
-		}
 	case "CheckResolved":
 		success := true
 		if b, ok := res.(bool); ok {
@@ -432,15 +400,6 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 			MessageStr: fmt.Sprintf("%s attempted to %s %s", actorID, cmdName, targetID),
 		}
 
-	case "HPChanged":
-		amount := 0
-		if i, ok := getInt(res); ok {
-			amount = i
-		}
-		return &engine.HPChangedEvent{
-			ActorID: targetID,
-			Amount:  amount,
-		}
 	case "AbilitySpent":
 		if b, ok := res.(bool); ok && !b {
 			return nil
@@ -600,21 +559,31 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 			ActorID: nextActor,
 		}
 
-	case "InitiativeRolled":
-		score := 0
-		if i, ok := getInt(res); ok {
-			score = i
+	case "MetadataChanged":
+		m := make(map[string]any)
+		if ma, ok := res.(map[string]any); ok {
+			m = ma
+		} else {
+			// If it's just a single value, we might need more context or assume key/value in params
+			// For simplicity, let's assume CEL returns {key: "...", value: ...}
+			return nil
 		}
-		if score == 0 {
-			if steps, ok := ctx["steps"].(map[string]any); ok {
-				if v, ok := steps["roll"].(int64); ok {
-					score = int(v)
-				}
+		key, _ := m["key"].(string)
+		return &engine.MetadataChangedEvent{
+			Key:   key,
+			Value: m["value"],
+		}
+	case "TurnOrderUpdated":
+		var order []string
+		if slice, ok := res.([]any); ok {
+			for _, v := range slice {
+				order = append(order, fmt.Sprintf("%v", v))
 			}
+		} else if slice, ok := res.([]string); ok {
+			order = slice
 		}
-		return &engine.InitiativeRolledEvent{
-			ActorName: actorID,
-			Score:     score,
+		return &engine.TurnOrderUpdatedEvent{
+			TurnOrder: order,
 		}
 	case "RechargeRolled":
 		if m, ok := res.(map[string]any); ok {
@@ -697,8 +666,20 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 			value = i
 		}
 
+		target := targetID
+		if a, ok := m["actor_id"].(string); ok && a != "" {
+			target = a
+		} else if a, ok := m["id"].(string); ok && a != "" {
+			target = a
+		} else if t, ok := m["type"].(string); ok && t != "spent" && t != "resource" && t != "stat" {
+			// Backwards compatibility or specific logic:
+			// If it's a 'status', it often applies to actorID unless specified.
+			// But damage is 'spent' and applies to targetID.
+			// Let's stick to explicit is better.
+		}
+
 		return &engine.AttributeChangedEvent{
-			ActorID:  actorID,
+			ActorID:  target,
 			AttrType: attrType,
 			Key:      key,
 			Value:    value,
@@ -718,7 +699,7 @@ func RollInitiative(id string, stats TargetRes, reg *rules.Registry) engine.Even
 		}
 	}
 	mod := (dex - 10) / 2
-	roll := 10 // Baseline as we don't always have the rollFunc here easily without reg
+	score := 10 + mod
 	if reg != nil {
 		// Mock context
 		ctx := map[string]any{
@@ -730,15 +711,12 @@ func RollInitiative(id string, stats TargetRes, reg *rules.Registry) engine.Even
 		}
 		if res, err := reg.Eval("roll('1d20') + mod(actor.stats.dex)", ctx); err == nil {
 			if i, ok := res.(int64); ok {
-				return &engine.InitiativeRolledEvent{
-					ActorName: id,
-					Score:     int(i),
-				}
+				score = int(i)
 			}
 		}
 	}
-	return &engine.InitiativeRolledEvent{
-		ActorName: id,
-		Score:     roll + mod,
+	return &engine.MetadataChangedEvent{
+		Key:   "initiatives",
+		Value: map[string]int{id: score},
 	}
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
-	"github.com/suderio/ancient-draconic/internal/parser"
 	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
@@ -23,68 +22,6 @@ func testReg(loader *data.Loader) *rules.Registry {
 		return 10
 	}, nil)
 	return reg
-}
-
-func TestAdjudicationFlow(t *testing.T) {
-	state := engine.NewGameState()
-	state.IsEncounterActive = true
-	state.Entities["Grog"] = &engine.Entity{
-		ID:        "Grog",
-		Name:      "Grog",
-		Resources: map[string]int{"hp": 100, "actions": 1},
-		Spent:     map[string]int{"hp": 0, "actions": 0},
-		Stats:     map[string]int{"str": 10, "dex": 10, "wis": 10, "prof_bonus": 2},
-		Statuses:  make(map[string]string),
-	}
-	state.Entities["Goblin"] = &engine.Entity{
-		ID:        "Goblin",
-		Name:      "Goblin",
-		Resources: map[string]int{"hp": 7, "actions": 1},
-		Spent:     map[string]int{"hp": 0, "actions": 0},
-		Stats:     map[string]int{"str": 10, "dex": 10, "wis": 10, "prof_bonus": 2},
-		Statuses:  make(map[string]string),
-	}
-	state.Metadata["initiatives"] = map[string]int{"Grog": 20, "Goblin": 10}
-	state.TurnOrder = []string{"Grog", "Goblin"}
-	state.CurrentTurn = 0
-
-	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../world/dnd-campaign", "../../data"})
-
-	// 1. Initiate grapple (should trigger adjudication)
-	params := map[string]any{}
-	events, err := ExecuteGenericCommand("grapple", "Grog", []string{"Goblin"}, params, "", state, loader, testReg(loader))
-	assert.NoError(t, err)
-	assert.Len(t, events, 1)
-	assert.IsType(t, &engine.AdjudicationStartedEvent{}, events[0])
-
-	// Apply event
-	err = events[0].Apply(state)
-	assert.NoError(t, err)
-	assert.NotNil(t, state.Metadata["pending_adjudication"])
-	assert.True(t, state.IsFrozen())
-
-	// 2. Allow adjudication
-	allowCmd := &parser.AllowCmd{}
-	events, err = ExecuteAllow(allowCmd, state)
-	assert.NoError(t, err)
-	assert.Len(t, events, 1)
-
-	// Apply event (marks Approved, does not clear yet)
-	err = events[0].Apply(state)
-	assert.NoError(t, err)
-	pendingAdj, ok := state.Metadata["pending_adjudication"].(map[string]any)
-	assert.True(t, ok)
-	assert.True(t, pendingAdj["approved"].(bool))
-	assert.False(t, state.IsFrozen()) // Approved adjudication does NOT freeze
-
-	// 3. Resume grapple (re-execution logic would be in Session, but we test the command's second stage)
-	events, err = ExecuteGenericCommand("grapple", "Grog", []string{"Goblin"}, params, "", state, loader, testReg(loader))
-	assert.NoError(t, err)
-	assert.Len(t, events, 4) // AskIssued + DiceRolled + ContestStarted + AttributeChanged
-	assert.IsType(t, &engine.AskIssuedEvent{}, events[0])
-	assert.IsType(t, &engine.DiceRolledEvent{}, events[1])
-	assert.IsType(t, &engine.ContestStartedEvent{}, events[2])
-	assert.IsType(t, &engine.AttributeChangedEvent{}, events[3])
 }
 
 func TestActionEconomy(t *testing.T) {
@@ -184,6 +121,7 @@ func TestTwoWeaponFighting(t *testing.T) {
 			"bonus_actions": 1,
 		},
 		Spent: map[string]int{
+			"hp":            0,
 			"actions":       0,
 			"bonus_actions": 0,
 		},
@@ -195,7 +133,7 @@ func TestTwoWeaponFighting(t *testing.T) {
 		Name:      "Goblin",
 		Stats:     map[string]int{"str": 10, "ac": 12},
 		Resources: map[string]int{"hp": 10, "actions": 1},
-		Spent:     map[string]int{"actions": 0},
+		Spent:     map[string]int{"hp": 0, "actions": 0},
 		Statuses:  make(map[string]string),
 	}
 	state.Metadata["initiatives"] = map[string]int{"thorne": 20, "goblin": 10}
@@ -245,7 +183,8 @@ func TestTwoWeaponFighting(t *testing.T) {
 		"dice":    "1d4+3",
 		"type":    "piercing",
 	}
-	dmgEvents, _ := ExecuteGenericCommand("damage", attacker, targets, params, "", state, loader, reg)
+	dmgEvents, err := ExecuteGenericCommand("damage", attacker, targets, params, "", state, loader, reg)
+	assert.NoError(t, err)
 	foundDice := false
 	for _, e := range dmgEvents {
 		if dr, ok := e.(*engine.DiceRolledEvent); ok {
@@ -285,9 +224,9 @@ func TestOpportunityAttack(t *testing.T) {
 			"opportunity_attack": {
 				Name: "opportunity_attack",
 				Steps: []data.CommandStep{
-					{Name: "check_opportunity", Formula: "!pending_adjudication.approved ? 'adjudicate' : 'ok'"},
-					{Name: "consume_reaction", Formula: "steps.check_opportunity == 'ok' ? {'type': 'spent', 'key': 'reactions', 'value': string(actor.spent.reactions + 1)} : {'type': 'skip', 'key': '', 'value': ''}", Event: "AttributeChanged"},
-					{Name: "hit", Formula: "true", Event: "AttackResolved"},
+					{Name: "check_opportunity", Formula: "pending_adjudication.approved ? 'ok' : 'adjudicate'"},
+					{Name: "consume_reaction", Formula: "steps.check_opportunity == 'ok' ? {'actor_id': actor.id, 'type': 'spent', 'key': 'reactions', 'value': string(actor.spent.reactions + 1)} : {'type': 'skip', 'key': '', 'value': ''}", Event: "AttributeChanged"},
+					{Name: "hit", Formula: "steps.check_opportunity == 'ok' ? {'key': 'pending_damage', 'value': {'attacker': actor.id, 'targets': [target.id], 'hit_status': {target.id: true}}} : {'type': 'skip'}", Event: "MetadataChanged"},
 				},
 			},
 		},

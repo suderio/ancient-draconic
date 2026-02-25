@@ -272,9 +272,20 @@ func (s *Session) executeLegacyPseudoCommand(parts []string) (engine.Event, erro
 	case "heal":
 		if len(parts) == 3 {
 			amt, _ := strconv.Atoi(parts[2])
-			evt = &engine.HPChangedEvent{
-				ActorID: parts[1],
-				Amount:  amt,
+			if ent, ok := s.state.Entities[parts[1]]; ok {
+				currentSpent := ent.Spent["hp"]
+				newSpent := currentSpent - amt
+				if newSpent < 0 {
+					newSpent = 0
+				}
+				evt = &engine.AttributeChangedEvent{
+					ActorID:  parts[1],
+					AttrType: engine.AttrSpent,
+					Key:      "hp",
+					Value:    newSpent,
+				}
+			} else {
+				return nil, fmt.Errorf("entity %s not found", parts[1])
 			}
 		} else {
 			return nil, fmt.Errorf("Usage: heal <id> <amount>")

@@ -11,7 +11,10 @@ import (
 func TestExecuteEncounterStateValidations(t *testing.T) {
 	state := engine.NewGameState()
 	baseDir := filepath.Join("..", "..") // Assume root is two levels up from command/ for test files
-	loader := data.NewLoader([]string{filepath.Join(baseDir, "data")})
+	loader := data.NewLoader([]string{
+		filepath.Join(baseDir, "world", "dnd-campaign"),
+		filepath.Join(baseDir, "data"),
+	})
 
 	t.Run("Requires GM to start", func(t *testing.T) {
 		params := map[string]any{"action": "start"}

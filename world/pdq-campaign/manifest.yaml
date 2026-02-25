@@ -19,8 +19,8 @@ commands:
     name: "resolve_conflict"
     steps:
       - name: "hit"
-        formula: "action.attacker_roll > action.defender_roll"
-        event: "AttackResolved"
+        formula: "{'key': 'pending_damage', 'value': {'attacker': action.attacker_id, 'targets': [action.defender_id], 'hit_status': {action.defender_id: action.attacker_roll > action.defender_roll}}}"
+        event: "MetadataChanged"
       - name: "damage_ranks"
         formula: "action.attacker_roll - action.defender_roll"
       - name: "prompt_damage"
@@ -61,10 +61,15 @@ commands:
   initiative:
     name: "initiative"
     steps:
-      - name: "roll"
+      - name: "score"
         # Initiative is based on the highest relevant quality. We don't roll; it's static order based on Quality.
-        formula: "string(has(actor.stats[action.quality]) ? actor.stats[action.quality] : 0)"
-        event: "InitiativeRolled"
+        formula: "has(actor.stats[action.quality]) ? actor.stats[action.quality] : 0"
+      - name: "update_metadata"
+        formula: "{'key': 'initiatives', 'value': merge(has(initiatives) ? initiatives : {}, {actor.id: steps.score})}"
+        event: "MetadataChanged"
+      - name: "update_order"
+        formula: "sort_initiatives(merge(has(initiatives) ? initiatives : {}, {actor.id: steps.score}))"
+        event: "TurnOrderUpdated"
 
   add:
     name: "add"

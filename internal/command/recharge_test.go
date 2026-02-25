@@ -16,8 +16,8 @@ func TestMonsterRecharge(t *testing.T) {
 	state.Entities["dragon"] = &engine.Entity{
 		ID:        "dragon",
 		Name:      "dragon",
-		Resources: map[string]int{"actions": 1},
-		Spent:     map[string]int{"actions": 0},
+		Resources: map[string]int{"hp": 20, "actions": 1},
+		Spent:     map[string]int{"hp": 0, "actions": 0},
 		Stats:     map[string]int{"str": 10},
 		Statuses:  make(map[string]string),
 	}

@@ -66,7 +66,7 @@ actions:
 			"attack": {
 				Name: "attack",
 				Steps: []data.CommandStep{
-					{Name: "hit", Formula: "roll('1d20') + action.bonus >= target.stats.ac", Event: "AttackResolved"},
+					{Name: "hit", Formula: "{'key': 'pending_damage', 'value': {'attacker': actor.id, 'targets': [target.id], 'hit_status': {target.id: roll('1d20') + (has(action.bonus) ? action.bonus : 0) >= target.stats.ac}}}", Event: "MetadataChanged"},
 				},
 			},
 		},
@@ -79,8 +79,10 @@ actions:
 
 	validHitResolved := false
 	for _, e := range events {
-		if resolved, ok := e.(*engine.AttackResolvedEvent); ok {
-			assert.False(t, resolved.HitStatus["goblin"])
+		if resolved, ok := e.(*engine.MetadataChangedEvent); ok && resolved.Key == "pending_damage" {
+			stats := resolved.Value.(map[string]any)
+			hits := stats["hit_status"].(map[string]any)
+			assert.False(t, hits["goblin"].(bool))
 			validHitResolved = true
 		}
 	}
@@ -96,7 +98,7 @@ actions:
 	mockManifest.Commands["attack"] = data.CommandDefinition{
 		Name: "attack",
 		Steps: []data.CommandStep{
-			{Name: "hit", Formula: "action.hit_rule != '' ? eval(action.hit_rule) : (roll('1d20') + action.bonus >= target.stats.ac)", Event: "AttackResolved"},
+			{Name: "hit", Formula: "action.hit_rule != '' ? eval(action.hit_rule) : (roll('1d20') + action.bonus >= target.stats.ac)", Event: "MetadataChanged"},
 		},
 	}
 	// Wait, CEL doesn't have eval() by default. I haven't implemented it.
@@ -104,7 +106,7 @@ actions:
 	mockManifest.Commands["attack"] = data.CommandDefinition{
 		Name: "attack",
 		Steps: []data.CommandStep{
-			{Name: "hit", Formula: "roll('1d20') + actor.stats.str >= target.stats.ac", Event: "AttackResolved"},
+			{Name: "hit", Formula: "{'key': 'pending_damage', 'value': {'attacker': actor.id, 'targets': [target.id], 'hit_status': {target.id: roll('1d20') + actor.stats.str >= target.stats.ac}}}", Event: "MetadataChanged"},
 		},
 	}
 	reg, _ = rules.NewRegistry(mockManifest, func(s string) int { return 10 }, nil)
@@ -114,8 +116,10 @@ actions:
 
 	validHitResolved = false
 	for _, e := range events {
-		if resolved, ok := e.(*engine.AttackResolvedEvent); ok {
-			assert.True(t, resolved.HitStatus["goblin"])
+		if resolved, ok := e.(*engine.MetadataChangedEvent); ok && resolved.Key == "pending_damage" {
+			stats := resolved.Value.(map[string]any)
+			hits := stats["hit_status"].(map[string]any)
+			assert.True(t, hits["goblin"].(bool))
 			validHitResolved = true
 		}
 	}

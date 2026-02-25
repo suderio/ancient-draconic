@@ -3,7 +3,6 @@ package engine
 import (
 	"errors"
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/suderio/ancient-draconic/internal/data"
@@ -19,10 +18,8 @@ const (
 	EventEncounterEnded       EventType = "EncounterEnded"
 	EventActorAdded           EventType = "ActorAdded"
 	EventTurnChanged          EventType = "TurnChanged"
-	EventHPChanged            EventType = "HPChanged"
 	EventDiceRolled           EventType = "DiceRolled"
-	EventInitiativeRolled     EventType = "InitiativeRolled"
-	EventAttackResolved       EventType = "AttackResolved"
+	EventTurnOrderUpdated     EventType = "TurnOrderUpdated"
 	EventTurnEnded            EventType = "TurnEnded"
 	EventHint                 EventType = "Hint"
 	EventAskIssued            EventType = "AskIssued"
@@ -80,45 +77,19 @@ func (e *EncounterEndedEvent) Apply(state *GameState) error {
 }
 func (e *EncounterEndedEvent) Message() string { return "Encounter Ended." }
 
-// AttackResolvedEvent logs successful and failed strikes across multiple targets
-type AttackResolvedEvent struct {
-	Attacker      string
-	Weapon        string
-	Targets       []string
-	HitStatus     map[string]bool
-	IsOffHand     bool
-	IsOpportunity bool
+// TurnOrderUpdatedEvent overrides the global state TurnOrder slice
+type TurnOrderUpdatedEvent struct {
+	TurnOrder []string `json:"turn_order"`
 }
 
-func (e *AttackResolvedEvent) Type() EventType { return EventAttackResolved }
-func (e *AttackResolvedEvent) Apply(state *GameState) error {
-	state.Metadata["pending_damage"] = map[string]any{
-		"attacker":    e.Attacker,
-		"targets":     e.Targets,
-		"weapon":      e.Weapon,
-		"hit_status":  e.HitStatus,
-		"is_off_hand": e.IsOffHand,
-	}
+func (e *TurnOrderUpdatedEvent) Type() EventType { return EventTurnOrderUpdated }
+func (e *TurnOrderUpdatedEvent) Apply(state *GameState) error {
+	state.TurnOrder = e.TurnOrder
 	return nil
 }
 
-func (e *AttackResolvedEvent) Message() string {
-	var sb strings.Builder
-	prefix := ""
-	if e.IsOffHand {
-		prefix = "[OFF-HAND] "
-	} else if e.IsOpportunity {
-		prefix = "[OPPORTUNITY] "
-	}
-	sb.WriteString(fmt.Sprintf("%s%s attacks with %s:\n", prefix, e.Attacker, e.Weapon))
-	for _, t := range e.Targets {
-		status := "Miss!"
-		if e.HitStatus[t] {
-			status = "Hit!"
-		}
-		sb.WriteString(fmt.Sprintf("├─ %s: %s\n", t, status))
-	}
-	return strings.TrimSpace(sb.String())
+func (e *TurnOrderUpdatedEvent) Message() string {
+	return "Turn order updated."
 }
 
 // TurnEndedEvent advances the current turn sequence
@@ -138,6 +109,29 @@ func (e *TurnEndedEvent) Apply(state *GameState) error {
 }
 func (e *TurnEndedEvent) Message() string {
 	return fmt.Sprintf("%s ended its turn.", e.ActorID)
+}
+
+// MetadataChangedEvent stores arbitrary data in the global game state metadata.
+type MetadataChangedEvent struct {
+	Key   string `json:"key"`
+	Value any    `json:"value"`
+}
+
+func (e *MetadataChangedEvent) Type() EventType { return EventMetadataChanged }
+func (e *MetadataChangedEvent) Apply(state *GameState) error {
+	if state.Metadata == nil {
+		state.Metadata = make(map[string]any)
+	}
+	if e.Value == nil {
+		delete(state.Metadata, e.Key)
+	} else {
+		state.Metadata[e.Key] = e.Value
+	}
+	return nil
+}
+
+func (e *MetadataChangedEvent) Message() string {
+	return ""
 }
 
 // HintEvent is purely for querying the current state, and typically won't be saved to the store
@@ -207,49 +201,6 @@ func (e *TurnChangedEvent) Apply(state *GameState) error {
 }
 func (e *TurnChangedEvent) Message() string { return fmt.Sprintf("Turn changed to %s", e.ActorID) }
 
-// HPChangedEvent modifies an actor's current HP (positive heals, negative damages).
-type HPChangedEvent struct {
-	ActorID string
-	Amount  int
-}
-
-func (e *HPChangedEvent) Type() EventType { return EventHPChanged }
-func (e *HPChangedEvent) Apply(state *GameState) error {
-	ent, ok := state.Entities[e.ActorID]
-	if !ok {
-		return fmt.Errorf("actor %s not found", e.ActorID)
-	}
-
-	// In the generic model, "hp" is just a resource.
-	// We decrement Spent[hp] for healing, and increment it for damage.
-	// But wait, the math in HPChangedEvent used positive for heals and negative for damages.
-	// So: newSpent = oldSpent - healAmount, or newSpent = oldSpent + damageAmount.
-	// e.Amount is positive for heals, negative for damages.
-	// So: newSpent = oldSpent - e.Amount.
-	if ent.Spent == nil {
-		ent.Spent = make(map[string]int)
-	}
-	ent.Spent["hp"] -= e.Amount
-	if ent.Spent["hp"] < 0 {
-		ent.Spent["hp"] = 0
-	}
-	maxHP := ent.Resources["hp"]
-	if ent.Spent["hp"] > maxHP {
-		ent.Spent["hp"] = maxHP
-	}
-
-	delete(state.Metadata, "pending_damage")
-	return nil
-}
-func (e *HPChangedEvent) Message() string {
-	if e.Amount > 0 {
-		return fmt.Sprintf("%s healed for %d HP", e.ActorID, e.Amount)
-	} else if e.Amount < 0 {
-		return fmt.Sprintf("%s took %d damage", e.ActorID, -e.Amount)
-	}
-	return fmt.Sprintf("%s HP was unchanged", e.ActorID)
-}
-
 // DiceRolledEvent tracks a dice roll macro result.
 type DiceRolledEvent struct {
 	ActorName string
@@ -281,119 +232,6 @@ func (e *DiceRolledEvent) Message() string {
 		sb.WriteString(fmt.Sprintf("├─ Modifier: %s%d\n", modPrefix, e.Modifier))
 	}
 	return strings.TrimSpace(sb.String())
-}
-
-// InitiativeRolledEvent stores a participant's initiative roll and re-sorts turn order
-type InitiativeRolledEvent struct {
-	ActorName string
-	Score     int
-	IsManual  bool
-	RawRolls  []int
-	Kept      []int
-	Dropped   []int
-	Modifier  int
-}
-
-func (e *InitiativeRolledEvent) Type() EventType { return EventInitiativeRolled }
-func (e *InitiativeRolledEvent) Apply(state *GameState) error {
-	initiatives, ok := state.Metadata["initiatives"].(map[string]int)
-	if !ok {
-		// Try to recover if it was saved as map[string]any by JSON
-		if m, ok := state.Metadata["initiatives"].(map[string]any); ok {
-			initiatives = make(map[string]int)
-			for k, v := range m {
-				if vi, ok := v.(int); ok {
-					initiatives[k] = vi
-				} else if vf, ok := v.(float64); ok {
-					initiatives[k] = int(vf)
-				}
-			}
-		} else {
-			initiatives = make(map[string]int)
-		}
-		state.Metadata["initiatives"] = initiatives
-	}
-	initiatives[e.ActorName] = e.Score
-
-	// Create fresh sorted TurnOrder whenever new initiative arrives
-	var names []string
-	for id := range state.Entities {
-		names = append(names, id)
-	}
-	sort.SliceStable(names, func(i, j int) bool {
-		scoreI, okI := initiatives[names[i]]
-		scoreJ, okJ := initiatives[names[j]]
-		if okI && okJ {
-			return scoreI > scoreJ
-		}
-		if okI {
-			return true
-		}
-		if okJ {
-			return false
-		}
-		return names[i] < names[j] // tie-break by ID for stability
-	})
-
-	// Safely preserve CurrentTurn actor across resort if possible
-	var currentActor string
-	if state.CurrentTurn >= 0 && state.CurrentTurn < len(state.TurnOrder) {
-		currentActor = state.TurnOrder[state.CurrentTurn]
-	}
-
-	state.TurnOrder = names
-
-	// Realign index
-	if currentActor != "" {
-		found := false
-		for i, name := range state.TurnOrder {
-			if name == currentActor {
-				state.CurrentTurn = i
-				found = true
-				break
-			}
-		}
-		if !found {
-			state.CurrentTurn = 0
-		}
-	} else {
-		// If we didn't have a turn yet, check if we've fulfilled initiative requirements
-		isNowFrozen := false
-		for id := range state.Entities {
-			if _, ok := initiatives[id]; !ok {
-				isNowFrozen = true
-				break
-			}
-		}
-		if !isNowFrozen {
-			state.CurrentTurn = 0
-		}
-	}
-	return nil
-}
-func (e *InitiativeRolledEvent) Message() string {
-	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("%s rolled initiative: %d", e.ActorName, e.Score))
-
-	if e.IsManual {
-		sb.WriteString("\n├─ (Manual Override)")
-		return sb.String()
-	}
-
-	sb.WriteString(fmt.Sprintf("\n├─ Raw: %v", e.RawRolls))
-
-	if len(e.Dropped) > 0 {
-		sb.WriteString(fmt.Sprintf("\n├─ Kept: %v", e.Kept))
-		sb.WriteString(fmt.Sprintf("\n├─ Dropped: %v", e.Dropped))
-	}
-	if e.Modifier != 0 {
-		modPrefix := "+"
-		if e.Modifier > 0 {
-			modPrefix = ""
-		}
-		sb.WriteString(fmt.Sprintf("\n├─ Modifier: %s%d", modPrefix, e.Modifier))
-	}
-	return sb.String()
 }
 
 // AskIssuedEvent freezes target actors to roll a specific check
@@ -650,17 +488,34 @@ func (e *AttributeChangedEvent) Apply(state *GameState) error {
 		return fmt.Errorf("actor %s not found", e.ActorID)
 	}
 
+	getInt := func(val any) (int, bool) {
+		switch v := val.(type) {
+		case int:
+			return v, true
+		case int64:
+			return int(v), true
+		case float64:
+			return int(v), true
+		case string:
+			var i int
+			if _, err := fmt.Sscanf(v, "%d", &i); err == nil {
+				return i, true
+			}
+		}
+		return 0, false
+	}
+
 	switch e.AttrType {
 	case AttrStat:
-		if v, ok := e.Value.(int); ok {
+		if v, ok := getInt(e.Value); ok {
 			ent.Stats[e.Key] = v
 		}
 	case AttrResource:
-		if v, ok := e.Value.(int); ok {
+		if v, ok := getInt(e.Value); ok {
 			ent.Resources[e.Key] = v
 		}
 	case AttrSpent:
-		if v, ok := e.Value.(int); ok {
+		if v, ok := getInt(e.Value); ok {
 			ent.Spent[e.Key] = v
 		}
 	case AttrStatus:
@@ -702,7 +557,7 @@ func (e *AttributeChangedEvent) Message() string {
 	return fmt.Sprintf("%s's %s %s changed to %v.", e.ActorID, e.AttrType, e.Key, e.Value)
 }
 
-// ConditionToggledEvent adds or removes a condition from an actor
+// ConditionToggledEvent adds or removes a condition from an entity.
 type ConditionToggledEvent struct {
 	ActorID   string `json:"actor_id"`
 	Condition string `json:"condition"`
@@ -715,29 +570,26 @@ func (e *ConditionToggledEvent) Apply(state *GameState) error {
 	if !ok {
 		return fmt.Errorf("actor %s not found", e.ActorID)
 	}
-
 	if e.Active {
-		found := false
+		// Add if not present
 		for _, c := range ent.Conditions {
 			if c == e.Condition {
-				found = true
+				return nil
+			}
+		}
+		ent.Conditions = append(ent.Conditions, e.Condition)
+	} else {
+		// Remove if present
+		for i, c := range ent.Conditions {
+			if c == e.Condition {
+				ent.Conditions = append(ent.Conditions[:i], ent.Conditions[i+1:]...)
 				break
 			}
 		}
-		if !found {
-			ent.Conditions = append(ent.Conditions, e.Condition)
-		}
-	} else {
-		newConds := []string{}
-		for _, c := range ent.Conditions {
-			if c != e.Condition {
-				newConds = append(newConds, c)
-			}
-		}
-		ent.Conditions = newConds
 	}
 	return nil
 }
+
 func (e *ConditionToggledEvent) Message() string {
 	if e.Active {
 		return fmt.Sprintf("%s is now %s.", e.ActorID, e.Condition)
@@ -745,40 +597,35 @@ func (e *ConditionToggledEvent) Message() string {
 	return fmt.Sprintf("%s is no longer %s.", e.ActorID, e.Condition)
 }
 
-// MetadataChangedEvent updates a key in the global state metadata map
-type MetadataChangedEvent struct {
-	Key   string `json:"key"`
-	Value any    `json:"value"`
-}
-
-func (e *MetadataChangedEvent) Type() EventType { return EventMetadataChanged }
-func (e *MetadataChangedEvent) Apply(state *GameState) error {
-	if e.Value == nil {
-		delete(state.Metadata, e.Key)
-	} else {
-		state.Metadata[e.Key] = e.Value
-	}
-	return nil
-}
-func (e *MetadataChangedEvent) Message() string {
-	return fmt.Sprintf("System metadata %s updated.", e.Key)
-}
-
-// FrozenUntilChangedEvent updates the freeze condition of the engine
+// FrozenUntilChangedEvent updates the is_frozen state of an entity.
 type FrozenUntilChangedEvent struct {
-	FrozenUntil string `json:"frozen_until"`
+	ActorID    string `json:"actor_id"`
+	IsFrozen   bool   `json:"is_frozen"`
+	Expiration string `json:"expiration,omitempty"`
 }
 
 func (e *FrozenUntilChangedEvent) Type() EventType { return EventFrozenUntilChanged }
 func (e *FrozenUntilChangedEvent) Apply(state *GameState) error {
-	state.FrozenUntil = e.FrozenUntil
+	ent, ok := state.Entities[e.ActorID]
+	if !ok {
+		return fmt.Errorf("actor %s not found", e.ActorID)
+	}
+	if ent.Statuses == nil {
+		ent.Statuses = make(map[string]string)
+	}
+	if e.IsFrozen {
+		ent.Statuses["is_frozen"] = "true"
+	} else {
+		delete(ent.Statuses, "is_frozen")
+	}
 	return nil
 }
+
 func (e *FrozenUntilChangedEvent) Message() string {
-	if e.FrozenUntil == "" {
-		return "System un-frozen."
+	if e.IsFrozen {
+		return fmt.Sprintf("%s is frozen.", e.ActorID)
 	}
-	return fmt.Sprintf("System frozen until %s.", e.FrozenUntil)
+	return fmt.Sprintf("%s is no longer frozen.", e.ActorID)
 }
 
 // ChoiceIssuedEvent prompts a user to select an option from a list

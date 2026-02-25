@@ -76,16 +76,13 @@ func (s *Store) Load() ([]engine.Event, error) {
 			evt = &engine.ActorAddedEvent{}
 		case engine.EventTurnChanged:
 			evt = &engine.TurnChangedEvent{}
-		case engine.EventHPChanged:
-			evt = &engine.HPChangedEvent{}
+		case engine.EventTurnOrderUpdated:
+			evt = &engine.TurnOrderUpdatedEvent{}
 		case engine.EventDiceRolled:
 			evt = &engine.DiceRolledEvent{}
 		case engine.EventEncounterEnded:
 			evt = &engine.EncounterEndedEvent{}
-		case engine.EventInitiativeRolled:
-			evt = &engine.InitiativeRolledEvent{}
-		case engine.EventAttackResolved:
-			evt = &engine.AttackResolvedEvent{}
+
 		case engine.EventTurnEnded:
 			evt = &engine.TurnEndedEvent{}
 		case engine.EventAskIssued:
@@ -94,6 +91,14 @@ func (s *Store) Load() ([]engine.Event, error) {
 			evt = &engine.CheckResolvedEvent{}
 		case engine.EventConditionApplied:
 			evt = &engine.ConditionAppliedEvent{}
+		case engine.EventAttributeChanged:
+			evt = &engine.AttributeChangedEvent{}
+		case engine.EventMetadataChanged:
+			evt = &engine.MetadataChangedEvent{}
+		case engine.EventConditionToggled:
+			evt = &engine.ConditionToggledEvent{}
+		case engine.EventFrozenUntilChanged:
+			evt = &engine.FrozenUntilChangedEvent{}
 		default:
 			return nil, fmt.Errorf("unknown event type in log: %s", wrapper.Type)
 		}

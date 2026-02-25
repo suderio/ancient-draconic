@@ -2,6 +2,7 @@ package rules
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/google/cel-go/cel"
@@ -119,11 +120,90 @@ func NewRegistry(manifest *data.CampaignManifest, rollFunc func(string) int, rep
 				}),
 			),
 		),
+		cel.Function("min",
+			cel.Overload("min_int",
+				[]*cel.Type{cel.IntType, cel.IntType},
+				cel.IntType,
+				cel.BinaryBinding(func(lhs, rhs ref.Val) ref.Val {
+					a := lhs.Value().(int64)
+					b := rhs.Value().(int64)
+					if a < b {
+						return lhs
+					}
+					return rhs
+				}),
+			),
+		),
+		cel.Function("max",
+			cel.Overload("max_int",
+				[]*cel.Type{cel.IntType, cel.IntType},
+				cel.IntType,
+				cel.BinaryBinding(func(lhs, rhs ref.Val) ref.Val {
+					a := lhs.Value().(int64)
+					b := rhs.Value().(int64)
+					if a > b {
+						return lhs
+					}
+					return rhs
+				}),
+			),
+		),
+		cel.Function("sort_initiatives",
+			cel.Overload("sort_initiatives_map",
+				[]*cel.Type{cel.MapType(cel.StringType, cel.IntType)},
+				cel.ListType(cel.StringType),
+				cel.UnaryBinding(func(arg ref.Val) ref.Val {
+					m := arg.Value().(map[string]any)
+					initiatives := make(map[string]int)
+					var names []string
+					for k, v := range m {
+						names = append(names, k)
+						if i, ok := v.(int64); ok {
+							initiatives[k] = int(i)
+						} else if f, ok := v.(float64); ok {
+							initiatives[k] = int(f)
+						} else if i, ok := v.(int); ok {
+							initiatives[k] = i
+						}
+					}
+
+					sort.SliceStable(names, func(i, j int) bool {
+						s1 := initiatives[names[i]]
+						s2 := initiatives[names[j]]
+						if s1 != s2 {
+							return s1 > s2
+						}
+						return names[i] < names[j]
+					})
+
+					return types.DefaultTypeAdapter.NativeToValue(names)
+				}),
+			),
+		),
+		cel.Function("merge",
+			cel.Overload("merge_maps",
+				[]*cel.Type{cel.MapType(cel.StringType, cel.AnyType), cel.MapType(cel.StringType, cel.AnyType)},
+				cel.MapType(cel.StringType, cel.AnyType),
+				cel.BinaryBinding(func(lhs, rhs ref.Val) ref.Val {
+					m1 := lhs.Value().(map[string]any)
+					m2 := rhs.Value().(map[string]any)
+					newMap := make(map[string]any)
+					for k, v := range m1 {
+						newMap[k] = v
+					}
+					for k, v := range m2 {
+						newMap[k] = v
+					}
+					return types.DefaultTypeAdapter.NativeToValue(newMap)
+				}),
+			),
+		),
 		cel.Variable("pending_adjudication", cel.DynType),
 		cel.Variable("is_frozen", cel.BoolType),
 		cel.Variable("is_encounter_active", cel.BoolType),
 		cel.Variable("pending_checks", cel.DynType),
 		cel.Variable("entities", cel.DynType),
+		cel.Variable("metadata", cel.MapType(cel.StringType, cel.AnyType)),
 	)
 	if err != nil {
 		return nil, err
@@ -173,7 +253,7 @@ func convertRefVal(v ref.Val) any {
 	}
 	res := v.Value()
 
-	// If it's a map returned by CEL, it might contain ref.Val elements
+	// Handle maps (including those returned by CEL)
 	if m, ok := res.(map[ref.Val]ref.Val); ok {
 		nativeMap := make(map[string]any)
 		for mk, mv := range m {
@@ -183,7 +263,15 @@ func convertRefVal(v ref.Val) any {
 		return nativeMap
 	}
 
-	// Handle other collection types if needed
+	// Handle lists
+	if l, ok := res.([]ref.Val); ok {
+		nativeList := make([]any, len(l))
+		for i, v := range l {
+			nativeList[i] = convertRefVal(v)
+		}
+		return nativeList
+	}
+
 	return res
 }
 
