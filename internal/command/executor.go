@@ -487,6 +487,92 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 				ReferenceActor: refActor,
 			}
 		}
+	case "ChoiceIssued":
+		if m, ok := res.(map[string]any); ok {
+			var prompt, resolvesWith string
+			var options []string
+			if p, ok := m["prompt"].(string); ok {
+				prompt = p
+			}
+			if r, ok := m["resolves_with"].(string); ok {
+				resolvesWith = r
+			}
+			if o, ok := m["options"].([]any); ok {
+				for _, opt := range o {
+					options = append(options, fmt.Sprintf("%v", opt))
+				}
+			} else if os, ok := m["options"].([]string); ok {
+				options = os
+			}
+			if prompt != "" {
+				return &engine.ChoiceIssuedEvent{
+					ActorID:      targetID,
+					Prompt:       prompt,
+					Options:      options,
+					ResolvesWith: resolvesWith,
+				}
+			}
+		}
+	case "ChoiceResolved":
+		if s, ok := res.(string); ok && s != "" && s != "skip" {
+			return &engine.ChoiceResolvedEvent{
+				ActorID:   targetID,
+				Selection: s,
+			}
+		}
+	case "ContestStarted":
+		if m, ok := res.(map[string]any); ok {
+			var attackerID, defenderID, options, resolves string
+			var roll int
+			if a, ok := m["attacker_id"].(string); ok {
+				attackerID = a
+			} else {
+				attackerID = actorID // Default
+			}
+			if d, ok := m["defender_id"].(string); ok {
+				defenderID = d
+			} else {
+				defenderID = targetID // Default
+			}
+			if r, ok := m["attacker_roll"].(int); ok {
+				roll = r
+			} else if r, ok := m["attacker_roll"].(int64); ok {
+				roll = int(r)
+			} else if r, ok := m["attacker_roll"].(float64); ok {
+				roll = int(r)
+			}
+			if o, ok := m["defender_options"].(string); ok {
+				options = o
+			}
+			if r, ok := m["resolves_with"].(string); ok {
+				resolves = r
+			}
+			if attackerID != "" && defenderID != "" {
+				return &engine.ContestStartedEvent{
+					AttackerID:      attackerID,
+					DefenderID:      defenderID,
+					AttackerRoll:    roll,
+					DefenderOptions: options,
+					ResolvesWith:    resolves,
+				}
+			}
+		}
+	case "ContestResolved":
+		if m, ok := res.(map[string]any); ok {
+			var winner, loser string
+			if w, ok := m["winner_id"].(string); ok {
+				winner = w
+			}
+			if l, ok := m["loser_id"].(string); ok {
+				loser = l
+			}
+			if winner != "" {
+				return &engine.ContestResolvedEvent{
+					WinnerID: winner,
+					LoserID:  loser,
+				}
+			}
+		}
 	case "TurnEnded":
 		return &engine.TurnEndedEvent{
 			ActorID: actorID,

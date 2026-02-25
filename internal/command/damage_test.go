@@ -19,7 +19,7 @@ func TestExecuteDamageWithDefenses(t *testing.T) {
 		Statuses:  make(map[string]string),
 	}
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 
 	tests := []struct {
 		name     string
@@ -79,7 +79,7 @@ func TestExecuteDamageDefaultWeapon(t *testing.T) {
 		Statuses:  make(map[string]string),
 	}
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 	params := map[string]any{
 		"dice": "5",
 		"type": "piercing",
@@ -105,7 +105,7 @@ func TestExecuteDamageMultipleRolls(t *testing.T) {
 		Statuses:  make(map[string]string),
 	}
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 
 	// Damage 1: 5
 	params1 := map[string]any{"dice": "5", "type": "slashing"}

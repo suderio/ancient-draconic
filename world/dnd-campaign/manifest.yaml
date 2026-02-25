@@ -1,0 +1,215 @@
+commands:
+  attack:
+    name: "attack"
+    steps:
+      - name: "check_resources"
+        formula: "actor.actions_remaining > 0 || (has(actor.resources.attacks) && actor.spent.attacks < actor.resources.attacks) ? 'ok' : 'error:no actions remaining'"
+      - name: "hit"
+        formula: "('Dodging' in target.conditions ? roll('1d20d') : roll('1d20')) + mod(actor.stats.str) + action.bonus + (('weapon-' + action.weapon_resolved) in actor.profs ? actor.stats.prof_bonus : 0) >= target.stats.ac"
+        event: "AttackResolved"
+      - name: "consume_action"
+        formula: "true ? {'type': 'spent', 'key': 'actions', 'value': string(actor.spent.actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+      - name: "set_attack_status"
+        formula: "true ? {'type': 'status', 'key': 'has_attacked_this_turn', 'value': 'true'} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+      - name: "set_weapon_status"
+        formula: "true ? {'type': 'status', 'key': 'last_attacked_with_weapon', 'value': action.weapon_resolved} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+      - name: "prompt_maneuver"
+        formula: "steps.hit && ('battle_master' in actor.profs) && (!has(action.maneuver)) && (actor.resources.superiority_dice > actor.spent.superiority_dice) ? {'prompt': 'Apply a Maneuver?', 'options': ['none', 'trip_attack', 'pushing_attack', 'disarming_attack'], 'resolves_with': 'ApplyManeuver'} : {'type': 'skip'}"
+        event: "ChoiceIssued"
+      - name: "prompt_smite"
+        formula: "steps.hit && ('divine_smite' in actor.profs) && (actor.resources.spell_slots > actor.spent.spell_slots) ? {'prompt': 'Apply Divine Smite?', 'options': ['yes', 'no'], 'resolves_with': 'ApplySmite'} : {'type': 'skip'}"
+        event: "ChoiceIssued"
+      - name: "consume_ability"
+        formula: "action.weapon_resolved"
+        event: "AbilitySpent"
+
+  opportunity_attack:
+    name: "opportunity_attack"
+    steps:
+      - name: "check_reaction"
+        formula: "!has(actor.resources.reactions) || actor.spent.reactions < actor.resources.reactions ? 'ok' : 'error:no reactions remaining'"
+      - name: "adjudication"
+        formula: "is_frozen ? 'pending' : (pending_adjudication.approved ? 'ok' : 'adjudicate')"
+      - name: "hit"
+        formula: "steps.adjudication == 'ok' ? (('Dodging' in target.conditions ? roll('1d20d') : roll('1d20')) + mod(actor.stats.str) + action.bonus >= target.stats.ac) : false"
+        event: "AttackResolved"
+      - name: "consume_reaction"
+        formula: "steps.adjudication == 'ok' ? {'type': 'spent', 'key': 'reactions', 'value': string(actor.spent.reactions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  offhand_attack:
+    name: "offhand_attack"
+    steps:
+      - name: "check_bonus_action"
+        formula: "!has(actor.resources.bonus_actions) || actor.spent.bonus_actions < actor.resources.bonus_actions ? 'ok' : 'error:no bonus actions remaining'"
+      - name: "check_prior_attack"
+        formula: "has(actor.statuses.has_attacked_this_turn) && actor.statuses.has_attacked_this_turn == 'true' ? 'ok' : 'error:must take the Attack action before taking a bonus action attack'"
+      - name: "hit"
+        formula: "roll('1d20') + mod(actor.stats.str) + action.bonus >= target.stats.ac"
+        event: "AttackResolved"
+      - name: "consume_bonus_action"
+        formula: "steps.check_prior_attack == 'ok' ? {'type': 'spent', 'key': 'bonus_actions', 'value': string(actor.spent.bonus_actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  check:
+    name: "check"
+    steps:
+      - name: "consume_help"
+        formula: "get_condition(actor, 'HelpedCheck:')"
+        event: "ConditionRemoved"
+      - name: "dc"
+        formula: "actor.id in pending_checks ? pending_checks[actor.id].dc : (has(action.dc) ? action.dc : 10)"
+      - name: "total"
+        formula: "roll('1d20') + mod(actor.stats.dex) + (action.check in actor.profs ? actor.stats.prof_bonus : (action.check.contains('save') && ('saving-throw-' + action.check.split(' ')[0]) in actor.profs ? actor.stats.prof_bonus : 0))"
+      - name: "success"
+        formula: "steps.total >= steps.dc"
+        event: "CheckResolved"
+      - name: "consume_action"
+        formula: "true ? {'type': 'spent', 'key': 'actions', 'value': string(actor.spent.actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  damage:
+    name: "damage"
+    steps:
+      - name: "multiplier"
+        formula: "action.type in target.immunities ? 0.0 : (action.type in target.resistances ? 0.5 : (action.type in target.vulnerabilities ? 2.0 : 1.0))"
+      - name: "amount"
+        formula: "int(float(roll(has(action.dice) ? action.dice : '1d4')) * steps.multiplier) * -1"
+        event: "HPChanged"
+
+  turn:
+    name: "turn"
+    steps:
+      - name: "end"
+        formula: "true"
+        event: "TurnEnded"
+      - name: "next_actor"
+        formula: "true"
+        event: "TurnChanged"
+
+  start_turn:
+    name: "start_turn"
+    steps:
+      - name: "reset_actions"
+        formula: "{'type': 'spent', 'key': 'actions', 'value': '0'}"
+        event: "AttributeChanged"
+      - name: "reset_bonus_actions"
+        formula: "{'type': 'spent', 'key': 'bonus_actions', 'value': '0'}"
+        event: "AttributeChanged"
+      - name: "reset_reactions"
+        formula: "{'type': 'spent', 'key': 'reactions', 'value': '0'}"
+        event: "AttributeChanged"
+      - name: "reset_movement"
+        formula: "{'type': 'spent', 'key': 'movement', 'value': '0'}"
+        event: "AttributeChanged"
+
+  end_turn:
+    name: "end_turn"
+    steps:
+      - name: "eval"
+        formula: "'ok'"
+
+  grapple:
+    name: "grapple"
+    steps:
+      - name: "check_action"
+        formula: "actor.actions_remaining > 0 ? 'ok' : 'error:no actions remaining'"
+      - name: "adjudication"
+        formula: "is_frozen ? 'pending' : (pending_adjudication.approved ? 'ok' : 'adjudicate')"
+      - name: "ask"
+        formula: "steps.adjudication == 'ok'"
+        event: "AskIssued"
+      - name: "contest"
+        formula: "steps.adjudication == 'ok' ? {'attacker_id': actor.id, 'defender_id': target.id, 'attacker_roll': roll('1d20') + mod(actor.stats.str) + ('athletics' in actor.profs ? actor.stats.prof_bonus : 0), 'defender_options': 'athletics or acrobatics', 'resolves_with': 'ApplyGrapple'} : {'type': 'skip'}"
+        event: "ContestStarted"
+      - name: "consume_action"
+        formula: "steps.adjudication == 'ok' ? {'type': 'spent', 'key': 'actions', 'value': string(actor.spent.actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  shove:
+    name: "shove"
+    steps:
+      - name: "check_action"
+        formula: "actor.actions_remaining > 0 ? 'ok' : 'error:no actions remaining'"
+      - name: "validate_size"
+        formula: "size_rank(target.size) <= size_rank(actor.size) + 1 ? 'ok' : 'error:target is too large'"
+      - name: "ask"
+        formula: "steps.validate_size == 'ok'"
+        event: "AskIssued"
+      - name: "contest"
+        formula: "steps.validate_size == 'ok' ? {'attacker_id': actor.id, 'defender_id': target.id, 'attacker_roll': roll('1d20') + mod(actor.stats.str) + ('athletics' in actor.profs ? actor.stats.prof_bonus : 0), 'defender_options': 'athletics or acrobatics', 'resolves_with': 'ApplyShove'} : {'type': 'skip'}"
+        event: "ContestStarted"
+      - name: "consume_action"
+        formula: "steps.validate_size == 'ok' ? {'type': 'spent', 'key': 'actions', 'value': string(actor.spent.actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  dodge:
+    name: "dodge"
+    steps:
+      - name: "check_action"
+        formula: "actor.actions_remaining > 0 ? 'ok' : 'error:no actions remaining'"
+      - name: "resolve"
+        formula: "steps.check_action == 'ok' ? {'condition': 'Dodging', 'expires_on': 'start_turn', 'reference_actor': actor.id} : {'type': 'skip'}"
+        event: "ConditionApplied"
+      - name: "consume_action"
+        formula: "steps.check_action == 'ok' ? {'type': 'spent', 'key': 'actions', 'value': string(actor.spent.actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  initiative:
+    name: "initiative"
+    steps:
+      - name: "roll"
+        formula: "string(roll('1d20') + mod(actor.stats.dex))"
+        event: "InitiativeRolled"
+
+  help_action:
+    name: "help_action"
+    steps:
+      - name: "check_action"
+        formula: "actor.actions_remaining > 0 ? 'ok' : 'error:no actions remaining'"
+      - name: "adjudication"
+        formula: "steps.check_action == 'ok' ? (is_frozen ? 'pending' : (pending_adjudication.approved ? 'ok' : 'adjudicate')) : 'skip'"
+      - name: "resolve"
+        formula: "steps.adjudication == 'ok' ? {'condition': 'HelpedCheck:' + actor.id, 'expires_on': 'start_turn', 'reference_actor': actor.id} : {'type': 'skip'}"
+        event: "ConditionApplied"
+      - name: "consume_action"
+        formula: "steps.adjudication == 'ok' ? {'type': 'spent', 'key': 'actions', 'value': string(actor.spent.actions + 1)} : {'type': 'skip', 'key': '', 'value': ''}"
+        event: "AttributeChanged"
+
+  ask:
+    name: "ask"
+    steps:
+      - name: "resolve"
+        formula: "true"
+        event: "AskIssued"
+
+  add:
+    name: "add"
+    steps:
+      - name: "validate_gm"
+        formula: "actor.id == 'GM' ? 'ok' : 'error:unauthorized: this command can only be executed by the GM'"
+      - name: "check_active"
+        formula: "steps.validate_gm == 'ok' ? (is_encounter_active ? 'ok' : 'error:conflict: cannot add actors without an active encounter') : 'skip'"
+      - name: "check_exists"
+        formula: "steps.check_active == 'ok' ? (target.id in entities ? 'error:conflict: actor ' + target.id + ' is already in the encounter' : 'ok') : 'skip'"
+      - name: "resolve"
+        formula: "steps.check_exists == 'ok'"
+        event: "ActorAdded"
+
+  encounter:
+    name: "encounter"
+    steps:
+      - name: "validate_gm"
+        formula: "actor.id == 'GM' ? 'ok' : 'error:unauthorized: this command can only be executed by the GM'"
+      - name: "check_conflict"
+        formula: "steps.validate_gm == 'ok' ? (action.action == 'start' && is_encounter_active ? 'error:conflict: an encounter is already active. End it first' : (action.action == 'end' && !is_encounter_active ? 'error:conflict: no active encounter to end' : 'ok')) : 'skip'"
+      - name: "state_change"
+        formula: "steps.check_conflict == 'ok' ? (action.action == 'start' ? 'started' : 'ended') : 'skip'"
+        event: "EncounterStateChanged"
+      - name: "add_actor"
+        # Only add actors if we are starting. The targets list will be processed by ExecuteGenericCommand.
+        formula: "steps.check_conflict == 'ok' && action.action == 'start' ? 'ok' : 'skip'"
+        event: "ActorAdded"

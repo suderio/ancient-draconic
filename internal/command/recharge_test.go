@@ -33,7 +33,7 @@ func TestMonsterRecharge(t *testing.T) {
 	state.TurnOrder = []string{"dragon", "player"}
 	state.CurrentTurn = 0
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 	manifest, _ := loader.LoadManifest()
 	reg, _ := rules.NewRegistry(manifest, func(s string) int { return 10 }, nil)
 

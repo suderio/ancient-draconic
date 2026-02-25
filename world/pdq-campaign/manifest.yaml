@@ -1,0 +1,94 @@
+system: "PDQ Core"
+global_rules:
+  - "In PDQ, all rolls are 2d6 + Quality Modifiers (-2 for Poor, 0 for Average, +2 for Good, +4 for Expert, +6 for Master)."
+  - "Target Numbers determine simple success: Trivial=5, Straightforward=7, Complex=9, Intricate=11, Extreme=13."
+  - "Conflict is resolved with opposed rolls (2d6 + Mod vs 2d6 + Mod). The difference in rolls is the damage rank dealt."
+  - "Damage means downshifting a Quality by one rank. The defender chooses which Quality to downshift."
+
+commands:
+  conflict:
+    name: "conflict"
+    steps:
+      - name: "atk_roll"
+        formula: "roll('2d6') + (has(actor.stats[action.attack_quality]) ? actor.stats[action.attack_quality] : 0) + (has(action.attack_upshift) ? 2 : 0) - (has(action.attack_downshift) ? 2 : 0)"
+      - name: "contest"
+        formula: "{'attacker_id': actor.id, 'defender_id': target.id, 'attacker_roll': steps.atk_roll, 'defender_options': 'Defend using a suitable Quality', 'resolves_with': 'ResolveConflict'}"
+        event: "ContestStarted"
+
+  resolve_conflict:
+    name: "resolve_conflict"
+    steps:
+      - name: "hit"
+        formula: "action.attacker_roll > action.defender_roll"
+        event: "AttackResolved"
+      - name: "damage_ranks"
+        formula: "action.attacker_roll - action.defender_roll"
+      - name: "prompt_damage"
+        formula: "steps.hit ? {'prompt': 'You took ' + string(steps.damage_ranks) + ' Damage Ranks. Choose a Quality to Downshift:', 'options': 'qualities', 'resolves_with': 'ApplyDamageRanks'} : {'type': 'skip'}"
+        event: "ChoiceIssued"
+
+  simple_task:
+    name: "simple_task"
+    steps:
+      - name: "roll"
+        formula: "roll('2d6') + (has(actor.stats[action.quality]) ? actor.stats[action.quality] : 0) + (has(action.upshift) ? 2 : 0) - (has(action.downshift) ? 2 : 0)"
+      - name: "resolve"
+        formula: "steps.roll >= (has(action.target_number) ? action.target_number : 7)"
+        event: "CheckResolved"
+        
+  turn:
+    name: "turn"
+    steps:
+      - name: "end"
+        formula: "true"
+        event: "TurnEnded"
+      - name: "next_actor"
+        formula: "true"
+        event: "TurnChanged"
+
+  start_turn:
+    name: "start_turn"
+    steps:
+      - name: "eval"
+        formula: "'ok'"
+
+  end_turn:
+    name: "end_turn"
+    steps:
+      - name: "eval"
+        formula: "'ok'"
+
+  initiative:
+    name: "initiative"
+    steps:
+      - name: "roll"
+        # Initiative is based on the highest relevant quality. We don't roll; it's static order based on Quality.
+        formula: "string(has(actor.stats[action.quality]) ? actor.stats[action.quality] : 0)"
+        event: "InitiativeRolled"
+
+  add:
+    name: "add"
+    steps:
+      - name: "validate_gm"
+        formula: "actor.id == 'GM' ? 'ok' : 'error:unauthorized: this command can only be executed by the GM'"
+      - name: "check_active"
+        formula: "steps.validate_gm == 'ok' ? (is_encounter_active ? 'ok' : 'error:conflict: cannot add actors without an active encounter') : 'skip'"
+      - name: "check_exists"
+        formula: "steps.check_active == 'ok' ? (target.id in entities ? 'error:conflict: actor ' + target.id + ' is already in the encounter' : 'ok') : 'skip'"
+      - name: "resolve"
+        formula: "steps.check_exists == 'ok'"
+        event: "ActorAdded"
+
+  encounter:
+    name: "encounter"
+    steps:
+      - name: "validate_gm"
+        formula: "actor.id == 'GM' ? 'ok' : 'error:unauthorized: this command can only be executed by the GM'"
+      - name: "check_conflict"
+        formula: "steps.validate_gm == 'ok' ? (action.action == 'start' && is_encounter_active ? 'error:conflict: an encounter is already active. End it first' : (action.action == 'end' && !is_encounter_active ? 'error:conflict: no active encounter to end' : 'ok')) : 'skip'"
+      - name: "state_change"
+        formula: "steps.check_conflict == 'ok' ? (action.action == 'start' ? 'started' : 'ended') : 'skip'"
+        event: "EncounterStateChanged"
+      - name: "add_actor"
+        formula: "steps.check_conflict == 'ok' && action.action == 'start' ? 'ok' : 'skip'"
+        event: "ActorAdded"

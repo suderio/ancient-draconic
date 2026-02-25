@@ -1,0 +1,1427 @@
+PROSE DESCRIPTIVE QUALITIES SYSTEM
+CORE RULES
+©2004 Chad Underkoffler
+ATOMIC SOCK MONKEY PRESS
+< http://www.atomicsockmonkey.com >
+
+PDQ MASTER CHART
+LEVEL
+
+As Quality Rank
+
+AS DIFFICULTY RANK
+
+MODIFIER
+TO 2D6
+
+TARGET
+NUMBER
+
+ROLL
+
+Notably Inept.
+
+-2
+
+A trivial task.
+
+5
+
+Typical human capability.
+
+0
+
+Straightforward task.
+
+7
+
+Good
+
+Better than usual; most professionals or
+talented newcomers.
+
++2
+
+Complex task, requiring attention to detail.
+
+9
+
+Expert
+
+Noted/famed professional; talent with
+skill to back it up.
+
++4
+
+Intricate task, difficult and requiring sharp
+concentration, hard for a typical untrained person
+(Average).
+
+11
+
+Master
+
+Acclaimed genius: talent with
+substantial skill behind it.
+
++6
+
+Extremely difficult task, hard for most professionals in
+the field (Good).
+
+13
+
+Poor
+Average
+
+QUALITIES
+
+ABOUT THE PDQ SYSTEM
+
+Qualities help further describe your character’s
+particular talents, skills, and flaw(s). They also
+provide game mechanics for how those abilities or
+disabilities work in play (see below, Task Resolution).
+Qualities should grow out of the character concept
+and game setting.
+
+The Prose Descriptive Qualities (PDQ) System has
+been designed for evocative simplicity, speed, and
+flexibility in play. Three levels of resolution, suitable
+for any type of situation.
+
+CREATING CHARACTERS
+
+Qualities represent a broad skill or field of
+knowledge; if a particular Quality is relevant at all to
+an action or topic, the character may apply that
+Quality when attempting that action or
+understanding that topic. This is called the penumbra
+(or “shadow”) of the Quality. Therefore, a player
+shouldn’t choose Qualities that are too narrow or its
+penumbra will cast too narrow a shadow; too broad,
+and identifying the sorts of things that should fall
+under the penumbra becomes pointless. The
+parameters for what’s “too broad” or “too narrow”
+are up to the individual GM.
+
+A PDQ character is made up of several elements; in
+different games, different elements can -- and should
+-- be used. For example, Dead Inside (DI) uses 8
+elements (Personality, Backstory, Soul Loss,
+Discovery, Qualities, Type, Soul Point Pool, and
+Miscellany). On the other hand, Monkey, Ninja,
+Pirate, Robot: the Roleplaying Game (MNPR:RPG)
+only uses 6 elements (Type, Goal, Name, Qualities,
+Mojo Points, and Challenge Rating).
+The core element of PDQ is the concept of a prose,
+descriptive, do-it-yourself, wide-ranging Quality
+standing in as attribute, advantage, merit, flaw, skill,
+or incapability. Other subsystems within a game -like DI's Virtue & Vice System and MNPR:RPG's
+Mojo Powers -- can affect this core, or operate
+independently, but in either case, should be
+represented in character generation somehow.
+
+For example, consider a character who has the
+Quality of “Teacher.” For some PDQ games, that
+will be perfectly fine; for others, too broad. The GM
+might ask the player to refine the Quality, to give a
+better idea of the sorts of things that will fall under
+the Teacher Quality’s penumbra. So: “Teacher”
+
+1
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+neither noteworthy nor inept – that is, they’re
+Average [0].
+
+could become “College History Prof,” “High School
+Chemistry Teacher,” or “Grade School Teacher.”
+While all would cover the basic concept of
+education, each individual choice will bring
+different skills under the Quality penumbra – not
+just their fields of interest, but also supplementary
+knowledge: the College History Prof would have
+more experience with (academic) politics, the High
+School Chemistry Teacher would know more about
+adolescent fads, and the Grade School Teacher
+would be better at dealing with kids on a sugar high.
+
+QUALITY EXAMPLES
+Physical: Gunplay, Kung Fu, Roguishly Handsome,
+Weightlifting, Ballroom Dance, Perseverance.
+Mental: Oriental Philosophy, Fine Food and Drink, Sports
+Trivia, Speed-reading, Strategy & Tactics, Computer
+Programming.
+Social: Wu-Shen
+Conversationalist,
+Effusive.
+
+Take another example: “Gunplay.” This Quality
+would be useful not just in shooting at things, but
+also in cleaning and repairing guns, discovering the
+location of nearby gun dealers and shooting ranges,
+knowing the history of firearms, and so forth. If the
+player had instead selected a Quality of “.44
+Magnum,” the Quality would only be useful in
+shooting that individual model of gun, and involve
+knowledge surrounding .44 Magnums exclusively.
+
+Professional: Teacher, Martial Artist, Spy, Professional
+Athlete, Freelance Writer, Bounty Hunter, Mad Scientist.
+
+A Strength is an inherent positive aspect (benefit,
+skill, talent, attribute, or power) of a character. Come
+up with a word or a pithy phrase to sum up the
+Strength. Examples include Fighting, Credit Rating,
+Fly Like A Bird, Find Bargains, and Run Away!
+
+Qualities are often drawn from five general areas:
+
+A Weakness is an inherent negative aspect of the
+character, stemming from ignorance, flawed
+understanding, physical or mental incapability, or
+some other vulnerability. A word of advice: pick
+something that will be fun or entertaining (for you
+the player, not necessarily you the character) to flub
+at! Come up with a word or a pithy phrase to sum
+up the Weakness. Examples here include Glass Jaw,
+Bad Credit Rating, Slow As Molasses, and
+Wallflower. Weaknesses are always Poor [-2] Rank.
+
+♦ Physical. Having to do with the body,
+athleticism, or natural talents;
+♦ Mental. Areas of study, intellectual acuity,
+education;
+♦ Social. Groups the character is a member of
+or associates with, skills in dealing with
+people;
+♦ Professional. Knowledge and skills picked
+up on the job; and
+♦ Other. Esoteric skills, psychic
+physical resources, or superpowers.
+
+Monks, MI6, Football Team,
+Intimidating
+Guy,
+Charmingly
+
+Depending upon the conception of what a character
+is like, any Quality (other than that gained from
+Type) can be a Strength or a Weakness. For example,
+suppose a character has “Hook-Handed” as a
+Quality. If it’s ranked Average [0] or above, it’s a
+Strength: the character can use his Hook as a
+weapon (in physical conflicts) or as a threat (in social
+conflicts) – or even wackier things picking a lock or
+sliding down a rope – with an increased chance of
+success. But if the character has “Poor [-2] HookHanded,” this is a Weakness: the character keeps
+getting his Hook stuck into things, forgets about it
+when he tries to scratch his head, has problems
+holding onto things that require two hands, and so
+forth. It’s all in the way you spin it.
+
+talents,
+
+Qualities have Ranks, which indicate increasing
+proficiency. From lowest to highest, the Ranks are:
+♦ Poor [-2];
+♦ Average [0];
+♦ Good [+2];
+♦ Expert [+4]; and
+♦ Master [+6].
+The numbers in square brackets following the Rank
+of the Quality show the Rank’s Modifier – how
+much is added to or subtracted from a 2d6 dice roll
+(see below).
+
+IMPORTANT NOTE - If a PC wants to be particularly
+better at some Quality that might normally fall under
+the penumbra of another Quality (for example, taking
+“Soldier” and “Rifle” separately), it’s perfectly okay to
+do so, provided that the player realizes that in exchange
+
+Characters have some things going for them
+(Strengths), and at least one thing working against
+them (Weakness). At everything else, characters are
+
+2
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+for a benefit up-front, their character generation choice
+will
+affect
+future
+Improvement
+(see
+below,
+Improvement).
+
+Examples: Jefferson wants to climb a wall using
+his Good [+2] Outdoorsman Quality (he
+successfully convinces the GM that climbing a
+cliff face is similar enough to climbing a wall for
+it to count), he’ll automatically succeed in scaling
+Poor [5] and Average [7] Difficulty walls.
+
+Players should have several options when designing
+the Qualities of their character. They may choose
+between having more Qualities at a lower level of
+competency, or having fewer Qualities at a higher
+level of competency.
+
+If Kristov wanted to climb a wall, he has no
+applicable Quality, and so would have the
+default Quality Rank of Average [0]. This means
+he can only automatically succeed in climbing
+Poor [5] Difficulty walls.
+
+It's a good idea to first determine how many ranks
+of Strengths and Weaknesses you wish characters to
+have, and then to lay the possibilities out simply for
+the players. For example, DI characters have 8 Ranks
+of Strengths and 1 Rank of Weakness, which breaks
+down this way:
+
+For Jefferson, Good [9] or higher Difficulty Rank
+walls are complicated; for Kristov, Average [7] or
+higher Difficulty Rank walls are complicated.
+
+A. 4 Good [+2] Strengths and 1 Poor [-2]
+Weakness.
+
+Upshifts (Being Badass)
+This is how PCs get more bang for their buck. If the
+player describes his character’s attempt to perform
+an action in a graphic, flavorful, and entertaining
+way, the GM can give them an Upshift. An Upshift
+means that for that particular action, the PC rolls as
+if their Quality were one level higher (essentially
+giving him an additional +2 to their roll). So, rather
+than “I hit the sailor” (or “I haggle”), the player says
+something like “I grab the sailor’s shirt with one
+hand and pull him closer to punch him in the face
+with my other fist – arr, matey!” (or says, in
+character, “May the fleas from a thousand camels
+infest the beds of your children if you try and rob
+me in this way!”). If the PC had a Good [+2] Pirate
+(or Bargaining) Quality, this would change his roll
+in attempting to hit the sailor (or haggle with the
+merchant) from 2d6+2 to 2d6+4, as if he were Expert
+[+4] Rank.
+
+B. 1 Expert [+4] Strength, 2 Good [+2] Strengths,
+and 1 Poor [-2] Weakness.
+C. 2 Expert [+4] Strengths and 1 Poor [-2]
+Weakness.
+D. 1 Master [+6] Strength, 1 Good [+2] Strength,
+and 1 Poor [-2] Weakness.
+Never fear: if after play begins, a particular Quality
+sees no use and doesn’t really add to the
+characterization of a PC, a player should feel free to
+change it to something that fits better – but only
+after talking to the GM first.
+
+TASK RESOLUTION
+When your character tries to do something, the GM
+will determine if the situation is simple, complicated,
+or conflict. Let’s take each in turn.
+
+NOTE - Upshifts above Master Rank add an extra die to the
+character’s roll (i.e., instead of rolling 2d6+6+2, the
+character rolls 3d6+6).
+
+SIMPLE SITUATIONS
+In simple situations, the task is clear-cut, there are no
+outstanding issues interfering with the attempted
+action, or randomness would bog down the game. In
+a simple situation, the GM looks at the Master Chart
+(see below), and determines the Difficulty Rank of
+the task. Then, the GM compares that Difficulty
+Rank to the character’s most appropriate Quality
+Rank. The higher Rank of the two “wins.” If the
+Difficulty Rank of the task is equal to or higher than
+the character’s relevant Quality Rank, the task
+becomes a complicated situation (see below).
+
+COMPLICATED SITUATIONS
+Dice rolls are made in complicated situations: where
+comparisons of Rank are inconclusive, or when
+randomness is desired. Complicated situations are
+when Quality and Difficulty Ranks are tied, or when
+Quality Rank is lower than Difficulty Rank. To
+attempt a complicated situation, the PC rolls two
+regular six-sided dice (2d6), and adds the Modifier
+for their Quality Rank. To succeed, the PC must
+
+3
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+NOTE - In addition to the in-line examples in
+each section, two detailed examples of conflict
+situations – with all the bells and whistles –
+appear at the end of this chapter.
+
+match or roll higher than the Target Number of the
+task’s Difficulty Rank.
+NOTE - Some failures – like attempting to walk a skinny
+building ledge – may carry the chance of getting hurt. For
+more on that topic, see below, Environmental Damage.
+
+INITIATIVE
+
+Examples: Jefferson is trying to climb a Good [9]
+Difficulty wall using his Good [+2] Outdoorsman
+Quality. The Target Number of Good [9]
+Difficulty – as noted in the brackets – is 9.
+Jefferson must roll 2d6 and add his Modifier of
++2, trying to match or beat a 9. He rolls a 3 and a
+5, giving him 3+5+2 = 10! He succeeds in
+climbing the wall.
+
+First, figure out who goes first – that is, who has
+Initiative. Most of the time, the flow of the situation
+will indicate who acts first, but in some cases, this
+order may need to be determined. Here’s how to do
+it:
+1.
+
+Kristov wants to follow Jefferson up that Good
+[9] Difficulty wall: again, he has no applicable
+Quality, and so must use the default Quality
+Rank of Average [0]. He must match or beat a 9
+when rolling 2d6. He rolls exactly the same thing
+that Jefferson did: a 3 and a 5, and since Average
+Rank Qualities have no Modifier, that’s a total of
+8. This is below the Target Number of the wall, so
+Kristov fails.
+
+If a character attacks without warning –
+taking the victim by surprise – the attacker
+automatically goes first. (At the GM’s
+discretion, he might even get a free turn, if
+the target is caught totally unawares.)
+
+Downshifts
+While functionally the same thing (a -2 to a 2d6 plus
+Modifiers roll), the reasons behind having a Weakness or
+incurring Downshifts are different.
+
+When a character’s Qualities are set against the
+Qualities of other characters, this isn’t just
+complicated, it’s a conflict situation (see below).
+
+For example, Jefferson has a Weakness of Poor [-2] Reader.
+If he needs to do a really complicated and unusual repair
+on Declaration (his hog), requiring reading the bike’s
+manual, this Weakness will affect his overall competence
+(Expert [+4] Biker Dude) in the repair. Instead of rolling
+2d6+4, Jefferson will be rolling 2d6+2. That’s just par for
+the course, an effect of his Strength and Weakness
+interacting in that particular situation.
+
+CONFLICT SITUATIONS
+Conflict situations involve active resistance by
+another to a character’s attempts to perform a task:
+trying to punch a guy in the face, out-thinking a
+chess player, running a race, or convincing a cop
+that, you weren’t really speeding. Conflict situations
+in PDQ include more than just the immediate
+success or failure of an attempted action; here,
+conflict includes the back and forth of an active
+contest, out-maneuvering the competition, and
+wearing down an opponent’s resistance. Examples
+of conflict situations include combat, seduction,
+haggling, debating, and so forth. (Note that some
+groups won’t necessarily want to use the conflict
+situation mechanics to resolve social interactions,
+and will want to rely on pure roleplaying instead;
+this is fine – the rules structure is there if a group
+wishes to use it.)
+
+A Downshift means that for the action in question, the PC
+rolls as if his Quality were one level lower (essentially
+giving him a -2 to their roll). Downshifts can come from a
+number of sources: if a combatant decides to Play It Cagey
+(see below, Conflict Jazz), the effects of Failure or Damage
+Ranks (see below, Taking It On the Chin), or -- in Dead
+Inside -- the general penalty to social situations that the
+Dead Inside have in the Real World.
+While judicious use of Downshifts to reflect a sudden or
+unexpected change in the complexity of a situation can
+work very well, GMs should resist the temptation to
+overuse Downshifts as situational modifiers. PDQ games
+tend to run smoother if the GM simply sets the Difficulty
+Rank (and thus, Target Number) of a task appropriately.
+For example, if the PCs are attempting to climb a Average
+[7] Difficulty wall and it begins to rain, a Downshift to
+each of their relevant Qualities makes sense. However, if
+it’s already raining when they begin their attempt, simply
+make the wall Good [9] difficulty from the get-go.
+
+In conflict situations, the characters involved
+compare the results of 2d6 plus Modifier rolls; the
+highest successful result wins. However, there are a
+few refinements of conflict requiring closer
+attention. These are Initiative, Moment of Truth, and
+Damage.
+
+NOTE - Downshifts below Poor Rank mean automatic
+failure in the use of that Quality.
+
+4
+
+PDQ CORE RULES
+2.
+
+3.
+
+©2004 Chad Underkoffler
+
+Example: Jimbo and Salty Dave are sparring,
+getting ready for a big combat Challenge next
+week with the Roboto Brothers. Jimbo is using
+his Expert [+4] Rasslin’ Quality here, while Salty
+Dave is using his Good [+2] Cutlass Quality.
+Jimbo’s Rank is higher, so he goes first.
+
+The character with the highest Rank in a
+“speed” or “reaction time” Quality relevant
+to the situation (Fastest Gun in the East,
+Jumpy, Quick Wits) goes first, followed in
+order by those with relevant Qualities of
+lower Ranks.
+
+Zandra is using her Expert [+4] Marketing
+Executive Quality here (she’s used to picking up
+business lunches) and Jefferson’s using his Expert
+[+4] Biker Dude Quality (he’s used to
+intimidating people into doing what he wants
+them to).
+
+The character with the highest Rank in a
+Quality not relevant to the situation goes
+next, followed by those of lower Ranks.
+
+Zandra and Jefferson are both at Expert Rank,
+and thus tied. The GM decides that Initiative
+between them will be determined with a die roll.
+Zandra rolls a 3 and Jefferson rolls a 4. Jefferson
+has Initiative.
+
+Being Lameass
+Being Lameass is – in some ways – the opposite of Being
+Badass. Boring, uncharacteristic, or disruptive roleplaying
+can ruin everybody else’s fun, and after all, the point of
+roleplaying is to have a good time. If a player is reading,
+refusing to pay attention, watching TV, pedantically ruleslawyering, utterly ignoring the characterization of their
+PC, being pointlessly abusive or distracting to other
+players, or – saints preserve us! – sleeping at the gaming
+table, they are working against the overall good time. In
+these cases, the GM could give the offending PC a
+Downshift based on the player’s behavior. . . but what’s the
+point? If the player’s not interested enough in the game to
+even pay attention, penalizing this character will probably
+have little effect on his behavior.
+
+MOMENT OF TRUTH
+The character whose turn it is will be called the
+attacker; the character who is the target of the
+attacker’s action is called the defender. The attacker
+explains what his attempted action is, and the
+defender explains how he’d try to counter that
+action. Then, the attacker rolls 2d6 for his relevant
+Quality and adds the appropriate Modifier for
+Quality Rank. The defender does the same. The
+character with the higher total wins.
+
+Try to discover the cause of the player’s Being Lameass.
+Maybe it’s something about the focus or subject matter of
+the campaign, a difference of roleplaying style, or even an
+unrelated personal issue that’s bugging the player. The
+answer to Being Lameass is to discuss the situation
+outside of the game – either by taking a break or talking
+between sessions – and try to work through it like grownups. A little bit of open communication can do wonders
+for these sorts of issues.
+
+If the attacker is successful, damage (see below) is
+applied to the defender; if the attacker fails, no
+damage is done. A tie is just that – nobody wins,
+nobody loses. . . but they both muss each other up a
+little.
+Example: As the Turn starts, Jimbo is the attacker
+and Salty Dave is the defender. Jimbo is going to
+grapple the Pirate using his Expert [+4] Rasslin’
+and Average [0] Monkey Qualities, and Salty
+Dave decides to try and hold him off using his
+Good [+2] Cutlass and Average [0] Pirate
+Qualities. Jimbo rolls 2d6+4+0 for a result of 10,
+Salty Dave rolls 2d6+2+0 for a result of 8. Thus,
+Jimbo does damage to Salty Dave this turn – see
+below – and has grabbed the scurvy dog. (If Salty
+Dave had been a better Pirate, this would give a
+different result: if he were a Good [+2] Pirate, the
+characters would have tied and done each other
+damage; if he were an Expert [+4] Pirate, Jimbo’s
+attack would fail and he’d take no damage.)
+
+Ties can be broken by either:
+♦ Stating that tied characters resolve their
+actions simultaneously; or
+♦ Rolling a die, with the highest number
+winning Initiative.
+Once Initiative is determined, conflict resolution can
+proceed. Characters with a higher Initiative may
+“hold their actions” for as long as they want, but
+after the last character has done something, they
+need to take that held action or lose it. After
+everyone involved in the conflict situation has taken
+an action (or chosen not to), the characters can act
+again, in the same order. Lather, rinse, repeat.
+
+On his action, Salty Dave wants to escape from
+Jimbo’s monkey-hug. He gets a result of 11, while
+the Monkey gets a result of 6. Salty Dave does a
+lot of damage to Jimbo in getting free.
+
+5
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+either a Failure Rank or a Damage Rank, depending
+upon the nature of the conflict.
+
+TIME IN CONFLICT
+
+In mental, social, and some physical conflicts, loss of
+capability is usually temporary, and is represented
+by Failure Ranks. Examples include a chess match,
+witty repartee, or running a race.
+
+The terms used in PDQ for identifying the passage of
+time:
+Scenes are the entire conflict; starting with determining
+Initiative and ending with someone winning, losing,
+surrendering, or leaving the situation.
+Each character takes a turn or action: that’s when they
+make their move, say their piece, throw a punch, etc. (If
+Turn is capitalized, it generally means the set of all
+character’s next actions and reactions.)
+Other characters react during a character’s turn – saying
+something back or performing a defense, usually – but
+their reactions can only be in response to the actions of
+the character whose turn it currently is. They cannot
+initiate actions until their turn.
+
+In many physical conflicts (and even some physical
+complicated situations), loss of capability is more
+enduring, and is represented by Damage Ranks.
+Examples here include combat, running through
+fire, or falling off of a wall.
+
+Dishing It Out
+In a successful attack, the difference between the
+attacking and defending rolls determines how many
+Failure or Damage Ranks are done to the defender.
+If the attacker has any Upshifts or Downshifts on
+their successful attack, that shift will carry through
+to damage resolution.
+
+RANGE IN CONFLICT
+In general, GMs can be really flexible with distance in a
+PDQ game. Ranges are either Near (can punch it),
+Middling (can run up and punch it), Far (can throw or
+shoot at it), or Too Far (out of range). If one really wants
+to connect numbers to this, Near would be any distance
+up to a yard, Middling would be between 1 and 3 yards,
+Far would be between 3 and 60 yards, and Too Far is
+anything over 60 yards.
+
+If the roll results are tied, both characters take a
+single Downshift.
+NOTE - Qualities Upshifted above Master Rank
+provide an additional Rank of Damage to be
+applied.
+Example: Following on the first example under
+Moment of Truth, on Jimbo’s action, the difference
+between his roll and Salty Dave’s was 2, so he
+does 2 Damage Ranks to the Pirate.
+
+MOVEMENT IN CONFLICT
+While PDQ tends to leave movement rates for characters
+abstract and up to the discretion of the GM (like by
+requiring a character to make a roll using a speed or
+movement Quality vs. a reasonable Difficulty Rank),
+some folks like a concrete movement rate. So here it is:
+characters have a movement rate equal to 2 yards plus
+twice the sum of all involved Qualities per turn. Half of
+this (i.e., the sum of their Qualities being used) is taken
+on their action of their Turn, and the other half is taken
+during their reactions. This means that a Good [+2]
+Robot with Qualities of Expert [+4] Hover-Jets and
+Good [+2] Fast would have a movement rate of 10 yards
+per Turn (base 2, +2+4+2); they can move up to 5 yards
+on their action and 5 yards on their reactions.
+
+On Salty Dave’s action, he did a whopping 5
+Damage Ranks to Jimbo.
+
+Environmental damage – like that taken from falling,
+jumping through a fire, drowning, or other
+complicated situations – works by comparing the
+Target Number of the task against the total of the
+character’s failed roll. The difference between roll
+and Target Number is the Damage Ranks taken.
+Example: Say that in the example above from
+Complicated Situations, where Kristov wants to
+follow Jefferson up a Good [9] Difficulty wall,
+our rockstar is instead trying to follow the biker
+down the wall. As he has no applicable Quality,
+he must use the default Rank of Average [0], and
+match or beat a 9 when rolling 2d6. He rolls a 3
+and a 5, for a total of 8. This is below the Target
+Number of the wall, so Kristov fails, falls, and
+takes 1 Damage Rank from the sudden stop.
+
+DAMAGE
+Damage (be it physical, mental, emotional, or social)
+is the loss of capability. As a character takes damage,
+he is less likely to be able to perform at peak
+efficiency. This is shown by a temporary Downshift
+applied to the character’s listed Qualities called
+
+6
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+Taking It On the Chin
+
+On the positive side, the player of the defending PC
+decides where to apply the Damage Ranks (see the
+textbox, The Key to Understanding Conflict
+Abstraction). They may only be applied to those
+Qualities listed on the character’s sheet (that is, not
+any one of the character’s infinite number of
+“default” Average Qualities). When any one of a
+character’s Qualities drops below Poor Rank, the
+character is out of the Scene – that could mean
+they’ve totally flubbed their seduction attempt, been
+knocked unconscious (or killed) in combat, or run
+out of test-taking time and must put down their #2
+pencil. The GM describes how and why the PC is
+out of the Scene, and lets the player know if/when
+they can return (see below, Recovering from Damage).
+
+Firstly, if – in the GM’s opinion – a character has
+relevant Qualities of Good [+2] Rank or better that
+could feasibly allow him to ignore or resist damage
+in the situation (like Armor-Plating, Iron Will, True
+Love, or Impeccable Pedigree), the character can not
+only add it to his reaction rolls (to dodge, parry,
+block, evade, etc.), but he can choose to sacrifice a
+Rank of this protection in order to ignore Failure or
+Damage Ranks.
+In each Scene (not per turn or reaction; see boxed
+text, Time in Conflict), a character can choose to
+Downshift the Quality; by doing so, the character
+can ignore all Failure or Damage Ranks from one
+action. The player chooses if and when to use these
+freebies. That means that if somebody is trying to
+pry a donation out of a PC who has Expert [+4]
+Rank Iron Will, the PC can in theory ignore 2 turns
+of Failure Ranks over the course of the conflict by
+reducing his Iron Will once for each attack against
+him that is successful. However, once a Quality
+reaches Average [0] Rank (through Downshifting to
+ignore or resist or from taking Failure or Damage
+Ranks), it can no longer be used in this fashion.
+
+Example: From the first Dishing It Out example,
+Jimbo did 2 Damage Ranks to Salty Dave. The
+Pirate chooses to reduce his Good [+2]
+Accountant and Good [+2] Climbing Rigging
+Qualities, placing them both temporarily at
+Average [0] Rank.
+Salty Dave slammed Jimbo for 5 Damage Ranks.
+The Monkey chooses to drop his Good [+2] Chef
+to Poor [-2] Chef (2 Damage Ranks) and his Good
+[+2] Brachiator to Poor [-2] Brachiator (2 more
+Damage Ranks). Unfortunately, this leaves one
+more Damage Rank to be accounted for, so Jimbo
+is forced to drop his Expert [+4] Rasslin’ to Good
+[+2] Rasslin’.
+
+Secondly, any character that has a Weakness related
+to the type of conflict (for example, Glass Jaw in a
+combat, Math is Hard! in an arithmetic test, or Can’t
+Say No to a Pretty Face in a seduction attempt), will
+have to take two extra Damage Ranks the first time –
+and only the first time – they get tagged in a relevant
+situation. (That’s why it’s a Weakness; if they have
+an off-setting Strength that allows them to ignore or
+resist as above, they can use that to ameliorate the
+badness.)
+
+Both characters have now taken a turn, and can
+choose to continue the conflict or not. Jimbo
+decides to call a time-out.
+If Salty Dave had somehow used a banana in his
+action, Jimbo’s Weakness of Poor [-2] Banana
+Addict would have made things much, much
+worse for our Monkey. If so, Salty Dave would
+have done 7 Damage Ranks to Jimbo, instead of
+just 5, bringing the Monkey closer to losing the
+conflict.
+
+NOTE - Qualities reduced to Poor [-2] Rank
+during a conflict situation by Failure or Damage
+Ranks are not Weaknesses; Weaknesses are
+character flaws decided upon at character
+generation. There’s a difference between a
+Weakness of Poor [-2] Athlete (the character’s
+never been that into sports) versus someone in a
+race who’s Good [+2] Athlete has been
+temporarily reduced to Poor [-2] Rank by
+accumulating Failure Ranks (he’s out of breath
+and feeling the burn).
+
+Out for Blood?
+For physical conflicts, the default assumption in
+PDQ is that characters can only be killed once they
+are unconscious or otherwise helpless. This requires
+no roll, check, or action, simply a statement on the
+attacker’s next turn that the he wishes to kill the
+victim. (GMs should feel free to change this rule if
+they desire. Perhaps characters pick whether they
+are doing “bruising” damage or “killing” damage at
+the beginning of a conflict situation.)
+
+Lastly, if a defender is caught totally and utterly by
+surprise by an attacker – to the extent of getting a
+free turn (see Initiative) – or makes not the slightest
+effort to defend himself, that could add an
+additional Rank to what he Takes On the Chin.
+
+7
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+conflict Scene. The player selects which
+Qualities’ Ranks are restored. However, the
+character will not recover any more Ranks
+until the GM tells them to roll again.
+
+Recovering from Damage
+Once a Scene ends, the injured character will begin
+to recover lost Ranks. How many he gets back
+depends upon whether he was in momentary danger
+or is still in continuing danger.
+
+NOTE - A Strength like “Quick Healer” should allow
+the character to gain back the standard 1d6 roll, plus
+their Modifier. A Weakness like “Slow Healer” would
+mean that the character rolls 1d6-2 (the Modifier for
+Poor), with a minimum of zero Ranks regained.
+
+The Key to Understanding Conflict
+Abstraction
+
+Example: Jefferson’s been beaten up and stuffed in a
+garbage can by a Zombi. At the end of the conflict, all
+of his Qualities were Downshifted to Poor, except for
+Biker Dude, which he had zeroed. Since this
+happened in a bad part of Zombitown, he’s still in
+continuing danger. He rolls for damage recovery and
+gets a 3. He puts 1 Rank into bringing Biker Dude to
+Poor [-2] (now he’s conscious), and uses the
+remaining 2 to get Toughness back to Good [+2], since
+he figures it’ll be the most useful if someone else
+jumps him.
+
+Basically, in any conflict, some of a character’s Qualities
+can be thought of as useful for either “attack,” “defense,”
+or “absorption.”
+As an example, say a character has Good [+2] Rank in the
+Qualities of Kung Fu, Debating, and Accountant. In
+combat (a physical conflict), the character will probably
+opt to keep Kung Fu at Good [+2], and apply Damage
+Ranks to Debating and Accountant. In an argument (a
+social conflict), the character will want to keep Debating
+high for as long as possible, and take Failure Ranks on
+Kung Fu and Accountant first. If being audited by the IRS
+(could be a mental, a social, or even a professional conflict,
+depending on how the GM spins the situation), the
+character would protect Accountant, try to keep Debating
+at Good [+2] as long as he could, and sacrifice Kung Fu.
+
+OPTIONAL RULE: INCREASING DAMAGE
+PDQ assumes that one is using an appropriate tool
+alongside a Quality – a spreadsheet program with
+Accounting, a pistol with Gunplay, a little black dress
+with Seduction, etc. If the GM so chooses, this assumption
+can be changed such that specialized equipment provides
+1 Upshift, limited to Damage Rank determination only.
+
+This abstraction of how Failure or Damage Ranks are
+applied isn’t meant to be a one-to-one relation (“Hey, why
+does getting punched in the face lower my Florist
+Quality?”), but amusing justifications can be made up
+anyway (“Well, your black eye makes it hard to arrange
+peonies...”).
+
+Under this optional rule, if a character with Good [+2]
+Kung-Fu uses nunchucks when breaking heads, while
+he’d be rolling for success at Good [+2] Rank, but when
+comparing roll results for damage purposes, he’d treat his
+Kung-Fu as if it were Expert [+4] Rank. (This boils down
+to an extra 2 Failure or Damage Ranks.)
+
+♦ Momentary Danger. If nothing else is going
+on, and the character is otherwise safe,
+relaxed, and lacking any time constraints.
+Examples of momentary danger include
+playing Go Fish with a six year old, a car
+chase (though some Environmental Damage
+could happen. . .), or a seduction attempt. At
+the end of the Scene, all Failure or Damage
+Ranks are removed, restoring Qualities to
+their appropriate levels.
+
+CONFLICT JAZZ
+Here are some methods to get even more of your
+tactical or strategic ya-yas out. Any character can
+choose to use them in the course of their conflicts.
+
+CONFLICT STRATEGIES
+There are two additional strategies that a character
+can use in conflicts, depending upon if he wants to
+specifically concentrate on attack or defense. One
+can only be used by an attacker and the other only
+by a defender. If a PC wishes to utilize either of
+these strategies, they must announce it at the
+beginning of their turn. They cannot be used on the
+same turn.
+
+♦ Continuing Danger. Danger is continuing if
+the overarching situation that the conflict
+happened in is risky, stressful, or under
+deadline. An example of continuing danger
+would be playing poker in a seedy dive bar
+with three Mafiosi. Characters will recover
+1d6 lost Ranks of Quality at the end of the
+
+8
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+♦ Flip Out. The attacker flips out all over the
+target, making strong attacks (physical,
+mental, or social) without much heed to
+defense. A Flip-Out grants an Upshift for the
+attack (and any subsequent damage) and a
+Downshift on all defensive reactions and
+other non-conflict-related actions until his
+next turn.
+
+USING MULTIPLE QUALITIES IN SIMPLE,
+COMPLICATED, OR CONFLICT SITUATIONS
+If the GM agrees that more than one Quality can be
+brought to bear on a task, simply combine the
+Modifiers for the relevant Qualities. (If a character
+spent one of their choices in character generation on
+buying something under their penumbra as a
+separate Quality, this is where they reap the benefit.)
+Furthermore, this case includes not just the Qualities
+of a single character, but also if multiple characters
+team-up to perform a task. If multiple characters are
+joining forces, only one of them needs to roll, and
+that’s the character with the higher Initiative.
+
+♦ Play It Cagey. The defender plays it cagey,
+opting for safety by not taking any chances,
+holding back in the conflict. Playing It Cagey
+grants an Upshift for all defensives reaction
+and a Downshift on all the character’s nonconflict-related actions until their next turn;
+unfortunately, Playing It Cagey means that
+the character’s next attack action will suffer
+from this Downshift.
+
+Example 1: Standing on the second floor of the
+food court, Salty Dave sees some Ninjas attacking
+his buddy Jimbo on the ground floor. He decides
+to join the fray, and grabs a decorative garland to
+swing down all Errol Flynn-like while slicing
+with his cutlass. Salty Dave can combine his
+Good [+2] Cutlass and Good [+2] Swinging
+Qualities (as well as his Average [0] Pirate
+Quality) in his attack on one of the Ninjas. He’ll
+be rolling 2d6+2+2+0, or 2d6+4, for this
+swashbuckling maneuver.
+
+OPTIONAL RULE: ABSTRACTING CONFLICT
+FURTHER
+You could streamline conflict situations further by
+treating them as complicated situations. That is, instead
+of having character roll using their Qualities against each
+other to determine success, simply treat their Quality
+Rank as a Difficulty Rank. Then, the attacker uses the
+Target Number of that Difficulty Rank to roll against for
+success; as with Environmental Damage, the difference
+between roll result and Target Number gives the Damage
+Rank. No fuss, no muss (especially for faceless
+henchmen, if your PDQ game is in the cinematic idiom).
+
+Example 2: Zandra (Expert [+4] Marketing Exec)
+and Kristov (Good [+2] Rockstar) decide to work
+together in a pitch meeting to try and convince
+an Expert [+4] Record Company Exec that
+Kristov is worth re-signing. Zandra will roll
+2d6+4+2; the GM rolls for the Record Company
+Exec. She rolls a 4 and a 6, for a total of 16, and
+the GM rolls a 4 and a 6 for a total of 14. Zandra
+and Kristov successfully convince the NPC that
+Kristov’s career is making a comeback!
+
+Example: Salty Dave has gotten to the treasure chamber of a Ninja
+Hut. His path is blocked by a Henchman Ninja (Average [0]
+Henchman). Salty Dave rolls his Good [+2] Cutlass Quality against
+the henchman’s Target Number of 7. He rolls a 3 and a 6, plus 2
+from Good [+2] Cutlass, giving him a total of 11: Eleven easily
+beats 7, so Salty Dave slices the henchman from stem to stern in
+one blow and continues walking toward his prize – the Ninjas’
+sweet, sweet uranium.
+
+USING A QUALITY AGAINST MULTIPLE TARGETS
+If it’s necessary for a character to take on multiple
+targets simultaneously in a single action, he can split
+his attentions (and relevant Quality Ranks) between
+them. Of course, this leads to a commensurate
+decrease in effective skill. For each additional target
+selected, apply a Downshift to the Quality Rank.
+
+Shift Accumulation
+In PDQ, all Upshifts, Downshifts, and bonus dice are
+cumulative. That means that if a character is Being Badass
+and Flipping Out simultaneously, he would have 2
+Upshifts (or a Modifier of +4) on the attack and damage.
+This means if the starting Quality was of Average [0] Rank
+(2d6), it would temporarily become Expert Rank (2d6+4);
+if the Quality was Good [+2], the roll would be 2d6+6, and
+if the Quality was Expert [+4], the roll would be 3d6+6,
+because one of the Upshifts would take the Rank above
+Master and translate into an extra die to roll.
+
+Example: Say that Jimbo (Expert [+4] Rasslin’) is
+fighting two Ninja Bikers. If he tries to take them
+both on, he’ll only be at an effective Rank of
+Good [+2] for his attacks on each. If there were 3
+Ninja Bikers, he’d have an effective Rank of
+Average [0]; if 4, Poor [-2]. If there were 5 Ninja
+Bikers, he’d automatically fail all five attacks,
+since his split Rank would bottom out with
+
+9
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+another Downshift. Better to take them on one or
+two at a time.
+
+KRISTOV WOLFF, HAS-BEEN ROCK-AND-ROLLER
+
+But wait! Jimbo has Chef at Good [+2] Rank.
+Perhaps if the melee took place in a restaurant
+kitchen, the GM might agree that Jimbo could
+add in his culinary know-how (grabbing
+cleavers, throwing pots and pans, creative use of
+the Fryolator, etc.). This circumstance would
+allow Jimbo to take on 2 Ninja at Expert [+4], 3
+Ninja at Good [+2], 4 Ninja at Average [0], 5
+Ninja at Poor [-2], and auto-fail only when facing
+6 Ninja in the kitchen at once.
+
+Personality: Sensual. Kristov understands the world through his senses,
+especially hearing, touch, and taste (all of his hit songs drew strongly on at
+least one of those elements).
+Backstory: Virtue: Generous. Vice: Avarice. At age sixteen, Kristov Wolff
+was on top of the world with two platinum albums, a legion of screaming
+fans, sold-out concerts, and more money than a small bank. After a tenyear whirl of drugs, drinking, promiscuity, and CPT (Caviar, Paté, &
+Truffle) sandwiches, the albums aren’t selling like they used to, and now
+the fans, the concerts, and the money are gone.
+Soul Loss: Kristov let his soul rot first by the cruddy things he did to get
+to the top, and then chipped away big chunks of it as he indulged in
+celebrity-scope excesses. As things started falling apart, instead of taking
+control, he numbed himself with drugs, food, and mindless television. One
+day, his soul was just gone.
+
+IMPROVEMENT
+If the game provides them, characters can use their
+Experience Points for Improvement, reflecting the
+gaining of skill and experience. To Improve a
+Quality, a character must spend 4 Experience Points
+per Rank improved. When a character reaches
+Master Rank in a Quality, it cannot be improved
+further.
+
+Discovery: Between drunken binges, Kristov ran out of vodka. On the
+way to the corner liquor store, he passed a fortune teller’s shop. Thinking
+it’d be a hoot, he decided to drop in and see if the palmist recognized him:
+maybe she’d be a cute Gothy-type owned his albums before Sisters of
+Mercy took its place on her turntable. He got more than he bargained for.
+The old woman with the scarves on her head threw him out before he even
+sat down, calling him names like “demon,” “dybbuk,” and “monster.” He
+was so shocked, he almost forgot to get his Stoli. Almost.
+In the checkout line, a young guy with tats covering his bald head touched
+him on the shoulder. “I know what’s wrong with you, buddy. You’re Dead
+Inside. I can help.”
+
+Thus, to turn a Weakness into a powerful Strength:
+♦ Raising Poor [-2] Rank Sailor to Average [0]
+Rank Sailor costs 4 Experience Points.
+♦ Raising Poor [-2] Rank Sailor to Good [+2]
+Rank Sailor costs 8 Experience Points (4 for
+Poor to Average and 4 for Average to Good).
+♦ Raising Poor [-2] Rank Sailor to Expert [+4]
+Rank Sailor costs 12 Experience Points (4 for
+Poor to Average, 4 for Average to Good, and
+4 for Good to Expert).
+♦ Raising Poor [-2] Rank Sailor to Master [+6]
+Rank Sailor costs 16 Experience Points (4 for
+Poor to Average, 4 for Average to Good, and
+4 for Good to Expert, and 4 for Expert to
+Master).
+
+Qualities: Good [+2] Rockstar, Good [+2] Songwriter, Good [+2] Dirty
+Fighter, Good [+2] Second Sight, Poor [-2] at Accounting.
+Type: Average [0] Dead Inside.
+Soul Point Pool: 1
+Notes: Kristov’s a short guy with long ratty blonde hair. He’s got a skinny
+frame, but is growing a little potbelly. His band was called “the Wolff Pak,”
+and was made up of 4 guys: Kristov, “Chubby” Bill Boro, Jimmy Carlosi,
+and Sammy “SoCo” Rogers. SoCo’s gone on to a successful solo career.
+The group’s biggest #1 was “Be My Love Bunny, Honey.”
+
+JEFFERSON, BIKER BRUISER
+Personality: Grizzly Adams. Live and let live, or else.
+Backstory: Virtue: Integrity. Vice: Cruelty. Jefferson’s a big bear of a Hell’s
+Angel: while most of the time he’s like Gentle Ben, he’ll flip out Kodiakstyle on someone who pushes him too hard. Luckily, he can take a lot of
+guff before snapping.
+
+NOTE - If a character wishes to gain a totally new
+Quality, they need to spend 4 Experience Points to
+gain it at Good [+2] Rank.
+
+Soul Loss: Jefferson sold his soul to get out of a tight spot that he doesn’t
+discuss: he almost killed his own brother in a bar fight, and traded his soul
+to a man who had no eyes to heal Stevie. The next day, Stevie killed a
+convenience store clerk and severely wounded a little kid during a hold-up.
+Then, the punk laughed about it to his brother. Now, Jefferson wants to
+change the deal he struck with the Eyeless Guy... undo Stevie’s healing and
+give it to the kid in the ICU. And if that means Stevie gets put into the
+cold, cold ground, so be it.
+
+When a character reaches Master Rank in a Type or
+Quality, it cannot normally be improved further.
+
+Discovery: Jefferson sold it, on purpose, to the Eyeless Guy. He knew
+exactly what he was doing... but now he’s not happy he did it.
+
+CONFLICT EXAMPLE 1
+
+Type: Average [0] Dead Inside,
+
+Let’s say that Kristov (Good [+2] Dirty Fighter) and
+Jefferson (Expert [+4] Biker Dude) get into a fight.
+Jefferson’s going to go first, since his fighting-relevant
+Quality Rank is higher than Kristov’s.
+
+Miscellany: Jefferson calls his Harley “Declaration,” and prefers denim to
+leather.
+
+Qualities: Expert [+4] Biker Dude, Good [+2] Toughness, Good [+2]
+Outdoorsman, Poor [-2] Reader.
+Soul Points Pool: 1
+
+10
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+JEFFERSON: “I punch at the little twerp.”
+
+GM (to Jefferson): “Now what do you do?”
+
+KRISTOV: “I’ll try to duck under the big moose’s punch.”
+
+JEFFERSON: “I have a beer and wait for him to wake up, so
+he can take back what he said about my momma. Or else.”
+
+JEFFERSON (rolls 2d6+4; he rolls a 3 and a 1 for a total of 8):
+“Eight!”
+
+GM (to Kristov): After a couple minutes, you come around.
+You’re still in continuing danger because Jefferson could
+stomp your ass again. Roll 1d6 for Damage Recovery.”
+
+KRISTOV (rolls 2d6+2; he rolls a 4 and a 5 for a total of 11):
+“Eleven! Ha!”
+
+KRISTOV (rolls 2d6; he rolls a 2 and a 4 for a total of 6): “Six
+Ranks back... Hmm, I’ll put Dirty Fighter back to Good, that’s
+1 to hit Poor and 2 more to get to Good, total of 3. Dead Inside
+back to Average, that’s 1. Rockstar back to Good, that’s 2.
+There, that should do it.”
+
+GM: “Kristov bends down, and Jefferson’s punch misses the
+mark. Kristov’s turn.”
+KRISTOV: “I come up and try to sock him one in the nuts!”
+JEFFERSON: “OOoooh, not cool, dude. Why do you always
+go for the low-blow?”
+KRISTOV: “My Quality is Dirty Fighter, sport.”
+
+JEFFERSON (to Kristov): “Apologize for what you said about
+my momma.”
+
+JEFFERSON: “Well, I’ll try to parry his punch away from my
+groin.”
+
+KRISTOV: “Sorry! Don’t hit me again, okay?”
+
+KRISTOV (rolls 2d6+2, he rolls a 4 and a 5 for a total of 11):
+“This one goes to eleven! Heh heh heh!”
+
+CONFLICT EXAMPLE 2
+
+JEFFERSON (rolls 2d6+4; he rolls a 6 and a 3 for a total of 13):
+“Thirteen. Guess it’s not your lucky day!”
+
+Jimbo and Mike Matsutake are having a cook-off
+Challenge in front of a live studio audience. (Sounds like a
+social conflict to me.) The Scene opens on the set of
+Monkeying with Food, Jimbo’s cable-access show. (Take
+heed: this example includes MNPR:RPG's Mojo Powers!)
+
+GM: “Jefferson knocks Kristov’s low-blow aside, easily.”
+KRISTOV: “Gulp.”
+JEFFERSON (miming cracking his knuckles): “This is gonna
+hurt you a lot more than it hurts me, buddy.” (to GM) “I’m
+gonna grab his shirt, throw him into the wall, and wind up
+my haymaker. When he bounces back, I’ll connect. Hard.”
+
+JIMBO OF THE JUNGLE, MONKEY CHEF
+
+KRISTOV: “Hey, that’s more than one action!” (looks at GM)
+
+Gift: Funny. Goal: Have Fun. Qualities: Average [0]
+Monkey; Expert [+4] Rasslin’, Good [+2] Chef, Good [+2]
+Brachiator, Poor [-2] Banana Addict. Mojo: 1M, 1N. CR:
+1N.
+
+JEFFERSON: “Nope, it’s Being Badass.” (looks at GM)
+GM (ponders): “Yeah, that’s pretty badass. Jefferson gets an
+Upshift on the attack.”
+KRISTOV (buries his head in his hands): “This is gonna hurt.”
+GM: “What’s your reaction to the attempt going to be?”
+
+MIKE MATSUTAKE, NINJA CHEF
+
+KRISTOV (has a bright idea): “I’m gonna Play It Cagey.”
+
+Gift: Adept. Goal: Cause mischief. Qualities: Average [0]
+Ninja; Good [+2] Chef, Good [+2] Katana, Good [+2]
+Shuriken, Good [+2] Practical Joker, Poor [-2] Vain. Mojo:
+1M, 1N. CR: 1M.
+
+GM: “You know that’ll screw up your next attack.”
+KRISTOV (ponders): “Nah, it’s not worth it. I need to tag this
+guy a couple times, and I’ll need all the bonuses I can get. I
+won’t Play it Cagey.”
+GM: “Alright, Jefferson’s rolling against an effective Master
+[+6] Biker Dude for this attack, or 2d6+6. Go for it.”
+JEFFERSON (rolls 2d6+6; he rolls two 5s for a total of 16):
+“Sweet sixteen, baby!”
+
+JIMBO: “And that, studio audience and viewers at home, is
+how you make a coconut omelet, or as the French call it, Oeufs
+de Whack-kay!”
+
+KRISTOV (rolls 2d6+2; he rolls a 1 and a 3 for a total of 6):
+“Dammit. No go.”
+
+GM: “The audience applauds – except for one guy, who’s
+booing and hissing!”
+
+GM (calculating, 16 minus 6 is a total of 10): “Jefferson throws
+Kristov against the wall and clocks him on the return for 10
+Damage Ranks.”
+
+JIMBO: “What the–? Who’s trying to ruin my show?”
+GM: “You see a Ninja stand up in the middle of the crowd.
+He shouts to you “Go back to the Jungle, Monkey, and leave
+the cooking to experts!”
+
+JEFFERSON: “Take that, little buddy. Should’ve Played It
+Cagey.”
+
+JIMBO: “Jimbo starts bouncing up and down, beating his
+chest, and says ‘Who the hell are you?’”
+
+KRISTOV (glumly looking at his character sheet): “Well, I
+could drop all my Goods to Averages, that’s 4 Damage Ranks.
+Drop them all to Poors, that’s another 4. Two more... okay, I
+drop my Average Dead Inside to Poor. That leaves one
+Damage Rank, and everything I got is at Poor now. Crap. I’ll
+take it on Dirty Fighter and bottom out. I’m unconscious.”
+
+GM: “The Ninja says, ‘This skilled one is Mike Matsutake,
+Ninja Chef! I Challenge you, Jimbo, to a duel of cuisine!’ The
+audience seems to be holding its breath, waiting for Jimbo’s
+response. . .”
+
+11
+
+PDQ CORE RULES
+
+©2004 Chad Underkoffler
+
+Rasslin’ will suffer a Breakdown. Damn. Well, better get it
+over with.” (picks up dice, shakes them, then stops.) “Hey
+wait, since this is a social conflict, I can use my Gift, right? Get
+the audience on my side? Maybe their cheers of ‘Go, go,
+Jimbo!’ and ‘Show me the monkey!’ keep me all focused and
+stuff?”
+
+JIMBO: “I accept your Challenge, Matsutake! Bring it on!”
+GM: “The Ninja Chef leaps out of the stands, does a mid-air
+somersault, and lands next to you on the stage. The audience
+oohs and ahhs.” (makes a note) “Okay, this will be a social
+Challenge, as you’re trying to get the highest amount of
+audience applause through the dishes you produce. Sound
+good?”
+
+GM: “Sure, why not?”
+JIMBO: “Cool. I’ll Upshift my Chef from Good [+2] to Expert
+[+4].” (rolls 2d6+4-2, getting 5 and 6 for a total of 13) “Lucky
+thirteen! Awesome!” (to the Ninja) “Though my eyes glaze
+over and I start to drool over the Ninja’s luscious Super
+Banana Sushi, I manage to pull myself away from the brink.”
+
+JIMBO: “Sure.”
+GM: “Since you both are equally-Ranked at Chef, I could
+make you roll for Initiative, but since it’s Jimbo’s TV show, I
+say he should go first.”
+JIMBO: “Okay, I start to whip up a (um, what else do
+Monkeys eat?). . . Got it! Termite pie! Jimbo gets a pie shell,
+goes to the termite farm in the corner and scoops up a couple
+handfuls of bugs, throws them in the shell, covers it, and
+slams the tray into the oven! How does the crowd like that?”
+
+GM: “Well done. You only take 2 Failure Ranks. Where are
+you putting them?”
+JIMBO (looking at sheet): “Okay, I’ll drop Rasslin’ voluntarily
+– and temporarily! – from Expert [+4] to Average [0].”
+
+GM: “Go ahead and roll.”
+
+GM: “Your action.”
+
+JIMBO: (rolls 2d6+2, getting 2 and 6 for a total of 10) “I got a
+ten.”
+
+JIMBO: (ponders) “Okay, I want to do something like the
+Ninja did, combining my Qualities. Let’s see. . . Rasslin’,
+Brachiator, and Chef. I got it! Okay, I’ll make fresh pancakes –
+upside down, swinging from the light gantries of the studio, by
+my feet!”
+
+GM (rolling 2d6+2 for the Ninja, getting 2 and 2 for a total of
+6): “Matsutake seems a bit flabbergasted by your use of
+insects! He takes 4 Failure Ranks!” (The GM applies the
+Failure Ranks, dropping Shuriken and Practical Joker 2 Ranks
+each; now both are at Poor [-2].)
+
+GM: “I like it! Okay, you can use Chef and Brachiator on this
+action.”
+JIMBO: (rolls 2d6+2+2, getting 4 and 5 for a total of 13)
+“Thirteen again!”
+
+JIMBO: “Don’t mess with the Monkey, man!”
+GM (as the Ninja): “’Your jungle arts won’t save you from my
+skills!’ And then he reaches down below the counter, grabs
+something in each hand, and flips them into the air. He draws
+his sword, screaming, ‘Behold the power of my. . . Super!
+Banana Sushi!’ Using his katana, he deftly peels the banana,
+slaps it onto the rice, then slices it into pieces which fall
+perfectly on the serving plate.” (GM checks off the point of
+Ninja Mojo from Matsutake’s write-up.)
+
+GM (rolling 2d6+2, getting 1 and 2 for a total of 7) “Matsutake
+gets seven, and takes 6 Failure Ranks.” (looks at sheet) “Six
+Ranks will cause Matsutake to zero out a Quality, so that
+means you win! The crowd goes wild, ‘Aaaaahhhh!’ while the
+Ninja cries all over his sushi.” (scratches out the next to last
+Mojo point on the Ninja’s sheet) “You feel the surge of power
+as you gain one of the Ninja’s Mojo points for winning the
+Challenge!”
+
+JIMBO: “What the hell is that?”
+
+JIMBO: “What Flavor?”
+
+GM: “He’s using his Chef and Katana Qualities together, as
+well as spending a point of Mojo on the Universal Power of
+Super!”
+
+GM: “Monkey Mojo.”
+JIMBO: “’That will teach you to steal Mojo from Monkeys!’ I
+scream, then I beat my chest, bouncing up and down, and
+perform the traditional Monkey screech of ass-kicking
+victory!”
+
+JIMBO: “Damn.”
+GM: “Yup, he’s pulling out all the stops, since you mussed
+him pretty bad with your first attack. Oh, and you’re at -2 for
+your reaction roll.”
+
+GM: “Like how?”
+
+JIMBO: “What?! Why?”
+
+JIMBO: (demonstrates) “Like ‘ooh-ooh-ow-ow-ow!’”
+
+GM: “Because Jimbo’s a filthy Banana Addict. That’s worth an
+extra 2 Failure Ranks on the first attack.”
+
+GM: (laughing) “Jimbo gets another new Monkey Mojo point.”
+JIMBO: “Sweet!”
+
+JIMBO (studies his character sheet) “Oh, right. That sucks.”
+GM (rolling 2d6+2+2 for the two Qualities, plus an additional
+Upshift – or +2, same difference – for the Ninja; he gets 2 and
+5 for a total of 15): “13, plus 2 extra Failure Ranks is fifteen!”
+JIMBO: “You’re kidding.” (studies sheet) “I only have 1 Mojo,
+so I can’t use it for Bouncy!, because if I lose, my Expert [+4]
+
+12
+
+

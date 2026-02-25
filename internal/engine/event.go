@@ -40,6 +40,12 @@ const (
 	EventConditionToggled   EventType = "ConditionToggled"
 	EventMetadataChanged    EventType = "MetadataChanged"
 	EventFrozenUntilChanged EventType = "FrozenUntilChanged"
+
+	// Phase 12 generic prompts
+	EventChoiceIssued    EventType = "ChoiceIssued"
+	EventChoiceResolved  EventType = "ChoiceResolved"
+	EventContestStarted  EventType = "ContestStarted"
+	EventContestResolved EventType = "ContestResolved"
 )
 
 // Event is the building block of the Event Sourced engine.
@@ -770,7 +776,99 @@ func (e *FrozenUntilChangedEvent) Apply(state *GameState) error {
 }
 func (e *FrozenUntilChangedEvent) Message() string {
 	if e.FrozenUntil == "" {
-		return "Engine unfrozen."
+		return "System un-frozen."
 	}
-	return fmt.Sprintf("Engine frozen until: %s", e.FrozenUntil)
+	return fmt.Sprintf("System frozen until %s.", e.FrozenUntil)
+}
+
+// ChoiceIssuedEvent prompts a user to select an option from a list
+type ChoiceIssuedEvent struct {
+	ActorID      string   `json:"actor_id"`
+	Prompt       string   `json:"prompt"`
+	Options      []string `json:"options"`
+	ResolvesWith string   `json:"resolves_with"` // Name of the manifest command/step to resume if needed
+}
+
+func (e *ChoiceIssuedEvent) Type() EventType { return EventChoiceIssued }
+func (e *ChoiceIssuedEvent) Apply(state *GameState) error {
+	pendingChoices, ok := state.Metadata["pending_choices"].(map[string]any)
+	if !ok {
+		pendingChoices = make(map[string]any)
+		state.Metadata["pending_choices"] = pendingChoices
+	}
+	pendingChoices[e.ActorID] = map[string]any{
+		"prompt":        e.Prompt,
+		"options":       e.Options,
+		"resolves_with": e.ResolvesWith,
+	}
+	// We do NOT freeze the state globally. Only this action is awaiting input.
+	return nil
+}
+func (e *ChoiceIssuedEvent) Message() string {
+	return fmt.Sprintf("GM asked %s to choose: %s", e.ActorID, e.Prompt)
+}
+
+// ChoiceResolvedEvent marks the selection a user made
+type ChoiceResolvedEvent struct {
+	ActorID   string `json:"actor_id"`
+	Selection string `json:"selection"`
+}
+
+func (e *ChoiceResolvedEvent) Type() EventType { return EventChoiceResolved }
+func (e *ChoiceResolvedEvent) Apply(state *GameState) error {
+	if pendingChoices, ok := state.Metadata["pending_choices"].(map[string]any); ok {
+		delete(pendingChoices, e.ActorID)
+	}
+	// In reality, resolving a choice usually triggers a follow-up command (e.g., applying damage)
+	return nil
+}
+func (e *ChoiceResolvedEvent) Message() string {
+	return fmt.Sprintf("%s chose: %s", e.ActorID, e.Selection)
+}
+
+// ContestStartedEvent initiates a contested action between two actors
+type ContestStartedEvent struct {
+	AttackerID      string `json:"attacker_id"`
+	DefenderID      string `json:"defender_id"`
+	AttackerRoll    int    `json:"attacker_roll"`
+	DefenderOptions string `json:"defender_options"` // E.g., "athletics or acrobatics"
+	ResolvesWith    string `json:"resolves_with"`
+}
+
+func (e *ContestStartedEvent) Type() EventType { return EventContestStarted }
+func (e *ContestStartedEvent) Apply(state *GameState) error {
+	pendingContests, ok := state.Metadata["pending_contests"].(map[string]any)
+	if !ok {
+		pendingContests = make(map[string]any)
+		state.Metadata["pending_contests"] = pendingContests
+	}
+	pendingContests[e.DefenderID] = map[string]any{
+		"attacker":         e.AttackerID,
+		"attacker_roll":    e.AttackerRoll,
+		"defender_options": e.DefenderOptions,
+		"resolves_with":    e.ResolvesWith,
+	}
+	return nil
+}
+func (e *ContestStartedEvent) Message() string {
+	return fmt.Sprintf("Contest started: %s vs %s", e.AttackerID, e.DefenderID)
+}
+
+// ContestResolvedEvent finalizes a contested action
+type ContestResolvedEvent struct {
+	WinnerID string `json:"winner_id"`
+	LoserID  string `json:"loser_id"`
+}
+
+func (e *ContestResolvedEvent) Type() EventType { return EventContestResolved }
+func (e *ContestResolvedEvent) Apply(state *GameState) error {
+	if pendingContests, ok := state.Metadata["pending_contests"].(map[string]any); ok {
+		// Cleanup the pending contest for the loser assuming they were defending
+		delete(pendingContests, e.LoserID)
+		delete(pendingContests, e.WinnerID)
+	}
+	return nil
+}
+func (e *ContestResolvedEvent) Message() string {
+	return fmt.Sprintf("%s won the contest against %s.", e.WinnerID, e.LoserID)
 }

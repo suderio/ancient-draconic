@@ -6,19 +6,17 @@ import (
 
 	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
-	"github.com/suderio/ancient-draconic/internal/parser"
 	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
 // ExecuteAction handles standard 5e actions like Dash, Disengage, etc.
-func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
+func ExecuteAction(actionType string, actorName string, target string, state *engine.GameState, loader *data.Loader, reg *rules.Registry) ([]engine.Event, error) {
 	if state.IsFrozen() {
 		return nil, engine.ErrSilentIgnore
 	}
 
-	actorName := "GM"
-	if cmd.Actor != nil {
-		actorName = cmd.Actor.Name
+	if actorName == "" {
+		actorName = "GM"
 	}
 
 	if len(state.TurnOrder) == 0 || state.CurrentTurn < 0 {
@@ -40,15 +38,15 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 		return nil, fmt.Errorf("%s has no actions remaining this turn", currentActor)
 	}
 
-	actionType := strings.ToLower(cmd.Action)
+	actionType = strings.ToLower(actionType)
 
 	// Complex actions that might need adjudication
 	if actionType == "shove" || actionType == "magic" || actionType == "ready" {
 		pendingAdj, ok := state.Metadata["pending_adjudication"].(map[string]any)
 		if !ok {
 			originalCmd := fmt.Sprintf("%s by: %s", actionType, currentActor)
-			if cmd.Target != "" {
-				originalCmd += " to: " + cmd.Target
+			if target != "" {
+				originalCmd += " to: " + target
 			}
 			return []engine.Event{
 				&engine.AdjudicationStartedEvent{
@@ -125,9 +123,9 @@ func ExecuteAction(cmd *parser.ActionCmd, state *engine.GameState, loader *data.
 	}
 
 	// Logging event for the action
-	msg := fmt.Sprintf("%s used %s", currentActor, cmd.Action)
-	if cmd.Target != "" {
-		msg += " on " + cmd.Target
+	msg := fmt.Sprintf("%s used %s", currentActor, actionType)
+	if target != "" {
+		msg += " on " + target
 	}
 	events = append(events, &engine.HintEvent{MessageStr: msg})
 

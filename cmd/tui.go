@@ -129,67 +129,43 @@ func (m *replModel) updateSuggestions() {
 
 	state := m.app.State()
 
-	if strings.HasPrefix(strings.ToLower(val), "attack by: ") {
-		prefix := val[11:]
-		if !strings.Contains(prefix, " ") {
-			// Suggest entity names
+	// Base Engine Commands & Contexts
+	baseCmds := []string{"roll by: ", "encounter start", "encounter end", "add ", "initiative by: ", "turn", "hint", "ask by: ", "adjudicate ", "allow", "deny", "help ", "exit", "quit"}
+
+	// Dynamically pull loaded Manifest Commands
+	if manifest, err := m.app.Loader().LoadManifest(); err == nil {
+		for cmdName := range manifest.Commands {
+			baseCmds = append(baseCmds, fmt.Sprintf("%s by: ", cmdName))
+		}
+	}
+
+	for _, c := range baseCmds {
+		if strings.HasPrefix(strings.ToLower(c), strings.ToLower(val)) && len(val) < len(c) {
+			items = append(items, suggestion(c))
+		}
+	}
+
+	// Simple context-aware Entity completion when typing "to: " or "by: "
+	if strings.Contains(strings.ToLower(val), " to: ") {
+		parts := strings.SplitN(strings.ToLower(val), " to: ", 2)
+		if len(parts) == 2 {
+			targetPrefix := parts[1]
+			baseStr := val[:len(val)-len(targetPrefix)]
 			for id := range state.Entities {
-				if strings.HasPrefix(id, prefix) {
-					items = append(items, suggestion("attack by: "+id+" with: "))
-				}
-			}
-		} else if strings.Contains(prefix, " with: ") {
-			parts := strings.SplitN(prefix, " with: ", 2)
-			if len(parts) == 2 {
-				actorID := strings.TrimSpace(parts[0])
-				weaponPrefix := parts[1]
-				if _, ok := state.Entities[actorID]; ok {
-					if char, err := m.app.Loader().LoadCharacter(actorID); err == nil {
-						for _, act := range char.Actions {
-							if strings.HasPrefix(strings.ToLower(act.Name), strings.ToLower(weaponPrefix)) {
-								items = append(items, suggestion(fmt.Sprintf("attack by: %s with: %s to: ", actorID, strings.ToLower(act.Name))))
-							}
-						}
-					} else if monster, err := m.app.Loader().LoadMonster(actorID); err == nil {
-						for _, act := range monster.Actions {
-							if strings.HasPrefix(strings.ToLower(act.Name), strings.ToLower(weaponPrefix)) {
-								items = append(items, suggestion(fmt.Sprintf("attack by: %s with: %s to: ", actorID, strings.ToLower(act.Name))))
-							}
-						}
-					}
-				}
-			}
-		} else if strings.Contains(prefix, " to: ") {
-			parts := strings.SplitN(prefix, " to: ", 2)
-			if len(parts) == 2 {
-				targetPrefix := parts[1]
-				baseCmd := val[:len(val)-len(targetPrefix)]
-				for id := range state.Entities {
-					if strings.HasPrefix(id, targetPrefix) {
-						items = append(items, suggestion(baseCmd+id))
-					}
+				if strings.HasPrefix(strings.ToLower(id), strings.ToLower(targetPrefix)) {
+					items = append(items, suggestion(baseStr+id))
 				}
 			}
 		}
-	} else if strings.HasPrefix(strings.ToLower(val), "ask by: gm check: ") {
-		checkPrefix := val[18:]
-		baseCmds := []string{"dex save", "str save", "con save", "int save", "wis save", "cha save", "athletics", "acrobatics", "stealth", "perception", "deception", "intimidation"}
-		for _, c := range baseCmds {
-			if strings.HasPrefix(c, checkPrefix) {
-				items = append(items, suggestion("ask by: GM check: "+c+" of: "))
-			}
-		}
-	} else if strings.HasPrefix(strings.ToLower(val), "encounter start with: ") {
-		prefix := val[22:]
-		// It's hard to read local files smoothly on every keystroke, so if there's an active entity list we can suggest them,
-		// but since encounter is starting, list is likely empty.
-		_ = prefix
-	} else {
-		// Base commands
-		cmds := []string{"roll by: ", "encounter start", "encounter end", "add ", "initiative by: ", "attack by: ", "damage by: ", "turn", "hint", "ask by: ", "check by: ", "exit", "quit"}
-		for _, c := range cmds {
-			if strings.HasPrefix(c, strings.ToLower(val)) && len(val) < len(c) {
-				items = append(items, suggestion(c))
+	} else if strings.Contains(strings.ToLower(val), " by: ") && !strings.Contains(strings.ToLower(val), " with: ") && !strings.Contains(strings.ToLower(val), " to: ") {
+		parts := strings.SplitN(strings.ToLower(val), " by: ", 2)
+		if len(parts) == 2 {
+			actorPrefix := parts[1]
+			baseStr := val[:len(val)-len(actorPrefix)]
+			for id := range state.Entities {
+				if strings.HasPrefix(strings.ToLower(id), strings.ToLower(actorPrefix)) {
+					items = append(items, suggestion(baseStr+id+" "))
+				}
 			}
 		}
 	}

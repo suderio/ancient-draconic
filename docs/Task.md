@@ -51,3 +51,16 @@
   - [x] Implement `start_turn` and `end_turn` workflow in manifest
   - [x] Migrate condition duration tracking (like Dodge/Help) to generic logic
   - [x] Verify combat loops and resource resets in integration tests
+
+- [/] Phase 12: Generic Opposed Rolls & Choice Issuance
+  - [x] Plan engine improvements for PDQ and D&D (`docs/plan_pdq_support.md`)
+  - [x] Implement `ChoiceIssuedEvent` for dynamic target selections (e.g. Smites, Qualities)
+  - [x] Implement `ContestStartedEvent` for opposed rolls (e.g. Athletics vs Acrobatics)
+  - [x] Update D&D Manifest to utilize `ChoiceIssuedEvent` and `ContestStartedEvent`
+  - [x] Verify functionality via integration tests for PDQ damage application and D&D grapple resisting
+
+- [/] Phase 13: Generic AST Parser & Dynamic TUI
+  - [x] Plan generic AST refactoring (`docs/plan_generic_parser.md`)
+  - [x] Refactor Lexer & AST layers to support `GenericCmd`
+  - [x] Refactor `session.go` to execute `GenericCmd` directly through `manifest.Commands`
+  - [ ] Refactor `tui.go` to pull auto-complete suggestions dynamically from the loaded manifest

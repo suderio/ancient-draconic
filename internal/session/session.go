@@ -154,305 +154,80 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 		return nil, nil
 	}
 
-	if astCmd.Initiative != nil {
+	if astCmd.Generic != nil {
 		actorID := "GM"
-		if astCmd.Initiative.Actor != nil {
-			actorID = astCmd.Initiative.Actor.Name
-		}
-		events, err := command.ExecuteGenericCommand("initiative", actorID, []string{actorID}, nil, input, s.state, s.loader, s.registry)
-		if err != nil {
-			if err == engine.ErrSilentIgnore {
-				return nil, nil
-			}
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
+		if astCmd.Generic.Actor != nil {
+			var err error
+			actorID, err = command.ResolveActor(astCmd.Generic.Actor, s.state)
+			if err != nil {
+				if err == engine.ErrSilentIgnore {
+					return nil, nil
+				}
 				return nil, err
 			}
 		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	} else if astCmd.Attack != nil {
-		actorID, err := command.ResolveActor(astCmd.Attack.Actor, s.state)
-		if err != nil {
-			if err == engine.ErrSilentIgnore {
-				return nil, nil
+
+		params := map[string]any{}
+		var targets []string
+
+		for _, arg := range astCmd.Generic.Args {
+			key := strings.TrimSuffix(arg.Key, ":")
+			if key == "to" || key == "of" {
+				targets = arg.Values
+			} else if len(arg.Values) == 1 {
+				// Single value, try parsing as bool if it's "true", else string/int mapping happens inside
+				params[key] = arg.Values[0]
+			} else if len(arg.Values) > 1 {
+				params[key] = arg.Values
 			}
-			return nil, err
 		}
 
-		params := map[string]any{
-			"weapon":      astCmd.Attack.Weapon,
-			"offhand":     astCmd.Attack.OffHand,
-			"opportunity": astCmd.Attack.Opportunity,
-		}
+		// Turn has very specific game loop progression rules
+		if strings.ToLower(astCmd.Generic.Name) == "turn" {
+			// 1. End turn for current actor
+			if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
+				currentActor := s.state.TurnOrder[s.state.CurrentTurn]
+				if endEvents, err := command.ExecuteGenericCommand("end_turn", currentActor, []string{currentActor}, nil, "end_turn", s.state, s.loader, s.registry); err == nil {
+					for _, e := range endEvents {
+						s.ApplyAndAppend(e)
+					}
+				}
+				s.processExpirations("end_turn", currentActor)
+			}
 
-		cmdName := "attack"
-		if astCmd.Attack.Opportunity {
-			cmdName = "opportunity_attack"
-		} else if astCmd.Attack.OffHand {
-			cmdName = "offhand_attack"
-		}
-
-		events, err := command.ExecuteGenericCommand(cmdName, actorID, astCmd.Attack.Targets, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
+			// 2. Advance turn
+			events, err := command.ExecuteGenericCommand("turn", actorID, []string{actorID}, nil, input, s.state, s.loader, s.registry)
+			if err != nil {
 				return nil, err
 			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	} else if astCmd.Damage != nil {
-		pendingDmg, ok := s.state.Metadata["pending_damage"].(map[string]any)
-		if !ok || pendingDmg == nil || s.state.IsFrozen() {
-			return nil, nil // Silently ignore as per legacy
-		}
-
-		targets := []string{}
-		pendingTargets, _ := pendingDmg["targets"].([]string)
-		hitStatus, _ := pendingDmg["hit_status"].(map[string]bool)
-		for _, t := range pendingTargets {
-			if hitStatus[t] {
-				targets = append(targets, t)
+			var firstEvent engine.Event
+			for _, e := range events {
+				if err := s.ApplyAndAppend(e); err != nil {
+					return nil, err
+				}
+				if firstEvent == nil {
+					firstEvent = e
+				}
 			}
-		}
 
-		if len(targets) == 0 {
+			// 3. Start turn for next actor
+			if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
+				newActor := s.state.TurnOrder[s.state.CurrentTurn]
+				if startEvents, err := command.ExecuteGenericCommand("start_turn", newActor, []string{newActor}, nil, "start_turn", s.state, s.loader, s.registry); err == nil {
+					for _, e := range startEvents {
+						s.ApplyAndAppend(e)
+					}
+				}
+				s.processExpirations("start_turn", newActor)
+			}
+
+			if firstEvent != nil {
+				return firstEvent, nil
+			}
 			return nil, nil
 		}
 
-		attacker, _ := pendingDmg["attacker"].(string)
-		params := map[string]any{
-			"weapon":  pendingDmg["weapon"],
-			"offhand": pendingDmg["is_off_hand"],
-		}
-
-		events, err := command.ExecuteGenericCommand("damage", attacker, targets, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	} else if astCmd.Turn != nil {
-		actorID := "GM"
-		if astCmd.Turn.Actor != nil {
-			actorID = astCmd.Turn.Actor.Name
-		}
-
-		// 1. End turn for current actor
-		if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
-			currentActor := s.state.TurnOrder[s.state.CurrentTurn]
-			if endEvents, err := command.ExecuteGenericCommand("end_turn", currentActor, []string{currentActor}, nil, "end_turn", s.state, s.loader, s.registry); err == nil {
-				for _, e := range endEvents {
-					s.ApplyAndAppend(e)
-				}
-			}
-			s.processExpirations("end_turn", currentActor)
-		}
-
-		// 2. Advance turn
-		events, err := command.ExecuteGenericCommand("turn", actorID, []string{actorID}, nil, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		var firstEvent engine.Event
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-			if firstEvent == nil {
-				firstEvent = e
-			}
-		}
-
-		// 3. Start turn for next actor
-		if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
-			newActor := s.state.TurnOrder[s.state.CurrentTurn]
-			if startEvents, err := command.ExecuteGenericCommand("start_turn", newActor, []string{newActor}, nil, "start_turn", s.state, s.loader, s.registry); err == nil {
-				for _, e := range startEvents {
-					s.ApplyAndAppend(e)
-				}
-			}
-			s.processExpirations("start_turn", newActor)
-		}
-
-		if firstEvent != nil {
-			return firstEvent, nil
-		}
-		return nil, nil
-	} else if astCmd.Hint != nil {
-		events, err := command.ExecuteHint(astCmd.Hint, s.state)
-		if err != nil {
-			return nil, err
-		}
-		// Hints are stateless queries; we do not append them to the log
-		return events[0], nil
-	} else if astCmd.Adjudicate != nil {
-		events, err := command.ExecuteAdjudicate(astCmd.Adjudicate)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		return events[0], nil
-	} else if astCmd.Allow != nil {
-		originalStr := ""
-		if pendingAdj, ok := s.state.Metadata["pending_adjudication"].(map[string]any); ok && pendingAdj != nil {
-			originalStr, _ = pendingAdj["original_command"].(string)
-		}
-		events, err := command.ExecuteAllow(astCmd.Allow, s.state)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if originalStr != "" {
-			return s.Execute(originalStr)
-		}
-		return events[0], nil
-	} else if astCmd.Deny != nil {
-		events, err := command.ExecuteDeny(astCmd.Deny, s.state)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		return events[0], nil
-	} else if astCmd.Dodge != nil {
-		actorID := "GM"
-		if astCmd.Dodge.Actor != nil {
-			actorID = astCmd.Dodge.Actor.Name
-		}
-		events, err := command.ExecuteGenericCommand("dodge", actorID, []string{actorID}, nil, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	} else if astCmd.Grapple != nil {
-		actorID := "GM"
-		if astCmd.Grapple.Actor != nil {
-			actorID = astCmd.Grapple.Actor.Name
-		}
-		params := map[string]any{}
-		events, err := command.ExecuteGenericCommand("grapple", actorID, []string{astCmd.Grapple.Target}, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		return events[0], nil
-	} else if astCmd.Action != nil {
-		var events []engine.Event
-		var err error
-		if strings.ToLower(astCmd.Action.Action) == "shove" {
-			actorID := "GM"
-			if astCmd.Action.Actor != nil {
-				actorID = astCmd.Action.Actor.Name
-			}
-			params := map[string]any{}
-			events, err = command.ExecuteGenericCommand("shove", actorID, []string{astCmd.Action.Target}, params, input, s.state, s.loader, s.registry)
-		} else {
-			events, err = command.ExecuteAction(astCmd.Action, s.state, s.loader, s.registry)
-		}
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		return events[0], nil
-	} else if astCmd.HelpAction != nil {
-		actorID := "GM"
-		if astCmd.HelpAction.Actor != nil {
-			actorID = astCmd.HelpAction.Actor.Name
-		}
-		params := map[string]any{
-			"type":   astCmd.HelpAction.Type,
-			"target": astCmd.HelpAction.Target,
-		}
-		events, err := command.ExecuteGenericCommand("help_action", actorID, []string{astCmd.HelpAction.Target}, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	} else if astCmd.Ask != nil {
-		actorID := "GM"
-		if astCmd.Ask.Actor != nil {
-			actorID = astCmd.Ask.Actor.Name
-		}
-		params := map[string]any{
-			"dc":    astCmd.Ask.DC,
-			"check": strings.Join(astCmd.Ask.Check, " "),
-		}
-		if astCmd.Ask.Fails != nil {
-			f := map[string]any{
-				"condition": astCmd.Ask.Fails.Condition,
-				"half":      astCmd.Ask.Fails.HalfDamage,
-				"is_damage": astCmd.Ask.Fails.IsDamage != "",
-			}
-			if astCmd.Ask.Fails.DamageDice != nil {
-				f["dice"] = astCmd.Ask.Fails.DamageDice.Raw
-			}
-			params["fails"] = f
-		}
-		if astCmd.Ask.Succeeds != nil {
-			s := map[string]any{
-				"condition": astCmd.Ask.Succeeds.Condition,
-				"half":      astCmd.Ask.Succeeds.HalfDamage,
-				"is_damage": astCmd.Ask.Succeeds.IsDamage != "",
-			}
-			if astCmd.Ask.Succeeds.DamageDice != nil {
-				s["dice"] = astCmd.Ask.Succeeds.DamageDice.Raw
-			}
-			params["succeeds"] = s
-		}
-
-		events, err := command.ExecuteGenericCommand("ask", actorID, astCmd.Ask.Targets, params, input, s.state, s.loader, s.registry)
+		events, err := command.ExecuteGenericCommand(strings.ToLower(astCmd.Generic.Name), actorID, targets, params, input, s.state, s.loader, s.registry)
 		if err != nil {
 			if err == engine.ErrSilentIgnore {
 				return nil, nil
@@ -468,37 +243,6 @@ func (s *Session) Execute(input string) (engine.Event, error) {
 			return events[0], nil
 		}
 		return nil, nil
-	} else if astCmd.Check != nil {
-		actorID, err := command.ResolveActor(astCmd.Check.Actor, s.state)
-		if err != nil {
-			if err == engine.ErrSilentIgnore {
-				return nil, nil
-			}
-			return nil, err
-		}
-
-		params := map[string]any{
-			"check": strings.Join(astCmd.Check.Check, " "),
-		}
-		events, err := command.ExecuteGenericCommand("check", actorID, []string{actorID}, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	} else if astCmd.Help != nil {
-		events, err := command.ExecuteHelp(astCmd.Help, s.state)
-		if err != nil {
-			return nil, err
-		}
-		return events[0], nil
 	}
 
 	return nil, fmt.Errorf("unsupported command pattern")

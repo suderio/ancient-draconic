@@ -9,21 +9,12 @@ type Command struct {
 	Roll       *RollCmd       `parser:"( @@"`
 	Encounter  *EncounterCmd  `parser:"| @@"`
 	Add        *AddCmd        `parser:"| @@"`
-	Initiative *InitiativeCmd `parser:"| @@"`
-	Attack     *AttackCmd     `parser:"| @@"`
-	Damage     *DamageCmd     `parser:"| @@"`
-	Turn       *TurnCmd       `parser:"| @@"`
 	Hint       *HintCmd       `parser:"| @@"`
-	Ask        *AskCmd        `parser:"| @@"`
-	Check      *CheckCmd      `parser:"| @@"`
 	Adjudicate *AdjudicateCmd `parser:"| @@"`
 	Allow      *AllowCmd      `parser:"| @@"`
 	Deny       *DenyCmd       `parser:"| @@"`
-	Dodge      *DodgeCmd      `parser:"| @@"`
-	Grapple    *GrappleCmd    `parser:"| @@"`
-	HelpAction *HelpActionCmd `parser:"| @@"`
-	Action     *ActionCmd     `parser:"| @@"`
-	Help       *HelpCmd       `parser:"| @@ )"`
+	Help       *HelpCmd       `parser:"| @@"`
+	Generic    *GenericCmd    `parser:"| @@ )"`
 }
 
 // RollCmd calculates a set of dice expressions
@@ -35,7 +26,7 @@ type RollCmd struct {
 
 // ActorExpr maps parsing the optional "by: Someone" block
 type ActorExpr struct {
-	Keyword string `parser:"@(\"by\" \":\")"`
+	Keyword string `parser:"\"by\" \":\""`
 	Name    string `parser:"@Ident"`
 }
 
@@ -59,83 +50,19 @@ type EncounterCmd struct {
 	Keyword string     `parser:"@(\"encounter\"|\"Encounter\"|\"ENCOUNTER\")"`
 	Actor   *ActorExpr `parser:"@@?"` // MUST be GM under execution rules, but parsing we catch anyone
 	Action  string     `parser:"@(\"start\"|\"end\")"`
-	Targets []string   `parser:"( \"with\" \":\" @Ident ( \"and\" \":\" @Ident )* )?"`
+	Targets []string   `parser:"( \"with\" \":\" @(Ident|DiceMacro|Int|String) ( \"and\" \":\" @(Ident|DiceMacro|Int|String) )* )?"`
 }
 
 // AddCmd brings a new actor into an active encounter
 type AddCmd struct {
 	Keyword string     `parser:"@(\"add\"|\"Add\"|\"ADD\")"`
 	Actor   *ActorExpr `parser:"@@?"` // MUST be GM under execution rules
-	Targets []string   `parser:"@Ident ( \"and\" \":\" @Ident )*"`
-}
-
-// InitiativeCmd logs or rolls initiative for a character/monster
-type InitiativeCmd struct {
-	Keyword string     `parser:"@(\"initiative\"|\"Initiative\"|\"INITIATIVE\")"`
-	Actor   *ActorExpr `parser:"@@?"`   // Target character taking the roll
-	Value   *int       `parser:"@Int?"` // Optional manual override, e.g. "initiative by: Paulo 18"
-}
-
-// AttackCmd attempts to strike target(s) with a weapon
-type AttackCmd struct {
-	Keyword     string     `parser:"@(\"attack\"|\"Attack\"|\"ATTACK\")"`
-	Actor       *ActorExpr `parser:"@@?"`
-	OffHand     bool       `parser:"@(\"off-hand\"|\"offhand\")?"`
-	Opportunity bool       `parser:"@(\"opportunity\")?"`
-	Weapon      string     `parser:"\"with\" \":\" @Ident"`
-	Targets     []string   `parser:"\"to\" \":\" @Ident ( \"and\" \":\" @Ident )*"`
-	Dice        *DiceExpr  `parser:"( \"dice\" \":\" @@ )?"`
-}
-
-// DamageRollExpr maps an individual damage dice group and its type
-type DamageRollExpr struct {
-	Dice *DiceExpr `parser:"\"dice\" \":\" @@"`
-	Type string    `parser:"( \"type\" \":\" @Ident )?"`
-}
-
-// DamageCmd resolves HP reduction after a successful strike
-type DamageCmd struct {
-	Keyword string            `parser:"@(\"damage\"|\"Damage\"|\"DAMAGE\")"`
-	Actor   *ActorExpr        `parser:"@@?"`
-	Weapon  string            `parser:"( \"with\" \":\" @Ident )?"`
-	Rolls   []*DamageRollExpr `parser:"@@*"`
-}
-
-// TurnCmd advances the initiative rotation
-type TurnCmd struct {
-	Keyword string     `parser:"@(\"turn\"|\"Turn\"|\"TURN\")"`
-	Actor   *ActorExpr `parser:"@@?"`
+	Targets []string   `parser:"@(Ident|DiceMacro|Int|String) ( \"and\" \":\" @(Ident|DiceMacro|Int|String) )*"`
 }
 
 // HintCmd queries the game state to explain blockers or current turn
 type HintCmd struct {
 	Keyword string `parser:"@(\"hint\"|\"Hint\"|\"HINT\")"`
-}
-
-// AskCmd requests an environmental or conditional check from an entity
-type AskCmd struct {
-	Keyword  string          `parser:"@(\"ask\"|\"Ask\"|\"ASK\")"`
-	Actor    *ActorExpr      `parser:"@@?"`
-	Check    []string        `parser:"\"check\" \":\" @Ident (@Ident)*"`
-	Targets  []string        `parser:"\"of\" \":\" @Ident ( \"and\" \":\" @Ident )*"`
-	DC       int             `parser:"\"dc\" \":\" @Int"`
-	Fails    *AskConsequence `parser:"( \"fails\" \":\" @@ )?"`
-	Succeeds *AskConsequence `parser:"( \"succeeds\" \":\" @@ )?"`
-}
-
-// AskConsequence defines the mechanical impact of standard rolls
-type AskConsequence struct {
-	IsDamage   string    `parser:"( @(\"damage\"|\"Damage\"|\"DAMAGE\")"`
-	DamageDice *DiceExpr `parser:"  @@ )"`
-	HalfDamage bool      `parser:"| @(\"half\"|\"Half\"|\"HALF\")"`
-	Condition  string    `parser:"| @Ident"`
-}
-
-// CheckCmd executes an asked check or a standalone check
-type CheckCmd struct {
-	Keyword string     `parser:"@(\"check\"|\"Check\"|\"CHECK\")"`
-	Actor   *ActorExpr `parser:"@@?"`
-	Check   []string   `parser:"@Ident (@Ident)*"`
 }
 
 // HelpCmd provides context-aware guidance
@@ -163,30 +90,15 @@ type DenyCmd struct {
 	Actor   *ActorExpr `parser:"@@?"`
 }
 
-// DodgeCmd takes the dodge action
-type DodgeCmd struct {
-	Keyword string     `parser:"@(\"dodge\"|\"Dodge\"|\"DODGE\")"`
-	Actor   *ActorExpr `parser:"@@?"`
+// GenericCmd handles ANY arbitrary command routed to the data-driven manifest
+type GenericCmd struct {
+	Name  string     `parser:"@Ident"`
+	Actor *ActorExpr `parser:"@@?"`
+	Args  []*ArgExpr `parser:"@@*"`
 }
 
-// GrappleCmd attempts to grapple a target
-type GrappleCmd struct {
-	Keyword string     `parser:"@(\"grapple\"|\"Grapple\"|\"GRAPPLE\")"`
-	Actor   *ActorExpr `parser:"@@?"`
-	Target  string     `parser:"\"to\" \":\" @Ident"`
-}
-
-// HelpActionCmd manages mechanical help (Advantage on next roll)
-type HelpActionCmd struct {
-	Keyword string     `parser:"@(\"help\"|\"Help\"|\"HELP\")"`
-	Actor   *ActorExpr `parser:"@@?"`
-	Type    string     `parser:"@(\"check\"|\"attack\")"`
-	Target  string     `parser:"\"to\" \":\" @Ident"`
-}
-
-// ActionCmd handles other standard 5e actions (Dash, Disengage, etc.)
-type ActionCmd struct {
-	Action string     `parser:"@(\"dash\"|\"Dash\"|\"DASH\"|\"disengage\"|\"Disengage\"|\"DISENGAGE\"|\"escape\"|\"Escape\"|\"ESCAPE\"|\"hide\"|\"Hide\"|\"HIDE\"|\"improvise\"|\"Improvise\"|\"IMPROVISE\"|\"influence\"|\"Influence\"|\"INFLUENCE\"|\"magic\"|\"Magic\"|\"MAGIC\"|\"ready\"|\"Ready\"|\"READY\"|\"search\"|\"Search\"|\"SEARCH\"|\"shove\"|\"Shove\"|\"SHOVE\"|\"study\"|\"Study\"|\"STUDY\"|\"utilize\"|\"Utilize\"|\"UTILIZE\")"`
-	Actor  *ActorExpr `parser:"@@?"`
-	Target string     `parser:"( \"to\" \":\" @Ident )?"`
+// ArgExpr handles generic key-value tuples (e.g. "with: sword", "to: goblin and: orc")
+type ArgExpr struct {
+	Key    string   `parser:"@Ident \":\""`
+	Values []string `parser:"@(Ident|DiceMacro|Int|String) ( \"and\" \":\" @(Ident|DiceMacro|Int|String) )*"` // e.g. "target1 and: target2"
 }

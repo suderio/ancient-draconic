@@ -48,7 +48,7 @@ func TestAdjudicationFlow(t *testing.T) {
 	state.TurnOrder = []string{"Grog", "Goblin"}
 	state.CurrentTurn = 0
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../world/dnd-campaign", "../../data"})
 
 	// 1. Initiate grapple (should trigger adjudication)
 	params := map[string]any{}
@@ -80,7 +80,11 @@ func TestAdjudicationFlow(t *testing.T) {
 	// 3. Resume grapple (re-execution logic would be in Session, but we test the command's second stage)
 	events, err = ExecuteGenericCommand("grapple", "Grog", []string{"Goblin"}, params, "", state, loader, testReg(loader))
 	assert.NoError(t, err)
-	assert.Len(t, events, 3) // GrappleTaken + AskIssued + ActionConsumed
+	assert.Len(t, events, 4) // AskIssued + DiceRolled + ContestStarted + AttributeChanged
+	assert.IsType(t, &engine.AskIssuedEvent{}, events[0])
+	assert.IsType(t, &engine.DiceRolledEvent{}, events[1])
+	assert.IsType(t, &engine.ContestStartedEvent{}, events[2])
+	assert.IsType(t, &engine.AttributeChangedEvent{}, events[3])
 }
 
 func TestActionEconomy(t *testing.T) {
@@ -98,7 +102,7 @@ func TestActionEconomy(t *testing.T) {
 	state.TurnOrder = []string{"Paulo"}
 	state.CurrentTurn = 0
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 
 	// 1. Take Dodge (uses action)
 	events, err := ExecuteGenericCommand("dodge", "Paulo", []string{"Paulo"}, nil, "", state, loader, testReg(loader))
@@ -147,7 +151,7 @@ func TestHelpAction(t *testing.T) {
 	state.TurnOrder = []string{"Paulo", "Elara", "Orc"}
 	state.CurrentTurn = 0
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 
 	// 1. Paulo helps Elara with a check
 	params := map[string]any{"type": "check", "target": "Elara"}
@@ -167,46 +171,6 @@ func TestHelpAction(t *testing.T) {
 
 	assert.Contains(t, state.Entities["Elara"].Conditions, "HelpedCheck:Paulo")
 	assert.Equal(t, 1, state.Entities["Paulo"].Spent["actions"])
-}
-
-func TestDynamicGrappleDC(t *testing.T) {
-	state := engine.NewGameState()
-	state.IsEncounterActive = true
-	state.Entities["thorne"] = &engine.Entity{
-		ID:        "thorne",
-		Name:      "Thorne",
-		Resources: map[string]int{"actions": 1},
-		Spent:     map[string]int{"actions": 0},
-		Stats:     map[string]int{"str": 16, "prof_bonus": 2},
-		Statuses:  make(map[string]string),
-	}
-	state.Entities["Goblin"] = &engine.Entity{
-		ID:        "Goblin",
-		Name:      "Goblin",
-		Resources: map[string]int{"actions": 1},
-		Spent:     map[string]int{"actions": 0},
-		Stats:     map[string]int{"str": 10, "dex": 10, "wis": 10, "prof_bonus": 2},
-		Statuses:  make(map[string]string),
-	}
-	state.Metadata["initiatives"] = map[string]int{"thorne": 20, "Goblin": 10}
-	state.TurnOrder = []string{"thorne", "Goblin"}
-	state.CurrentTurn = 0
-
-	loader := data.NewLoader([]string{"../../data"})
-	state.Metadata["pending_adjudication"] = map[string]any{"approved": true}
-
-	params := map[string]any{}
-	events, err := ExecuteGenericCommand("grapple", "thorne", []string{"Goblin"}, params, "", state, loader, testReg(loader))
-	assert.NoError(t, err)
-
-	foundAsk := false
-	for _, e := range events {
-		if ask, ok := e.(*engine.AskIssuedEvent); ok {
-			foundAsk = true
-			assert.Equal(t, 13, ask.DC)
-		}
-	}
-	assert.True(t, foundAsk)
 }
 
 func TestTwoWeaponFighting(t *testing.T) {
@@ -238,7 +202,7 @@ func TestTwoWeaponFighting(t *testing.T) {
 	state.TurnOrder = []string{"thorne", "goblin"}
 	state.CurrentTurn = 0
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 	reg := testReg(loader)
 
 	// 1. Off-hand Attack should fail if no prior attack this turn
@@ -315,7 +279,7 @@ func TestOpportunityAttack(t *testing.T) {
 	state.TurnOrder = []string{"thorne", "elara"}
 	state.CurrentTurn = 1
 
-	loader := data.NewLoader([]string{"../../data"})
+	loader := data.NewLoader([]string{"../../world/dnd-campaign", "../../data"})
 	manifest := &data.CampaignManifest{
 		Commands: map[string]data.CommandDefinition{
 			"opportunity_attack": {
