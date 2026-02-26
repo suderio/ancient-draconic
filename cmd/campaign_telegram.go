@@ -102,7 +102,7 @@ var telegramCmd = &cobra.Command{
 		if len(tgUserPairs) > 0 {
 			campaignData := filepath.Join(campaignPath, "data")
 			worldData := filepath.Join(worldDir, "data")
-			loader := data.NewLoader([]string{campaignData, worldData})
+			loader := data.NewLoader([]string{campaignPath, campaignData, worldDir, worldData})
 
 			for _, pair := range tgUserPairs {
 				parts := strings.Split(pair, ":")

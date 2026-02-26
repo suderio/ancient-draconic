@@ -144,6 +144,8 @@ func (e *HintEvent) Apply(state *GameState) error { return nil }
 func (e *HintEvent) Message() string              { return e.MessageStr }
 
 // ActorAddedEvent brings a new entity into the encounter tracker.
+
+// TODO: the fact that we still have Size and MaxHP here shows that we still have too much logic in the engine.
 type ActorAddedEvent struct {
 	ID            string
 	Category      string // "Character" or "Monster"

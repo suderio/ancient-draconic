@@ -133,7 +133,6 @@ func ExecuteGenericCommand(cmdName string, actorID string, targets []string, par
 	defer reg.SetDiceReporter(nil)
 	cmdDef, ok := reg.GetCommand(cmdName)
 	if !ok {
-		fmt.Printf(">>> ERROR: cmd %s not found\n", cmdName)
 		return nil, fmt.Errorf("command '%s' not found in manifest", cmdName)
 	}
 
@@ -621,6 +620,8 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 				Defenses:      r.Defenses,
 			}
 		}
+
+	// TODO: let's not use magic strings when we can use boolean values.
 	case "EncounterStateChanged":
 		if s, ok := res.(string); ok && s == "started" {
 			if state != nil && state.IsEncounterActive {
@@ -686,37 +687,4 @@ func mapManifestEvent(eventName string, actorID, targetID string, res any, ctx m
 		}
 	}
 	return nil
-}
-
-// RollInitiative is a legacy-compatible helper that uses the current rules to roll initiative for an actor.
-// It's used by ExecuteAdd and ExecuteEncounter.
-func RollInitiative(id string, stats TargetRes, reg *rules.Registry) engine.Event {
-	// Baseline as we don't always have the rollFunc here easily without reg
-	dex := 10
-	if stats.Name != "" {
-		if d, ok := stats.Stats["dex"]; ok {
-			dex = d
-		}
-	}
-	mod := (dex - 10) / 2
-	score := 10 + mod
-	if reg != nil {
-		// Mock context
-		ctx := map[string]any{
-			"actor": map[string]any{
-				"stats": map[string]any{
-					"dex": dex,
-				},
-			},
-		}
-		if res, err := reg.Eval("roll('1d20') + mod(actor.stats.dex)", ctx); err == nil {
-			if i, ok := res.(int64); ok {
-				score = int(i)
-			}
-		}
-	}
-	return &engine.MetadataChangedEvent{
-		Key:   "initiatives",
-		Value: map[string]int{id: score},
-	}
 }

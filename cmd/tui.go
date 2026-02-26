@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/suderio/ancient-draconic/internal/session"
+	"github.com/suderio/ancient-draconic/internal/manifest"
 
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -47,7 +47,7 @@ func (s suggestion) Description() string { return "" }
 func (s suggestion) FilterValue() string { return string(s) }
 
 type replModel struct {
-	app          *session.Session
+	app          *manifest.Session
 	textInput    textinput.Model
 	viewport     viewport.Model
 	suggestions  list.Model
@@ -61,9 +61,9 @@ type replModel struct {
 	showList     bool
 }
 
-func newREPLModel(app *session.Session, worldName, campaignName string) replModel {
+func newREPLModel(app *manifest.Session, worldName, campaignName string) replModel {
 	ti := textinput.New()
-	ti.Placeholder = "Enter command (e.g., roll by: GM 1d20)..."
+	ti.Placeholder = "Enter command (e.g., roll dice: 1d20)..."
 	ti.Focus()
 	ti.CharLimit = 256
 	ti.Width = 60
@@ -107,9 +107,6 @@ func (m *replModel) updateSuggestions() {
 		m.suggestions.SetItems(items)
 		m.showList = len(items) > 0
 		if m.showList {
-			// Use a more generous height for the list to avoid the pagination indicator (•••)
-			// Small counts like 1-3 often need at least 4-5 total lines in the list model
-			// to avoid clipping symbols depending on theme/styles.
 			h := len(items)
 			if h > 10 {
 				h = 10
@@ -129,14 +126,18 @@ func (m *replModel) updateSuggestions() {
 
 	state := m.app.State()
 
-	// Base Engine Commands & Contexts
-	baseCmds := []string{"roll by: ", "encounter start", "encounter end", "add ", "initiative by: ", "turn", "hint", "ask by: ", "adjudicate ", "allow", "deny", "help ", "exit", "quit"}
+	// Base hardcoded commands
+	baseCmds := []string{"roll dice: ", "help ", "hint", "ask by: ", "adjudicate ", "allow", "deny", "exit", "quit"}
 
 	// Dynamically pull loaded Manifest Commands
-	if manifest, err := m.app.Loader().LoadManifest(); err == nil {
-		for cmdName := range manifest.Commands {
-			baseCmds = append(baseCmds, fmt.Sprintf("%s by: ", cmdName))
+	mf := m.app.Manifest()
+	for cmdKey, cmdDef := range mf.Commands {
+		// Use display name (spaces) for autocomplete
+		displayName := cmdDef.Name
+		if displayName == "" {
+			displayName = strings.ReplaceAll(cmdKey, "_", " ")
 		}
+		baseCmds = append(baseCmds, displayName+" ")
 	}
 
 	for _, c := range baseCmds {
@@ -145,7 +146,7 @@ func (m *replModel) updateSuggestions() {
 		}
 	}
 
-	// Simple context-aware Entity completion when typing "to: " or "by: "
+	// Entity completion when typing "to: " or "by: "
 	if strings.Contains(strings.ToLower(val), " to: ") {
 		parts := strings.SplitN(strings.ToLower(val), " to: ", 2)
 		if len(parts) == 2 {
@@ -240,11 +241,16 @@ func (m *replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.updateSuggestions()
 
 				m.logContent += fmt.Sprintf("\n\n> %s\n", val)
-				evt, err := m.app.Execute(val)
+				events, err := m.app.Execute(val)
 				if err != nil {
 					m.logContent += fmt.Sprintf("Error: %v", err)
-				} else if evt != nil {
-					m.logContent += evt.Message()
+				} else {
+					for _, evt := range events {
+						msg := evt.Message()
+						if msg != "" {
+							m.logContent += msg + "\n"
+						}
+					}
 				}
 
 				m.viewport.SetContent(m.logContent)
@@ -294,20 +300,27 @@ func (m *replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m *replModel) renderState() string {
-	stateView := "=== Active Encounter ==="
+	stateView := "=== Game State ==="
 	state := m.app.State()
 
-	if state.IsFrozen() {
-		stateView += " [FROZEN]"
-	}
 	stateView += "\n\n"
 
-	if len(state.TurnOrder) > 0 && state.CurrentTurn >= 0 {
-		currentActor := state.TurnOrder[state.CurrentTurn]
-		stateView += fmt.Sprintf("Turn: %s\n\n", currentActor)
-	} else if state.IsEncounterActive {
-		stateView += "Turn: Setup (Waiting for initiatives)\n\n"
+	// Show active loops
+	hasActiveLoop := false
+	for name, loop := range state.Loops {
+		if loop.Active {
+			hasActiveLoop = true
+			stateView += fmt.Sprintf("Loop: %s (active)\n", name)
+			if len(loop.Order) > 0 {
+				stateView += fmt.Sprintf("  Order: %s\n", strings.Join(orderToStrings(loop.Order), ", "))
+			}
+		}
 	}
+	if !hasActiveLoop {
+		stateView += "No active loops.\n"
+	}
+
+	stateView += "\n"
 
 	if len(state.Entities) == 0 {
 		stateView += "No entities active."
@@ -319,38 +332,24 @@ func (m *replModel) renderState() string {
 			}
 			hp := ent.Resources["hp"] - ent.Spent["hp"]
 			maxHP := ent.Resources["hp"]
-			stateView += fmt.Sprintf(" - %s (%s): %d/%d HP%s\n", id, ent.Name, hp, maxHP, conds)
-		}
-	}
-
-	if pendingChecks, ok := state.Metadata["pending_checks"].(map[string]any); ok && len(pendingChecks) > 0 {
-		stateView += "\nPending Checks:\n"
-		for id, reqAny := range pendingChecks {
-			if req, ok := reqAny.(map[string]any); ok {
-				check, _ := req["check"].(string)
-				dc, _ := req["dc"].(int)
-				stateView += fmt.Sprintf(" - %s requires %v (DC %d)\n", id, check, dc)
-			}
-		}
-	}
-
-	if pendingDmg, ok := state.Metadata["pending_damage"].(map[string]any); ok && pendingDmg != nil {
-		attacker, _ := pendingDmg["attacker"].(string)
-		stateView += fmt.Sprintf("\nPending Damage from %s:\n", attacker)
-
-		targets, _ := pendingDmg["targets"].([]string)
-		hitStatus, _ := pendingDmg["hit_status"].(map[string]bool)
-
-		for _, t := range targets {
-			if hitStatus[t] {
-				stateView += fmt.Sprintf(" - %s (Hit)\n", t)
+			if maxHP > 0 {
+				stateView += fmt.Sprintf(" - %s (%s): %d/%d HP%s\n", id, ent.Name, hp, maxHP, conds)
 			} else {
-				stateView += fmt.Sprintf(" - %s (Miss)\n", t)
+				stateView += fmt.Sprintf(" - %s (%s)%s\n", id, ent.Name, conds)
 			}
 		}
 	}
 
 	return stateBoxStyle.Width(m.width - 4).Render(stateView)
+}
+
+// orderToStrings converts a loop order map to a sorted display list.
+func orderToStrings(order map[string]int) []string {
+	var result []string
+	for actor, val := range order {
+		result = append(result, fmt.Sprintf("%s(%d)", actor, val))
+	}
+	return result
 }
 
 func (m *replModel) View() string {
@@ -381,7 +380,7 @@ func (m *replModel) View() string {
 	return mainView + strings.Repeat("\n", 7)
 }
 
-func RunTUI(app *session.Session, worldDir, campaignDir string) error {
+func RunTUI(app *manifest.Session, worldDir, campaignDir string) error {
 	m := newREPLModel(app, filepath.Base(worldDir), filepath.Base(campaignDir))
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {

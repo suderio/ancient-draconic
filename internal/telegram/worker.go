@@ -6,14 +6,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/suderio/ancient-draconic/internal/engine"
-
 	"github.com/spf13/viper"
 )
 
-// Executor defines the interface for running DSL commands
+// CommandResult holds the output of a command execution.
+type CommandResult struct {
+	Messages []string
+}
+
+// Executor defines the interface for running DSL commands.
 type Executor interface {
-	Execute(input string) (engine.Event, error)
+	Execute(input string) (*CommandResult, error)
 }
 
 // Bot handles the integration between Telegram and the Ancient Draconic session
@@ -83,10 +86,6 @@ func (b *Bot) handleMessage(msg *Message) {
 
 	actorID, ok := b.userMap[msg.From.ID]
 	if !ok {
-		// If user not mapped, check if they are the GM?
-		// For now, let's assume if not mapped, they can't issue commands unless they specify by: GM?
-		// Actually, the user requirement says "every command /command change it to command by: get-user(user_id)".
-		// If get-user(user_id) is empty, we might want to tell them.
 		b.client.SendMessage(b.chatID, fmt.Sprintf("User %s (%d) is not registered in this campaign.", msg.From.FirstName, msg.From.ID))
 		return
 	}
@@ -95,19 +94,15 @@ func (b *Bot) handleMessage(msg *Message) {
 	translatedCmd := parts[0] + " by: " + actorID + " " + strings.Join(parts[1:], " ")
 
 	// 4. Execution
-	evt, err := b.executor.Execute(translatedCmd)
+	result, err := b.executor.Execute(translatedCmd)
 	if err != nil {
 		b.client.SendMessage(b.chatID, fmt.Sprintf("Error: %v", err))
 		return
 	}
 
-	if evt != nil {
-		b.client.SendMessage(b.chatID, b.formatEvent(evt))
+	for _, msg := range result.Messages {
+		if msg != "" {
+			b.client.SendMessage(b.chatID, fmt.Sprintf("*%s*", msg))
+		}
 	}
-}
-
-func (b *Bot) formatEvent(evt engine.Event) string {
-	msg := evt.Message()
-	// Simple conversion to Markdown. In the future we could do better mapping.
-	return fmt.Sprintf("*%s*", msg)
 }

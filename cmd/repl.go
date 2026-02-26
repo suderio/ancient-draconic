@@ -8,8 +8,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/suderio/ancient-draconic/internal/manifest"
 	"github.com/suderio/ancient-draconic/internal/persistence"
-	"github.com/suderio/ancient-draconic/internal/session"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -20,7 +20,7 @@ var replCmd = &cobra.Command{
 	Short: "Start the interactive REPL shell",
 	Long: `Starts the read-eval-print loop for encountering sequences and issuing commands.
 Usage:
-	> roll by: Somebody 3d6k1+1`,
+	> roll by: Somebody dice: 3d6`,
 	Args: cobra.MaximumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		worldDir, _ := cmd.Flags().GetString("world_dir")
@@ -55,24 +55,25 @@ Usage:
 			campaignDir = campaignName
 		}
 
+		// Use persistence.CampaignManager for path resolution (engine-agnostic)
 		manager := persistence.NewCampaignManager(worldDir)
-		store, err := manager.Load("", campaignDir)
-		if err != nil {
-			fmt.Printf("Error: %v\nDid you run `campaign create` first?\n", err)
-			os.Exit(1)
-		}
-		defer store.Close()
-
-		campaignData := filepath.Join(manager.GetCampaignPath("", campaignDir), "data")
+		campaignRoot := manager.GetCampaignPath("", campaignDir)
+		campaignData := filepath.Join(campaignRoot, "data")
 		worldData := filepath.Join(worldDir, "data")
 
-		dataDirs := []string{campaignData, worldData}
+		// Include root directories so manifest.yaml can be found at the campaign
+		// or world root level, not only inside a /data subdirectory.
+		dataDirs := []string{campaignRoot, campaignData, worldDir, worldData}
 
-		app, err := session.NewSession(dataDirs, store)
+		// Store path for the new manifest event log
+		storePath := filepath.Join(campaignRoot, "log.jsonl")
+
+		app, err := manifest.NewSession(dataDirs, storePath)
 		if err != nil {
 			fmt.Printf("Failed to bootstrap game session: %v\n", err)
 			os.Exit(1)
 		}
+		defer app.Close()
 
 		fmt.Printf("Starting REPL for '%s/%s'...\nType 'exit' or 'quit' to leave.\n\n", worldDir, campaignDir)
 

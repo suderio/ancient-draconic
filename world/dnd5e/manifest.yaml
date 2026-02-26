@@ -1,0 +1,125 @@
+# Commands that should be hardcoded:
+# adjudicate
+# help
+# hint
+# ask
+# roll
+# allow
+# deny
+
+restrictions:
+  adjudication:
+    commands: ["grapple"]
+  gm_commands: ["encounter_start", "encounter_end"] # Sends the message 'unauthorized: this command can only be executed by the GM'
+
+commands:
+  encounter_start: # Commands separated by '_' can be used as a_b by: xxx or a by: xxx b.
+    name: "encounter start"
+    params:
+    # Until now we are processing commands with no definition of how they should be written in the manifest.
+    # That means the parameters are hardcoded in the executor.
+    # The by parameter is implicit. It is always the actor that issues the command.
+      - name: "with"
+        type: "list<target>" # The list<...> type means we can do with: xxx and: yyy and: zzz
+        required: false
+    prereq: # Every prereq formula must return true, or the error message is returned.
+      - name: "check_conflict"
+        formula: "!is_encounter_active" # Every LoopEvent creates a GameState variable 'is_<command_name>_active'.
+        error: "an encounter is already active. End it first'" 
+    hint: "Encounter has started. Roll initiative for all actors." # Message to show if someone asks for hint after the command encounter is executed.
+    help: "Encounter start command starts an encounter." # Message to show with the help encounter command.
+    error: "encounter start [with: Target1 [and: Target2]*]" # The message to show when the command is invalid. "The command must be: ..."
+    game:
+      # Loop is a new concept. Loops are made of actors that perform some commands in some sequence.
+      # The loop has a list of actors that are filled with the ActorAddedEvent.
+      # Each actor has a number (initially, the order they were added) that shows when they will act.
+      - name: "create_loop"
+        formula: "true"
+        event: "LoopEvent" # LoopEvent begins or ends a 'loop' based on the value of formula (true/false). Changes the value of the variable is_<command_name>_active.
+      - name: "order_loop"
+        formula: "false"
+        event: "LoopOrderAscendingEvent" # LoopOrderAscendingEvent sets the way to order the actors.
+      - name: "add_actor"
+        formula: "command.with" # Processing of commands must return a list everytime a command is defined with argument 'something: xxx and: yyy and: zzz'
+        event: "ActorAddedEvent" # This event adds the list 'command.with' to actors of the loop. Actor is an engine term like target.
+    targets:
+      - name: "Ask Initiative"
+        formula: "[target, 'initiative']" # formulas in the 'targets' can use the target variable to indicate each target of the command (not the entire list)
+        event: "AskIssuedEvent"
+
+  encounter_end:
+    name: "encounter end"
+    prereq:
+      - name: "check_conflict"
+        formula: "is_encounter_active" # Every LoopEvent creates a GameState variable 'is_<command_name>_active'.
+        error: "no active encounter to end"
+    hint: "Encounter has ended." # Message to show if someone asks for hint after the command encounter is executed.
+    help: "Encounter end command ends an encounter." # Message to show with the help encounter command.
+    error: "encounter end" # The message to show when the command is invalid. "The command must be: ..."
+    game:
+      - name: "state_change"
+        formula: "false" # State changed means some variable changes value.
+        loop: "encounter_start"
+        event: "LoopEvent" # LoopEvent begins or ends a 'loop' based on the value of formula (true/false). Changes the value of the variable is_<command_name>_active.
+
+  initiative:
+    name: "initiative"
+    prereq:
+      - name: "check_active"
+        formula: "is_encounter_active" # Every LoopEvent creates a GameState variable 'is_<command_name>_active'.
+        error: "an encounter is not active. Start it first'" 
+    hint: "Is it your turn? Wait for your turn" # Message to show if someone asks for hint after the command encounter is executed.
+    help: "Initiative command rolls initiative for the actors." # Message to show with the help encounter command.
+    error: "initiative" # The message to show when the command is invalid. "The command must be: ..."
+    game:
+      - name: "roll_score"
+        formula: "roll('1d20') + mod(actor.stats.dex)"
+        event: LoopOrderEvent # LoopOrderEvent changes the number associated with the actor in the Loop. Since the LoopOrderAscendintEvent is false, the one whit the biggest initiative will go first.
+
+  grapple:
+    name: "grapple"
+    params:
+      - name: "to"
+        type: "target"
+        required: true
+    prereq:
+      - name: "check_action"
+        formula: "actor.spent.actions < actor.resources.actions"
+        error: "no actions remaining"
+    hint: "Grapple command grapples the target."
+    help: "Grapple command grapples the target."
+    error: "grapple [to: <target>]"
+    game:
+      - name: "contest"
+        formula: "roll('1d20') + mod(actor.stats.str) + ('athletics' in actor.proficiencies ? actor.proficiencies.athletics * actor.stats.prof_bonus : 0)"
+        event: "ContestStarted"
+      - name: "ask_grapple"
+        formula: "[target, 'check skill: athletics dc: ' + string(steps.contest), 'check skill: acrobatics dc: ' + string(steps.contest)]" # todo: steps -> game
+        event: "AskIssuedEvent"
+      - name: "resolve_grapple"
+        formula: "targets.ask_grapple" # ask returns the result of the check, which is true if the check was successful.
+        event: "ContestResolvedEvent" # No other step is processed if this one returns true.
+      - name: "grappled"
+        formula: "'grappled'"
+        event: "AddConditionEvent"
+    actor:
+      - name: "consume_action"
+        formula: "actions"
+        event: "AddSpentEvent"
+  
+  check:
+    name: "check"
+    params:
+      - name: "skill"
+        type: "string"
+        required: true
+      - name: "dc"
+        type: "int"
+        required: true
+    hint: "Check command checks the target."
+    help: "Check command checks the target."
+    error: "check [skill: <skill>] [dc: <dc>]"
+    game:
+      - name: "contest"
+        formula: "roll('1d20') + mod(stat(proficiencies.[command.skill])) + ('command.skill' in actor.proficiencies ? actor.proficiencies.command.skill * actor.stats.prof_bonus : 0) >= command.dc"
+        event: "CheckEvent"
