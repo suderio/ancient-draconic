@@ -2,333 +2,189 @@ package session
 
 import (
 	"fmt"
-	"strconv"
+	"path/filepath"
 	"strings"
 
-	"github.com/suderio/ancient-draconic/internal/command"
-	"github.com/suderio/ancient-draconic/internal/data"
 	"github.com/suderio/ancient-draconic/internal/engine"
-	"github.com/suderio/ancient-draconic/internal/parser"
-	"github.com/suderio/ancient-draconic/internal/rules"
 )
 
-// Store defines the dependency required by Session to persist events
-type Store interface {
-	Append(evt engine.Event) error
-	Load() ([]engine.Event, error)
-	Close() error
-}
-
-// Session manages the cohesive loop of taking commands, executing them, persisting events, and projecting GameState
+// Session manages the game loop: parsing input, executing commands,
+// persisting events, and maintaining game state.
 type Session struct {
-	loader   *data.Loader
-	store    Store
+	manifest *engine.Manifest
 	state    *engine.GameState
-	registry *rules.Registry
+	store    *Store
+	eval     *engine.Evaluator
+	dataDirs []string
 }
 
-// NewSession bootstraps a game session pipeline relying on an injected store
-func NewSession(dataDirs []string, store Store) (*Session, error) {
-	loader := data.NewLoader(dataDirs)
-	manifest, err := loader.LoadManifest()
+// NewSession bootstraps a manifest-driven game session.
+func NewSession(dataDirs []string, storePath string) (*Session, error) {
+	// 1. Load manifest from the first available location
+	m, err := findAndLoadManifest(dataDirs)
 	if err != nil {
-		return nil, fmt.Errorf("failed to load campaign manifest: %w", err)
+		return nil, fmt.Errorf("failed to load manifest: %w", err)
 	}
 
-	// Bridge rules.Registry to engine.Roll
-	reg, err := rules.NewRegistry(manifest, func(s string) int {
-		expr := &parser.DiceExpr{Raw: s}
-		res, _ := engine.Roll(expr)
-		return res.Total
-	}, nil)
+	// 2. Create CEL evaluator
+	eval, err := engine.NewEvaluator(nil) // Use default dice roller
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize rules registry: %w", err)
+		return nil, fmt.Errorf("failed to create evaluator: %w", err)
+	}
+
+	// 3. Open event store
+	store, err := NewStore(storePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open event store: %w", err)
 	}
 
 	s := &Session{
-		loader:   loader,
+		manifest: m,
+		state:    engine.NewGameState(),
 		store:    store,
-		registry: reg,
+		eval:     eval,
+		dataDirs: dataDirs,
 	}
-	if err := s.RebuildState(); err != nil {
+
+	// 4. Rebuild state from event log
+	if err := s.rebuildState(); err != nil {
+		store.Close()
 		return nil, err
 	}
+
+	// 5. Load entity data files (characters/monsters) into state
+	if err := s.loadEntities(); err != nil {
+		// Non-fatal: entities can be added via commands too
+		fmt.Printf("Warning: %v\n", err)
+	}
+
 	return s, nil
 }
 
-// RebuildState reads the entire event log from the store and projects the latest GameState
-func (s *Session) RebuildState() error {
+// Execute takes a raw command string, parses it, executes the command,
+// applies and persists the resulting events, and returns them.
+func (s *Session) Execute(input string) ([]engine.Event, error) {
+	parsed := ParseInput(input)
+
+	if parsed.Command == "" {
+		return nil, fmt.Errorf("empty command")
+	}
+
+	events, err := engine.ExecuteCommand(
+		parsed.Command,
+		parsed.ActorID,
+		parsed.Targets,
+		parsed.Params,
+		s.state,
+		s.manifest,
+		s.eval,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, evt := range events {
+		if err := s.applyAndPersist(evt); err != nil {
+			return nil, err
+		}
+	}
+
+	return events, nil
+}
+
+// State returns the current game state.
+func (s *Session) State() *engine.GameState {
+	return s.state
+}
+
+// Manifest returns the loaded manifest for autocomplete and help.
+func (s *Session) Manifest() *engine.Manifest {
+	return s.manifest
+}
+
+// Close releases resources held by the session.
+func (s *Session) Close() error {
+	if s.store != nil {
+		return s.store.Close()
+	}
+	return nil
+}
+
+// rebuildState replays all persisted events to reconstruct the in-memory state.
+func (s *Session) rebuildState() error {
 	events, err := s.store.Load()
 	if err != nil {
 		return fmt.Errorf("failed to load event log: %w", err)
 	}
 
-	proj := engine.NewProjector()
-	state, err := proj.Build(events)
-	if err != nil {
-		return fmt.Errorf("failed to project game state: %w", err)
+	for _, evt := range events {
+		if err := evt.Apply(s.state); err != nil {
+			return fmt.Errorf("failed to replay event %s: %w", evt.Type(), err)
+		}
 	}
 
-	s.state = state
 	return nil
 }
 
-// State returns the current projected GameState
-func (s *Session) State() *engine.GameState {
-	return s.state
-}
-
-// Loader returns the instantiated YAML reference engine
-func (s *Session) Loader() *data.Loader {
-	return s.loader
-}
-
-// Execute takes a raw command string from a UI client, coordinates execution, appends the result, and returns the descriptive Event
-func (s *Session) Execute(input string) (engine.Event, error) {
-	langParser := parser.Build()
-
-	// Let's intercept legacy fake commands temporarily here before we properly build ASTs for them
-	parts := strings.Split(input, " ")
-	if parts[0] == "heal" {
-		return s.executeLegacyPseudoCommand(parts)
+// applyAndPersist commits an event to both the in-memory state and the persistent store.
+func (s *Session) applyAndPersist(evt engine.Event) error {
+	// HintEvents are display-only and should not be persisted
+	if _, isHint := evt.(*engine.HintEvent); isHint {
+		return nil
 	}
 
-	astCmd, err := langParser.ParseString("", input)
-	if err != nil {
-		return nil, parser.MapError(input, err)
-	}
-
-	if astCmd.Roll != nil {
-		evt, err := command.ExecuteRoll(astCmd.Roll)
-		if err != nil {
-			return nil, fmt.Errorf("roll execution error: %w", err)
-		}
-
-		if err := s.ApplyAndAppend(evt); err != nil {
-			return nil, err
-		}
-
-		return evt, nil
-	}
-
-	if astCmd.Encounter != nil {
-		actorID := "GM"
-		if astCmd.Encounter.Actor != nil {
-			actorID = astCmd.Encounter.Actor.Name
-		}
-		params := map[string]any{
-			"action": astCmd.Encounter.Action,
-		}
-		events, err := command.ExecuteGenericCommand("encounter", actorID, astCmd.Encounter.Targets, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, evt := range events {
-			if err := s.ApplyAndAppend(evt); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	}
-
-	if astCmd.Add != nil {
-		actorID := "GM"
-		if astCmd.Add.Actor != nil {
-			actorID = astCmd.Add.Actor.Name
-		}
-		events, err := command.ExecuteGenericCommand("add", actorID, astCmd.Add.Targets, nil, input, s.state, s.loader, s.registry)
-		if err != nil {
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	}
-
-	if astCmd.Generic != nil {
-		actorID := "GM"
-		if astCmd.Generic.Actor != nil {
-			var err error
-			actorID, err = command.ResolveActor(astCmd.Generic.Actor, s.state)
-			if err != nil {
-				if err == engine.ErrSilentIgnore {
-					return nil, nil
-				}
-				return nil, err
-			}
-		}
-
-		params := map[string]any{}
-		var targets []string
-
-		for _, arg := range astCmd.Generic.Args {
-			key := strings.TrimSuffix(arg.Key, ":")
-			if key == "to" || key == "of" {
-				targets = arg.Values
-			} else if len(arg.Values) == 1 {
-				// Single value, try parsing as bool if it's "true", else string/int mapping happens inside
-				params[key] = arg.Values[0]
-			} else if len(arg.Values) > 1 {
-				params[key] = arg.Values
-			}
-		}
-
-		// Turn has very specific game loop progression rules
-		if strings.ToLower(astCmd.Generic.Name) == "turn" {
-			// 1. End turn for current actor
-			if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
-				currentActor := s.state.TurnOrder[s.state.CurrentTurn]
-				if endEvents, err := command.ExecuteGenericCommand("end_turn", currentActor, []string{currentActor}, nil, "end_turn", s.state, s.loader, s.registry); err == nil {
-					for _, e := range endEvents {
-						s.ApplyAndAppend(e)
-					}
-				}
-				s.processExpirations("end_turn", currentActor)
-			}
-
-			// 2. Advance turn
-			events, err := command.ExecuteGenericCommand("turn", actorID, []string{actorID}, nil, input, s.state, s.loader, s.registry)
-			if err != nil {
-				return nil, err
-			}
-			var firstEvent engine.Event
-			for _, e := range events {
-				if err := s.ApplyAndAppend(e); err != nil {
-					return nil, err
-				}
-				if firstEvent == nil {
-					firstEvent = e
-				}
-			}
-
-			// 3. Start turn for next actor
-			if len(s.state.TurnOrder) > 0 && s.state.CurrentTurn >= 0 {
-				newActor := s.state.TurnOrder[s.state.CurrentTurn]
-				if startEvents, err := command.ExecuteGenericCommand("start_turn", newActor, []string{newActor}, nil, "start_turn", s.state, s.loader, s.registry); err == nil {
-					for _, e := range startEvents {
-						s.ApplyAndAppend(e)
-					}
-				}
-				s.processExpirations("start_turn", newActor)
-			}
-
-			if firstEvent != nil {
-				return firstEvent, nil
-			}
-			return nil, nil
-		}
-
-		events, err := command.ExecuteGenericCommand(strings.ToLower(astCmd.Generic.Name), actorID, targets, params, input, s.state, s.loader, s.registry)
-		if err != nil {
-			if err == engine.ErrSilentIgnore {
-				return nil, nil
-			}
-			return nil, err
-		}
-		for _, e := range events {
-			if err := s.ApplyAndAppend(e); err != nil {
-				return nil, err
-			}
-		}
-		if len(events) > 0 {
-			return events[0], nil
-		}
-		return nil, nil
-	}
-
-	return nil, fmt.Errorf("unsupported command pattern")
-}
-
-// ApplyAndAppend commits a finalized event to the store and updates memory
-func (s *Session) ApplyAndAppend(evt engine.Event) error {
 	if err := s.store.Append(evt); err != nil {
-		return fmt.Errorf("failed to persist event log: %w", err)
+		return fmt.Errorf("failed to persist event: %w", err)
 	}
 
 	if err := evt.Apply(s.state); err != nil {
-		// Log corruption warning, but in production we might trigger a full rebuild instead
-		return fmt.Errorf("failed to apply event to memory state: %w", err)
+		return fmt.Errorf("failed to apply event: %w", err)
 	}
 
 	return nil
 }
 
-func (s *Session) executeLegacyPseudoCommand(parts []string) (engine.Event, error) {
-	// ... Quick mapping for add/damage/heal to maintain REPL backwards compatibility
-	// until we write true Participle AST structures for them later
-
-	var evt engine.Event
-
-	switch parts[0] {
-	case "heal":
-		if len(parts) == 3 {
-			amt, _ := strconv.Atoi(parts[2])
-			if ent, ok := s.state.Entities[parts[1]]; ok {
-				currentSpent := ent.Spent["hp"]
-				newSpent := currentSpent - amt
-				if newSpent < 0 {
-					newSpent = 0
-				}
-				evt = &engine.AttributeChangedEvent{
-					ActorID:  parts[1],
-					AttrType: engine.AttrSpent,
-					Key:      "hp",
-					Value:    newSpent,
-				}
-			} else {
-				return nil, fmt.Errorf("entity %s not found", parts[1])
-			}
-		} else {
-			return nil, fmt.Errorf("Usage: heal <id> <amount>")
+// findAndLoadManifest searches data directories for a manifest.yaml file.
+func findAndLoadManifest(dataDirs []string) (*engine.Manifest, error) {
+	for _, dir := range dataDirs {
+		path := filepath.Join(dir, "manifest.yaml")
+		m, err := engine.LoadManifest(path)
+		if err == nil {
+			return m, nil
 		}
 	}
-
-	if evt != nil {
-		if err := s.ApplyAndAppend(evt); err != nil {
-			return nil, err
-		}
-		return evt, nil
-	}
-
-	return nil, fmt.Errorf("unrecognized legacy command")
+	return nil, fmt.Errorf("manifest.yaml not found in any of: %s", strings.Join(dataDirs, ", "))
 }
-func (s *Session) processExpirations(trigger string, currentActor string) error {
-	var events []engine.Event
-	if expMap, ok := s.state.Metadata["conditions_expiry"].(map[string]any); ok {
-		// Because maps might be modified or iterated, we collect first
-		var keysToDelete []string
-		for key, val := range expMap {
-			if vMap, ok := val.(map[string]string); ok {
-				if vMap["expires_on"] == trigger && vMap["reference_actor"] == currentActor {
-					parts := strings.SplitN(key, ":", 2)
-					if len(parts) == 2 {
-						events = append(events, &engine.ConditionRemovedEvent{
-							ActorID:   parts[0],
-							Condition: parts[1],
-						})
-						keysToDelete = append(keysToDelete, key)
-					}
+
+// loadEntities scans data directories for character and monster YAML files.
+func (s *Session) loadEntities() error {
+	for _, dir := range s.dataDirs {
+		for _, sub := range []string{"characters", "monsters", "data/characters", "data/monsters"} {
+			entities, _ := loadEntitiesFromDir(filepath.Join(dir, sub))
+			for _, e := range entities {
+				if _, exists := s.state.Entities[e.ID]; !exists {
+					s.state.Entities[e.ID] = e
 				}
 			}
-		}
-		// Clean up the tracking state directly so it's not repeatedly checked
-		for _, k := range keysToDelete {
-			delete(expMap, k)
-		}
-	}
-	for _, e := range events {
-		if err := s.ApplyAndAppend(e); err != nil {
-			return err
 		}
 	}
 	return nil
+}
+
+// loadEntitiesFromDir reads all YAML files in a directory and loads them as entities.
+func loadEntitiesFromDir(dir string) ([]*engine.Entity, error) {
+	entries, err := filepath.Glob(filepath.Join(dir, "*.yaml"))
+	if err != nil || len(entries) == 0 {
+		return nil, err
+	}
+
+	var result []*engine.Entity
+	for _, path := range entries {
+		e, err := engine.LoadEntity(path)
+		if err != nil {
+			continue
+		}
+		result = append(result, e)
+	}
+	return result, nil
 }

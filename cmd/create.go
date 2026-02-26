@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/suderio/ancient-draconic/internal/persistence"
+	"github.com/suderio/ancient-draconic/internal/session"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -55,16 +55,15 @@ securely track the history of an isolated encounter state.`,
 			campaignDir = campaignName
 		}
 
-		manager := persistence.NewCampaignManager(worldDir)
-		store, err := manager.Create("", campaignDir)
+		manager := session.NewCampaignManager(worldDir)
+		logPath, err := manager.Create("", campaignDir)
 		if err != nil {
 			fmt.Printf("Error creating campaign: %v\n", err)
 			os.Exit(1)
 		}
-		defer store.Close()
 
 		fmt.Printf("Successfully created campaign!\n")
-		fmt.Printf("Log file stored at: %s/log.jsonl\n", manager.GetCampaignPath("", campaignDir))
+		fmt.Printf("Log file at: %s\n", logPath)
 	},
 }
 

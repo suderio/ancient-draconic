@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/suderio/ancient-draconic/internal/data"
-	"github.com/suderio/ancient-draconic/internal/persistence"
+	"github.com/suderio/ancient-draconic/internal/session"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -62,7 +62,7 @@ var telegramCmd = &cobra.Command{
 			campaignDir = campaignName
 		}
 
-		manager := persistence.NewCampaignManager(worldDir)
+		manager := session.NewCampaignManager(worldDir)
 		campaignPath := manager.GetCampaignPath("", campaignDir)
 		if _, err := os.Stat(campaignPath); os.IsNotExist(err) {
 			fmt.Printf("Error: campaign directory %s does not exist. Run 'campaign create' first.\n", campaignPath)

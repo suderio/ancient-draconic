@@ -8,8 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/suderio/ancient-draconic/internal/manifest"
-	"github.com/suderio/ancient-draconic/internal/persistence"
+	"github.com/suderio/ancient-draconic/internal/session"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -55,8 +54,8 @@ Usage:
 			campaignDir = campaignName
 		}
 
-		// Use persistence.CampaignManager for path resolution (engine-agnostic)
-		manager := persistence.NewCampaignManager(worldDir)
+		// Use session.CampaignManager for path resolution
+		manager := session.NewCampaignManager(worldDir)
 		campaignRoot := manager.GetCampaignPath("", campaignDir)
 		campaignData := filepath.Join(campaignRoot, "data")
 		worldData := filepath.Join(worldDir, "data")
@@ -66,9 +65,9 @@ Usage:
 		dataDirs := []string{campaignRoot, campaignData, worldDir, worldData}
 
 		// Store path for the new manifest event log
-		storePath := filepath.Join(campaignRoot, "log.jsonl")
+		storePath := manager.GetLogPath("", campaignDir)
 
-		app, err := manifest.NewSession(dataDirs, storePath)
+		app, err := session.NewSession(dataDirs, storePath)
 		if err != nil {
 			fmt.Printf("Failed to bootstrap game session: %v\n", err)
 			os.Exit(1)

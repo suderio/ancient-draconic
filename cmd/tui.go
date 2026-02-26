@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/suderio/ancient-draconic/internal/manifest"
+	"github.com/suderio/ancient-draconic/internal/session"
 
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -47,7 +47,7 @@ func (s suggestion) Description() string { return "" }
 func (s suggestion) FilterValue() string { return string(s) }
 
 type replModel struct {
-	app          *manifest.Session
+	app          *session.Session
 	textInput    textinput.Model
 	viewport     viewport.Model
 	suggestions  list.Model
@@ -61,7 +61,7 @@ type replModel struct {
 	showList     bool
 }
 
-func newREPLModel(app *manifest.Session, worldName, campaignName string) replModel {
+func newREPLModel(app *session.Session, worldName, campaignName string) replModel {
 	ti := textinput.New()
 	ti.Placeholder = "Enter command (e.g., roll dice: 1d20)..."
 	ti.Focus()
@@ -380,7 +380,7 @@ func (m *replModel) View() string {
 	return mainView + strings.Repeat("\n", 7)
 }
 
-func RunTUI(app *manifest.Session, worldDir, campaignDir string) error {
+func RunTUI(app *session.Session, worldDir, campaignDir string) error {
 	m := newREPLModel(app, filepath.Base(worldDir), filepath.Base(campaignDir))
 	p := tea.NewProgram(&m, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {

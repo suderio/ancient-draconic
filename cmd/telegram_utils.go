@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/suderio/ancient-draconic/internal/manifest"
+	"github.com/suderio/ancient-draconic/internal/session"
 	"github.com/suderio/ancient-draconic/internal/telegram"
 
 	"github.com/spf13/viper"
@@ -14,7 +14,7 @@ import (
 )
 
 // maybeStartBot checks if telegram is configured and starts the background worker
-func maybeStartBot(session *manifest.Session, worldDir, campaignDir string) {
+func maybeStartBot(session *session.Session, worldDir, campaignDir string) {
 	token := viper.GetString("telegram_token")
 	if token == "" {
 		return
@@ -63,9 +63,9 @@ func maybeStartBot(session *manifest.Session, worldDir, campaignDir string) {
 	fmt.Printf("[Telegram Bot] Active for chat %d\n", chatID)
 }
 
-// botAdapter bridges manifest.Session to the telegram.Executor interface.
+// botAdapter bridges session.Session to the telegram.Executor interface.
 type botAdapter struct {
-	session *manifest.Session
+	session *session.Session
 }
 
 func (a *botAdapter) Execute(input string) (*telegram.CommandResult, error) {
