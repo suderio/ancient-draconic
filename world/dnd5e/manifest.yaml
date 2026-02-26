@@ -1,4 +1,4 @@
-# Commands that should be hardcoded:
+# hardcoded commands:
 # adjudicate
 # help
 # hint
@@ -11,6 +11,18 @@ restrictions:
   adjudication:
     commands: ["grapple"]
   gm_commands: ["encounter_start", "encounter_end"] # Sends the message 'unauthorized: this command can only be executed by the GM'
+
+# variables are a way of creating vectors and maps for common transformations
+# they can be used as a variable or a function:
+# sizes[1] returns small
+# sizes('small') returns 1
+variables:
+  - name: sizes
+    value: ['tiny', 'small', 'medium', 'large', 'huge', 'gargantuan']
+  - name: modifiers
+    value: [-6, -5, -4, -4, -3, -3, -2, -2, -1, -1, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10]
+  - name: skill_to_ability
+    value: {'athletics': 'str', 'acrobatics': 'dex'}
 
 commands:
   encounter_start: # Commands separated by '_' can be used as a_b by: xxx or a by: xxx b.
@@ -122,4 +134,25 @@ commands:
     game:
       - name: "contest"
         formula: "roll('1d20') + mod(stat(proficiencies.[command.skill])) + ('command.skill' in actor.proficiencies ? actor.proficiencies.command.skill * actor.stats.prof_bonus : 0) >= command.dc"
+        event: "CheckEvent"
+
+  new_check:
+    name: "check"
+    params:
+      - name: "type"
+        type: "string"
+        values: ['skill', 'ability', 'save']
+        required: true
+      - name: "name"
+        type: "string"
+        required: true
+      - name: "dc"
+        type: "int"
+        required: true
+    hint: "Check command checks the target."
+    help: "Check command checks the target."
+    error: "check [type: <skill|ability|save>] [name: <name>] [dc: <dc>]"
+    game:
+      - name: "contest"
+        formula: "roll('1d20') + mod[skill_to_ability[proficiencies.[command.skill]]] + ('command.skill' in actor.proficiencies ? actor.proficiencies.command.skill * actor.stats.prof_bonus : 0) >= command.dc"
         event: "CheckEvent"
