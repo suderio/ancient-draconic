@@ -84,7 +84,7 @@ func (c *Client) GetUpdates(offset int, timeout int) ([]Update, error) {
 func (c *Client) SendMessage(chatID int64, text string) error {
 	apiURL := fmt.Sprintf("%s/bot%s/sendMessage", c.APIBase, c.Token)
 
-	payload := map[string]interface{}{
+	payload := map[string]any{
 		"chat_id":    chatID,
 		"text":       text,
 		"parse_mode": "Markdown",

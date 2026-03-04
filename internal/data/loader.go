@@ -66,7 +66,7 @@ func (l *Loader) LoadRace(name string) (*Race, error) {
 	return &r, nil
 }
 
-func (l *Loader) load(ref string, target interface{}) error {
+func (l *Loader) load(ref string, target any) error {
 	// 1. Check external directories (Campaign/World/etc)
 	for _, dir := range l.dataDirs {
 		if dir == "" {

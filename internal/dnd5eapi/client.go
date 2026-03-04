@@ -66,7 +66,7 @@ func (c *Client) FetchList(endpoint string) (*APIListResponse, error) {
 	return &list, nil
 }
 
-func (c *Client) FetchItem(url string) (map[string]interface{}, error) {
+func (c *Client) FetchItem(url string) (map[string]any, error) {
 	fullURL := fmt.Sprintf("%s%s", BaseURL, url)
 	req, err := http.NewRequest("GET", fullURL, nil)
 	if err != nil {
@@ -84,7 +84,7 @@ func (c *Client) FetchItem(url string) (map[string]interface{}, error) {
 		return nil, fmt.Errorf("failed to fetch %s: %s", fullURL, resp.Status)
 	}
 
-	var item map[string]interface{}
+	var item map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&item); err != nil {
 		return nil, err
 	}
@@ -144,10 +144,10 @@ func (c *Client) DownloadImage(imageURL string) (string, error) {
 	return localRelativePath, nil
 }
 
-func (c *Client) Transform(data interface{}, currentEndpoint string) interface{} {
+func (c *Client) Transform(data any, currentEndpoint string) any {
 	switch v := data.(type) {
-	case map[string]interface{}:
-		transformed := make(map[string]interface{})
+	case map[string]any:
+		transformed := make(map[string]any)
 		for key, val := range v {
 			if key == "url" {
 				if strVal, ok := val.(string); ok && strings.HasPrefix(strVal, "/api/2014/") {
@@ -188,8 +188,8 @@ func (c *Client) Transform(data interface{}, currentEndpoint string) interface{}
 			transformed[key] = c.Transform(val, currentEndpoint)
 		}
 		return transformed
-	case []interface{}:
-		var transformed []interface{}
+	case []any:
+		var transformed []any
 		for _, item := range v {
 			transformed = append(transformed, c.Transform(item, currentEndpoint))
 		}
@@ -222,7 +222,7 @@ func (c *Client) downloadExtraLevel(url string, relativeTarget string) {
 		return
 	}
 
-	var raw interface{}
+	var raw any
 	if err := json.NewDecoder(resp.Body).Decode(&raw); err != nil {
 		return
 	}
@@ -242,7 +242,7 @@ func (c *Client) downloadExtraLevel(url string, relativeTarget string) {
 	yaml.NewEncoder(f).Encode(transformed)
 }
 
-func (c *Client) SaveItem(endpoint string, index string, data interface{}) error {
+func (c *Client) SaveItem(endpoint string, index string, data any) error {
 	relPath := fmt.Sprintf("%s/%s.yaml", endpoint, index)
 	localPath := filepath.Join(c.dataDir, relPath)
 

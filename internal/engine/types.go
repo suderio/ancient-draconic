@@ -3,6 +3,8 @@
 // where game rules are defined entirely in YAML manifests.
 package engine
 
+import "slices"
+
 import "fmt"
 
 // --- Manifest model ---
@@ -223,10 +225,8 @@ func (e *ActorAddedEvent) Type() string { return "ActorAddedEvent" }
 func (e *ActorAddedEvent) Apply(state *GameState) error {
 	if l, ok := state.Loops[e.LoopName]; ok {
 		// Avoid duplicates
-		for _, a := range l.Actors {
-			if a == e.ActorID {
-				return nil
-			}
+		if slices.Contains(l.Actors, e.ActorID) {
+			return nil
 		}
 		l.Actors = append(l.Actors, e.ActorID)
 	}
@@ -319,10 +319,8 @@ func (e *ConditionEvent) Apply(state *GameState) error {
 	}
 	if e.Add {
 		// Avoid duplicates
-		for _, c := range ent.Conditions {
-			if c == e.Condition {
-				return nil
-			}
+		if slices.Contains(ent.Conditions, e.Condition) {
+			return nil
 		}
 		ent.Conditions = append(ent.Conditions, e.Condition)
 	} else {

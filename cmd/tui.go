@@ -107,10 +107,7 @@ func (m *replModel) updateSuggestions() {
 		m.suggestions.SetItems(items)
 		m.showList = len(items) > 0
 		if m.showList {
-			h := len(items)
-			if h > 10 {
-				h = 10
-			}
+			h := min(len(items), 10)
 			listHeight := h
 			if listHeight > 0 && listHeight < 4 {
 				listHeight = 4
@@ -266,10 +263,9 @@ func (m *replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.width = msg.Width
 		m.height = msg.Height
 		m.viewport.Width = msg.Width - 4
-		m.viewport.Height = msg.Height - 30 // Initial conservative estimate
-		if m.viewport.Height < 5 {
-			m.viewport.Height = 5
-		}
+		m.viewport.Height = max(
+			// Initial conservative estimate
+			msg.Height-30, 5)
 		m.suggestions.SetWidth(msg.Width - 6)
 	}
 
@@ -291,39 +287,37 @@ func (m *replModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// Total fixed overhead: title + state + input + listArea + info + padding + spacing
 	overhead := titleH + stateH + inputH + listAreaHeight + infoH + paddingH + 4
 
-	m.viewport.Height = m.height - overhead
-	if m.viewport.Height < 4 {
-		m.viewport.Height = 4
-	}
+	m.viewport.Height = max(m.height-overhead, 4)
 
 	return m, tea.Batch(tiCmd, vpCmd, lsCmd)
 }
 
 func (m *replModel) renderState() string {
-	stateView := "=== Game State ==="
+	var stateView strings.Builder
+	stateView.WriteString("=== Game State ===")
 	state := m.app.State()
 
-	stateView += "\n\n"
+	stateView.WriteString("\n\n")
 
 	// Show active loops
 	hasActiveLoop := false
 	for name, loop := range state.Loops {
 		if loop.Active {
 			hasActiveLoop = true
-			stateView += fmt.Sprintf("Loop: %s (active)\n", name)
+			stateView.WriteString(fmt.Sprintf("Loop: %s (active)\n", name))
 			if len(loop.Order) > 0 {
-				stateView += fmt.Sprintf("  Order: %s\n", strings.Join(orderToStrings(loop.Order), ", "))
+				stateView.WriteString(fmt.Sprintf("  Order: %s\n", strings.Join(orderToStrings(loop.Order), ", ")))
 			}
 		}
 	}
 	if !hasActiveLoop {
-		stateView += "No active loops.\n"
+		stateView.WriteString("No active loops.\n")
 	}
 
-	stateView += "\n"
+	stateView.WriteString("\n")
 
 	if len(state.Entities) == 0 {
-		stateView += "No entities active."
+		stateView.WriteString("No entities active.")
 	} else {
 		for id, ent := range state.Entities {
 			conds := ""
@@ -333,14 +327,14 @@ func (m *replModel) renderState() string {
 			hp := ent.Resources["hp"] - ent.Spent["hp"]
 			maxHP := ent.Resources["hp"]
 			if maxHP > 0 {
-				stateView += fmt.Sprintf(" - %s (%s): %d/%d HP%s\n", id, ent.Name, hp, maxHP, conds)
+				stateView.WriteString(fmt.Sprintf(" - %s (%s): %d/%d HP%s\n", id, ent.Name, hp, maxHP, conds))
 			} else {
-				stateView += fmt.Sprintf(" - %s (%s)%s\n", id, ent.Name, conds)
+				stateView.WriteString(fmt.Sprintf(" - %s (%s)%s\n", id, ent.Name, conds))
 			}
 		}
 	}
 
-	return stateBoxStyle.Width(m.width - 4).Render(stateView)
+	return stateBoxStyle.Width(m.width - 4).Render(stateView.String())
 }
 
 // orderToStrings converts a loop order map to a sorted display list.
