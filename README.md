@@ -4,17 +4,16 @@
 
 ![Ancient Draconic Logo](assets/logo.png)
 
-**The ultimate command-line engine for Role Playing Games.**
+**A scriptable, event-sourced engine for tabletop RPGs.**
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/suderio/ancient-draconic)](https://goreportcard.com/report/github.com/suderio/ancient-draconic)
 [![GoDoc](https://godoc.org/github.com/suderio/ancient-draconic?status.svg)](https://godoc.org/github.com/suderio/ancient-draconic)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Stability: Stable](https://img.shields.io/badge/Stability-Stable-green.svg)](https://github.com/suderio/ancient-draconic/releases)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/suderio/ancient-draconic/go.yml)](https://github.com/suderio/ancient-draconic/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/suderio/ancient-draconic)](https://github.com/suderio/ancient-draconic/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/suderio/ancient-draconic/total)](https://github.com/suderio/ancient-draconic/releases)
 
-*Process combat, roll dice, and manage campaigns through a powerful, human-readable Domain Specific Language.*
+*Define game rules in Lua. Run combat from the terminal. Let your players roll from Telegram.*
 
 [Explore the Docs](docs/) · [Report Bug](https://github.com/suderio/ancient-draconic/issues) · [Request Feature](https://github.com/suderio/ancient-draconic/issues)
 
@@ -26,20 +25,16 @@
 
 ---
 
-## 📖 Introduction
+## What is Ancient Draconic?
 
-**Ancient Draconic** is a developer-centric tool for Role Playing Game Masters. It provides a structured, terminal-based interface (powered by Bubble Tea) to manage complex combat encounters. By using an event-sourced architecture, every roll, hit, and turn is recorded in an immutable log, ensuring your campaign's history is safe and fully reproducible.
+Ancient Draconic is a command-line game engine for tabletop RPGs. You type commands in a human-readable DSL, and the engine resolves dice rolls, applies game rules, tracks state, and records every event in an immutable log.
 
-### Why Ancient Draconic?
+What makes it different:
 
-- **Speed**: No more clicking through complex UIs. Type `attack with: Longsword to: Orc_1` and let the engine handle the rest.
-- **Precision**: Automated damage resistance, immunity, and vulnerability calculations.
-- **Remote-First**: Built-in Telegram bot integration allows players to roll from their phones while the GM runs the engine on a server.
-- **Customizable**: Purely YAML-based data layer. Adding a new monster or character is as simple as creating a file.
-
-The **Ancient Draconic** project is uniquely positioned to address "table-time" fatigue by bridging the gap between high-fidelity digital tools and the speed of rule-light systems. By prioritizing a text-based interface, you are offering a "low-friction" entry point that avoids the bloat of modern graphical Virtual Tabletops (VTTs) while keeping the mechanical depth of the Game.
-
----
+- **Rules are Lua scripts, not code.** Game logic lives in a `manifest.lua` file. To change how grappling works or add a new spell, you edit Lua — no Go recompilation required.
+- **Event-sourced state.** Every roll, condition change, and HP update is persisted as a JSON event. Close the terminal, come back next week, and resume exactly where you left off.
+- **System-agnostic.** The engine doesn't hardcode D&D, PbtA, or any specific system. You author the rules in your manifest; the engine executes them.
+- **Players connect via Telegram.** The GM runs the TUI locally; players interact through a Telegram bot. Everyone shares the same game state.
 
 ### **The Problem: The "Crunch" vs. "Time" Paradox**
 
@@ -47,33 +42,142 @@ Tabletop RPGs are more popular than ever, but the "Table Time" required to play 
 
 ### **The Solution: Ancient Draconic**
 
-Ancient Draconic is a Domain-Specific Language and engine designed to automate the heavy lifting of RPG rules through a fast, stateless text interface.
-
-- **Rule-Light Speed, Rule-Heavy Depth:** Perform complex actions like a **Young Green Dragon's Multiattack** or **Poison Breath** with a single line of text.
-- **Event-Sourced "Time Travel":** Every roll, damage point, and level-up is a permanent record. Made a mistake? Use the `undo` command to instantly revert the world state.
-- **Zero-Setup Persistence:** Sessions are saved as human-readable event logs. Close the CLI and resume your campaign months later exactly where you left off.
-- **Mod-First Architecture:** Don't like a rule? Open the **YAML** files for your **Fighter** or **Rogue** and change it. The engine adapts to your homebrew instantly.
-
----
+Ancient Draconic addresses this by **eliminating** the need for VTTs and **streamlining** the process of tracking state. You define your rules in Lua, and the engine handles the rest.
 
 ## 🛠 Strategic Approach to Market Saturation
 
 To stand out in a saturated market, Ancient Draconic focuses on three distinct pillars that traditional VTTs and rulebooks ignore:
 
-### **1. The "Interface of Choice"**
-
-While others chase 3D realism, Ancient Draconic embraces the **efficiency of text**.
-
-- **Text-Based Precision:** A text interface allows for rapid-fire combat without the "click-and-drag" fatigue of graphical maps.
-- **Graphical Niceties:** Future updates will introduce TUI (Terminal User Interface) elements—like health bars and ASCII maps—that provide visual feedback without sacrificing the speed of a keyboard-driven workflow.
-
-### **2. Automation of "Pending Choices"**
-
-The engine acts as a digital Dungeon Master assistant. When a **Zombie** hits 0 HP, the engine doesn't just delete it; it pauses and prompts the user for the **Undead Fortitude** save, ensuring rules aren't forgotten in the heat of the moment.
+- **Scriptable, event-sourced engine for tabletop RPGs**. It's designed to be **rules-agnostic**, allowing you to define your own game logic in Lua. The engine handles the rest, including dice rolling, state tracking, and event logging.
+- **Efficiency of text**. A text interface allows for rapid-fire combat without the "click-and-drag" fatigue of graphical maps.
+- **Graphical niceties**. Future updates will introduce TUI (Terminal User Interface) elements—like health bars and ASCII maps—that provide visual feedback without sacrificing the speed of a keyboard-driven workflow.
+- **Digital Dungeon Master assistant**. The engine acts as a digital Dungeon Master assistant. When a **Zombie** hits 0 HP, the engine doesn't just delete it; it pauses and prompts the user for the **Undead Fortitude** save, ensuring rules aren't forgotten in the heat of the moment.
 
 ---
 
-## 🛠 Installation
+## How It Works
+
+### The Manifest
+
+Every "world" (game system) contains a `manifest.lua` that defines commands, restrictions, and formulas:
+
+```lua
+-- world/dnd5e/manifest.lua
+
+function mod(val)
+    if not val then return -5 end
+    return math.floor(val / 2) - 5
+end
+
+commands = {
+  encounter_start = {
+    name = "encounter start",
+    prereq = {
+      { name = "check_conflict",
+        formula = function() return not is_encounter_start_active end,
+        error = "an encounter is already active" }
+    },
+    game = {
+      { name = "create_loop",  formula = true,  event = "LoopEvent" },
+      { name = "order_loop",   formula = false,  event = "LoopOrderAscendingEvent" },
+    },
+  },
+
+  initiative = {
+    name = "initiative",
+    game = {
+      { name = "roll_score",
+        formula = function() return roll("1d20") + mod(actor.stats.dex) end,
+        event = "LoopOrderEvent",
+        loop = "encounter_start" }
+    },
+  },
+}
+```
+
+Formulas can be **inline strings** (`"actor.stats.str > 10"`) or **Lua closures** (`function() ... end`) for complex logic. The engine evaluates them at execution time with the current game context injected as globals (`actor`, `target`, `command`, `game`, etc.).
+
+### The DSL
+
+Commands are typed as natural-language phrases. Multi-word commands are joined with underscores internally:
+
+```bash
+encounter start                        # → encounter_start
+initiative                             # → initiative
+grapple by: Fighter to: Goblin_A       # → grapple, actor=Fighter, target=Goblin_A
+check skill: athletics dc: 15          # → check, params={skill: athletics, dc: 15}
+roll dice: 2d6+3                       # → roll (hardcoded), params={dice: 2d6+3}
+```
+
+The parser extracts `by:` as the actor, `to:` / `of:` as targets, and everything else as named parameters. If no actor is specified, it defaults to `GM`.
+
+### The Execution Pipeline
+
+Every command flows through the same pipeline:
+
+```text
+Input → Parse → Restrictions → Params → Prereq → Game → Targets → Actor → Events
+```
+
+1. **Restrictions**: GM-only commands and adjudication checks.
+2. **Params**: Required parameter validation.
+3. **Prereq**: Boolean formulas that must pass (e.g., "is there an active encounter?").
+4. **Game**: Steps that run once (dice rolls, loop creation).
+5. **Targets**: Steps that run per-target (ask for saves, apply conditions).
+6. **Actor**: Steps that run once for the acting entity (consume actions).
+
+Each step can emit an **Event** — a typed struct that modifies game state when applied.
+
+### Event Sourcing
+
+Events are appended to a `log.jsonl` file and replayed on startup to rebuild in-memory state:
+
+```json
+{"type":"LoopEvent","loop_name":"encounter_start","active":true}
+{"type":"LoopOrderEvent","loop_name":"encounter_start","actor_id":"fighter","value":17}
+{"type":"ConditionEvent","actor_id":"goblin","condition":"grappled","add":true}
+```
+
+This means:
+
+- **Full history**: every action is recorded.
+- **Reproducibility**: replay the log to reconstruct any past state.
+- **Portability**: share a campaign by copying its directory.
+
+---
+
+## Architecture
+
+```text
+main.go                        # Entrypoint
+cmd/                           # CLI commands, TUI (Bubble Tea), Telegram bot startup
+internal/
+  engine/                      # Game engine core
+    types.go                   #   Data structures (Entity, GameState, Events)
+    lua.go                     #   Lua sandbox, evaluator, manifest parser
+    executor.go                #   Command execution pipeline
+    hardcoded.go               #   Built-in commands (roll, help, hint, ask)
+    manifest.go                #   YAML manifest loader (legacy)
+  session/                     # Session orchestration
+    session.go                 #   Manifest loading, event store, state management
+    input.go                   #   DSL parser
+    store.go                   #   Event persistence (JSONL)
+  telegram/                    # Telegram bot integration
+  data/                        # Entity YAML loaders
+  dnd5eapi/                    # D&D 5e SRD API client
+world/                         # Game system definitions
+  dnd5e/
+    manifest.lua               #   Lua-based game rules
+    manifest.yaml              #   Legacy YAML rules
+    data/characters/           #   Character YAML files
+    data/monsters/             #   Monster YAML files
+```
+
+**Dependency flow**: `cmd → session → engine`. The engine owns the Lua sandbox; the session serializes access with a `sync.Mutex`.
+
+---
+
+## Installation
 
 ### Pre-built Binaries
 
@@ -83,103 +187,146 @@ Download the latest release from the [Releases](https://github.com/suderio/ancie
 
 ```bash
 git clone https://github.com/suderio/ancient-draconic.git
-cd draconic
+cd ancient-draconic
 go build -o draconic main.go
 ```
 
-#### Prerequisites
-
-- Go 1.25 or higher.
-
-### Setup Your First Campaign
-
-```bash
-# Create a new world and campaign
-./draconic campaign create "SwordCoast" "LostMine"
-
-# Add some participants
-./draconic add elara and: thorne
-
-# Start the interactive REPL
-./draconic repl SwordCoast LostMine
-```
+**Requires**: Go 1.22 or higher.
 
 ---
 
-## ⚔️ DSL Usage Examples
-
-The language is designed to be self-documenting. Use the `help` command for contextual guidance.
-
-**Roll for Initiative:**
+## Quick Start
 
 ```bash
-initiative
+# Create a campaign under the dnd5e world
+./draconic campaign create dnd5e MyQuest
+
+# Start the TUI
+./draconic repl dnd5e MyQuest
+
+# Inside the TUI:
+> encounter start
+> initiative by: Fighter
+> grapple by: Fighter to: Goblin
+> encounter end
 ```
 
-**Attack and Damage:**
-
-```bash
-attack with: Longsword to: Goblin_A
-damage with: Longsword dice: 1d8+3 type: slashing
-```
-
-**Universal Checks:**
-
-```bash
-ask check: athletics of: Elara dc: 15 fails: prone
-check athletics
-```
+Use `help` for a full command list, or `help <command>` for usage details.
 
 ---
 
-## 📱 Telegram Integration
+## Telegram Integration
 
-Play from anywhere! Configure a bot to let your players interact with the campaign via Telegram.
+Let players roll from their phones while the GM runs the engine locally.
 
-1. **Register Bot**: `draconic bot telegram --token YOUR_TOKEN`
-2. **Link Campaign**: `draconic campaign telegram [world] [campaign] --chat_id YOUR_CHAT_ID`
-3. **Map Users**: `draconic campaign telegram [world] [campaign] --user Elara:123456`
-4. **Play**: Simply run the `repl` and your bot will start polling for messages starting with `/`.
+1. **Register your bot**: `./draconic bot telegram --token YOUR_BOT_TOKEN`
+2. **Link a campaign**: `./draconic campaign telegram dnd5e MyQuest --chat_id CHAT_ID`
+3. **Map players**: `./draconic campaign telegram dnd5e MyQuest --user Elara:123456`
+4. **Start the REPL**: the bot starts polling automatically.
 
----
-
-## 🗺 Roadmap
-
-- [x] Context-aware Autocomplete (REPL)
-- [x] Damage Defenses (Resistance/Immunity)
-- [x] Telegram Bot Polling
-- [ ] Automatic Spell Slot Management
-- [ ] Local Web Dashboard (Vite + React)
-- [ ] Monster Recharge Logic
-- [ ] Discord Bot Integration
+Players send commands prefixed with `/` in the Telegram chat. The engine processes them through the same pipeline as the TUI.
 
 ---
 
-## 🤝 Contributing
+## Writing Your Own Rules
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+To create a new game system:
 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+1. Create a directory: `world/my_system/`
+2. Write a `manifest.lua` defining your `commands` and `restrictions` tables.
+3. Add entity YAML files under `data/characters/` and `data/monsters/`.
+4. Run: `./draconic repl my_system my_campaign`
+
+The Lua sandbox provides:
+
+| Global             | Type       | Description                                    |
+|:-------------------|:-----------|:-----------------------------------------------|
+| `actor`            | table      | The entity performing the command              |
+| `target`           | table      | The current target entity (in target steps)    |
+| `command`          | table      | Parsed command parameters                      |
+| `game`             | table      | Results from game-phase steps                  |
+| `targets`          | table      | Results from target-phase steps                |
+| `roll(s)`          | function   | Roll dice (e.g., `roll("2d6")`)                |
+| `is_<loop>_active` | boolean    | Whether a named loop is currently active       |
+
+Standard Lua libraries available: `base`, `table`, `string`, `math`. File I/O, OS access, and debug are **not** available.
+
+---
+
+## Roadmap
+
+- [x] Lua-powered manifest engine
+- [x] Context-aware TUI autocomplete
+- [x] Event-sourced state persistence
+- [x] Telegram bot integration
+- [x] Hybrid formula evaluation (strings + closures)
+- [x] Thread-safe concurrent access
+- [ ] Web dashboard
+- [ ] Discord bot integration
+- [ ] Undo / time-travel commands
+- [ ] Spell slot management primitives
+
+---
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Architecture Overview
 
-The engine follows a strict Event Sourcing pattern to maintain high reliability and state predictability.
+The engine follows a strict **Event Sourcing** pattern and is intentionally decoupled from any specific game system — all rules live in Lua manifests, not in Go code.
 
 ```mermaid
 graph TD
-  A[CLI / TUI REPL] --> B[Session Manager]
-  T[Telegram Bot] --> B
-  B --> C[Parser / Lexer]
-  C --> D[Command Executor]
-  D --> E[Event Log]
-  E --> F[State Projector]
-  F --> G[GameState]
-  B --> G
+    subgraph "User Interfaces"
+        TUI["TUI (Bubble Tea)"]
+        TG["Telegram Bot"]
+    end
+
+    subgraph "Orchestration"
+        SM["Session Manager"]
+        MX["sync.Mutex"]
+        PS["DSL Parser"]
+        ES["Event Store (JSONL)"]
+    end
+
+    subgraph "Engine"
+        EX["Command Executor"]
+        LUA["Lua Sandbox (GopherLua)"]
+        ML["manifest.lua"]
+        EV["Events"]
+    end
+
+    subgraph "Data"
+        GS["GameState"]
+        ENT["Entity YAML Files"]
+    end
+
+    TUI --> SM
+    TG --> SM
+    SM --> MX
+    MX --> PS
+    PS --> EX
+    EX --> LUA
+    LUA --> ML
+    EX --> EV
+    EV --> ES
+    EV --> GS
+    ES -->|"replay on startup"| GS
+    SM --> GS
+    ENT -->|"loaded at init"| GS
 ```
+
+**Key design constraints:**
+
+- `cmd/` → `internal/session` → `internal/engine` (strict dependency direction; no reverse imports).
+- `internal/telegram` depends on nothing — it defines an `Executor` interface that `cmd/` adapts.
+- The Lua sandbox only exposes `base`, `table`, `string`, and `math`. No `os`, `io`, or `debug`.
+- The `Session.Execute()` method is protected by a `sync.Mutex`, making it safe for concurrent TUI + Telegram access.
 
 ---
 
-## 📜 License
+## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
