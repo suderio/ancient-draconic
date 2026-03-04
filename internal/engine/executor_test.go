@@ -26,7 +26,7 @@ func testManifest() *Manifest {
 					{Name: "with", Type: "list<target>", Required: false},
 				},
 				Prereq: []PrereqStep{
-					{Name: "check_conflict", Formula: "!is_encounter_start_active", Error: "an encounter is already active"},
+					{Name: "check_conflict", Formula: "not is_encounter_start_active", Error: "an encounter is already active"},
 				},
 				Hint:  "Roll initiative for all actors.",
 				Help:  "Starts an encounter.",
@@ -36,7 +36,7 @@ func testManifest() *Manifest {
 					{Name: "order_loop", Formula: "false", Event: "LoopOrderAscendingEvent"},
 				},
 				Targets: []GameStep{
-					{Name: "ask_initiative", Formula: "[target.id, 'initiative']", Event: "AskIssuedEvent"},
+					{Name: "ask_initiative", Formula: "{target.id, 'initiative'}", Event: "AskIssuedEvent"},
 				},
 			},
 			"encounter_end": {
@@ -60,7 +60,7 @@ func testManifest() *Manifest {
 				Help:  "Rolls initiative.",
 				Error: "initiative",
 				Game: []GameStep{
-					{Name: "roll_score", Formula: "roll('1d20') + mod(actor.stats.dex)", Event: "LoopOrderEvent"},
+					{Name: "roll_score", Formula: "10 + ((actor.stats.dex / 2) - 5)", Event: "LoopOrderEvent"},
 				},
 			},
 			"grapple": {
@@ -75,7 +75,7 @@ func testManifest() *Manifest {
 				Help:  "Grapple command grapples the target.",
 				Error: "grapple [to: <target>]",
 				Game: []GameStep{
-					{Name: "contest", Formula: "roll('1d20') + mod(actor.stats.str)", Event: "ContestStarted"},
+					{Name: "contest", Formula: "10 + ((actor.stats.str / 2) - 5)", Event: "ContestStarted"},
 				},
 				Targets: []GameStep{
 					{Name: "grappled", Formula: "'grappled'", Event: "AddConditionEvent"},

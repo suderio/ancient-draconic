@@ -1,0 +1,5 @@
+{"type":"LoopEvent","data":{"loop_name":"encounter_start","active":true}}
+{"type":"LoopOrderAscendingEvent","data":{"loop_name":"encounter_start","ascending":false}}
+{"type":"LoopEvent","data":{"loop_name":"encounter_start","active":false}}
+{"type":"LoopEvent","data":{"loop_name":"encounter_start","active":true}}
+{"type":"LoopOrderAscendingEvent","data":{"loop_name":"encounter_start","ascending":false}}

@@ -107,6 +107,10 @@ func (ev *LuaEvaluator) Eval(formula any, ctx map[string]any) (any, error) {
 		ev.L.Pop(1)
 		return luaValueToGo(lv), nil
 
+	case bool, int, float64:
+		// Literal values
+		return f, nil
+
 	default:
 		return nil, fmt.Errorf("unsupported formula type: %T", formula)
 	}
