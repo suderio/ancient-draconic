@@ -1,0 +1,3 @@
+# ~/.markdownlint.yaml
+# Ignore line length rules
+MD013: false

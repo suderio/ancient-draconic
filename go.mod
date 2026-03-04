@@ -1,9 +1,8 @@
 module github.com/suderio/ancient-draconic
 
-go 1.25.6
+go 1.26.0
 
 require (
-	github.com/alecthomas/participle/v2 v2.1.4
 	github.com/charmbracelet/bubbles v1.0.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
