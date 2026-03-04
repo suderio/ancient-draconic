@@ -19,16 +19,16 @@ type ParamDef struct {
 // If the Formula evaluates to false, the Error message is returned to the caller.
 type PrereqStep struct {
 	Name    string `yaml:"name"`
-	Formula string `yaml:"formula"`
+	Formula any    `yaml:"formula"` // Supports string or *lua.LFunction
 	Error   string `yaml:"error"`
 }
 
 // GameStep defines a single evaluation step in a command's execution.
-// The Formula is a CEL expression evaluated against the current context.
+// The Formula is a Lua expression evaluated against the current context.
 // The Event field names the engine event to emit with the formula's result.
 type GameStep struct {
 	Name    string `yaml:"name"`
-	Formula string `yaml:"formula"`
+	Formula any    `yaml:"formula"` // Supports string or *lua.LFunction
 	Event   string `yaml:"event"`
 	Loop    string `yaml:"loop"` // Optional: target loop name for loop events (defaults to cmdName)
 }

@@ -29,7 +29,7 @@ func executeHardcoded(
 	params map[string]any,
 	state *GameState,
 	m *Manifest,
-	eval *Evaluator,
+	eval *LuaEvaluator,
 ) ([]Event, error) {
 	switch cmdName {
 	case "roll":
@@ -52,7 +52,7 @@ func executeHardcoded(
 
 // executeRoll evaluates a dice expression and returns a DiceRolledEvent.
 // Expected params: {"dice": "2d6+3"}
-func executeRoll(actorID string, params map[string]any, eval *Evaluator) ([]Event, error) {
+func executeRoll(actorID string, params map[string]any, eval *LuaEvaluator) ([]Event, error) {
 	dice, ok := params["dice"].(string)
 	if !ok || dice == "" {
 		return nil, fmt.Errorf("roll requires a 'dice' parameter (e.g., roll dice: 2d6+3)")

@@ -2,8 +2,10 @@ package session
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/suderio/ancient-draconic/internal/engine"
 )
@@ -11,25 +13,26 @@ import (
 // Session manages the game loop: parsing input, executing commands,
 // persisting events, and maintaining game state.
 type Session struct {
+	mu       sync.Mutex
 	manifest *engine.Manifest
 	state    *engine.GameState
 	store    *Store
-	eval     *engine.Evaluator
+	eval     *engine.LuaEvaluator
 	dataDirs []string
 }
 
 // NewSession bootstraps a manifest-driven game session.
 func NewSession(dataDirs []string, storePath string) (*Session, error) {
-	// 1. Load manifest from the first available location
-	m, err := findAndLoadManifest(dataDirs)
-	if err != nil {
-		return nil, fmt.Errorf("failed to load manifest: %w", err)
-	}
-
-	// 2. Create CEL evaluator
-	eval, err := engine.NewEvaluator(nil) // Use default dice roller
+	// 1. Create Lua evaluator
+	eval, err := engine.NewLuaEvaluator(nil) // Use default dice roller
 	if err != nil {
 		return nil, fmt.Errorf("failed to create evaluator: %w", err)
+	}
+
+	// 2. Load manifest from the first available location
+	m, err := findAndLoadManifest(dataDirs, eval)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load manifest: %w", err)
 	}
 
 	// 3. Open event store
@@ -63,7 +66,11 @@ func NewSession(dataDirs []string, storePath string) (*Session, error) {
 
 // Execute takes a raw command string, parses it, executes the command,
 // applies and persists the resulting events, and returns them.
+// It is thread-safe for concurrent calls (e.g., from TUI and Telegram).
 func (s *Session) Execute(input string) ([]engine.Event, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
 	parsed := ParseInput(input)
 
 	if parsed.Command == "" {
@@ -144,16 +151,20 @@ func (s *Session) applyAndPersist(evt engine.Event) error {
 	return nil
 }
 
-// findAndLoadManifest searches data directories for a manifest.yaml file.
-func findAndLoadManifest(dataDirs []string) (*engine.Manifest, error) {
+// findAndLoadManifest searches data directories for a manifest.lua or manifest.yaml file.
+func findAndLoadManifest(dataDirs []string, eval *engine.LuaEvaluator) (*engine.Manifest, error) {
 	for _, dir := range dataDirs {
-		path := filepath.Join(dir, "manifest.yaml")
-		m, err := engine.LoadManifest(path)
-		if err == nil {
-			return m, nil
+		luaPath := filepath.Join(dir, "manifest.lua")
+		if _, err := os.Stat(luaPath); err == nil {
+			return eval.LoadManifestLua(luaPath)
+		}
+
+		yamlPath := filepath.Join(dir, "manifest.yaml")
+		if _, err := os.Stat(yamlPath); err == nil {
+			return engine.LoadManifest(yamlPath) // legacy fallback
 		}
 	}
-	return nil, fmt.Errorf("manifest.yaml not found in any of: %s", strings.Join(dataDirs, ", "))
+	return nil, fmt.Errorf("neither manifest.lua nor manifest.yaml found in any of: %s", strings.Join(dataDirs, ", "))
 }
 
 // loadEntities scans data directories for character and monster YAML files.

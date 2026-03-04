@@ -106,7 +106,7 @@ func testState() *GameState {
 func TestPrereqValidation(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// encounter_end should fail: no active encounter
@@ -118,7 +118,7 @@ func TestPrereqValidation(t *testing.T) {
 func TestParamValidation(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// grapple requires "to" param
@@ -130,7 +130,7 @@ func TestParamValidation(t *testing.T) {
 func TestGMRestriction(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// encounter_start by non-GM should fail
@@ -147,7 +147,7 @@ func TestGMRestriction(t *testing.T) {
 func TestLoopLifecycle(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Start encounter
@@ -176,7 +176,7 @@ func TestLoopLifecycle(t *testing.T) {
 func TestGameSteps(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Start encounter first
@@ -207,7 +207,7 @@ func TestGameSteps(t *testing.T) {
 func TestTargetIteration(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Start encounter with targets
@@ -230,7 +230,7 @@ func TestTargetIteration(t *testing.T) {
 func TestActorSteps(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Grapple: actor steps should consume an action
@@ -253,7 +253,7 @@ func TestActorSteps(t *testing.T) {
 func TestAskIssuedEvent(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Use "ask" hardcoded command
@@ -271,7 +271,7 @@ func TestAskIssuedEvent(t *testing.T) {
 func TestHelpCommand(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Help for specific command
@@ -291,7 +291,7 @@ func TestHelpCommand(t *testing.T) {
 func TestHintCommand(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// No command executed yet
@@ -314,7 +314,7 @@ func TestHintCommand(t *testing.T) {
 func TestPrereqBlocksExecution(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	// Exhaust actions
@@ -330,7 +330,7 @@ func TestPrereqBlocksExecution(t *testing.T) {
 func TestRollCommand(t *testing.T) {
 	m := testManifest()
 	state := testState()
-	eval, err := NewEvaluator(mockRoll)
+	eval, err := NewLuaEvaluator(mockRoll)
 	require.NoError(t, err)
 
 	events, err := ExecuteCommand("roll", "fighter", nil,

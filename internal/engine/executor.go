@@ -25,7 +25,7 @@ func ExecuteCommand(
 	params map[string]any,
 	state *GameState,
 	m *Manifest,
-	eval *Evaluator,
+	eval *LuaEvaluator,
 ) ([]Event, error) {
 	// 1. Check if this is a hardcoded command
 	if isHardcoded(cmdName) {
@@ -52,8 +52,7 @@ func ExecuteCommand(
 	actor := state.Entities[actorID]
 
 	// 6. Build initial context and evaluate prereqs
-	stepResults := make(map[string]any)
-	ctx := BuildContext(state, actor, nil, params, stepResults, m)
+	ctx := BuildContext(state, actor, nil, params, nil, nil, nil)
 
 	for _, prereq := range cmdDef.Prereq {
 		result, err := eval.Eval(prereq.Formula, ctx)
@@ -70,7 +69,7 @@ func ExecuteCommand(
 	var events []Event
 	gameResults := make(map[string]any)
 	for _, step := range cmdDef.Game {
-		ctx = BuildContext(state, actor, nil, params, gameResults, m)
+		ctx = BuildContext(state, actor, nil, params, gameResults, nil, nil)
 		result, err := eval.Eval(step.Formula, ctx)
 		if err != nil {
 			return nil, fmt.Errorf("game step '%s' failed: %w", step.Name, err)
@@ -88,21 +87,19 @@ func ExecuteCommand(
 	// 8. Execute target steps (run per-target)
 	// Collect all target IDs from params of type "target" or "list<target>"
 	allTargets := resolveTargets(cmdDef, targets, params)
+	// targetResults holds accumulating results across all targets
+	// The problem is per-target state. Let's make it scoped per-target.
 	for _, targetID := range allTargets {
 		target := state.Entities[targetID]
-		targetStepResults := make(map[string]any)
-		// Carry forward game results into target step context
-		for k, v := range gameResults {
-			targetStepResults[k] = v
-		}
+		targetResults := make(map[string]any)
 
 		for _, step := range cmdDef.Targets {
-			ctx = BuildContext(state, actor, target, params, targetStepResults, m)
+			ctx = BuildContext(state, actor, target, params, gameResults, targetResults, nil)
 			result, err := eval.Eval(step.Formula, ctx)
 			if err != nil {
 				return nil, fmt.Errorf("target step '%s' for %s failed: %w", step.Name, targetID, err)
 			}
-			targetStepResults[step.Name] = result
+			targetResults[step.Name] = result
 
 			if step.Event != "" {
 				evt := mapStepToEvent(step.Event, result, actorID, targetID, cmdName, step.Loop, state)
@@ -114,17 +111,14 @@ func ExecuteCommand(
 	}
 
 	// 9. Execute actor steps (run once, affecting the actor)
-	actorStepResults := make(map[string]any)
-	for k, v := range gameResults {
-		actorStepResults[k] = v
-	}
+	actorResults := make(map[string]any)
 	for _, step := range cmdDef.Actor {
-		ctx = BuildContext(state, actor, nil, params, actorStepResults, m)
+		ctx = BuildContext(state, actor, nil, params, gameResults, nil, actorResults)
 		result, err := eval.Eval(step.Formula, ctx)
 		if err != nil {
 			return nil, fmt.Errorf("actor step '%s' failed: %w", step.Name, err)
 		}
-		actorStepResults[step.Name] = result
+		actorResults[step.Name] = result
 
 		if step.Event != "" {
 			evt := mapStepToEvent(step.Event, result, actorID, "", cmdName, step.Loop, state)
