@@ -3,6 +3,7 @@ package engine
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 
 	lua "github.com/yuin/gopher-lua"
 )
@@ -50,7 +51,26 @@ func NewLuaEvaluator(rollFunc RollFunc) (*LuaEvaluator, error) {
 
 	// Register Go functions
 	L.SetGlobal("roll", L.NewFunction(ev.luaRoll))
-	// mod is no longer a Go function; the plan states it is part of manifest.lua
+
+	// Register event helper functions — each returns a tagged table { _event = "...", ... }
+	registerEventHelpers(L)
+
+	// Add dynamic fallback for "is_*_active" functions to return false.
+	mt := L.NewTable()
+	L.SetField(mt, "__index", L.NewFunction(func(L2 *lua.LState) int {
+		key := L2.CheckString(2)
+		fmt.Printf("[DEBUG] __index called for key: %s\n", key)
+		if strings.HasPrefix(key, "is_") && strings.HasSuffix(key, "_active") {
+			L2.Push(L2.NewFunction(func(L3 *lua.LState) int {
+				L3.Push(lua.LBool(false))
+				return 1
+			}))
+			return 1
+		}
+		L2.Push(lua.LNil)
+		return 1
+	}))
+	L.SetMetatable(L.GetGlobal("_G"), mt)
 
 	return ev, nil
 }
@@ -66,6 +86,162 @@ func (ev *LuaEvaluator) luaRoll(L *lua.LState) int {
 	result := ev.rollFunc(dice)
 	L.Push(lua.LNumber(result))
 	return 1
+}
+
+// registerEventHelpers registers typed Lua functions that return tagged tables.
+func registerEventHelpers(L *lua.LState) {
+	// loop(name, active) -> { _event = "loop", name = name, active = active }
+	L.SetGlobal("loop", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("loop"))
+		t.RawSetString("name", L.Get(1))
+		t.RawSetString("active", L.Get(2))
+		L.Push(t)
+		return 1
+	}))
+
+	// loop_order(name, ascending) -> { _event = "loop_order", name = name, ascending = ascending }
+	L.SetGlobal("loop_order", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("loop_order"))
+		t.RawSetString("name", L.Get(1))
+		t.RawSetString("ascending", L.Get(2))
+		L.Push(t)
+		return 1
+	}))
+
+	// loop_value(name, value) -> { _event = "loop_value", name = name, value = value }
+	L.SetGlobal("loop_value", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("loop_value"))
+		t.RawSetString("name", L.Get(1))
+		t.RawSetString("value", L.Get(2))
+		L.Push(t)
+		return 1
+	}))
+
+	// add_actor(id_or_list) -> { _event = "add_actor", actors = id_or_list }
+	L.SetGlobal("add_actor", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("add_actor"))
+		t.RawSetString("actors", L.Get(1))
+		L.Push(t)
+		return 1
+	}))
+
+	// ask(target, ...options) -> { _event = "ask", target = target, options = {...} }
+	L.SetGlobal("ask", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("ask"))
+		t.RawSetString("target", L.Get(1))
+		opts := L.NewTable()
+		for i := 2; i <= L.GetTop(); i++ {
+			opts.RawSetInt(i-1, L.Get(i))
+		}
+		t.RawSetString("options", opts)
+		L.Push(t)
+		return 1
+	}))
+
+	// condition(cond) -> { _event = "condition", condition = cond, add = true }
+	L.SetGlobal("condition", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("condition"))
+		t.RawSetString("condition", L.Get(1))
+		t.RawSetString("add", lua.LTrue)
+		L.Push(t)
+		return 1
+	}))
+
+	// remove_condition(cond) -> { _event = "condition", condition = cond, add = false }
+	L.SetGlobal("remove_condition", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("condition"))
+		t.RawSetString("condition", L.Get(1))
+		t.RawSetString("add", lua.LFalse)
+		L.Push(t)
+		return 1
+	}))
+
+	// spend(key, [amount]) -> { _event = "spend", key = key, amount = amount }
+	L.SetGlobal("spend", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("spend"))
+		t.RawSetString("key", L.Get(1))
+		amt := L.Get(2)
+		if amt == lua.LNil {
+			amt = lua.LNumber(1)
+		}
+		t.RawSetString("amount", amt)
+		L.Push(t)
+		return 1
+	}))
+
+	// set_attr(section, key, val) -> { _event = "set_attr", section = section, key = key, value = val }
+	L.SetGlobal("set_attr", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("set_attr"))
+		t.RawSetString("section", L.Get(1))
+		t.RawSetString("key", L.Get(2))
+		t.RawSetString("value", L.Get(3))
+		L.Push(t)
+		return 1
+	}))
+
+	// contest(roll_value) -> { _event = "contest", value = roll_value }
+	L.SetGlobal("contest", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("contest"))
+		t.RawSetString("value", L.Get(1))
+		L.Push(t)
+		return 1
+	}))
+
+	// check(passed) -> { _event = "check", passed = passed }
+	L.SetGlobal("check_result", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("check"))
+		t.RawSetString("passed", L.Get(1))
+		L.Push(t)
+		return 1
+	}))
+
+	// hint(msg) -> { _event = "hint", message = msg }
+	L.SetGlobal("hint", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("hint"))
+		t.RawSetString("message", L.Get(1))
+		L.Push(t)
+		return 1
+	}))
+
+	// metadata(key, val) -> { _event = "metadata", key = key, value = val }
+	L.SetGlobal("metadata", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("metadata"))
+		t.RawSetString("key", L.Get(1))
+		t.RawSetString("value", L.Get(2))
+		L.Push(t)
+		return 1
+	}))
+
+	// emit(type, payload) -> { _event = type, payload = payload }
+	L.SetGlobal("emit", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", L.Get(1))
+		t.RawSetString("payload", L.Get(2))
+		L.Push(t)
+		return 1
+	}))
+
+	// next_turn(loop_name) -> { _event = "next_turn", name = loop_name }
+	L.SetGlobal("next_turn", L.NewFunction(func(L *lua.LState) int {
+		t := L.NewTable()
+		t.RawSetString("_event", lua.LString("next_turn"))
+		t.RawSetString("name", L.Get(1))
+		L.Push(t)
+		return 1
+	}))
 }
 
 // Eval evaluates a Lua expression (string) or closure (*lua.LFunction) against the given context.
@@ -85,7 +261,14 @@ func (ev *LuaEvaluator) Eval(formula any, ctx map[string]any) (any, error) {
 	switch f := formula.(type) {
 	case string:
 		// Option A: Evaluate string formula
-		script := "return " + f
+		script := "return type(is_encounter_start_active) .. ' : ' .. tostring(is_encounter_start_active)\n"
+		if err := ev.L.DoString(script); err == nil {
+			lv := ev.L.Get(-1)
+			ev.L.Pop(1)
+			fmt.Printf("[DEBUG] Evaluating script: %q, type of is_encounter_start_active: %s\n", f, lv.String())
+		}
+
+		script = "return " + f
 		if err := ev.L.DoString(script); err != nil {
 			return nil, fmt.Errorf("Lua eval error: %w", err)
 		}
@@ -200,14 +383,13 @@ func parsePrereqStepsFromLua(val lua.LValue) []PrereqStep {
 					Name:  stepTbl.RawGetString("name").String(),
 					Error: stepTbl.RawGetString("error").String(),
 				}
-				// Formula can be string or function
-				f := stepTbl.RawGetString("formula")
+				f := stepTbl.RawGetString("value")
 				if str, ok := f.(lua.LString); ok {
-					ps.Formula = string(str)
+					ps.Value = string(str)
 				} else if fn, ok := f.(*lua.LFunction); ok {
-					ps.Formula = fn
+					ps.Value = fn
 				} else if bl, ok := f.(lua.LBool); ok {
-					ps.Formula = bool(bl)
+					ps.Value = bool(bl)
 				}
 
 				steps = append(steps, ps)
@@ -225,20 +407,16 @@ func parseGameStepsFromLua(val lua.LValue) []GameStep {
 			p := t.RawGetInt(i)
 			if stepTbl, ok := p.(*lua.LTable); ok {
 				gs := GameStep{
-					Name:  stepTbl.RawGetString("name").String(),
-					Event: stepTbl.RawGetString("event").String(),
-				}
-				if loop := stepTbl.RawGetString("loop"); loop != lua.LNil {
-					gs.Loop = loop.String()
+					Name: stepTbl.RawGetString("name").String(),
 				}
 
-				f := stepTbl.RawGetString("formula")
+				f := stepTbl.RawGetString("value")
 				if str, ok := f.(lua.LString); ok {
-					gs.Formula = string(str)
+					gs.Value = string(str)
 				} else if fn, ok := f.(*lua.LFunction); ok {
-					gs.Formula = fn
+					gs.Value = fn
 				} else if bl, ok := f.(lua.LBool); ok {
-					gs.Formula = bool(bl)
+					gs.Value = bool(bl)
 				}
 
 				steps = append(steps, gs)
@@ -321,6 +499,16 @@ func goValueToLua(L *lua.LState, val any) lua.LValue {
 			tbl.RawSetString(mk, lua.LString(mv))
 		}
 		return tbl
+	case func() any:
+		return L.NewFunction(func(L2 *lua.LState) int {
+			res := v()
+			if res == nil {
+				L2.Push(lua.LNil)
+			} else {
+				L2.Push(goValueToLua(L2, res))
+			}
+			return 1
+		})
 	// Handling *lua.LFunction for nested function support if needed
 	case lua.LValue:
 		return v
@@ -391,9 +579,22 @@ func BuildContext(state *GameState, actor *Entity, target *Entity, params map[st
 		ctx["target"] = map[string]any{}
 	}
 
-	// Inject loop state (the old 'is_<name>_active')
+	// Inject loop state and current actor functions
 	for name, loop := range state.Loops {
-		ctx["is_"+name+"_active"] = loop.Active
+		active := loop.Active
+		ctx["is_"+name+"_active"] = func() any { return active }
+	}
+
+	ctx["current_actor"] = func() any {
+		for _, loop := range state.Loops {
+			if loop.Active && len(loop.Actors) > 0 {
+				sorted := sortedActors(loop)
+				if loop.Current >= 0 && loop.Current < len(sorted) {
+					return sorted[loop.Current]
+				}
+			}
+		}
+		return nil
 	}
 
 	return ctx

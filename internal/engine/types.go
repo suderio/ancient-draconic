@@ -3,9 +3,10 @@
 // where game rules are defined entirely in YAML manifests.
 package engine
 
-import "slices"
-
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 // --- Manifest model ---
 
@@ -18,21 +19,19 @@ type ParamDef struct {
 }
 
 // PrereqStep defines a prerequisite check that must pass before a command executes.
-// If the Formula evaluates to false, the Error message is returned to the caller.
+// If the Value evaluates to false, the Error message is returned to the caller.
 type PrereqStep struct {
-	Name    string `yaml:"name"`
-	Formula any    `yaml:"formula"` // Supports string or *lua.LFunction
-	Error   string `yaml:"error"`
+	Name  string `yaml:"name"`
+	Value any    `yaml:"value"`
+	Error string `yaml:"error"`
 }
 
 // GameStep defines a single evaluation step in a command's execution.
-// The Formula is a Lua expression evaluated against the current context.
-// The Event field names the engine event to emit with the formula's result.
+// The Value is a Lua closure that returns either a plain value (stored as a step result)
+// or a tagged table (dispatched as an event via the helper functions).
 type GameStep struct {
-	Name    string `yaml:"name"`
-	Formula any    `yaml:"formula"` // Supports string or *lua.LFunction
-	Event   string `yaml:"event"`
-	Loop    string `yaml:"loop"` // Optional: target loop name for loop events (defaults to cmdName)
+	Name  string `yaml:"name"`
+	Value any    `yaml:"value"`
 }
 
 // CommandDef is the structured definition of a manifest-driven command.
@@ -111,6 +110,8 @@ type Loop struct {
 	Order     map[string]int `json:"order"` // actor ID → sort key
 	Ascending bool           `json:"ascending"`
 	Current   int            `json:"current"` // index into sorted actor list
+	Turn      int            `json:"turn"`    // 1-indexed position within the round
+	Round     int            `json:"round"`   // 1-indexed round counter
 }
 
 // GameState is the full projection of game state, built from applied events.
@@ -284,11 +285,12 @@ func (e *AttributeChangedEvent) Message() string {
 	return fmt.Sprintf("%s.%s.%s changed", e.ActorID, e.Section, e.Key)
 }
 
-// AddSpentEvent is a shorthand that increments entity.Spent[Key] by 1.
-// This is the common case for consuming actions, reactions, etc.
+// AddSpentEvent increments entity.Spent[Key] by Amount.
+// If Amount is 0 or not provided in the event construction, it defaults to 1 during Apply.
 type AddSpentEvent struct {
 	ActorID string `json:"actor_id"`
 	Key     string `json:"key"`
+	Amount  int    `json:"amount"`
 }
 
 func (e *AddSpentEvent) Type() string { return "AddSpentEvent" }
@@ -297,11 +299,19 @@ func (e *AddSpentEvent) Apply(state *GameState) error {
 	if !ok {
 		return fmt.Errorf("entity %s not found", e.ActorID)
 	}
-	ent.Spent[e.Key]++
+	amt := e.Amount
+	if amt == 0 {
+		amt = 1
+	}
+	ent.Spent[e.Key] += amt
 	return nil
 }
 func (e *AddSpentEvent) Message() string {
-	return fmt.Sprintf("%s spent %s", e.ActorID, e.Key)
+	amt := e.Amount
+	if amt == 0 {
+		amt = 1
+	}
+	return fmt.Sprintf("%s spent %d %s", e.ActorID, amt, e.Key)
 }
 
 // ConditionEvent adds or removes a condition from an entity.
@@ -418,6 +428,99 @@ func (e *CheckEvent) Message() string {
 		result = "passed"
 	}
 	return fmt.Sprintf("%s %s check: %s", e.ActorID, e.Check, result)
+}
+
+// CustomEvent stores user-defined event payloads in GameState.Metadata.
+type CustomEvent struct {
+	EventType string         `json:"event_type"`
+	ActorID   string         `json:"actor_id"`
+	Payload   map[string]any `json:"payload"`
+}
+
+func (e *CustomEvent) Type() string { return "CustomEvent" }
+func (e *CustomEvent) Apply(state *GameState) error {
+	state.Metadata[e.EventType] = e.Payload
+	return nil
+}
+func (e *CustomEvent) Message() string {
+	return fmt.Sprintf("custom event: %s", e.EventType)
+}
+
+// TurnEndedEvent marks the end of an actor's turn in a loop.
+type TurnEndedEvent struct {
+	LoopName string `json:"loop_name"`
+	ActorID  string `json:"actor_id"`
+}
+
+func (e *TurnEndedEvent) Type() string { return "TurnEndedEvent" }
+func (e *TurnEndedEvent) Apply(state *GameState) error {
+	// Turn end is informational; state change happens in TurnStarted
+	return nil
+}
+func (e *TurnEndedEvent) Message() string {
+	return fmt.Sprintf("%s's turn ended", e.ActorID)
+}
+
+// TurnStartedEvent advances the loop to the next actor's turn.
+type TurnStartedEvent struct {
+	LoopName string `json:"loop_name"`
+	ActorID  string `json:"actor_id"`
+	Turn     int    `json:"turn"` // 1-indexed position within round
+}
+
+func (e *TurnStartedEvent) Type() string { return "TurnStartedEvent" }
+func (e *TurnStartedEvent) Apply(state *GameState) error {
+	if l, ok := state.Loops[e.LoopName]; ok {
+		l.Turn = e.Turn
+		// Find the actor's index in the sorted list and set Current
+		for i, a := range l.Actors {
+			if a == e.ActorID {
+				l.Current = i
+				break
+			}
+		}
+	}
+	return nil
+}
+func (e *TurnStartedEvent) Message() string {
+	return fmt.Sprintf("%s's turn (turn %d)", e.ActorID, e.Turn)
+}
+
+// RoundStartedEvent marks the beginning of a new round in a loop.
+type RoundStartedEvent struct {
+	LoopName string `json:"loop_name"`
+	Round    int    `json:"round"` // 1-indexed round counter
+}
+
+func (e *RoundStartedEvent) Type() string { return "RoundStartedEvent" }
+func (e *RoundStartedEvent) Apply(state *GameState) error {
+	if l, ok := state.Loops[e.LoopName]; ok {
+		l.Round = e.Round
+	}
+	return nil
+}
+func (e *RoundStartedEvent) Message() string {
+	return fmt.Sprintf("round %d started", e.Round)
+}
+
+// UndoRequestEvent signals the session to undo the event log.
+// It is intercepted by the session logic and never appended to state/log.
+type UndoRequestEvent struct {
+	Steps int `json:"steps,omitempty"`
+	Turn  int `json:"turn,omitempty"`
+	Round int `json:"round,omitempty"`
+}
+
+func (e *UndoRequestEvent) Apply(state *GameState) error { return nil }
+func (e *UndoRequestEvent) Type() string                 { return "UndoRequestEvent" }
+func (e *UndoRequestEvent) Message() string {
+	if e.Turn > 0 {
+		return fmt.Sprintf("Undo requested to turn %d.", e.Turn)
+	}
+	if e.Round > 0 {
+		return fmt.Sprintf("Undo requested to round %d.", e.Round)
+	}
+	return fmt.Sprintf("Undo requested for %d step(s).", e.Steps)
 }
 
 // --- Helpers ---

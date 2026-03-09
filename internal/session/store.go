@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/suderio/ancient-draconic/internal/engine"
 )
@@ -110,6 +111,14 @@ func unmarshalEvent(typeName string, data json.RawMessage) (engine.Event, error)
 		evt = &engine.MetadataChangedEvent{}
 	case "CheckEvent":
 		evt = &engine.CheckEvent{}
+	case "CustomEvent":
+		evt = &engine.CustomEvent{}
+	case "TurnEndedEvent":
+		evt = &engine.TurnEndedEvent{}
+	case "TurnStartedEvent":
+		evt = &engine.TurnStartedEvent{}
+	case "RoundStartedEvent":
+		evt = &engine.RoundStartedEvent{}
 	default:
 		return nil, fmt.Errorf("unknown event type: %s", typeName)
 	}
@@ -118,4 +127,77 @@ func unmarshalEvent(typeName string, data json.RawMessage) (engine.Event, error)
 		return nil, fmt.Errorf("failed to unmarshal %s: %w", typeName, err)
 	}
 	return evt, nil
+}
+
+// Truncate rewrites the event log keeping only the first keepN events.
+func (s *Store) Truncate(keepN int) error {
+	if _, err := s.file.Seek(0, 0); err != nil {
+		return err
+	}
+
+	var lines [][]byte
+	scanner := bufio.NewScanner(s.file)
+	for scanner.Scan() {
+		lines = append(lines, append([]byte(nil), scanner.Bytes()...))
+	}
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+
+	if keepN < 0 {
+		keepN = 0
+	}
+	if keepN > len(lines) {
+		keepN = len(lines)
+	}
+
+	// Write to a temp file, then rename for atomicity
+	dir := filepath.Dir(s.file.Name())
+	tmp, err := os.CreateTemp(dir, "undo-*.jsonl")
+	if err != nil {
+		return fmt.Errorf("failed to create temp file: %w", err)
+	}
+	tmpName := tmp.Name()
+
+	for _, line := range lines[:keepN] {
+		if _, err := tmp.Write(append(line, '\n')); err != nil {
+			tmp.Close()
+			os.Remove(tmpName)
+			return err
+		}
+	}
+	if err := tmp.Sync(); err != nil {
+		tmp.Close()
+		os.Remove(tmpName)
+		return err
+	}
+	tmp.Close()
+
+	// Close current file, replace with temp, reopen
+	origName := s.file.Name()
+	s.file.Close()
+
+	if err := os.Rename(tmpName, origName); err != nil {
+		return fmt.Errorf("failed to replace event log: %w", err)
+	}
+
+	f, err := os.OpenFile(origName, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to reopen event log: %w", err)
+	}
+	s.file = f
+	return nil
+}
+
+// EventCount returns the number of events currently in the log.
+func (s *Store) EventCount() (int, error) {
+	if _, err := s.file.Seek(0, 0); err != nil {
+		return 0, err
+	}
+	count := 0
+	scanner := bufio.NewScanner(s.file)
+	for scanner.Scan() {
+		count++
+	}
+	return count, scanner.Err()
 }

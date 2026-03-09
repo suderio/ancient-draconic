@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-// hardcodedCommands lists the commands that exist in every game regardless of manifest.
-var hardcodedCommands = map[string]bool{
+// builtinCommands lists the commands that exist in every game regardless of manifest.
+var builtinCommands = map[string]bool{
 	"roll":       true,
 	"help":       true,
 	"hint":       true,
@@ -14,15 +14,16 @@ var hardcodedCommands = map[string]bool{
 	"adjudicate": true,
 	"allow":      true,
 	"deny":       true,
+	"undo":       true,
 }
 
-// isHardcoded returns true if the command is a built-in that is not defined in the manifest.
-func isHardcoded(cmdName string) bool {
-	return hardcodedCommands[cmdName]
+// isBuiltin returns true if the command is a built-in that is not defined in the manifest.
+func isBuiltin(cmdName string) bool {
+	return builtinCommands[cmdName]
 }
 
-// executeHardcoded dispatches a built-in command.
-func executeHardcoded(
+// executeBuiltin dispatches a built-in command.
+func executeBuiltin(
 	cmdName string,
 	actorID string,
 	targets []string,
@@ -46,8 +47,10 @@ func executeHardcoded(
 		return executeDeny(actorID, state)
 	case "adjudicate":
 		return executeAdjudicate(actorID, state)
+	case "undo":
+		return executeUndo(actorID, params)
 	}
-	return nil, fmt.Errorf("unknown hardcoded command: %s", cmdName)
+	return nil, fmt.Errorf("unknown builtin command: %s", cmdName)
 }
 
 // executeRoll evaluates a dice expression and returns a DiceRolledEvent.
@@ -158,4 +161,26 @@ func executeDeny(actorID string, state *GameState) ([]Event, error) {
 // For now, it behaves like allow.
 func executeAdjudicate(actorID string, state *GameState) ([]Event, error) {
 	return executeAllow(actorID, state)
+}
+
+// executeUndo parses an undo command and yields an UndoRequestEvent for the session layer.
+func executeUndo(actorID string, params map[string]any) ([]Event, error) {
+	if !isGM(actorID) {
+		return nil, fmt.Errorf("unauthorized: undo can only be executed by the GM")
+	}
+
+	evt := &UndoRequestEvent{}
+
+	if turn, ok := params["turn"]; ok {
+		evt.Turn, _ = toInt(turn)
+	} else if round, ok := params["round"]; ok {
+		evt.Round, _ = toInt(round)
+	} else if steps, ok := params["steps"]; ok {
+		evt.Steps, _ = toInt(steps)
+	} else {
+		// Default to 1 step
+		evt.Steps = 1
+	}
+
+	return []Event{evt}, nil
 }

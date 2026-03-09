@@ -90,13 +90,104 @@ func (s *Session) Execute(input string) ([]engine.Event, error) {
 		return nil, err
 	}
 
+	var finalEvents []engine.Event
+
 	for _, evt := range events {
+		if req, ok := evt.(*engine.UndoRequestEvent); ok {
+			return s.handleUndoRequest(req)
+		}
 		if err := s.applyAndPersist(evt); err != nil {
 			return nil, err
 		}
+		finalEvents = append(finalEvents, evt)
 	}
 
-	return events, nil
+	return finalEvents, nil
+}
+
+// handleUndoRequest delegates the engine's undo request to session log rewinding logic.
+func (s *Session) handleUndoRequest(req *engine.UndoRequestEvent) ([]engine.Event, error) {
+	if req.Turn > 0 {
+		return s.undoToBoundary("TurnStartedEvent", req.Turn)
+	}
+	if req.Round > 0 {
+		return s.undoToBoundary("RoundStartedEvent", req.Round)
+	}
+
+	steps := req.Steps
+	if steps < 1 {
+		return nil, fmt.Errorf("steps must be at least 1")
+	}
+
+	undone, err := s.Undo(steps)
+	if err != nil {
+		return nil, err
+	}
+
+	msg := fmt.Sprintf("Undid %d event(s). State rewound.", undone)
+	return []engine.Event{&engine.HintEvent{MessageStr: msg}}, nil
+}
+
+// undoToBoundary walks the event log backwards to find the Nth occurrence of the
+// given boundary event type and truncates the log to that point.
+func (s *Session) undoToBoundary(eventType string, count int) ([]engine.Event, error) {
+	events, err := s.store.Load()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load events: %w", err)
+	}
+
+	if count < 1 {
+		count = 1
+	}
+
+	found := 0
+	keepN := len(events)
+	for i := len(events) - 1; i >= 0; i-- {
+		if events[i].Type() == eventType {
+			found++
+			if found >= count {
+				keepN = i
+				break
+			}
+		}
+	}
+
+	if found < count {
+		return nil, fmt.Errorf("cannot undo %d %s(s): only %d found in the log", count, eventType, found)
+	}
+
+	undone := len(events) - keepN
+	if undone == 0 {
+		return []engine.Event{&engine.HintEvent{MessageStr: "Nothing to undo."}}, nil
+	}
+
+	if _, err := s.Undo(undone); err != nil {
+		return nil, err
+	}
+
+	msg := fmt.Sprintf("Undid %d event(s) to %s boundary. State rewound.", undone, eventType)
+	return []engine.Event{&engine.HintEvent{MessageStr: msg}}, nil
+}
+
+// parseIntParam extracts an int from various types, returning defaultVal on failure.
+func parseIntParam(v any, defaultVal int) int {
+	switch n := v.(type) {
+	case int:
+		return n
+	case float64:
+		return int(n)
+	case string:
+		var i int
+		if _, err := fmt.Sscanf(n, "%d", &i); err == nil {
+			return i
+		}
+	}
+	return defaultVal
+}
+
+// isGM checks if the actor is the Game Master.
+func isGM(actorID string) bool {
+	return strings.ToUpper(actorID) == "GM"
 }
 
 // State returns the current game state.
@@ -115,6 +206,35 @@ func (s *Session) Close() error {
 		return s.store.Close()
 	}
 	return nil
+}
+
+// Undo removes the last `steps` events from the log and rebuilds state from scratch.
+// This is a GM-only operation enforced by the hardcoded command dispatcher.
+func (s *Session) Undo(steps int) (int, error) {
+	total, err := s.store.EventCount()
+	if err != nil {
+		return 0, fmt.Errorf("failed to count events: %w", err)
+	}
+
+	if steps > total {
+		return 0, fmt.Errorf("cannot undo %d events: only %d events in the log", steps, total)
+	}
+
+	keepN := total - steps
+	if err := s.store.Truncate(keepN); err != nil {
+		return 0, fmt.Errorf("failed to truncate event log: %w", err)
+	}
+
+	// Rebuild state from the truncated log
+	s.state = engine.NewGameState()
+	if err := s.rebuildState(); err != nil {
+		return 0, fmt.Errorf("failed to rebuild state after undo: %w", err)
+	}
+	if err := s.loadEntities(); err != nil {
+		fmt.Printf("Warning: %v\n", err)
+	}
+
+	return steps, nil
 }
 
 // rebuildState replays all persisted events to reconstruct the in-memory state.

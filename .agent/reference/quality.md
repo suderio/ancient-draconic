@@ -60,3 +60,4 @@ Acceptance contracts:
 4. Event log replay consistency MUST be tested: persist events → rebuild state from log → verify state matches.
 5. Both formula types (string and closure) MUST have coverage in executor tests.
 6. Context injection MUST be tested: verify `actor`, `target`, `command`, `game`, `is_*_active` globals are correctly set and cleared between calls.
+7. Test Isolation: All test resources and code, be it either Go or Lua, MUST be located either in `*_test.go` files or in the `test/` directory. Tests MUST NOT depend on production configuration files from directories like `world/`.
