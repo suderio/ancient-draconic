@@ -1,8 +1,8 @@
 restrictions = {
     adjudication = {
-        commands = { "grapple" },
+        commands = { "grapple", "hide", "improvise" },
     },
-    gm_commands = { "encounter_start", "encounter_end" },
+    gm_commands = { "encounter_start", "encounter_end", "add_condition", "remove_condition" },
 }
 
 local _sizes_list = { "tiny", "small", "medium", "large", "huge", "gargantuan" }
@@ -65,31 +65,35 @@ commands = {
         help = "Encounter start command starts an encounter.",
         error = "encounter start [with: Target1 [and: Target2]*]",
         game = {
-            {
-                name = "create_loop",
-                value = function()
-                    return loop("encounter_start", true)
-                end,
-            },
-            {
-                name = "order_loop",
-                value = function()
-                    return loop_order("encounter_start", false)
-                end,
-            },
-            {
-                name = "add_actors",
-                value = function()
-                    return add_actor(command.with)
-                end,
+            steps = {
+                {
+                    name = "create_loop",
+                    value = function()
+                        return loop("encounter_start", true)
+                    end,
+                },
+                {
+                    name = "order_loop",
+                    value = function()
+                        return loop_order("encounter_start", false)
+                    end,
+                },
+                {
+                    name = "add_actors",
+                    value = function()
+                        return add_actor(command.with)
+                    end,
+                },
             },
         },
         targets = {
-            {
-                name = "ask_initiative",
-                value = function()
-                    return ask(target.id, "initiative")
-                end,
+            steps = {
+                {
+                    name = "ask_initiative",
+                    value = function()
+                        return ask(target.id, "initiative")
+                    end,
+                },
             },
         },
     },
@@ -109,11 +113,13 @@ commands = {
         help = "Encounter end command ends an encounter.",
         error = "encounter end",
         game = {
-            {
-                name = "state_change",
-                value = function()
-                    return loop("encounter_start", false)
-                end,
+            steps = {
+                {
+                    name = "state_change",
+                    value = function()
+                        return loop("encounter_start", false)
+                    end,
+                },
             },
         },
     },
@@ -136,11 +142,13 @@ commands = {
         help = "Encounter add command adds an actor to the encounter.",
         error = "encounter add [with: Target1 [and: Target2]*]",
         game = {
-            {
-                name = "add_actors",
-                value = function()
-                    return add_actor(command.with)
-                end,
+            steps = {
+                {
+                    name = "add_actors",
+                    value = function()
+                        return add_actor(command.with)
+                    end,
+                },
             },
         },
     },
@@ -160,11 +168,13 @@ commands = {
         help = "Initiative command rolls initiative for the actors.",
         error = "initiative",
         game = {
-            {
-                name = "roll_score",
-                value = function()
-                    return loop_value("encounter_start", roll("1d20") + mod(actor.stats.dex))
-                end,
+            steps = {
+                {
+                    name = "roll_score",
+                    value = function()
+                        return loop_value("encounter_start", roll("1d20") + mod(actor.stats.dex))
+                    end,
+                },
             },
         },
     },
@@ -187,48 +197,54 @@ commands = {
         help = "Grapple command grapples the target.",
         error = "grapple [to: <target>]",
         game = {
-            {
-                name = "contest",
-                value = function()
-                    local prof = 0
-                    if actor.proficiencies.athletics then
-                        prof = actor.proficiencies.athletics * (actor.stats.prof_bonus or 2)
-                    end
-                    return contest(roll("1d20") + mod(actor.stats.str) + prof)
-                end,
+            steps = {
+                {
+                    name = "contest",
+                    value = function()
+                        local prof = 0
+                        if actor.proficiencies.athletics then
+                            prof = actor.proficiencies.athletics * (actor.stats.prof_bonus or 2)
+                        end
+                        return contest(roll("1d20") + mod(actor.stats.str) + prof)
+                    end,
+                },
             },
         },
         targets = {
-            {
-                name = "ask_grapple",
-                value = function()
-                    local val = game.contest.value or 10
-                    return ask(
-                        target.id,
-                        "check skill: athletics dc: " .. tostring(val),
-                        "check skill: acrobatics dc: " .. tostring(val)
-                    )
-                end,
-            },
-            {
-                name = "resolve_grapple",
-                value = function()
-                    return targets.ask_grapple
-                end,
-            },
-            {
-                name = "grappled",
-                value = function()
-                    return condition("grappled")
-                end,
+            steps = {
+                {
+                    name = "ask_grapple",
+                    value = function()
+                        local val = game.contest.value or 10
+                        return ask(
+                            target.id,
+                            "check skill: athletics dc: " .. tostring(val),
+                            "check skill: acrobatics dc: " .. tostring(val)
+                        )
+                    end,
+                },
+                {
+                    name = "resolve_grapple",
+                    value = function()
+                        return targets.ask_grapple
+                    end,
+                },
+                {
+                    name = "grappled",
+                    value = function()
+                        return condition("grappled")
+                    end,
+                },
             },
         },
         actor = {
-            {
-                name = "consume_action",
-                value = function()
-                    return spend("actions", 1)
-                end,
+            steps = {
+                {
+                    name = "consume_action",
+                    value = function()
+                        return spend("actions", 1)
+                    end,
+                },
             },
         },
     },
@@ -253,13 +269,15 @@ commands = {
             },
         },
         game = {
-            {
-                name = "consume_move",
-                value = function()
-                    local mtype = command.type or "speed"
-                    local feet = command.feet or (actor.resources[mtype] or 0)
-                    return spend(mtype, feet)
-                end,
+            steps = {
+                {
+                    name = "consume_move",
+                    value = function()
+                        local mtype = command.type or "speed"
+                        local feet = command.feet or (actor.resources[mtype] or 0)
+                        return spend(mtype, feet)
+                    end,
+                },
             },
         },
     },
@@ -289,18 +307,20 @@ commands = {
             },
         },
         game = {
-            {
-                name = "consume_action",
-                value = function()
-                    return spend("actions", 1)
-                end,
-            },
-            {
-                name = "dash",
-                value = function()
-                    local mtype = command.type or "speed"
-                    return set_attr("spent", mtype, 0)
-                end,
+            steps = {
+                {
+                    name = "consume_action",
+                    value = function()
+                        return spend("actions", 1)
+                    end,
+                },
+                {
+                    name = "dash",
+                    value = function()
+                        local mtype = command.type or "speed"
+                        return set_attr("spent", mtype, 0)
+                    end,
+                },
             },
         },
     },
@@ -315,20 +335,22 @@ commands = {
         help = "Check command checks the target.",
         error = "check [skill: <skill>] [dc: <dc>]",
         game = {
-            {
-                name = "result",
-                value = function()
-                    local ability = skill_to_ability(command.skill)
-                    local prof = 0
-                    if actor.proficiencies and actor.proficiencies[command.skill] then
-                        prof = actor.proficiencies[command.skill] * (actor.stats.prof_bonus or 2)
-                    end
-                    local stat = 10
-                    if actor.stats and actor.stats[ability] then
-                        stat = actor.stats[ability]
-                    end
-                    return check_result((roll("1d20") + mod(stat) + prof) >= command.dc)
-                end,
+            steps = {
+                {
+                    name = "result",
+                    value = function()
+                        local ability = skill_to_ability(command.skill)
+                        local prof = 0
+                        if actor.proficiencies and actor.proficiencies[command.skill] then
+                            prof = actor.proficiencies[command.skill] * (actor.stats.prof_bonus or 2)
+                        end
+                        local stat = 10
+                        if actor.stats and actor.stats[ability] then
+                            stat = actor.stats[ability]
+                        end
+                        return check_result((roll("1d20") + mod(stat) + prof) >= command.dc)
+                    end,
+                },
             },
         },
     },
@@ -355,11 +377,214 @@ commands = {
         help = "Ends the current actor's turn and advances to the next one in initiative order.",
         error = "end turn",
         game = {
+            steps = {
+                {
+                    name = "advance",
+                    value = function()
+                        return next_turn("encounter_start")
+                    end,
+                },
+            },
+        },
+    },
+
+    disengage = {
+        name = "disengage",
+        prereq = {
             {
-                name = "advance",
+                name = "check_action",
                 value = function()
-                    return next_turn("encounter_start")
+                    return (actor.spent.actions or 0) < (actor.resources.actions or 0)
                 end,
+                error = "no actions remaining",
+            },
+        },
+        hint = "Disengage command disengages the actor.",
+        help = "Disengage command disengages the actor.",
+        error = "disengage",
+        game = {
+            steps = {
+                {
+                    name = "consume_action",
+                    value = function()
+                        return spend("actions", 1)
+                    end,
+                },
+                {
+                    name = "disengage",
+                    value = function()
+                        return condition("disengaged")
+                    end,
+                },
+            },
+        },
+        actor = {
+            hooks = {
+                {name = "end_disengage", type = "next_turn", value = function() return remove_condition("disengaged") end}
+            }
+        }
+    },
+
+    dodge = {
+        name = "dodge",
+        prereq = {
+            {
+                name = "check_action",
+                value = function()
+                    return (actor.spent.actions or 0) < (actor.resources.actions or 0)
+                end,
+                error = "no actions remaining",
+            },
+        },
+        hint = "Dodge command lets the actor dodge incoming attacks.",
+        help = "When you take the Dodge action, you focus entirely on avoiding attacks. Until the start of your next turn, any attack roll made against you has disadvantage if you can see the attacker, and you make Dexterity saving throws with advantage. You lose this benefit if you are incapacitated or if your speed drops to 0.",
+        error = "dodge",
+        game = {
+            steps = {
+                {
+                    name = "consume_action",
+                    value = function()
+                        return spend("actions", 1)
+                    end,
+                },
+                {
+                    name = "dodge",
+                    value = function()
+                        return condition("dodging")
+                    end,
+                },
+            },
+        },
+        actor = {
+            hooks = {
+                {name = "end_dodge", type = "next_actor_turn", value = function() return remove_condition("dodging") end}
+            }
+        }
+    },
+
+    add_condition = {
+        name = "add condition",
+        params = {
+            { name = "condition", type = "string", required = true },
+            { name = "to", type = "list<target>", required = true },
+        },
+        hint = "Condition added.",
+        help = "Adds a condition to the specified targets. (GM only)",
+        error = "add_condition [condition: <condition>] [to: Target1 [and: Target2]*]",
+        targets = {
+            steps = {
+                {
+                    name = "apply_condition",
+                    value = function()
+                        return condition(command.condition)
+                    end,
+                },
+            },
+        },
+    },
+
+    remove_condition = {
+        name = "remove condition",
+        params = {
+            { name = "condition", type = "string", required = true },
+            { name = "from", type = "list<target>", required = true },
+        },
+        hint = "Condition removed.",
+        help = "Removes a condition from the specified targets. (GM only)",
+        error = "remove_condition [condition: <condition>] [from: Target1 [and: Target2]*]",
+        targets = {
+            steps = {
+                {
+                    name = "do_remove",
+                    value = function()
+                        return remove_condition(command.condition)
+                    end,
+                },
+            },
+        },
+    },
+
+    hide = {
+        name = "hide",
+        prereq = {
+            {
+                name = "check_action",
+                value = function()
+                    return (actor.spent.actions or 0) < (actor.resources.actions or 0)
+                end,
+                error = "no actions remaining",
+            },
+        },
+        hint = "Attempting to hide.",
+        help = "With the Hide action, you try to conceal yourself. Make a Dexterity (Stealth) check. On success, you gain the Invisible condition.",
+        error = "hide",
+        game = {
+            steps = {
+                {
+                    name = "stealth_check",
+                    value = function()
+                        local prof = 0
+                        if actor.proficiencies and actor.proficiencies.stealth then
+                            prof = actor.proficiencies.stealth * (actor.stats.prof_bonus or 2)
+                        end
+                        return roll("1d20") + mod(actor.stats.dex) + prof
+                    end,
+                },
+                {
+                    name = "notify_result",
+                    value = function()
+                        if game.stealth_check >= 15 then
+                            return hint("Stealth check total: " .. tostring(game.stealth_check) .. " (Success - Use as DC to find)")
+                        else
+                            return hint("Stealth check total: " .. tostring(game.stealth_check) .. " (Failure)")
+                        end
+                    end,
+                },
+            },
+        },
+        actor = {
+            steps = {
+                {
+                    name = "consume_action",
+                    value = function()
+                        return spend("actions", 1)
+                    end,
+                },
+                {
+                    name = "evaluate_hide",
+                    value = function()
+                        if game.stealth_check >= 15 then
+                            return condition("invisible")
+                        end
+                        return nil
+                    end,
+                },
+            },
+        },
+    },
+
+    improvise = {
+        name = "improvise",
+        prereq = {
+            {
+                name = "check_action",
+                value = function()
+                    return (actor.spent.actions or 0) < (actor.resources.actions or 0)
+                end,
+                error = "no actions remaining",
+            },
+        },
+        hint = "Awaiting GM adjudication for improvised action.",
+        help = "When you describe an action not detailed elsewhere in the rules, the Dungeon Master tells you whether that action is possible and what kind of D20 Test you need to make.",
+        error = "improvise",
+        actor = {
+            steps = {
+                {
+                    name = "consume_action",
+                    value = function()
+                        return spend("actions", 1)
+                    end,
+                },
             },
         },
     },

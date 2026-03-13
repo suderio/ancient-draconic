@@ -29,13 +29,13 @@ func testManifest() *Manifest {
 				Hint:  "Roll initiative for all actors.",
 				Help:  "Starts an encounter.",
 				Error: "encounter start [with: Target1]",
-				Game: []GameStep{
+				Game: CommandPhase{Steps: []GameStep{
 					{Name: "create_loop", Value: "loop('encounter_start', true)"},
 					{Name: "order_loop", Value: "loop_order('encounter_start', false)"},
-				},
-				Targets: []GameStep{
+				}},
+				Targets: CommandPhase{Steps: []GameStep{
 					{Name: "ask_initiative", Value: "ask(target.id, 'initiative')"},
-				},
+				}},
 			},
 			"encounter_end": {
 				Name: "encounter end",
@@ -45,9 +45,9 @@ func testManifest() *Manifest {
 				Hint:  "Encounter has ended.",
 				Help:  "Ends an encounter.",
 				Error: "encounter end",
-				Game: []GameStep{
+				Game: CommandPhase{Steps: []GameStep{
 					{Name: "state_change", Value: "loop('encounter_start', false)"},
-				},
+				}},
 			},
 			"initiative": {
 				Name: "initiative",
@@ -57,9 +57,9 @@ func testManifest() *Manifest {
 				Hint:  "Wait for your turn.",
 				Help:  "Rolls initiative.",
 				Error: "initiative",
-				Game: []GameStep{
+				Game: CommandPhase{Steps: []GameStep{
 					{Name: "roll_score", Value: "loop_value('encounter_start', 10 + ((actor.stats.dex / 2) - 5))"},
-				},
+				}},
 			},
 			"grapple": {
 				Name: "grapple",
@@ -72,15 +72,15 @@ func testManifest() *Manifest {
 				Hint:  "Grapple command grapples the target.",
 				Help:  "Grapple command grapples the target.",
 				Error: "grapple [to: <target>]",
-				Game: []GameStep{
+				Game: CommandPhase{Steps: []GameStep{
 					{Name: "contest", Value: "contest(10 + ((actor.stats.str / 2) - 5))"},
-				},
-				Targets: []GameStep{
+				}},
+				Targets: CommandPhase{Steps: []GameStep{
 					{Name: "grappled", Value: "condition('grappled')"},
-				},
-				Actor: []GameStep{
+				}},
+				Actor: CommandPhase{Steps: []GameStep{
 					{Name: "consume_action", Value: "spend('actions')"},
-				},
+				}},
 			},
 		},
 	}
@@ -319,9 +319,9 @@ func TestCustomEvent(t *testing.T) {
 		Commands: map[string]CommandDef{
 			"my_spell": {
 				Name: "my spell",
-				Game: []GameStep{
+				Game: CommandPhase{Steps: []GameStep{
 					{Name: "cast", Value: "emit('arcane_blast', {power = 42})"},
-				},
+				}},
 			},
 		},
 	}

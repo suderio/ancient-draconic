@@ -52,7 +52,7 @@ func ExecuteCommand(
 	// Execute game steps (run once)
 	var events []Event
 	gameResults := make(map[string]any)
-	for _, step := range cmdDef.Game {
+	for _, step := range cmdDef.Game.Steps {
 		ctx = BuildContext(state, actor, nil, params, gameResults, nil, nil)
 		result, err := eval.Eval(step.Value, ctx)
 		if err != nil {
@@ -62,6 +62,19 @@ func ExecuteCommand(
 		gameResults[step.Name] = plain
 		events = append(events, evts...)
 	}
+	// Add Game Hooks
+	for _, hook := range cmdDef.Game.Hooks {
+		events = append(events, &HookAddedEvent{
+			TargetID: "", // Global hooks
+			Hook: Hook{
+				Name:          hook.Name,
+				Type:          hook.Type,
+				TargetID:      "",
+				SourceCommand: cmdName,
+				Value:         hook.Value,
+			},
+		})
+	}
 
 	// Execute target steps (run per-target)
 	allTargets := resolveTargets(cmdDef, targets, params)
@@ -69,7 +82,7 @@ func ExecuteCommand(
 		target := state.Entities[targetID]
 		targetResults := make(map[string]any)
 
-		for _, step := range cmdDef.Targets {
+		for _, step := range cmdDef.Targets.Steps {
 			ctx = BuildContext(state, actor, target, params, gameResults, targetResults, nil)
 			result, err := eval.Eval(step.Value, ctx)
 			if err != nil {
@@ -79,11 +92,25 @@ func ExecuteCommand(
 			targetResults[step.Name] = plain
 			events = append(events, evts...)
 		}
+
+		// Add Target Hooks
+		for _, hook := range cmdDef.Targets.Hooks {
+			events = append(events, &HookAddedEvent{
+				TargetID: targetID,
+				Hook: Hook{
+					Name:          hook.Name,
+					Type:          hook.Type,
+					TargetID:      targetID,
+					SourceCommand: cmdName,
+					Value:         hook.Value,
+				},
+			})
+		}
 	}
 
 	// Execute actor steps (run once, affecting the actor)
 	actorResults := make(map[string]any)
-	for _, step := range cmdDef.Actor {
+	for _, step := range cmdDef.Actor.Steps {
 		ctx = BuildContext(state, actor, nil, params, gameResults, nil, actorResults)
 		result, err := eval.Eval(step.Value, ctx)
 		if err != nil {
@@ -92,6 +119,20 @@ func ExecuteCommand(
 		evts, plain := dispatchTaggedResult(result, actorID, "", cmdName, state)
 		actorResults[step.Name] = plain
 		events = append(events, evts...)
+	}
+
+	// Add Actor Hooks
+	for _, hook := range cmdDef.Actor.Hooks {
+		events = append(events, &HookAddedEvent{
+			TargetID: actorID,
+			Hook: Hook{
+				Name:          hook.Name,
+				Type:          hook.Type,
+				TargetID:      actorID,
+				SourceCommand: cmdName,
+				Value:         hook.Value,
+			},
+		})
 	}
 
 	state.LastCommand = cmdName

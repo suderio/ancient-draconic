@@ -366,9 +366,9 @@ func parseCommandDefFromLua(t *lua.LTable) CommandDef {
 	}
 
 	def.Prereq = parsePrereqStepsFromLua(t.RawGetString("prereq"))
-	def.Game = parseGameStepsFromLua(t.RawGetString("game"))
-	def.Targets = parseGameStepsFromLua(t.RawGetString("targets"))
-	def.Actor = parseGameStepsFromLua(t.RawGetString("actor"))
+	def.Game = parseCommandPhaseFromLua(t.RawGetString("game"))
+	def.Targets = parseCommandPhaseFromLua(t.RawGetString("targets"))
+	def.Actor = parseCommandPhaseFromLua(t.RawGetString("actor"))
 
 	return def
 }
@@ -400,11 +400,20 @@ func parsePrereqStepsFromLua(val lua.LValue) []PrereqStep {
 	return nil
 }
 
-func parseGameStepsFromLua(val lua.LValue) []GameStep {
+func parseCommandPhaseFromLua(val lua.LValue) CommandPhase {
+	var phase CommandPhase
+
 	if t, ok := val.(*lua.LTable); ok {
-		var steps []GameStep
-		for i := 1; i <= t.Len(); i++ {
-			p := t.RawGetInt(i)
+		// 1. Iterate array portion for Steps
+		stepsTbl := t
+		if sVal := t.RawGetString("steps"); sVal != lua.LNil {
+			if sTbl, ok := sVal.(*lua.LTable); ok {
+				stepsTbl = sTbl
+			}
+		}
+
+		for i := 1; i <= stepsTbl.Len(); i++ {
+			p := stepsTbl.RawGetInt(i)
 			if stepTbl, ok := p.(*lua.LTable); ok {
 				gs := GameStep{
 					Name: stepTbl.RawGetString("name").String(),
@@ -419,12 +428,37 @@ func parseGameStepsFromLua(val lua.LValue) []GameStep {
 					gs.Value = bool(bl)
 				}
 
-				steps = append(steps, gs)
+				phase.Steps = append(phase.Steps, gs)
 			}
 		}
-		return steps
+
+		// 2. Look for "hooks" key for Hooks
+		if hooksVal := t.RawGetString("hooks"); hooksVal != lua.LNil {
+			if hooksTbl, ok := hooksVal.(*lua.LTable); ok {
+				for i := 1; i <= hooksTbl.Len(); i++ {
+					p := hooksTbl.RawGetInt(i)
+					if hookTbl, ok := p.(*lua.LTable); ok {
+						hd := HookDef{
+							Name: hookTbl.RawGetString("name").String(),
+							Type: hookTbl.RawGetString("type").String(),
+						}
+
+						f := hookTbl.RawGetString("value")
+						if str, ok := f.(lua.LString); ok {
+							hd.Value = string(str)
+						} else if fn, ok := f.(*lua.LFunction); ok {
+							hd.Value = fn
+						} else if bl, ok := f.(lua.LBool); ok {
+							hd.Value = bool(bl)
+						}
+
+						phase.Hooks = append(phase.Hooks, hd)
+					}
+				}
+			}
+		}
 	}
-	return nil
+	return phase
 }
 
 func parseRestrictionsFromLua(t *lua.LTable) Restrictions {

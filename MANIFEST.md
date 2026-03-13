@@ -10,7 +10,7 @@ This document explains how to write a `manifest.lua` file — the configuration 
 - [Section 3: Commands](#section-3-commands)
   - [Command Structure](#command-structure)
   - [Prereqs](#prereqs)
-  - [Steps](#steps)
+  - [Command Phases (Steps & Hooks)](#command-phases-steps--hooks)
   - [The value Field](#the-value-field)
 - [Context Variables](#context-variables)
 - [Built-in Commands](#built-in-commands)
@@ -90,13 +90,18 @@ restrictions = {
     adjudication = {
         commands = { "grapple", "shove" }
     },
-    gm_commands = { "encounter_start", "encounter_end" }
+    gm_commands = { "encounter_start", "encounter_end", "add_condition", "remove_condition" }
 }
 ```
 
 ### `gm_commands`
 
 A list of command names that **only the GM can execute**. If a player tries to run one of these commands, the engine returns an "unauthorized" error.
+
+In standard D&D 5e configuration, we usually reserve these explicit sandbox commands for the GM:
+
+- `encounter_start`, `encounter_end` (for loop management)
+- `add_condition`, `remove_condition` (for manual target condition management)
 
 ### `adjudication.commands`
 
@@ -184,24 +189,64 @@ Each prereq has:
 - **`value`** — a closure that returns `true` (pass) or `false` (fail).
 - **`error`** — the message shown to the user when the check fails.
 
-### Steps
+### Command Phases (Steps & Hooks)
 
-The `game`, `targets`, and `actor` fields each contain a list of steps. The difference between them is **when and how often** each step runs:
+The `game`, `targets`, and `actor` fields each define a Command Phase. A Command Phase can optionally contain `steps` and `hooks`.
 
-| Phase | Runs | Use for |
+The difference between `game`, `targets`, and `actor` is **when and to whom** their steps and hooks apply:
+
+| Phase | Runs | Best used for |
 | :--- | :--- | :--- |
-| `game` | Once per command | Dice rolls, starting loops, storing contest results |
-| `targets` | Once **per target** | Asking targets to make saves, applying conditions to targets |
-| `actor` | Once per command | Consuming the actor's action, tracking resources spent |
+| `game` | Once per command | Dice rolls, starting loops, global game hooks |
+| `targets` | Once **per target** | Asking targets to make saves, applying conditions to targets, target-specific mechanics |
+| `actor` | Once per command | Consuming the actor's action, applying self-buffs, adding individual hooks |
 
-Each step is a table with two fields:
+#### Steps
+
+Steps execute immediately when the command is run. Each step is a table with two fields:
 
 ```lua
-{ name = "create_loop", value = function() return loop("encounter_start", true) end }
+game = {
+    steps = {
+        { name = "create_loop", value = function() return loop("encounter_start", true) end }
+    }
+}
 ```
 
+*For backward compatibility, if you define an array directly inside `game`, `targets`, or `actor` (without the `steps` wrapper), the engine will imply them as steps.*
+
 - **`name`** — a label for this step. Other steps in the same command can reference its result by this name (e.g., `game.create_loop`).
-- **`value`** — a closure that returns the step's result.
+- **`value`** — a closure that returns the step's result and an optional event.
+
+#### Hooks
+
+Hooks allow you to delay the execution of an effect until a specific phase of the game (such as the start of a turn).
+
+```lua
+actor = {
+    steps = {
+        { name = "disengage_apply", value = function() return condition("disengaged") end }
+    },
+    hooks = {
+        { name = "end_disengage", type = "next_turn", value = function() return remove_condition("disengaged") end }
+    }
+}
+```
+
+A hook has:
+
+- **`name`** — an identifier for the hook.
+- **`type`** — defines **when** this hook is triggered (see supported types below).
+- **`value`** — a closure (identical to a Step `value` closure) evaluated when the trigger occurs.
+
+**Supported Hook Types**:
+
+- `next_turn`: Runs at the beginning of *any* actor's turn.
+- `next_turn_end`: Runs at the end of *any* actor's turn.
+- `next_round`: Runs at the beginning of the next loop cycle/round.
+- `next_round_end`: Runs at the end of the next loop cycle/round.
+- `next_actor_turn` & `next_target_turn`: Runs at the beginning of the turn of the specific entity this hook was attached to (requires being defined in the `actor` or `targets` phase).
+- `next_actor_turn_end` & `next_target_turn_end`: Runs at the end of the turn of the specific entity.
 
 ### The `value` Field
 

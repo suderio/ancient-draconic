@@ -91,8 +91,12 @@ func (s *Session) Execute(input string) ([]engine.Event, error) {
 	}
 
 	var finalEvents []engine.Event
+	queue := events
 
-	for _, evt := range events {
+	for len(queue) > 0 {
+		evt := queue[0]
+		queue = queue[1:]
+
 		if req, ok := evt.(*engine.UndoRequestEvent); ok {
 			return s.handleUndoRequest(req)
 		}
@@ -100,6 +104,16 @@ func (s *Session) Execute(input string) ([]engine.Event, error) {
 			return nil, err
 		}
 		finalEvents = append(finalEvents, evt)
+
+		// Check for triggered hooks
+		hookEvents, err := engine.TriggerHooks(s.state, evt, s.eval)
+		if err != nil {
+			return nil, err
+		}
+		if len(hookEvents) > 0 {
+			// Prepend hook events to evaluate them immediately
+			queue = append(hookEvents, queue...)
+		}
 	}
 
 	return finalEvents, nil

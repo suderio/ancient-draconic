@@ -71,8 +71,13 @@ func ParseInput(input string) ParsedInput {
 			if len(currentValues) > 0 {
 				result.ActorID = currentValues[0]
 			}
-		case "to", "of":
+		case "to", "of", "from":
 			result.Targets = append(result.Targets, currentValues...)
+			if len(currentValues) == 1 {
+				result.Params[currentKey] = currentValues[0]
+			} else if len(currentValues) > 1 {
+				result.Params[currentKey] = currentValues
+			}
 		case "with":
 			// "with" can serve as both targets and params, depending on context.
 			// Store as param; the executor's resolveTargets will pick them up

@@ -34,6 +34,19 @@ type GameStep struct {
 	Value any    `yaml:"value"`
 }
 
+// HookDef defines a dynamic hook in a command phase.
+type HookDef struct {
+	Name  string `yaml:"name"`
+	Type  string `yaml:"type"`
+	Value any    `yaml:"value"`
+}
+
+// CommandPhase represents a block of execution in a command (game, targets, or actor).
+type CommandPhase struct {
+	Steps []GameStep `yaml:"steps"`
+	Hooks []HookDef  `yaml:"hooks"`
+}
+
 // CommandDef is the structured definition of a manifest-driven command.
 // It separates concerns into distinct phases: parameter validation, prerequisites,
 // game logic, per-target logic, and actor-affecting logic.
@@ -44,9 +57,9 @@ type CommandDef struct {
 	Hint    string       `yaml:"hint"`
 	Help    string       `yaml:"help"`
 	Error   string       `yaml:"error"` // Usage string shown on invalid input
-	Game    []GameStep   `yaml:"game"`
-	Targets []GameStep   `yaml:"targets"`
-	Actor   []GameStep   `yaml:"actor"`
+	Game    CommandPhase `yaml:"game"`
+	Targets CommandPhase `yaml:"targets"`
+	Actor   CommandPhase `yaml:"actor"`
 }
 
 // Restrictions defines cross-cutting rules that apply to multiple commands.
@@ -81,6 +94,7 @@ type Entity struct {
 	Proficiencies map[string]int    `json:"proficiencies" yaml:"proficiencies"` // e.g., "athletics": 2
 	Statuses      map[string]string `json:"statuses" yaml:"statuses"`           // e.g., "concentrating": "true"
 	Inventory     map[string]int    `json:"inventory" yaml:"inventory"`         // items and counts
+	Hooks         map[string]Hook   `json:"hooks" yaml:"hooks"`                 // dynamic hooks keyed by their Name
 }
 
 // NewEntity creates an Entity with all maps initialized to avoid nil-map panics.
@@ -97,6 +111,7 @@ func NewEntity(id, name string) *Entity {
 		Proficiencies: make(map[string]int),
 		Statuses:      make(map[string]string),
 		Inventory:     make(map[string]int),
+		Hooks:         make(map[string]Hook),
 	}
 }
 
@@ -114,11 +129,21 @@ type Loop struct {
 	Round     int            `json:"round"`   // 1-indexed round counter
 }
 
+// Hook represents an active hook in the game state.
+type Hook struct {
+	Name          string `json:"name"`
+	Type          string `json:"type"`           // e.g., "next_turn", "next_round"
+	TargetID      string `json:"target_id"`      // The specific entity this hook watches (empty if global)
+	SourceCommand string `json:"source_command"` // The command that created this hook
+	Value         any    `json:"value"`          // The Lua closure representing the hook's logic
+}
+
 // GameState is the full projection of game state, built from applied events.
 type GameState struct {
 	Entities map[string]*Entity `json:"entities"`
 	Loops    map[string]*Loop   `json:"loops"`
 	Metadata map[string]any     `json:"metadata"`
+	Hooks    map[string]Hook    `json:"hooks"` // Global hooks
 
 	// LastCommand tracks the name of the last successfully executed command,
 	// used by the "hint" hardcoded command.
@@ -131,6 +156,7 @@ func NewGameState() *GameState {
 		Entities: make(map[string]*Entity),
 		Loops:    make(map[string]*Loop),
 		Metadata: make(map[string]any),
+		Hooks:    make(map[string]Hook),
 	}
 }
 
@@ -501,6 +527,52 @@ func (e *RoundStartedEvent) Apply(state *GameState) error {
 }
 func (e *RoundStartedEvent) Message() string {
 	return fmt.Sprintf("round %d started", e.Round)
+}
+
+// HookAddedEvent registers a Hook onto either an Entity (if TargetID != "") or global GameState.
+type HookAddedEvent struct {
+	TargetID string `json:"target_id"`
+	Hook     Hook   `json:"hook"`
+}
+
+func (e *HookAddedEvent) Type() string { return "HookAddedEvent" }
+func (e *HookAddedEvent) Apply(state *GameState) error {
+	if e.TargetID == "" {
+		state.Hooks[e.Hook.Name] = e.Hook
+		return nil
+	}
+	if ent, ok := state.Entities[e.TargetID]; ok {
+		ent.Hooks[e.Hook.Name] = e.Hook
+	}
+	// If target isn't found, silently drop (entity might have been removed)
+	return nil
+}
+func (e *HookAddedEvent) Message() string {
+	if e.TargetID == "" {
+		return fmt.Sprintf("Global hook %s added", e.Hook.Name)
+	}
+	return fmt.Sprintf("Hook %s added to %s", e.Hook.Name, e.TargetID)
+}
+
+// HookRemovedEvent removes a Hook from either an Entity or global GameState.
+type HookRemovedEvent struct {
+	TargetID string `json:"target_id"`
+	HookName string `json:"hook_name"`
+}
+
+func (e *HookRemovedEvent) Type() string { return "HookRemovedEvent" }
+func (e *HookRemovedEvent) Apply(state *GameState) error {
+	if e.TargetID == "" {
+		delete(state.Hooks, e.HookName)
+		return nil
+	}
+	if ent, ok := state.Entities[e.TargetID]; ok {
+		delete(ent.Hooks, e.HookName)
+	}
+	return nil
+}
+func (e *HookRemovedEvent) Message() string {
+	return fmt.Sprintf("Hook %s removed", e.HookName)
 }
 
 // UndoRequestEvent signals the session to undo the event log.

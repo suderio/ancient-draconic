@@ -27,16 +27,16 @@ func testSession(t *testing.T) (*Session, string) {
 			Commands: map[string]engine.CommandDef{
 				"encounter_start": {
 					Name: "encounter start",
-					Game: []engine.GameStep{
+					Game: engine.CommandPhase{Steps: []engine.GameStep{
 						{Name: "create_loop", Value: "loop('encounter_start', true)"},
 						{Name: "order_loop", Value: "loop_order('encounter_start', false)"},
-					},
+					}},
 				},
 				"encounter_end": {
 					Name: "encounter end",
-					Game: []engine.GameStep{
+					Game: engine.CommandPhase{Steps: []engine.GameStep{
 						{Name: "state_change", Value: "loop('encounter_start', false)"},
-					},
+					}},
 				},
 			},
 			Restrictions: engine.Restrictions{
@@ -153,9 +153,9 @@ func TestUndoWithCustomEvent(t *testing.T) {
 	// Add a command that uses emit()
 	s.manifest.Commands["test_spell"] = engine.CommandDef{
 		Name: "test spell",
-		Game: []engine.GameStep{
+		Game: engine.CommandPhase{Steps: []engine.GameStep{
 			{Name: "cast", Value: "emit('fire_bolt', {damage = 42})"},
-		},
+		}},
 	}
 
 	_, err := s.Execute("test_spell")
@@ -178,9 +178,9 @@ func testSessionWithEndTurn(t *testing.T) (*Session, string) {
 	// Add turn command
 	s.manifest.Commands["turn"] = engine.CommandDef{
 		Name: "turn",
-		Game: []engine.GameStep{
+		Game: engine.CommandPhase{Steps: []engine.GameStep{
 			{Name: "advance", Value: "next_turn('encounter_start')"},
-		},
+		}},
 	}
 
 	return s, storePath
